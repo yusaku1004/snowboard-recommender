@@ -5,6 +5,7 @@ import { UserInput, Board, Shape } from "@/types";
 import { getRecommendations } from "@/lib/recommend";
 import { getShareUrl, getTwitterShareUrl } from "@/lib/share";
 import { BoardCard } from "@/components/results/BoardCard";
+import { AiExplanation } from "@/components/results/AiExplanation";
 import { Button } from "@/components/ui/Button";
 import { BottomSheet } from "@/components/ui/BottomSheet";
 import boardsData from "@/data/boards_data.json";
@@ -222,11 +223,16 @@ export function StepResults({ input, onRestart, initialBrands = null }: StepResu
         </p>
       )}
 
-      <div className="space-y-3 mb-8">
+      <div className="space-y-3 mb-4">
         {results.map((result, i) => (
           <BoardCard key={`${result.board.brand}-${result.board.model}`} result={result} rank={i + 1} budget={input.budget} budgetFlexibility={input.budgetFlexibility} />
         ))}
       </div>
+
+      {/* AI explanation for top result */}
+      {results.length > 0 && (
+        <AiExplanation input={input} result={results[0]} />
+      )}
 
       {/* Share buttons */}
       <div className="flex flex-col sm:flex-row gap-2 mb-6">
