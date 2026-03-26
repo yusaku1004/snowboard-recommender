@@ -81,8 +81,9 @@ export function StepBrands({
         {brands.map((brand) => {
           const isSelected = allSelected || selectedBrands!.has(brand);
           return (
-            <label
+            <button
               key={brand}
+              onClick={() => toggleBrand(brand)}
               className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm cursor-pointer transition-all duration-200 ${
                 isSelected
                   ? "bg-sky-500/10 text-sky-300 border border-sky-500/25"
@@ -101,7 +102,7 @@ export function StepBrands({
                 )}
               </div>
               <span className="truncate">{brand}</span>
-            </label>
+            </button>
           );
         })}
       </div>
