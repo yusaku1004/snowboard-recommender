@@ -5,7 +5,7 @@ interface StepIndicatorProps {
   totalSteps: number;
 }
 
-const STEP_LABELS = ["体格", "スタイル", "予算", "メーカー", "結果"];
+const STEP_LABELS = ["体格", "スタイル", "予算", "こだわり", "結果"];
 
 export function StepIndicator({ currentStep, totalSteps }: StepIndicatorProps) {
   return (

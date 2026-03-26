@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const SHAPE_LABELS: Record<string, string> = {
   camber: "キャンバー",
@@ -64,15 +64,16 @@ function buildPrompt(data: ExplainRequest): string {
 - ユーザーのスタイルとボードの特性がなぜ合うのか、具体的な理由を述べてください。
 - フレックスや形状の特徴にも触れてください。
 - サイズの根拠にも軽く触れてください。
-- マークダウン記法は使わないでください。`;
+- マークダウン記法は使わないでください。
+- 挨拶や呼びかけ（「こんにちは」「〇〇さん」など）は不要です。いきなり本題から始めてください。`;
 }
 
 export async function POST(request: NextRequest) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    return new Response(
-      JSON.stringify({ error: "GEMINI_API_KEY is not configured" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+    return NextResponse.json(
+      { error: "GEMINI_API_KEY is not configured" },
+      { status: 500 }
     );
   }
 
@@ -81,45 +82,23 @@ export async function POST(request: NextRequest) {
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.5-flash-lite",
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 300,
+        maxOutputTokens: 2048,
       },
     });
 
     const prompt = buildPrompt(data);
-    const stream = await model.generateContentStream(prompt);
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
 
-    const encoder = new TextEncoder();
-    const readable = new ReadableStream({
-      async start(controller) {
-        try {
-          for await (const chunk of stream.stream) {
-            const text =
-              chunk.candidates?.[0]?.content?.parts?.[0]?.text || "";
-            if (text) {
-              controller.enqueue(encoder.encode(text));
-            }
-          }
-        } catch {
-          // Stream error — close gracefully
-        } finally {
-          controller.close();
-        }
-      },
-    });
-
-    return new Response(readable, {
-      headers: {
-        "Content-Type": "text/plain; charset=utf-8",
-        "Cache-Control": "no-cache",
-      },
-    });
-  } catch {
-    return new Response(
-      JSON.stringify({ error: "Failed to generate explanation" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+    return NextResponse.json({ text });
+  } catch (e) {
+    console.error("Gemini API error:", e);
+    return NextResponse.json(
+      { error: "Failed to generate explanation" },
+      { status: 500 }
     );
   }
 }

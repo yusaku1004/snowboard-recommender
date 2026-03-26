@@ -1,5 +1,7 @@
 export type Shape = "camber" | "rocker" | "flat" | "hybrid_camber" | "double_camber";
 
+export type FlexCategory = "soft" | "mid" | "hard";
+
 export type BoardGender = "mens" | "womens" | "unisex";
 
 export type GenderPreference = "mens" | "womens" | "all";

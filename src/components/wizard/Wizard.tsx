@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { StyleScores, UserInput, GenderPreference } from "@/types";
+import { StyleScores, UserInput, GenderPreference, Shape, FlexCategory } from "@/types";
 import { decodeInput } from "@/lib/share";
 import { StepIndicator } from "@/components/ui/StepIndicator";
 import { StepPhysique } from "./StepPhysique";
@@ -28,6 +28,8 @@ export function Wizard() {
   const [budget, setBudget] = useState(100000);
   const [budgetFlexibility, setBudgetFlexibility] = useState(0);
   const [selectedBrands, setSelectedBrands] = useState<Set<string> | null>(null);
+  const [selectedShapes, setSelectedShapes] = useState<Set<Shape> | null>(null);
+  const [selectedFlex, setSelectedFlex] = useState<Set<FlexCategory> | null>(null);
   const [restored, setRestored] = useState(false);
 
   // Restore from URL parameters
@@ -88,6 +90,8 @@ export function Wizard() {
     setBudget(100000);
     setBudgetFlexibility(0);
     setSelectedBrands(null);
+    setSelectedShapes(null);
+    setSelectedFlex(null);
     // Clear URL params
     if (typeof window !== "undefined") {
       window.history.replaceState({}, "", window.location.pathname);
@@ -154,13 +158,23 @@ export function Wizard() {
           {currentStep === 3 && (
             <StepBrands
               selectedBrands={selectedBrands}
+              selectedShapes={selectedShapes}
+              selectedFlex={selectedFlex}
               onBrandsChange={setSelectedBrands}
+              onShapesChange={setSelectedShapes}
+              onFlexChange={setSelectedFlex}
               onNext={goForward}
               onBack={goBack}
             />
           )}
           {currentStep === 4 && (
-            <StepResults input={userInput} onRestart={handleRestart} initialBrands={selectedBrands} />
+            <StepResults
+              input={userInput}
+              onRestart={handleRestart}
+              initialBrands={selectedBrands}
+              initialShapes={selectedShapes}
+              initialFlex={selectedFlex}
+            />
           )}
         </div>
       </div>

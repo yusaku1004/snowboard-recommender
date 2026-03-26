@@ -40,23 +40,14 @@ export function AiExplanation({ input, result }: AiExplanationProps) {
         }),
       });
 
-      if (!res.ok || !res.body) {
+      if (!res.ok) {
         setError(true);
         setLoading(false);
         return;
       }
 
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let text = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        text += decoder.decode(value, { stream: true });
-        setExplanation(text);
-      }
-
+      const data = await res.json();
+      setExplanation(data.text || "");
       setLoading(false);
     } catch {
       setError(true);
@@ -66,7 +57,7 @@ export function AiExplanation({ input, result }: AiExplanationProps) {
 
   if (!requested) {
     return (
-      <div className="mb-6">
+      <div className="mb-5">
         <button
           onClick={fetchExplanation}
           className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium border border-violet-500/30 bg-violet-500/10 text-violet-400 hover:bg-violet-500/15 transition-all duration-200 cursor-pointer"
@@ -81,7 +72,7 @@ export function AiExplanation({ input, result }: AiExplanationProps) {
   }
 
   return (
-    <div className="mb-6">
+    <div className="mb-5">
       <div className="bg-violet-500/[0.06] border border-violet-500/15 rounded-2xl p-4">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-6 h-6 rounded-lg bg-violet-500/20 flex items-center justify-center flex-shrink-0">
@@ -90,12 +81,14 @@ export function AiExplanation({ input, result }: AiExplanationProps) {
             </svg>
           </div>
           <span className="text-xs font-medium text-violet-400">AIによるおすすめ理由</span>
-          {loading && (
-            <span className="text-[10px] text-slate-500 ml-auto">生成中...</span>
-          )}
         </div>
 
-        {error ? (
+        {loading ? (
+          <div className="flex items-center gap-2 text-sm text-slate-500">
+            <span className="inline-block w-1 h-4 bg-violet-400 animate-pulse" />
+            生成中...
+          </div>
+        ) : error ? (
           <div className="text-sm text-slate-500">
             <p className="mb-2">解説を生成できませんでした。</p>
             <button
@@ -108,7 +101,6 @@ export function AiExplanation({ input, result }: AiExplanationProps) {
         ) : (
           <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">
             {explanation}
-            {loading && <span className="inline-block w-1 h-4 bg-violet-400 animate-pulse ml-0.5 align-text-bottom" />}
           </p>
         )}
       </div>
