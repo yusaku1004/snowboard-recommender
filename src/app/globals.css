@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a1628;
+  --foreground: #e2e8f0;
 }
 
 @theme inline {
@@ -12,15 +12,209 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Aurora gradient background */
+@keyframes aurora {
+  0%,
+  100% {
+    background-position: 0% 50%;
+    opacity: 0.4;
+  }
+  25% {
+    background-position: 50% 0%;
+    opacity: 0.6;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 0.5;
+  }
+  75% {
+    background-position: 50% 100%;
+    opacity: 0.45;
+  }
+}
+
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(56, 189, 248, 0.15),
+    rgba(139, 92, 246, 0.1),
+    rgba(56, 189, 248, 0.08),
+    rgba(168, 85, 247, 0.12)
+  );
+  background-size: 300% 300%;
+  animation: aurora 30s ease-in-out infinite;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 60%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 60%);
+}
+
+/* Snowfall animation */
+@keyframes snowfall {
+  0% {
+    transform: translateY(-10vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) translateX(30px);
+    opacity: 0;
+  }
+}
+
+.snowflake {
+  animation: snowfall linear infinite;
+}
+
+/* Hero title glow */
+.hero-title {
+  position: relative;
+}
+
+.hero-title::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, #7dd3fc, white, #7dd3fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: blur(16px);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Button shimmer effect */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Custom slider styles */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: #334155;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 30%, #38bdf8 100%);
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.6),
+    0 0 4px rgba(255, 255, 255, 0.4);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.8),
+    0 0 8px rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 30%, #38bdf8 100%);
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.6),
+    0 0 4px rgba(255, 255, 255, 0.4);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.8),
+    0 0 8px rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
+}
+
+/* Slide animations */
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-right {
+  animation: slideInFromRight 0.3s ease-out;
+}
+
+.slide-in-left {
+  animation: slideInFromLeft 0.3s ease-out;
+}
+
+/* Bottom sheet slide up */
+@keyframes slideUpFromBottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.bottom-sheet-enter {
+  animation: slideUpFromBottom 0.3s ease-out;
 }
