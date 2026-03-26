@@ -61,8 +61,8 @@ export function StepBrands({
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-center mb-2">メーカー選択</h2>
-      <p className="text-slate-400 text-center mb-4 text-sm">
+      <h2 className="text-xl font-bold text-center mb-1 text-white">メーカー選択</h2>
+      <p className="text-slate-500 text-center mb-4 text-sm">
         気になるメーカーを選んでください（任意）
       </p>
 
@@ -77,24 +77,29 @@ export function StepBrands({
       </div>
 
       {/* Brand grid */}
-      <div className="grid grid-cols-2 gap-2 mb-6 max-h-80 overflow-y-auto pr-1">
+      <div className="grid grid-cols-2 gap-2 mb-6 max-h-80 overflow-y-auto pr-1 scrollbar-thin">
         {brands.map((brand) => {
           const isSelected = allSelected || selectedBrands!.has(brand);
           return (
             <label
               key={brand}
-              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm cursor-pointer transition-colors ${
+              className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm cursor-pointer transition-all duration-200 ${
                 isSelected
-                  ? "bg-sky-500/15 text-sky-300"
-                  : "bg-slate-700/50 text-slate-400"
+                  ? "bg-sky-500/10 text-sky-300 border border-sky-500/25"
+                  : "bg-slate-800/40 text-slate-500 border border-transparent hover:bg-slate-700/40 hover:text-slate-400"
               }`}
             >
-              <input
-                type="checkbox"
-                checked={isSelected}
-                onChange={() => toggleBrand(brand)}
-                className="accent-sky-500 w-4 h-4 shrink-0"
-              />
+              <div className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 transition-all ${
+                isSelected
+                  ? "bg-sky-500 text-white"
+                  : "border border-slate-600 bg-slate-800"
+              }`}>
+                {isSelected && (
+                  <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </div>
               <span className="truncate">{brand}</span>
             </label>
           );
@@ -102,7 +107,7 @@ export function StepBrands({
       </div>
 
       {!allSelected && selectedBrands!.size > 0 && (
-        <p className="text-slate-400 text-center mb-4 text-xs">
+        <p className="text-slate-500 text-center mb-4 text-xs">
           {selectedBrands!.size}ブランド選択中
         </p>
       )}
@@ -114,14 +119,14 @@ export function StepBrands({
         </Button>
         <button
           onClick={handleSkip}
-          className="flex-1 py-3 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 font-medium transition-colors cursor-pointer text-sm"
+          className="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 font-medium transition-all duration-200 cursor-pointer text-sm border border-slate-700 hover:border-slate-600"
         >
-          スキップ（全メーカー）
+          スキップ
         </button>
         {(!allSelected && selectedBrands!.size === 0) ? (
           <button
             disabled
-            className="flex-1 px-6 py-3 rounded-lg font-medium bg-slate-700 text-slate-500 cursor-not-allowed"
+            className="flex-1 px-6 py-3 rounded-xl font-medium bg-slate-800 text-slate-600 cursor-not-allowed border border-slate-700"
           >
             次へ
           </button>

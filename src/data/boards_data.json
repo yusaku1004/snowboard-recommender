@@ -245,29 +245,6 @@
   },
   {
     "brand": "ACADEMY",
-    "model": "Propacamba",
-    "year": 2025,
-    "flex": 6,
-    "shape": "camber",
-    "available_lengths": [
-      153,
-      156,
-      159
-    ],
-    "price": 55000,
-    "image_url": "",
-    "url": "",
-    "gender": "mens",
-    "style_scores": {
-      "ground_tricks": 5,
-      "park": 6,
-      "carving": 7,
-      "run_tricks": 7,
-      "powder": 6
-    }
-  },
-  {
-    "brand": "ACADEMY",
     "model": "Propaganda",
     "year": 2025,
     "flex": 3,
@@ -1470,31 +1447,6 @@
   },
   {
     "brand": "BURTON",
-    "model": "Feelgood",
-    "year": 2025,
-    "flex": 6,
-    "shape": "camber",
-    "available_lengths": [
-      140,
-      142,
-      146,
-      149,
-      152
-    ],
-    "price": 72600,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
-    "style_scores": {
-      "ground_tricks": 5,
-      "park": 6,
-      "carving": 7,
-      "run_tricks": 7,
-      "powder": 6
-    }
-  },
-  {
-    "brand": "BURTON",
     "model": "Good Company",
     "year": 2025,
     "flex": 3,
@@ -1717,30 +1669,6 @@
   },
   {
     "brand": "BURTON",
-    "model": "Stylus",
-    "year": 2025,
-    "flex": 2,
-    "shape": "flat",
-    "available_lengths": [
-      138,
-      141,
-      144,
-      147
-    ],
-    "price": 39600,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
-    "style_scores": {
-      "ground_tricks": 8,
-      "park": 6,
-      "carving": 2,
-      "run_tricks": 4,
-      "powder": 4
-    }
-  },
-  {
-    "brand": "BURTON",
     "model": "Yeasayer",
     "year": 2025,
     "flex": 3,
@@ -1761,29 +1689,6 @@
       "carving": 4,
       "run_tricks": 5,
       "powder": 5
-    }
-  },
-  {
-    "brand": "BURTON",
-    "model": "Yeasayer",
-    "year": 2025,
-    "flex": 3,
-    "shape": "flat",
-    "available_lengths": [
-      140,
-      144,
-      148
-    ],
-    "price": 54000,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
-    "style_scores": {
-      "ground_tricks": 8,
-      "park": 7,
-      "carving": 3,
-      "run_tricks": 5,
-      "powder": 4
     }
   },
   {
@@ -1853,31 +1758,6 @@
     "price": 71500,
     "image_url": "",
     "url": "",
-    "style_scores": {
-      "ground_tricks": 6,
-      "park": 7,
-      "carving": 6,
-      "run_tricks": 6,
-      "powder": 5
-    }
-  },
-  {
-    "brand": "CAPITA",
-    "model": "Birds of a Feather",
-    "year": 2025,
-    "flex": 5,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      140,
-      142,
-      144,
-      146,
-      148
-    ],
-    "price": 62700,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
     "style_scores": {
       "ground_tricks": 6,
       "park": 7,
@@ -2227,30 +2107,6 @@
     "price": 71500,
     "image_url": "",
     "url": "",
-    "style_scores": {
-      "ground_tricks": 7,
-      "park": 7,
-      "carving": 5,
-      "run_tricks": 6,
-      "powder": 5
-    }
-  },
-  {
-    "brand": "CAPITA",
-    "model": "Space Metal Fantasy",
-    "year": 2025,
-    "flex": 5,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      141,
-      143,
-      145,
-      147
-    ],
-    "price": 57200,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
     "style_scores": {
       "ground_tricks": 7,
       "park": 7,
@@ -2745,29 +2601,6 @@
   },
   {
     "brand": "ENDEAVOR",
-    "model": "Clout",
-    "year": 2025,
-    "flex": 4,
-    "shape": "flat",
-    "available_lengths": [
-      148,
-      151,
-      154
-    ],
-    "price": 49500,
-    "image_url": "",
-    "url": "",
-    "gender": "mens",
-    "style_scores": {
-      "ground_tricks": 8,
-      "park": 7,
-      "carving": 3,
-      "run_tricks": 5,
-      "powder": 3
-    }
-  },
-  {
-    "brand": "ENDEAVOR",
     "model": "High 5",
     "year": 2025,
     "flex": 6,
@@ -2837,29 +2670,6 @@
       "powder": 7
     },
     "gender": "mens"
-  },
-  {
-    "brand": "ENDEAVOR",
-    "model": "Pioneer",
-    "year": 2025,
-    "flex": 5,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      152,
-      155,
-      158
-    ],
-    "price": 55000,
-    "image_url": "",
-    "url": "",
-    "gender": "mens",
-    "style_scores": {
-      "ground_tricks": 6,
-      "park": 6,
-      "carving": 6,
-      "run_tricks": 7,
-      "powder": 6
-    }
   },
   {
     "brand": "ENDEAVOR",
@@ -3131,30 +2941,6 @@
     "brand": "FNTC",
     "model": "SOT",
     "year": 2025,
-    "flex": 4,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      148,
-      150,
-      152,
-      155
-    ],
-    "price": 63800,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 8,
-      "park": 7,
-      "carving": 5,
-      "run_tricks": 6,
-      "powder": 5
-    },
-    "gender": "mens"
-  },
-  {
-    "brand": "FNTC",
-    "model": "SOT",
-    "year": 2025,
     "flex": 1,
     "shape": "rocker",
     "available_lengths": [
@@ -3166,14 +2952,14 @@
     "price": 65780,
     "image_url": "",
     "url": "",
-    "gender": "unisex",
     "style_scores": {
       "ground_tricks": 10,
       "park": 8,
       "carving": 2,
       "run_tricks": 3,
       "powder": 3
-    }
+    },
+    "gender": "unisex"
   },
   {
     "brand": "FNTC",
@@ -3888,30 +3674,6 @@
     }
   },
   {
-    "brand": "GNU",
-    "model": "Velvet",
-    "year": 2025,
-    "flex": 4,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      139,
-      143,
-      146,
-      149
-    ],
-    "price": 52800,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
-    "style_scores": {
-      "ground_tricks": 7,
-      "park": 7,
-      "carving": 5,
-      "run_tricks": 6,
-      "powder": 5
-    }
-  },
-  {
     "brand": "GRAY",
     "model": "DESPERADO",
     "year": 2025,
@@ -3940,30 +3702,6 @@
     "brand": "GRAY",
     "model": "EPIC",
     "year": 2025,
-    "flex": 6,
-    "shape": "camber",
-    "available_lengths": [
-      150,
-      152,
-      155,
-      157
-    ],
-    "price": 115500,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 5,
-      "park": 5,
-      "carving": 8,
-      "run_tricks": 8,
-      "powder": 5
-    },
-    "gender": "mens"
-  },
-  {
-    "brand": "GRAY",
-    "model": "EPIC",
-    "year": 2025,
     "flex": 10,
     "shape": "camber",
     "available_lengths": [
@@ -3974,14 +3712,14 @@
     "price": 143000,
     "image_url": "",
     "url": "",
-    "gender": "mens",
     "style_scores": {
       "ground_tricks": 1,
       "park": 2,
       "carving": 10,
       "run_tricks": 4,
       "powder": 3
-    }
+    },
+    "gender": "mens"
   },
   {
     "brand": "GRAY",
@@ -4967,30 +4705,6 @@
   },
   {
     "brand": "K2",
-    "model": "Dreamsicle",
-    "year": 2025,
-    "flex": 3,
-    "shape": "rocker",
-    "available_lengths": [
-      142,
-      146,
-      149,
-      152
-    ],
-    "price": 44000,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
-    "style_scores": {
-      "ground_tricks": 7,
-      "park": 6,
-      "carving": 3,
-      "run_tricks": 4,
-      "powder": 5
-    }
-  },
-  {
-    "brand": "K2",
     "model": "Embassy",
     "year": 2025,
     "flex": 7,
@@ -5683,30 +5397,6 @@
   },
   {
     "brand": "LIB TECH",
-    "model": "Glider",
-    "year": 2025,
-    "flex": 4,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      141,
-      145,
-      149,
-      153
-    ],
-    "price": 55000,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
-    "style_scores": {
-      "ground_tricks": 6,
-      "park": 6,
-      "carving": 5,
-      "run_tricks": 6,
-      "powder": 6
-    }
-  },
-  {
-    "brand": "LIB TECH",
     "model": "Golden Orca",
     "year": 2025,
     "flex": 7,
@@ -6076,29 +5766,6 @@
   },
   {
     "brand": "MARHAR",
-    "model": "Lumberjack",
-    "year": 2025,
-    "flex": 7,
-    "shape": "camber",
-    "available_lengths": [
-      155,
-      158,
-      161
-    ],
-    "price": 60500,
-    "image_url": "",
-    "url": "",
-    "gender": "mens",
-    "style_scores": {
-      "ground_tricks": 3,
-      "park": 4,
-      "carving": 8,
-      "run_tricks": 7,
-      "powder": 6
-    }
-  },
-  {
-    "brand": "MARHAR",
     "model": "Sasquatch",
     "year": 2025,
     "flex": 7,
@@ -6119,29 +5786,6 @@
       "powder": 8
     },
     "gender": "mens"
-  },
-  {
-    "brand": "MARHAR",
-    "model": "Sasquatch",
-    "year": 2025,
-    "flex": 5,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      152,
-      155,
-      158
-    ],
-    "price": 55000,
-    "image_url": "",
-    "url": "",
-    "gender": "mens",
-    "style_scores": {
-      "ground_tricks": 6,
-      "park": 6,
-      "carving": 6,
-      "run_tricks": 6,
-      "powder": 6
-    }
   },
   {
     "brand": "MOSS",
@@ -6267,33 +5911,9 @@
     "brand": "MOSS",
     "model": "REVOLVER",
     "year": 2025,
-    "flex": 7,
-    "shape": "camber",
-    "gender": "mens",
-    "available_lengths": [
-      152,
-      155,
-      158,
-      161,
-      164
-    ],
-    "price": 110000,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 3,
-      "park": 3,
-      "carving": 9,
-      "run_tricks": 8,
-      "powder": 6
-    }
-  },
-  {
-    "brand": "MOSS",
-    "model": "REVOLVER",
-    "year": 2025,
     "flex": 9,
     "shape": "camber",
+    "gender": "mens",
     "available_lengths": [
       155,
       158,
@@ -6302,7 +5922,6 @@
     "price": 121000,
     "image_url": "",
     "url": "",
-    "gender": "mens",
     "style_scores": {
       "ground_tricks": 2,
       "park": 3,
@@ -6843,30 +6462,6 @@
   },
   {
     "brand": "NITRO",
-    "model": "Drop",
-    "year": 2025,
-    "flex": 4,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      142,
-      146,
-      149,
-      152
-    ],
-    "price": 49500,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
-    "style_scores": {
-      "ground_tricks": 6,
-      "park": 6,
-      "carving": 5,
-      "run_tricks": 6,
-      "powder": 5
-    }
-  },
-  {
-    "brand": "NITRO",
     "model": "Fate",
     "year": 2025,
     "flex": 5,
@@ -6958,30 +6553,6 @@
       "carving": 5,
       "run_tricks": 6,
       "powder": 5
-    }
-  },
-  {
-    "brand": "NITRO",
-    "model": "Mystique",
-    "year": 2025,
-    "flex": 3,
-    "shape": "flat",
-    "available_lengths": [
-      138,
-      142,
-      146,
-      149
-    ],
-    "price": 39600,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
-    "style_scores": {
-      "ground_tricks": 8,
-      "park": 7,
-      "carving": 3,
-      "run_tricks": 4,
-      "powder": 4
     }
   },
   {
@@ -7675,32 +7246,6 @@
     "brand": "OGASAKA",
     "model": "FC",
     "year": 2025,
-    "flex": 8,
-    "shape": "camber",
-    "available_lengths": [
-      150,
-      154,
-      156,
-      158,
-      160,
-      162
-    ],
-    "price": 115000,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 2,
-      "park": 3,
-      "carving": 10,
-      "run_tricks": 7,
-      "powder": 5
-    },
-    "gender": "mens"
-  },
-  {
-    "brand": "OGASAKA",
-    "model": "FC",
-    "year": 2025,
     "flex": 10,
     "shape": "camber",
     "available_lengths": [
@@ -7712,14 +7257,14 @@
     "price": 132000,
     "image_url": "",
     "url": "",
-    "gender": "mens",
     "style_scores": {
       "ground_tricks": 1,
       "park": 2,
       "carving": 10,
       "run_tricks": 5,
       "powder": 4
-    }
+    },
+    "gender": "mens"
   },
   {
     "brand": "OGASAKA",
@@ -7897,30 +7442,6 @@
     "brand": "RICE28",
     "model": "RT9",
     "year": 2025,
-    "flex": 4,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      148,
-      150,
-      152,
-      154
-    ],
-    "price": 86900,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 9,
-      "park": 7,
-      "carving": 5,
-      "run_tricks": 7,
-      "powder": 4
-    },
-    "gender": "mens"
-  },
-  {
-    "brand": "RICE28",
-    "model": "RT9",
-    "year": 2025,
     "flex": 1,
     "shape": "flat",
     "available_lengths": [
@@ -7932,14 +7453,14 @@
     "price": 75900,
     "image_url": "",
     "url": "",
-    "gender": "mens",
     "style_scores": {
       "ground_tricks": 10,
       "park": 7,
       "carving": 2,
       "run_tricks": 4,
       "powder": 2
-    }
+    },
+    "gender": "mens"
   },
   {
     "brand": "RICE28",
@@ -8300,30 +7821,6 @@
       "carving": 5,
       "run_tricks": 6,
       "powder": 6
-    }
-  },
-  {
-    "brand": "RIDE",
-    "model": "Saturday",
-    "year": 2025,
-    "flex": 4,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      138,
-      142,
-      146,
-      150
-    ],
-    "price": 55000,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
-    "style_scores": {
-      "ground_tricks": 7,
-      "park": 7,
-      "carving": 5,
-      "run_tricks": 6,
-      "powder": 5
     }
   },
   {
@@ -8924,30 +8421,6 @@
   },
   {
     "brand": "ROXY",
-    "model": "Dawn",
-    "year": 2025,
-    "flex": 4,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      142,
-      146,
-      149,
-      152
-    ],
-    "price": 52800,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
-    "style_scores": {
-      "ground_tricks": 6,
-      "park": 6,
-      "carving": 5,
-      "run_tricks": 6,
-      "powder": 5
-    }
-  },
-  {
-    "brand": "ROXY",
     "model": "Raina",
     "year": 2025,
     "flex": 5,
@@ -9018,30 +8491,6 @@
       "powder": 6
     },
     "gender": "womens"
-  },
-  {
-    "brand": "ROXY",
-    "model": "XOXO",
-    "year": 2025,
-    "flex": 3,
-    "shape": "flat",
-    "available_lengths": [
-      138,
-      142,
-      146,
-      149
-    ],
-    "price": 44000,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
-    "style_scores": {
-      "ground_tricks": 8,
-      "park": 7,
-      "carving": 3,
-      "run_tricks": 4,
-      "powder": 4
-    }
   },
   {
     "brand": "SALOMON",
@@ -9361,31 +8810,6 @@
   },
   {
     "brand": "SALOMON",
-    "model": "Rumble Fish",
-    "year": 2025,
-    "flex": 5,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      142,
-      144,
-      146,
-      148,
-      150
-    ],
-    "price": 57200,
-    "image_url": "",
-    "url": "",
-    "gender": "womens",
-    "style_scores": {
-      "ground_tricks": 6,
-      "park": 6,
-      "carving": 6,
-      "run_tricks": 7,
-      "powder": 6
-    }
-  },
-  {
-    "brand": "SALOMON",
     "model": "Sight",
     "year": 2025,
     "flex": 4,
@@ -9508,29 +8932,6 @@
   },
   {
     "brand": "SANTA CRUZ",
-    "model": "Screaming Hand",
-    "year": 2025,
-    "flex": 5,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      151,
-      154,
-      157
-    ],
-    "price": 49500,
-    "image_url": "",
-    "url": "",
-    "gender": "mens",
-    "style_scores": {
-      "ground_tricks": 6,
-      "park": 7,
-      "carving": 5,
-      "run_tricks": 6,
-      "powder": 5
-    }
-  },
-  {
-    "brand": "SANTA CRUZ",
     "model": "Street Shark",
     "year": 2025,
     "flex": 4,
@@ -9556,34 +8957,9 @@
     "brand": "SCOOTER",
     "model": "DAYLIFE",
     "year": 2025,
-    "flex": 5,
-    "shape": "hybrid_camber",
-    "gender": "unisex",
-    "available_lengths": [
-      143,
-      147,
-      150,
-      152,
-      155,
-      158
-    ],
-    "price": 107800,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 7,
-      "park": 6,
-      "carving": 6,
-      "run_tricks": 7,
-      "powder": 6
-    }
-  },
-  {
-    "brand": "SCOOTER",
-    "model": "DAYLIFE",
-    "year": 2025,
     "flex": 1,
     "shape": "flat",
+    "gender": "unisex",
     "available_lengths": [
       139,
       143,
@@ -9593,7 +8969,6 @@
     "price": 68200,
     "image_url": "",
     "url": "",
-    "gender": "unisex",
     "style_scores": {
       "ground_tricks": 10,
       "park": 7,
@@ -10514,29 +9889,6 @@
   },
   {
     "brand": "TELOS",
-    "model": "Backslash",
-    "year": 2025,
-    "flex": 4,
-    "shape": "rocker",
-    "available_lengths": [
-      150,
-      153,
-      156
-    ],
-    "price": 49500,
-    "image_url": "",
-    "url": "",
-    "gender": "mens",
-    "style_scores": {
-      "ground_tricks": 7,
-      "park": 6,
-      "carving": 4,
-      "run_tricks": 5,
-      "powder": 6
-    }
-  },
-  {
-    "brand": "TELOS",
     "model": "Chillum",
     "year": 2025,
     "flex": 4,
@@ -10890,30 +10242,6 @@
       "powder": 9
     },
     "gender": "mens"
-  },
-  {
-    "brand": "WESTON",
-    "model": "Backwoods",
-    "year": 2025,
-    "flex": 6,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      155,
-      158,
-      161,
-      164
-    ],
-    "price": 66000,
-    "image_url": "",
-    "url": "",
-    "gender": "mens",
-    "style_scores": {
-      "ground_tricks": 3,
-      "park": 4,
-      "carving": 6,
-      "run_tricks": 6,
-      "powder": 9
-    }
   },
   {
     "brand": "WESTON",

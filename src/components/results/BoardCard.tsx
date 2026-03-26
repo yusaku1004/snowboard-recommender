@@ -65,12 +65,6 @@ function getBrandColor(brand: string): string {
   return BRAND_COLORS[Math.abs(hash) % BRAND_COLORS.length];
 }
 
-function getBrandInitial(brand: string): string {
-  // Use first letter, or first 2 for short names
-  const cleaned = brand.replace(/[^A-Za-z0-9]/g, "");
-  return cleaned.substring(0, 2).toUpperCase();
-}
-
 const GENDER_LABELS: Record<string, string> = {
   mens: "メンズ",
   womens: "レディース",
@@ -86,14 +80,28 @@ function getYearsOldLabel(year: number): string | null {
   return `${yearsOld}年落ち`;
 }
 
+function getRankStyle(rank: number) {
+  if (rank === 1) return { bg: "bg-gradient-to-br from-amber-400 to-yellow-600", text: "text-amber-950", shadow: "shadow-amber-500/30" };
+  if (rank === 2) return { bg: "bg-gradient-to-br from-slate-300 to-slate-400", text: "text-slate-800", shadow: "shadow-slate-400/20" };
+  if (rank === 3) return { bg: "bg-gradient-to-br from-amber-600 to-amber-800", text: "text-amber-100", shadow: "shadow-amber-700/20" };
+  return { bg: "bg-slate-800", text: "text-slate-400", shadow: "" };
+}
+
+function getMatchColor(pct: number): string {
+  if (pct >= 80) return "from-emerald-400 to-cyan-400";
+  if (pct >= 60) return "from-sky-400 to-blue-500";
+  if (pct >= 40) return "from-amber-400 to-orange-500";
+  return "from-slate-400 to-slate-500";
+}
+
 export function BoardCard({ result, rank, budget, budgetFlexibility }: BoardCardProps) {
   const [expanded, setExpanded] = useState(false);
   const { board, matchPercentage, recommendedSize, overBudget, estimatedPrice } = result;
   const hasDiscount = estimatedPrice < board.price;
   const effectiveBudget = budget * (1 + budgetFlexibility / 100);
   const yearsOldLabel = getYearsOldLabel(board.year);
+  const rankStyle = getRankStyle(rank);
 
-  // Label logic
   type BudgetLabel = "within" | "sale_possible" | "over";
   let budgetLabel: BudgetLabel = "within";
   if (estimatedPrice > effectiveBudget) {
@@ -104,18 +112,23 @@ export function BoardCard({ result, rank, budget, budgetFlexibility }: BoardCard
 
   return (
     <div
-      className="bg-white/5 backdrop-blur-md border border-white/10 shadow-lg shadow-black/20 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(56,189,248,0.15)] hover:border-white/20 hover:bg-white/[0.07] cursor-pointer"
+      className={`fade-in-up bg-white/[0.04] backdrop-blur-md border rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer ${
+        rank <= 3
+          ? "border-white/[0.08] hover:border-white/[0.15] hover:bg-white/[0.06]"
+          : "border-white/[0.05] hover:border-white/[0.10] hover:bg-white/[0.05]"
+      }`}
+      style={{ animationDelay: `${(rank - 1) * 80}ms` }}
       onClick={() => setExpanded(!expanded)}
     >
       <div className="p-4">
-        <div className="flex items-start gap-4">
+        <div className="flex items-start gap-3">
           {/* Rank badge */}
-          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-sky-500/20 flex items-center justify-center">
-            <span className="text-sky-400 font-bold">{rank}</span>
+          <div className={`flex-shrink-0 w-9 h-9 rounded-xl ${rankStyle.bg} ${rankStyle.shadow} shadow-lg flex items-center justify-center`}>
+            <span className={`${rankStyle.text} font-bold text-sm`}>{rank}</span>
           </div>
 
           {/* Board image or placeholder */}
-          <div className="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center overflow-hidden">
+          <div className="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center overflow-hidden">
             {board.image_url ? (
               <img
                 src={board.image_url}
@@ -123,7 +136,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility }: BoardCard
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className={`w-full h-full bg-gradient-to-br ${getBrandColor(board.brand)} flex items-center justify-center p-1`}>
+              <div className={`w-full h-full bg-gradient-to-br ${getBrandColor(board.brand)} flex items-center justify-center p-1 rounded-xl`}>
                 <span className="text-white font-bold text-[9px] leading-tight text-center break-all drop-shadow-sm">
                   {board.brand}
                 </span>
@@ -134,46 +147,50 @@ export function BoardCard({ result, rank, budget, budgetFlexibility }: BoardCard
           {/* Info */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs text-slate-400">{board.brand}</span>
-              <span className="text-xs text-slate-500">{board.year}</span>
+              <span className="text-xs text-slate-500 font-medium">{board.brand}</span>
+              <span className="text-[10px] text-slate-600">{board.year}</span>
               {budgetLabel === "over" && (
-                <span className="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] bg-red-500/15 text-red-400 px-2 py-0.5 rounded-full font-medium">
                   予算オーバー
                 </span>
               )}
               {budgetLabel === "sale_possible" && (
-                <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full">
-                  セールで予算内の可能性
+                <span className="text-[10px] bg-yellow-500/15 text-yellow-400 px-2 py-0.5 rounded-full font-medium">
+                  セールで予算内
                 </span>
               )}
             </div>
-            <h3 className="text-lg font-bold text-white truncate">
+            <h3 className="text-base font-bold text-white truncate mt-0.5">
               {board.model}
             </h3>
-            <div className="flex items-center gap-4 mt-1 text-sm">
-              <span className="text-sky-400 font-bold">
-                マッチ度 {matchPercentage}%
+            {/* Match bar */}
+            <div className="flex items-center gap-2 mt-2">
+              <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div
+                  className={`match-bar-fill h-full rounded-full bg-gradient-to-r ${getMatchColor(matchPercentage)}`}
+                  style={{ width: `${matchPercentage}%` }}
+                />
+              </div>
+              <span className="text-xs font-bold text-sky-400 tabular-nums w-10 text-right">
+                {matchPercentage}%
               </span>
-              <span className="text-slate-400">
-                おすすめ {recommendedSize}cm
+            </div>
+            <div className="mt-1.5">
+              <span className="text-xs text-slate-500">
+                おすすめ <span className="text-slate-300 font-medium">{recommendedSize}cm</span>
               </span>
             </div>
           </div>
 
           {/* Expand indicator */}
-          <div className="flex-shrink-0 text-slate-500">
+          <div className="flex-shrink-0 text-slate-600 mt-2">
             <svg
-              className={`w-5 h-5 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+              className={`w-4 h-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </div>
         </div>
@@ -181,57 +198,76 @@ export function BoardCard({ result, rank, budget, budgetFlexibility }: BoardCard
 
       {/* Expanded details */}
       {expanded && (
-        <div className="px-4 pb-4 border-t border-slate-700 pt-4">
-          <div className="grid grid-cols-2 gap-3 text-sm mb-4">
-            <div>
-              <span className="text-slate-400">価格</span>
+        <div className="expand-enter px-4 pb-4 border-t border-white/[0.06] pt-4">
+          <div className="grid grid-cols-2 gap-4 text-sm mb-5">
+            <div className="bg-slate-800/40 rounded-xl p-3">
+              <span className="text-xs text-slate-500">価格</span>
               {hasDiscount ? (
                 <div>
-                  <p className="text-slate-500 text-xs line-through">
+                  <p className="text-xs text-slate-600 line-through">
                     ¥{board.price.toLocaleString()}
                   </p>
-                  <p className="text-sky-400 font-medium">
+                  <p className="text-sky-400 font-semibold">
                     ¥{estimatedPrice.toLocaleString()}
                     {yearsOldLabel && (
-                      <span className="text-xs text-slate-400 ml-1">
+                      <span className="text-[10px] text-slate-500 ml-1">
                         ({yearsOldLabel})
                       </span>
                     )}
                   </p>
                 </div>
               ) : (
-                <p className="text-white font-medium">
+                <p className="text-white font-semibold">
                   ¥{board.price.toLocaleString()}
                 </p>
               )}
             </div>
-            <div>
-              <span className="text-slate-400">形状</span>
-              <p className="text-white font-medium">
+            <div className="bg-slate-800/40 rounded-xl p-3">
+              <span className="text-xs text-slate-500">形状</span>
+              <p className="text-white font-medium text-sm">
                 {SHAPE_LABELS[board.shape] || board.shape}
               </p>
             </div>
-            <div>
-              <span className="text-slate-400">フレックス</span>
-              <p className="text-white font-medium">{board.flex}/10</p>
+            <div className="bg-slate-800/40 rounded-xl p-3">
+              <span className="text-xs text-slate-500">フレックス</span>
+              <div className="flex items-center gap-2 mt-0.5">
+                <div className="flex-1 h-1 bg-slate-700 rounded-full overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-sky-400 to-cyan-400"
+                    style={{ width: `${board.flex * 10}%` }}
+                  />
+                </div>
+                <span className="text-white font-medium text-sm tabular-nums">{board.flex}</span>
+              </div>
             </div>
-            <div>
-              <span className="text-slate-400">対象</span>
-              <p className="text-white font-medium">
+            <div className="bg-slate-800/40 rounded-xl p-3">
+              <span className="text-xs text-slate-500">対象</span>
+              <p className="text-white font-medium text-sm">
                 {GENDER_LABELS[board.gender] || board.gender}
               </p>
             </div>
-            <div>
-              <span className="text-slate-400">サイズ展開</span>
-              <p className="text-white font-medium text-xs">
-                {board.available_lengths.join(", ")}cm
-              </p>
+            <div className="col-span-2 bg-slate-800/40 rounded-xl p-3">
+              <span className="text-xs text-slate-500">サイズ展開</span>
+              <div className="flex flex-wrap gap-1.5 mt-1">
+                {board.available_lengths.map((len) => (
+                  <span
+                    key={len}
+                    className={`px-2 py-0.5 rounded-md text-xs font-medium ${
+                      len === recommendedSize
+                        ? "bg-sky-500/20 text-sky-400 border border-sky-500/30"
+                        : "bg-slate-700/60 text-slate-400"
+                    }`}
+                  >
+                    {len}cm
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Radar chart */}
-          <div className="mb-4">
-            <p className="text-sm text-slate-400 mb-2">スタイル適性</p>
+          <div className="mb-5">
+            <p className="text-xs text-slate-500 mb-2 font-medium">スタイル適性</p>
             <RadarChart scores={board.style_scores} />
           </div>
 
@@ -242,7 +278,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility }: BoardCard
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-1.5 bg-[#BF0000]/15 text-[#ff4d4d] border border-[#BF0000]/30 px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-[#BF0000]/25 transition-colors"
+              className="flex items-center gap-1.5 bg-[#BF0000]/10 text-[#ff4d4d] border border-[#BF0000]/20 px-3 py-2 rounded-xl text-xs font-medium hover:bg-[#BF0000]/20 transition-all"
             >
               楽天で探す
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
@@ -252,7 +288,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility }: BoardCard
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-1.5 bg-[#FF9900]/15 text-[#FFB84D] border border-[#FF9900]/30 px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-[#FF9900]/25 transition-colors"
+              className="flex items-center gap-1.5 bg-[#FF9900]/10 text-[#FFB84D] border border-[#FF9900]/20 px-3 py-2 rounded-xl text-xs font-medium hover:bg-[#FF9900]/20 transition-all"
             >
               Amazonで探す
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
@@ -262,7 +298,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility }: BoardCard
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-1.5 bg-[#FF0033]/15 text-[#ff4d6a] border border-[#FF0033]/30 px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-[#FF0033]/25 transition-colors"
+              className="flex items-center gap-1.5 bg-[#FF0033]/10 text-[#ff4d6a] border border-[#FF0033]/20 px-3 py-2 rounded-xl text-xs font-medium hover:bg-[#FF0033]/20 transition-all"
             >
               Yahoo!で探す
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
@@ -276,7 +312,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility }: BoardCard
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="inline-block text-slate-400 hover:text-sky-400 text-xs mt-2 transition-colors"
+              className="inline-block text-slate-500 hover:text-sky-400 text-xs mt-3 transition-colors"
             >
               公式ページ →
             </a>

@@ -31,23 +31,23 @@ export function StepPhysique({
 }: StepPhysiqueProps) {
   return (
     <div>
-      <h2 className="text-2xl font-bold text-center mb-2">体格を入力</h2>
-      <p className="text-slate-400 text-center mb-8 text-sm">
+      <h2 className="text-xl font-bold text-center mb-1 text-white">体格を入力</h2>
+      <p className="text-slate-500 text-center mb-8 text-sm">
         あなたの身長と体重を教えてください
       </p>
 
-      <div className="bg-white/5 backdrop-blur-md border border-white/10 shadow-lg shadow-black/20 rounded-xl p-6 mb-6">
+      <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl p-6 mb-6">
         <div className="mb-6">
-          <label className="block text-sm text-slate-300 mb-3">タイプ</label>
-          <div className="flex rounded-lg overflow-hidden border border-slate-600">
+          <label className="block text-sm font-medium text-slate-300 mb-3">タイプ</label>
+          <div className="flex gap-2">
             {GENDER_OPTIONS.map((opt) => (
               <button
                 key={opt.value}
                 onClick={() => onGenderChange(opt.value)}
-                className={`flex-1 py-2 text-sm font-medium transition-colors ${
+                className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
                   gender === opt.value
-                    ? "bg-sky-500 text-white"
-                    : "bg-slate-700 text-slate-300 hover:bg-slate-600"
+                    ? "bg-sky-500/20 text-sky-400 border border-sky-500/40 shadow-[0_0_12px_rgba(56,189,248,0.15)]"
+                    : "bg-slate-800/60 text-slate-400 border border-slate-700/50 hover:bg-slate-700/60 hover:text-slate-300"
                 }`}
               >
                 {opt.label}

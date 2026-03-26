@@ -22,29 +22,34 @@ export function Slider({
   onChange,
 }: SliderProps) {
   const displayValue = formatValue ? formatValue(value) : `${value}${unit}`;
+  const percent = ((value - min) / (max - min)) * 100;
 
   return (
     <div className="mb-6">
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex justify-between items-baseline mb-3">
         <label className="text-sm font-medium text-slate-300">{label}</label>
-        <span className="text-lg font-bold text-sky-400">{displayValue}</span>
+        <span className="text-xl font-bold text-sky-400 tabular-nums tracking-tight">
+          {displayValue}
+        </span>
       </div>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full"
-      />
-      <div className="flex justify-between text-xs text-slate-500 mt-1">
-        <span>
-          {formatValue ? formatValue(min) : `${min}${unit}`}
-        </span>
-        <span>
-          {formatValue ? formatValue(max) : `${max}${unit}`}
-        </span>
+      <div className="relative">
+        {/* Filled track */}
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 h-1.5 rounded-full bg-gradient-to-r from-sky-500 to-cyan-400 pointer-events-none"
+          style={{ width: `${percent}%` }}
+        />
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="w-full relative z-10"
+        />
+      </div>
+      <div className="flex justify-between text-xs text-slate-600 mt-1.5">
+        <span>{formatValue ? formatValue(min) : `${min}${unit}`}</span>
+        <span>{formatValue ? formatValue(max) : `${max}${unit}`}</span>
       </div>
     </div>
   );

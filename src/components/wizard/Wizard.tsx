@@ -108,21 +108,13 @@ export function Wizard() {
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      {/* Snowboard icon */}
-      <div className="flex justify-center mb-3">
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-sky-400">
-          <path d="M8 32C6 30 5 27 6 24L18 6C19 4 22 3 24 4L34 10C36 11 37 14 36 16L24 34C23 36 20 37 18 36L8 32Z" stroke="currentColor" strokeWidth="2" fill="none"/>
-          <circle cx="14" cy="26" r="2" fill="currentColor"/>
-          <circle cx="26" cy="14" r="2" fill="currentColor"/>
-        </svg>
-      </div>
       <h1
-        className="hero-title text-4xl font-extrabold text-center mb-2 text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-white to-sky-300"
+        className="hero-title text-3xl font-extrabold text-center mb-1.5 text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-white to-sky-300 tracking-tight"
         data-text="スノーボード診断"
       >
         スノーボード診断
       </h1>
-      <p className="text-slate-400 text-center mb-6 text-sm">
+      <p className="text-slate-500 text-center mb-8 text-xs tracking-wide">
         あなたにぴったりの板を見つけよう
       </p>
 

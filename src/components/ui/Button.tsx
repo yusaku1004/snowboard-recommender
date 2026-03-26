@@ -14,12 +14,12 @@ export function Button({
   className = "",
 }: ButtonProps) {
   const base =
-    "px-6 py-3 rounded-lg font-medium transition-all duration-200 cursor-pointer";
+    "px-6 py-3 rounded-xl font-semibold transition-all duration-200 cursor-pointer text-sm";
   const variants = {
     primary:
-      "btn-shimmer bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-400 hover:to-cyan-300 text-white shadow-lg shadow-sky-500/30 hover:shadow-sky-400/40",
+      "btn-shimmer bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-400 hover:to-cyan-300 text-white shadow-lg shadow-sky-500/25 hover:shadow-sky-400/35 hover:-translate-y-0.5 active:translate-y-0",
     secondary:
-      "bg-slate-700 hover:bg-slate-600 text-slate-200",
+      "bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 hover:border-slate-600",
   };
 
   return (
