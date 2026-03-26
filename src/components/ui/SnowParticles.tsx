@@ -41,9 +41,11 @@ export function SnowParticles() {
             left: p.left,
             width: p.size,
             height: p.size,
-            opacity: p.opacity,
+            opacity: 0,
             animationDelay: p.delay,
             animationDuration: p.duration,
+            // @ts-expect-error CSS custom property
+            "--snow-opacity": p.opacity,
           }}
         />
       ))}
