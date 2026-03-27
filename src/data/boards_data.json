@@ -10318,7 +10318,13 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "gender": "unisex",
-    "available_lengths": [148, 150, 152, 154, 156],
+    "available_lengths": [
+      148,
+      150,
+      152,
+      154,
+      156
+    ],
     "price": 88000,
     "image_url": "",
     "url": "https://sportsbomber.base.shop/items/97752161",
@@ -10337,7 +10343,12 @@
     "flex": 4,
     "shape": "double_camber",
     "gender": "unisex",
-    "available_lengths": [148, 150, 152, 154],
+    "available_lengths": [
+      148,
+      150,
+      152,
+      154
+    ],
     "price": 88000,
     "image_url": "",
     "url": "https://sportsbomber.base.shop/items/97752222",
@@ -10356,7 +10367,13 @@
     "flex": 3,
     "shape": "double_camber",
     "gender": "womens",
-    "available_lengths": [136, 138, 140, 142, 145],
+    "available_lengths": [
+      136,
+      138,
+      140,
+      142,
+      145
+    ],
     "price": 88000,
     "image_url": "",
     "url": "https://sportsbomber.base.shop/items/97752289",
@@ -10375,7 +10392,13 @@
     "flex": 4,
     "shape": "flat",
     "gender": "unisex",
-    "available_lengths": [148, 150, 152, 154, 156],
+    "available_lengths": [
+      148,
+      150,
+      152,
+      154,
+      156
+    ],
     "price": 88000,
     "image_url": "",
     "url": "https://sportsbomber.base.shop/items/97751366",
@@ -10394,7 +10417,12 @@
     "flex": 3,
     "shape": "hybrid_camber",
     "gender": "womens",
-    "available_lengths": [139, 141, 143, 145],
+    "available_lengths": [
+      139,
+      141,
+      143,
+      145
+    ],
     "price": 88000,
     "image_url": "",
     "url": "https://sportsbomber.base.shop/items/97753127",
@@ -10413,7 +10441,13 @@
     "flex": 3,
     "shape": "hybrid_camber",
     "gender": "unisex",
-    "available_lengths": [148, 150, 152, 154, 156],
+    "available_lengths": [
+      148,
+      150,
+      152,
+      154,
+      156
+    ],
     "price": 64900,
     "image_url": "",
     "url": "https://gtsnowboards.stores.jp/items/679c5f127dd1ee0240020f24",
@@ -10432,7 +10466,12 @@
     "flex": 6,
     "shape": "double_camber",
     "gender": "unisex",
-    "available_lengths": [148, 150, 152, 154],
+    "available_lengths": [
+      148,
+      150,
+      152,
+      154
+    ],
     "price": 118800,
     "image_url": "",
     "url": "https://www.misty-snow.com/gt-snowboard_buff-ltd.html",
@@ -10442,6 +10481,206 @@
       "carving": 5,
       "run_tricks": 7,
       "powder": 4
+    }
+  },
+  {
+    "brand": "HOLIDAY",
+    "model": "Hi-Fi",
+    "year": 2026,
+    "flex": 3,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      149,
+      151,
+      153,
+      156
+    ],
+    "price": 97020,
+    "image_url": "",
+    "url": "https://item.rakuten.co.jp/auc-breakout/hifi/",
+    "style_scores": {
+      "ground_tricks": 9,
+      "park": 7,
+      "carving": 4,
+      "run_tricks": 7,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "HOLIDAY",
+    "model": "Hi-Fi ZERO",
+    "year": 2025,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      141,
+      145,
+      149,
+      151,
+      153
+    ],
+    "price": 50050,
+    "image_url": "",
+    "url": "https://item.rakuten.co.jp/auc-breakout/17-jnus/",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "HOLIDAY",
+    "model": "Hi-Fi SLAP",
+    "year": 2025,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      141,
+      145,
+      149,
+      151,
+      153
+    ],
+    "price": 70070,
+    "image_url": "",
+    "url": "https://item.rakuten.co.jp/auc-breakout/hdhf/",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "CROOJA",
+    "model": "WORM",
+    "year": 2027,
+    "flex": 4,
+    "shape": "double_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      137,
+      139,
+      142,
+      145,
+      148,
+      150,
+      152,
+      154,
+      156
+    ],
+    "price": 99000,
+    "image_url": "",
+    "url": "https://item.rakuten.co.jp/auc-breakout/quadra78-alf/",
+    "style_scores": {
+      "ground_tricks": 9,
+      "park": 7,
+      "carving": 4,
+      "run_tricks": 8,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "CROOJA",
+    "model": "LOCUST",
+    "year": 2027,
+    "flex": 5,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      148,
+      150,
+      152,
+      154,
+      156
+    ],
+    "price": 99000,
+    "image_url": "",
+    "url": "https://item.rakuten.co.jp/auc-breakout/quadra63/",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 6,
+      "carving": 6,
+      "run_tricks": 7,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "CROOJA",
+    "model": "BEETLE",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      148,
+      150,
+      152,
+      154,
+      156
+    ],
+    "price": 99000,
+    "image_url": "",
+    "url": "https://item.rakuten.co.jp/auc-breakout/gy-mach56/",
+    "style_scores": {
+      "ground_tricks": 8,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 8,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "CROOJA",
+    "model": "SPIDER",
+    "year": 2026,
+    "flex": 4,
+    "shape": "double_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      148,
+      150,
+      152,
+      154
+    ],
+    "price": 99000,
+    "image_url": "",
+    "url": "https://item.rakuten.co.jp/auc-breakout/16-day/",
+    "style_scores": {
+      "ground_tricks": 9,
+      "park": 7,
+      "carving": 4,
+      "run_tricks": 8,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "PUBLIC",
+    "model": "RESEARCH",
+    "year": 2026,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      154,
+      157,
+      160
+    ],
+    "price": 88110,
+    "image_url": "",
+    "url": "https://item.rakuten.co.jp/auc-breakout/pb-display/",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 7,
+      "run_tricks": 5,
+      "powder": 8
     }
   }
 ]
