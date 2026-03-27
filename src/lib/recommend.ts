@@ -66,8 +66,9 @@ function calculateFlexBonus(board: Board, userStyle: UserInput["style"]): number
   const flex = board.flex;
 
   // Gratri / Park focused: soft flex (1-4) is a bonus
+  // User style is on 1-5 scale; ≥4 means strong preference
   if (
-    (userStyle.ground_tricks >= 7 || userStyle.park >= 7) &&
+    (userStyle.ground_tricks >= 4 || userStyle.park >= 4) &&
     flex >= 1 &&
     flex <= 4
   ) {
@@ -75,13 +76,13 @@ function calculateFlexBonus(board: Board, userStyle: UserInput["style"]): number
   }
 
   // Carving focused: stiff flex (7-10) is a bonus
-  if (userStyle.carving >= 7 && flex >= 7 && flex <= 10) {
+  if (userStyle.carving >= 4 && flex >= 7 && flex <= 10) {
     return 5;
   }
 
   // Run tricks / Powder focused: medium flex (5-7) is a bonus
   if (
-    (userStyle.run_tricks >= 7 || userStyle.powder >= 7) &&
+    (userStyle.run_tricks >= 4 || userStyle.powder >= 4) &&
     flex >= 5 &&
     flex <= 7
   ) {

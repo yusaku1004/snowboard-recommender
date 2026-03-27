@@ -19,11 +19,11 @@ export function Wizard() {
   const [weight, setWeight] = useState(60);
   const [gender, setGender] = useState<GenderPreference>("all");
   const [style, setStyle] = useState<StyleScores>({
-    ground_tricks: 5,
-    park: 5,
-    carving: 5,
-    run_tricks: 5,
-    powder: 5,
+    ground_tricks: 1,
+    park: 1,
+    carving: 1,
+    run_tricks: 1,
+    powder: 1,
   });
   const [budget, setBudget] = useState(100000);
   const [budgetFlexibility, setBudgetFlexibility] = useState(0);
@@ -87,11 +87,11 @@ export function Wizard() {
     setWeight(60);
     setGender("all");
     setStyle({
-      ground_tricks: 5,
-      park: 5,
-      carving: 5,
-      run_tricks: 5,
-      powder: 5,
+      ground_tricks: 1,
+      park: 1,
+      carving: 1,
+      run_tricks: 1,
+      powder: 1,
     });
     setBudget(100000);
     setBudgetFlexibility(0);

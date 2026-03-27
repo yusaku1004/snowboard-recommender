@@ -59,7 +59,7 @@ export function StepPhysique({
         <Slider
           label="身長"
           value={height}
-          min={140}
+          min={150}
           max={200}
           step={1}
           unit="cm"
@@ -69,7 +69,7 @@ export function StepPhysique({
           label="体重"
           value={weight}
           min={30}
-          max={120}
+          max={100}
           step={1}
           unit="kg"
           onChange={onWeightChange}

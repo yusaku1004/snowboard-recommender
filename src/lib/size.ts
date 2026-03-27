@@ -27,15 +27,16 @@ export function calculateRecommendedSize(
   const adjustments: number[] = [];
 
   // Gratri / Park preference -> shorter
-  if (style.ground_tricks >= 7 || style.park >= 7) {
+  // User style is on 1-5 scale; ≥4 = strong, 5 = max
+  if (style.ground_tricks >= 4 || style.park >= 4) {
     const maxScore = Math.max(style.ground_tricks, style.park);
-    adjustments.push(maxScore >= 9 ? -3 : -2);
+    adjustments.push(maxScore >= 5 ? -3 : -2);
   }
 
   // Carving / Powder preference -> longer
-  if (style.carving >= 7 || style.powder >= 7) {
+  if (style.carving >= 4 || style.powder >= 4) {
     const maxScore = Math.max(style.carving, style.powder);
-    adjustments.push(maxScore >= 9 ? 3 : 2);
+    adjustments.push(maxScore >= 5 ? 3 : 2);
   }
 
   if (adjustments.length > 0) {

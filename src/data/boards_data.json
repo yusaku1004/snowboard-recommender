@@ -699,8 +699,8 @@
     "brand": "ARBOR",
     "model": "Element",
     "year": 2026,
-    "flex": 4,
-    "shape": "hybrid_camber",
+    "flex": 5,
+    "shape": "rocker",
     "available_lengths": [
       152,
       155,
@@ -1130,7 +1130,7 @@
     "model": "Alekesam",
     "year": 2026,
     "flex": 5,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "gender": "unisex",
     "available_lengths": [
       140,
@@ -1353,7 +1353,7 @@
     "model": "Family Tree Sketch Artist",
     "year": 2026,
     "flex": 6,
-    "shape": "hybrid_camber",
+    "shape": "camber",
     "available_lengths": [
       147,
       152,
@@ -1518,30 +1518,6 @@
       "run_tricks": 5,
       "powder": 4
     }
-  },
-  {
-    "brand": "BURTON",
-    "model": "Stylus",
-    "year": 2026,
-    "flex": 3,
-    "shape": "flat",
-    "available_lengths": [
-      138,
-      142,
-      147,
-      152
-    ],
-    "price": 49500,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 7,
-      "park": 6,
-      "carving": 3,
-      "run_tricks": 4,
-      "powder": 4
-    },
-    "gender": "womens"
   },
   {
     "brand": "BURTON",
@@ -3356,7 +3332,7 @@
     "brand": "GNU",
     "model": "T.R.E.",
     "year": 2026,
-    "flex": 7,
+    "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
       155,
@@ -3732,8 +3708,8 @@
     "brand": "HEAD",
     "model": "Kizamu",
     "year": 2026,
-    "flex": 7,
-    "shape": "camber",
+    "flex": 9,
+    "shape": "hybrid_camber",
     "available_lengths": [
       150,
       153,
@@ -3952,7 +3928,7 @@
     "model": "Flagship",
     "year": 2026,
     "flex": 8,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
       155,
@@ -4071,7 +4047,7 @@
     "model": "Mountain Twin",
     "year": 2026,
     "flex": 6,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "available_lengths": [
       151,
       154,
@@ -4120,7 +4096,7 @@
     "model": "Stratos",
     "year": 2026,
     "flex": 7,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
       152,
@@ -4170,7 +4146,7 @@
     "model": "Twin Sister",
     "year": 2026,
     "flex": 5,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "available_lengths": [
       143,
       146,
@@ -4265,7 +4241,7 @@
     "model": "Women's Stratos",
     "year": 2026,
     "flex": 6,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
       143,
@@ -4503,8 +4479,8 @@
     "brand": "K2",
     "model": "Manifest",
     "year": 2026,
-    "flex": 7,
-    "shape": "camber",
+    "flex": 6,
+    "shape": "hybrid_camber",
     "available_lengths": [
       154,
       158,
@@ -4694,7 +4670,7 @@
     "model": "Otto",
     "year": 2026,
     "flex": 6,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "available_lengths": [
       154,
       158,
@@ -5027,7 +5003,7 @@
     "brand": "LIB TECH",
     "model": "Golden Orca",
     "year": 2026,
-    "flex": 7,
+    "flex": 8,
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
@@ -5608,30 +5584,6 @@
   },
   {
     "brand": "NEVER SUMMER",
-    "model": "Funslinger",
-    "year": 2026,
-    "flex": 4,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      149,
-      152,
-      155,
-      158
-    ],
-    "price": 93500,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 8,
-      "park": 8,
-      "carving": 4,
-      "run_tricks": 5,
-      "powder": 4
-    },
-    "gender": "mens"
-  },
-  {
-    "brand": "NEVER SUMMER",
     "model": "Infinity",
     "year": 2026,
     "flex": 5,
@@ -5707,7 +5659,7 @@
     "model": "Swift",
     "year": 2026,
     "flex": 7,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "available_lengths": [
       155,
       158,
@@ -5801,7 +5753,7 @@
     "model": "Merc",
     "year": 2026,
     "flex": 6,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "available_lengths": [
       155,
       158,
@@ -7092,7 +7044,7 @@
     "model": "Berzerker",
     "year": 2026,
     "flex": 7,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
       155,
@@ -7380,7 +7332,7 @@
     "model": "Warpig",
     "year": 2026,
     "flex": 5,
-    "shape": "hybrid_camber",
+    "shape": "flat",
     "available_lengths": [
       148,
       151,
@@ -7546,8 +7498,8 @@
     "brand": "ROME",
     "model": "Ravine",
     "year": 2026,
-    "flex": 7,
-    "shape": "camber",
+    "flex": 6,
+    "shape": "hybrid_camber",
     "available_lengths": [
       155,
       158,
@@ -7618,7 +7570,7 @@
     "model": "Warden",
     "year": 2026,
     "flex": 6,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "available_lengths": [
       155,
       158,
@@ -7736,7 +7688,7 @@
     "brand": "ROSSIGNOL",
     "model": "Juggernaut",
     "year": 2026,
-    "flex": 8,
+    "flex": 9,
     "shape": "camber",
     "available_lengths": [
       157,
@@ -7831,7 +7783,7 @@
     "brand": "ROSSIGNOL",
     "model": "Revenant",
     "year": 2026,
-    "flex": 7,
+    "flex": 8,
     "shape": "camber",
     "available_lengths": [
       155,
@@ -7855,8 +7807,8 @@
     "brand": "ROSSIGNOL",
     "model": "Soulside",
     "year": 2026,
-    "flex": 6,
-    "shape": "camber",
+    "flex": 3,
+    "shape": "hybrid_camber",
     "available_lengths": [
       155,
       158,
@@ -7872,7 +7824,7 @@
       "run_tricks": 8,
       "powder": 7
     },
-    "gender": "mens"
+    "gender": "womens"
   },
   {
     "brand": "ROXY",
@@ -8025,7 +7977,7 @@
     "model": "Craft",
     "year": 2026,
     "flex": 6,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "available_lengths": [
       153,
       156,
@@ -8122,7 +8074,7 @@
     "model": "Huck Knife",
     "year": 2026,
     "flex": 5,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "available_lengths": [
       148,
       150,

@@ -35,7 +35,7 @@ export function StepStyle({ style, onStyleChange, onNext, onBack }: StepStylePro
             hint={item.description}
             value={style[item.key]}
             min={1}
-            max={10}
+            max={5}
             step={1}
             onChange={(v) => onStyleChange(item.key, v)}
           />
