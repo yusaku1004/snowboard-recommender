@@ -58,17 +58,23 @@ export function Wizard() {
     }
   }, [restored]);
 
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   const goForward = useCallback(() => {
     setDirection("forward");
     setCurrentStep((s) => Math.min(s + 1, TOTAL_STEPS - 1));
+    scrollToTop();
     // Analytics: step transition forward
-  }, []);
+  }, [scrollToTop]);
 
   const goBack = useCallback(() => {
     setDirection("backward");
     setCurrentStep((s) => Math.max(s - 1, 0));
+    scrollToTop();
     // Analytics: step transition backward
-  }, []);
+  }, [scrollToTop]);
 
   const handleStyleChange = useCallback((key: keyof StyleScores, value: number) => {
     setStyle((prev) => ({ ...prev, [key]: value }));

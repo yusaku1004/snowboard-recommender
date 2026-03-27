@@ -84,11 +84,13 @@ export function StepBudget({
         <div className="mb-6" />
       )}
 
-      <div className="flex justify-between">
-        <Button variant="secondary" onClick={onBack}>
-          戻る
-        </Button>
-        <Button onClick={onNext}>診断する</Button>
+      <div className="sticky bottom-0 pt-4 pb-2 safe-bottom bg-gradient-to-t from-[#0a1628] via-[#0a1628] to-transparent -mx-4 px-4">
+        <div className="flex justify-between">
+          <Button variant="secondary" onClick={onBack}>
+            戻る
+          </Button>
+          <Button onClick={onNext}>次へ</Button>
+        </div>
       </div>
     </div>
   );

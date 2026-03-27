@@ -2,6 +2,7 @@
 
 interface SliderProps {
   label: string;
+  hint?: string;
   value: number;
   min: number;
   max: number;
@@ -13,6 +14,7 @@ interface SliderProps {
 
 export function Slider({
   label,
+  hint,
   value,
   min,
   max,
@@ -27,7 +29,10 @@ export function Slider({
   return (
     <div className="mb-6">
       <div className="flex justify-between items-baseline mb-3">
-        <label className="text-sm font-medium text-slate-300">{label}</label>
+        <div className="flex items-baseline gap-1.5">
+          <label className="text-sm font-medium text-slate-300">{label}</label>
+          {hint && <span className="text-[10px] text-slate-600">{hint}</span>}
+        </div>
         <span className="text-xl font-bold text-sky-400 tabular-nums tracking-tight">
           {displayValue}
         </span>

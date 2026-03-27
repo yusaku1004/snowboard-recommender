@@ -1,4 +1,57 @@
 import { Board, UserInput, RecommendResult, GenderPreference } from "@/types";
+
+// Brand popularity tiebreaker (higher = more popular)
+const BRAND_POPULARITY: Record<string, number> = {
+  "BURTON": 100,
+  "SALOMON": 90,
+  "K2": 88,
+  "RIDE": 85,
+  "CAPITA": 83,
+  "JONES": 82,
+  "GNU": 80,
+  "LIB TECH": 80,
+  "NITRO": 78,
+  "YES.": 76,
+  "YONEX": 75,
+  "HEAD": 73,
+  "ROSSIGNOL": 72,
+  "ROME": 70,
+  "ARBOR": 68,
+  "BATALEON": 66,
+  "NEVER SUMMER": 65,
+  "NIDECKER": 63,
+  "ROXY": 62,
+  "GRAY": 60,
+  "OGASAKA": 60,
+  "NOVEMBER": 58,
+  "FNTC": 57,
+  "RICE28": 56,
+  "ALLIAN": 55,
+  "GENTEMSTICK": 55,
+  "SCOOTER": 54,
+  "SPREAD": 53,
+  "MOSS": 52,
+  "011 Artistic": 51,
+  "DEATH LABEL": 50,
+  "KORUA": 50,
+  "DRAKE": 48,
+  "FANATIC": 47,
+  "TORQREX": 46,
+  "BC STREAM": 45,
+  "ENDEAVOR": 44,
+  "SIMS": 43,
+  "SLASH": 42,
+  "AMPLID": 40,
+  "SEASON": 40,
+  "SIGNAL": 38,
+  "WESTON": 37,
+  "ACADEMY": 35,
+  "TELOS": 34,
+  "UNIT": 33,
+  "MARHAR": 30,
+  "SANTA CRUZ": 30,
+  "LOBSTER": 28,
+};
 import { cosineSimilarity, getWeights } from "./cosine";
 import { calculateRecommendedSize } from "./size";
 
@@ -105,6 +158,13 @@ export function getRecommendations(
     };
   });
 
-  results.sort((a, b) => b.matchPercentage - a.matchPercentage);
+  results.sort((a, b) => {
+    if (b.matchPercentage !== a.matchPercentage) {
+      return b.matchPercentage - a.matchPercentage;
+    }
+    const pa = BRAND_POPULARITY[a.board.brand] ?? 0;
+    const pb = BRAND_POPULARITY[b.board.brand] ?? 0;
+    return pb - pa;
+  });
   return results.slice(0, 10);
 }

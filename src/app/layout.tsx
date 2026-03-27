@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SnowParticles } from "@/components/ui/SnowParticles";
 import { MountainSilhouette } from "@/components/ui/MountainSilhouette";
@@ -15,6 +15,12 @@ const geistMono = Geist_Mono({
 });
 
 const SITE_URL = "https://snowboard-recommender.vercel.app";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

@@ -29,25 +29,26 @@ export function StepStyle({ style, onStyleChange, onNext, onBack }: StepStylePro
 
       <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl p-6 mb-6">
         {STYLE_ITEMS.map((item) => (
-          <div key={item.key}>
-            <p className="text-xs text-slate-500 mb-0.5">{item.description}</p>
-            <Slider
-              label={item.label}
-              value={style[item.key]}
-              min={1}
-              max={10}
-              step={1}
-              onChange={(v) => onStyleChange(item.key, v)}
-            />
-          </div>
+          <Slider
+            key={item.key}
+            label={item.label}
+            hint={item.description}
+            value={style[item.key]}
+            min={1}
+            max={10}
+            step={1}
+            onChange={(v) => onStyleChange(item.key, v)}
+          />
         ))}
       </div>
 
-      <div className="flex justify-between">
-        <Button variant="secondary" onClick={onBack}>
-          戻る
-        </Button>
-        <Button onClick={onNext}>次へ</Button>
+      <div className="sticky bottom-0 pt-4 pb-2 safe-bottom bg-gradient-to-t from-[#0a1628] via-[#0a1628] to-transparent -mx-4 px-4">
+        <div className="flex justify-between">
+          <Button variant="secondary" onClick={onBack}>
+            戻る
+          </Button>
+          <Button onClick={onNext}>次へ</Button>
+        </div>
       </div>
     </div>
   );

@@ -204,17 +204,19 @@ export function StepBrands({
       )}
 
       {/* Buttons */}
-      <div className="flex gap-3 mt-4">
-        <Button variant="secondary" onClick={onBack}>
-          戻る
-        </Button>
-        <button
-          onClick={handleSkip}
-          className="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 font-medium transition-all duration-200 cursor-pointer text-sm border border-slate-700 hover:border-slate-600"
-        >
-          スキップ
-        </button>
-        <Button onClick={onNext}>診断する</Button>
+      <div className="sticky bottom-0 pt-4 pb-2 safe-bottom bg-gradient-to-t from-[#0a1628] via-[#0a1628] to-transparent -mx-4 px-4">
+        <div className="flex gap-3">
+          <Button variant="secondary" onClick={onBack}>
+            戻る
+          </Button>
+          <button
+            onClick={handleSkip}
+            className="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 font-medium transition-all duration-200 cursor-pointer text-sm border border-slate-700 hover:border-slate-600"
+          >
+            スキップ
+          </button>
+          <Button onClick={onNext}>診断する</Button>
+        </div>
       </div>
     </div>
   );
