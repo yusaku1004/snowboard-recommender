@@ -1,4 +1,11 @@
-import { UserInput, GenderPreference } from "@/types";
+import { UserInput, GenderPreference, Shape, FlexCategory, PriceRange } from "@/types";
+
+export type FilterState = {
+  brands: Set<string> | null;
+  shapes: Set<Shape> | null;
+  flex: Set<FlexCategory> | null;
+  priceRanges: Set<PriceRange> | null;
+};
 
 export function encodeInput(input: UserInput): string {
   const params = new URLSearchParams();
@@ -54,9 +61,54 @@ export function decodeInput(search: string): UserInput | null {
   };
 }
 
-export function getShareUrl(input: UserInput): string {
+export function decodeFilters(search: string): FilterState {
+  const params = new URLSearchParams(search);
+
+  const brandsStr = params.get("brands");
+  const brands = brandsStr ? new Set(brandsStr.split(",").filter(Boolean)) : null;
+
+  const shapesStr = params.get("shapes");
+  const validShapes: Shape[] = ["camber", "rocker", "flat", "hybrid_camber", "double_camber"];
+  const shapes = shapesStr
+    ? new Set(shapesStr.split(",").filter((s): s is Shape => validShapes.includes(s as Shape)))
+    : null;
+  const shapesResult = shapes && shapes.size > 0 ? shapes : null;
+
+  const flexStr = params.get("flex");
+  const validFlex: FlexCategory[] = ["soft", "mid", "hard"];
+  const flex = flexStr
+    ? new Set(flexStr.split(",").filter((f): f is FlexCategory => validFlex.includes(f as FlexCategory)))
+    : null;
+  const flexResult = flex && flex.size > 0 ? flex : null;
+
+  const prStr = params.get("pr");
+  const validPr: PriceRange[] = ["under50", "50to80", "80to100", "over100"];
+  const priceRanges = prStr
+    ? new Set(prStr.split(",").filter((p): p is PriceRange => validPr.includes(p as PriceRange)))
+    : null;
+  const priceRangesResult = priceRanges && priceRanges.size > 0 ? priceRanges : null;
+
+  return { brands, shapes: shapesResult, flex: flexResult, priceRanges: priceRangesResult };
+}
+
+export function getShareUrl(input: UserInput, filters?: FilterState): string {
   const base = typeof window !== "undefined" ? window.location.origin : "";
-  return `${base}/?${encodeInput(input)}`;
+  const params = new URLSearchParams(encodeInput(input));
+  if (filters) {
+    if (filters.brands !== null) {
+      params.set("brands", Array.from(filters.brands).join(","));
+    }
+    if (filters.shapes !== null) {
+      params.set("shapes", Array.from(filters.shapes).join(","));
+    }
+    if (filters.flex !== null) {
+      params.set("flex", Array.from(filters.flex).join(","));
+    }
+    if (filters.priceRanges !== null) {
+      params.set("pr", Array.from(filters.priceRanges).join(","));
+    }
+  }
+  return `${base}/?${params.toString()}`;
 }
 
 export function getTwitterShareUrl(input: UserInput, topBoardName: string): string {

@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { UserInput, Board, Shape, FlexCategory } from "@/types";
+import { UserInput, Board, Shape, FlexCategory, PriceRange } from "@/types";
 import { getRecommendations, estimateDiscountedPrice } from "@/lib/recommend";
-import { getShareUrl, getTwitterShareUrl } from "@/lib/share";
+import { getShareUrl, getTwitterShareUrl, FilterState } from "@/lib/share";
 import { BoardCard } from "@/components/results/BoardCard";
 import { AiExplanation } from "@/components/results/AiExplanation";
 import { MyBoardSelector } from "@/components/results/MyBoardSelector";
@@ -24,8 +24,6 @@ const ALL_FLEX: { value: FlexCategory; label: string; desc: string }[] = [
   { value: "mid", label: "ミドル", desc: "4〜6" },
   { value: "hard", label: "ハード", desc: "7〜10" },
 ];
-
-type PriceRange = "under50" | "50to80" | "80to100" | "over100";
 
 const ALL_PRICE_RANGES: { value: PriceRange; label: string; desc: string }[] = [
   { value: "under50", label: "〜5万", desc: "¥50,000未満" },
@@ -48,6 +46,7 @@ interface StepResultsProps {
   initialBrands?: Set<string> | null;
   initialShapes?: Set<Shape> | null;
   initialFlex?: Set<FlexCategory> | null;
+  initialPriceRanges?: Set<PriceRange> | null;
 }
 
 const FLEX_RANGES: Record<FlexCategory, [number, number]> = {
@@ -70,12 +69,13 @@ export function StepResults({
   initialBrands = null,
   initialShapes = null,
   initialFlex = null,
+  initialPriceRanges = null,
 }: StepResultsProps) {
   const [copied, setCopied] = useState(false);
   const [selectedBrands, setSelectedBrands] = useState<Set<string> | null>(initialBrands);
   const [selectedShapes, setSelectedShapes] = useState<Set<Shape> | null>(initialShapes);
   const [selectedFlex, setSelectedFlex] = useState<Set<FlexCategory> | null>(initialFlex);
-  const [selectedPriceRanges, setSelectedPriceRanges] = useState<Set<PriceRange> | null>(null);
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState<Set<PriceRange> | null>(initialPriceRanges);
   const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
   const [myBoard, setMyBoard] = useState<Board | null>(null);
 
@@ -176,8 +176,22 @@ export function StepResults({
     });
   };
 
+  const resetAllFilters = () => {
+    setSelectedBrands(null);
+    setSelectedShapes(null);
+    setSelectedFlex(null);
+    setSelectedPriceRanges(null);
+  };
+
+  const currentFilters: FilterState = {
+    brands: selectedBrands,
+    shapes: selectedShapes,
+    flex: selectedFlex,
+    priceRanges: selectedPriceRanges,
+  };
+
   const handleCopyUrl = async () => {
-    const url = getShareUrl(input);
+    const url = getShareUrl(input, currentFilters);
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
@@ -392,11 +406,29 @@ export function StepResults({
         </p>
       )}
 
-      <div className="space-y-3 mb-4">
-        {results.map((result, i) => (
-          <BoardCard key={`${result.board.brand}-${result.board.model}-${result.board.year}`} result={result} rank={i + 1} budget={input.budget} budgetFlexibility={input.budgetFlexibility} myBoard={myBoard} />
-        ))}
-      </div>
+      {results.length === 0 ? (
+        <div className="text-center py-12 px-4">
+          <div className="w-14 h-14 rounded-2xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center mx-auto mb-4">
+            <svg className="w-7 h-7 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <p className="text-slate-400 font-medium mb-1">条件に合うボードが見つかりませんでした</p>
+          <p className="text-slate-600 text-sm mb-5">絞り込み条件を緩めてみてください</p>
+          <button
+            onClick={resetAllFilters}
+            className="px-5 py-2.5 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30 text-sm font-medium hover:bg-sky-500/20 transition-all cursor-pointer"
+          >
+            絞り込みをすべてリセット
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-3 mb-4">
+          {results.map((result, i) => (
+            <BoardCard key={`${result.board.brand}-${result.board.model}-${result.board.year}`} result={result} rank={i + 1} budget={input.budget} budgetFlexibility={input.budgetFlexibility} myBoard={myBoard} />
+          ))}
+        </div>
+      )}
 
       {/* Share buttons */}
       <div className="flex flex-col sm:flex-row gap-2 mb-6">

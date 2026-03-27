@@ -8,7 +8,7 @@ export function calculateRecommendedSize(
   gender: GenderPreference = "all"
 ): number {
   // Base size: height - 15 (womens: height - 20)
-  let idealSize = gender === "womens" ? height - 20 : height - 15;
+  let idealSize = height - 15;
 
   // Weight adjustment
   const standardWeight = (height - 100) * 0.9;
@@ -28,9 +28,8 @@ export function calculateRecommendedSize(
 
   // Gratri / Park preference -> shorter
   // User style is on 1-5 scale; ≥4 = strong, 5 = max
-  if (style.ground_tricks >= 4 || style.park >= 4) {
-    const maxScore = Math.max(style.ground_tricks, style.park);
-    adjustments.push(maxScore >= 5 ? -3 : -2);
+  if (style.ground_tricks >= 4) {
+    adjustments.push(style.ground_tricks >= 5 ? -4 : -3);
   }
 
   // Carving / Powder preference -> longer

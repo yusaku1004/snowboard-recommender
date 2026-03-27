@@ -23,6 +23,8 @@ const SHAPE_LABELS: Record<string, string> = {
 // Affiliate search URL generators
 const RAKUTEN_AFF_ID = "4f6d7a0c.02dfc7fe.4f6d7a0d.fb8f2dc4";
 const AMAZON_TAG = "fsaunaswh-22";
+const YAHOO_SID = "3766210";
+const YAHOO_PID = "892578624";
 
 function buildSearchQuery(brand: string, model: string): string {
   return `${brand} ${model} スノーボード`;
@@ -41,7 +43,8 @@ function getAmazonSearchUrl(brand: string, model: string): string {
 
 function getYahooSearchUrl(brand: string, model: string): string {
   const query = encodeURIComponent(buildSearchQuery(brand, model));
-  return `https://shopping.yahoo.co.jp/search?p=${query}`;
+  const targetUrl = `https://shopping.yahoo.co.jp/search?p=${query}`;
+  return `https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=${YAHOO_SID}&pid=${YAHOO_PID}&vc_url=${encodeURIComponent(targetUrl)}`;
 }
 
 // Brand-based color for placeholder

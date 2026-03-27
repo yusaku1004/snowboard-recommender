@@ -32,6 +32,7 @@ const BRAND_POPULARITY: Record<string, number> = {
   "SPREAD": 53,
   "MOSS": 52,
   "011 Artistic": 51,
+  "GT Snowboards": 55,
   "DEATH LABEL": 50,
   "KORUA": 50,
   "DRAKE": 48,
@@ -159,7 +160,17 @@ export function getRecommendations(
     };
   });
 
-  results.sort((a, b) => {
+  // Deduplicate: keep only the best-scoring year per brand+model
+  const seen = new Map<string, RecommendResult>();
+  for (const r of results) {
+    const key = `${r.board.brand}|${r.board.model}`;
+    if (!seen.has(key) || r.matchPercentage > seen.get(key)!.matchPercentage) {
+      seen.set(key, r);
+    }
+  }
+  const deduped = Array.from(seen.values());
+
+  deduped.sort((a, b) => {
     if (b.matchPercentage !== a.matchPercentage) {
       return b.matchPercentage - a.matchPercentage;
     }
@@ -167,5 +178,5 @@ export function getRecommendations(
     const pb = BRAND_POPULARITY[b.board.brand] ?? 0;
     return pb - pa;
   });
-  return results.slice(0, 10);
+  return deduped.slice(0, 10);
 }

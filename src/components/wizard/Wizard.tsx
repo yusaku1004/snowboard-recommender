@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { StyleScores, UserInput, GenderPreference, Shape, FlexCategory } from "@/types";
-import { decodeInput } from "@/lib/share";
+import { StyleScores, UserInput, GenderPreference, Shape, FlexCategory, PriceRange } from "@/types";
+import { decodeInput, decodeFilters } from "@/lib/share";
 import { StepIndicator } from "@/components/ui/StepIndicator";
 import { StepPhysique } from "./StepPhysique";
 import { StepStyle } from "./StepStyle";
@@ -30,6 +30,7 @@ export function Wizard() {
   const [selectedBrands, setSelectedBrands] = useState<Set<string> | null>(null);
   const [selectedShapes, setSelectedShapes] = useState<Set<Shape> | null>(null);
   const [selectedFlex, setSelectedFlex] = useState<Set<FlexCategory> | null>(null);
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState<Set<PriceRange> | null>(null);
   const [restored, setRestored] = useState(false);
 
   // Restore from URL parameters
@@ -47,6 +48,12 @@ export function Wizard() {
     setStyle(input.style);
     setBudget(input.budget);
     setBudgetFlexibility(input.budgetFlexibility);
+
+    const filters = decodeFilters(search);
+    setSelectedBrands(filters.brands);
+    setSelectedShapes(filters.shapes);
+    setSelectedFlex(filters.flex);
+    setSelectedPriceRanges(filters.priceRanges);
     setRestored(true);
   }, []);
 
@@ -98,6 +105,7 @@ export function Wizard() {
     setSelectedBrands(null);
     setSelectedShapes(null);
     setSelectedFlex(null);
+    setSelectedPriceRanges(null);
     // Clear URL params
     if (typeof window !== "undefined") {
       window.history.replaceState({}, "", window.location.pathname);
@@ -180,6 +188,7 @@ export function Wizard() {
               initialBrands={selectedBrands}
               initialShapes={selectedShapes}
               initialFlex={selectedFlex}
+              initialPriceRanges={selectedPriceRanges}
             />
           )}
         </div>

@@ -2,6 +2,8 @@ export type Shape = "camber" | "rocker" | "flat" | "hybrid_camber" | "double_cam
 
 export type FlexCategory = "soft" | "mid" | "hard";
 
+export type PriceRange = "under50" | "50to80" | "80to100" | "over100";
+
 export type BoardGender = "mens" | "womens" | "unisex";
 
 export type GenderPreference = "mens" | "womens" | "all";
