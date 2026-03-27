@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { UserInput, Board, Shape, FlexCategory } from "@/types";
-import { getRecommendations } from "@/lib/recommend";
+import { getRecommendations, estimateDiscountedPrice } from "@/lib/recommend";
 import { getShareUrl, getTwitterShareUrl } from "@/lib/share";
 import { BoardCard } from "@/components/results/BoardCard";
 import { AiExplanation } from "@/components/results/AiExplanation";
@@ -24,6 +24,23 @@ const ALL_FLEX: { value: FlexCategory; label: string; desc: string }[] = [
   { value: "mid", label: "ミドル", desc: "4〜6" },
   { value: "hard", label: "ハード", desc: "7〜10" },
 ];
+
+type PriceRange = "under50" | "50to80" | "80to100" | "over100";
+
+const ALL_PRICE_RANGES: { value: PriceRange; label: string; desc: string }[] = [
+  { value: "under50", label: "〜5万", desc: "¥50,000未満" },
+  { value: "50to80", label: "5〜8万", desc: "¥50,000〜80,000" },
+  { value: "80to100", label: "8〜10万", desc: "¥80,000〜100,000" },
+  { value: "over100", label: "10万〜", desc: "¥100,000以上" },
+];
+
+function matchesPriceRange(estimatedPrice: number, ranges: Set<PriceRange>): boolean {
+  if (ranges.has("under50") && estimatedPrice < 50000) return true;
+  if (ranges.has("50to80") && estimatedPrice >= 50000 && estimatedPrice < 80000) return true;
+  if (ranges.has("80to100") && estimatedPrice >= 80000 && estimatedPrice < 100000) return true;
+  if (ranges.has("over100") && estimatedPrice >= 100000) return true;
+  return false;
+}
 
 interface StepResultsProps {
   input: UserInput;
@@ -58,6 +75,7 @@ export function StepResults({
   const [selectedBrands, setSelectedBrands] = useState<Set<string> | null>(initialBrands);
   const [selectedShapes, setSelectedShapes] = useState<Set<Shape> | null>(initialShapes);
   const [selectedFlex, setSelectedFlex] = useState<Set<FlexCategory> | null>(initialFlex);
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState<Set<PriceRange> | null>(null);
   const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
   const [myBoard, setMyBoard] = useState<Board | null>(null);
 
@@ -70,9 +88,9 @@ export function StepResults({
   }, [allBoards]);
 
   const allBrandsSelected = selectedBrands === null;
-
   const allShapesSelected = selectedShapes === null;
   const allFlexSelected = selectedFlex === null;
+  const allPriceRangesSelected = selectedPriceRanges === null;
 
   const toggleShape = (shape: Shape) => {
     const all = ALL_SHAPES.map((s) => s.value);
@@ -104,10 +122,26 @@ export function StepResults({
     });
   };
 
+  const togglePriceRange = (range: PriceRange) => {
+    const all = ALL_PRICE_RANGES.map((p) => p.value);
+    setSelectedPriceRanges((prev) => {
+      const next = new Set(prev ?? all);
+      if (next.has(range)) {
+        next.delete(range);
+        if (next.size === 0) return null;
+      } else {
+        next.add(range);
+        if (next.size === ALL_PRICE_RANGES.length) return null;
+      }
+      return next;
+    });
+  };
+
   const activeFilterCount =
     (allBrandsSelected ? 0 : 1) +
     (allShapesSelected ? 0 : 1) +
-    (allFlexSelected ? 0 : 1);
+    (allFlexSelected ? 0 : 1) +
+    (allPriceRangesSelected ? 0 : 1);
 
   const results = useMemo(() => {
     let filtered = allBoards;
@@ -120,8 +154,13 @@ export function StepResults({
     if (!allFlexSelected) {
       filtered = filtered.filter((b) => matchesFlex(b.flex, selectedFlex!));
     }
+    if (!allPriceRangesSelected) {
+      filtered = filtered.filter((b) =>
+        matchesPriceRange(estimateDiscountedPrice(b.price, b.year), selectedPriceRanges!)
+      );
+    }
     return getRecommendations(filtered, input);
-  }, [allBoards, input, allBrandsSelected, selectedBrands, allShapesSelected, selectedShapes, allFlexSelected, selectedFlex]);
+  }, [allBoards, input, allBrandsSelected, selectedBrands, allShapesSelected, selectedShapes, allFlexSelected, selectedFlex, allPriceRangesSelected, selectedPriceRanges]);
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prev) => {
@@ -208,6 +247,36 @@ export function StepResults({
         onClose={() => setIsFilterSheetOpen(false)}
         title="絞り込み"
       >
+        {/* Price filter */}
+        <div className="mb-5">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-xs text-slate-400 font-medium">価格帯（推定）</p>
+            {!allPriceRangesSelected && (
+              <button onClick={() => setSelectedPriceRanges(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">
+                すべて選択
+              </button>
+            )}
+          </div>
+          <div className="flex gap-2">
+            {ALL_PRICE_RANGES.map((p) => {
+              const isSelected = allPriceRangesSelected || selectedPriceRanges!.has(p.value);
+              return (
+                <button
+                  key={p.value}
+                  onClick={() => togglePriceRange(p.value)}
+                  className={`flex-1 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border text-center ${
+                    isSelected
+                      ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
+                      : "bg-slate-800/60 text-slate-500 border-slate-700/50"
+                  }`}
+                >
+                  <div>{p.label}</div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Shape filter */}
         <div className="mb-5">
           <div className="flex items-center justify-between mb-2">

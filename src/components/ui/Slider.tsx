@@ -26,6 +26,9 @@ export function Slider({
   const displayValue = formatValue ? formatValue(value) : `${value}${unit}`;
   const percent = ((value - min) / (max - min)) * 100;
 
+  const decrement = () => onChange(Math.max(min, value - step));
+  const increment = () => onChange(Math.min(max, value + step));
+
   return (
     <div className="mb-6">
       <div className="flex justify-between items-baseline mb-3">
@@ -37,22 +40,41 @@ export function Slider({
           {displayValue}
         </span>
       </div>
-      <div className="relative">
-        {/* Filled track */}
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 h-1.5 rounded-full bg-gradient-to-r from-sky-500 to-cyan-400 pointer-events-none"
-          style={{ width: `${percent}%` }}
-        />
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
-          className="w-full relative z-10"
-        />
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={decrement}
+          disabled={value <= min}
+          className="flex-shrink-0 w-11 h-11 rounded-xl bg-slate-800 border border-slate-700/60 text-slate-300 text-xl font-bold flex items-center justify-center transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed touch-manipulation"
+        >
+          −
+        </button>
+        <div className="relative flex-1">
+          {/* Filled track */}
+          <div
+            className="absolute top-1/2 left-0 -translate-y-1/2 h-1.5 rounded-full bg-gradient-to-r from-sky-500 to-cyan-400 pointer-events-none"
+            style={{ width: `${percent}%` }}
+          />
+          <input
+            type="range"
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            onChange={(e) => onChange(Number(e.target.value))}
+            className="w-full relative z-10"
+          />
+        </div>
+        <button
+          type="button"
+          onClick={increment}
+          disabled={value >= max}
+          className="flex-shrink-0 w-11 h-11 rounded-xl bg-slate-800 border border-slate-700/60 text-slate-300 text-xl font-bold flex items-center justify-center transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed touch-manipulation"
+        >
+          ＋
+        </button>
       </div>
-      <div className="flex justify-between text-xs text-slate-600 mt-1.5">
+      <div className="flex justify-between text-xs text-slate-600 mt-1.5 px-14">
         <span>{formatValue ? formatValue(min) : `${min}${unit}`}</span>
         <span>{formatValue ? formatValue(max) : `${max}${unit}`}</span>
       </div>

@@ -38,7 +38,7 @@ export function StepBudget({
           label="予算上限"
           value={budget}
           min={30000}
-          max={150000}
+          max={200000}
           step={5000}
           formatValue={formatYen}
           onChange={onBudgetChange}
@@ -58,7 +58,7 @@ export function StepBudget({
               型落ちモデルは推定価格を自動で割引します
             </p>
             <p className="text-xs text-slate-500 leading-relaxed">
-              1年落ち → 約20%OFF / 2年落ち → 約35%OFF / 3年以上 → 約45%OFF
+              現行 → 約10%OFF / 1年落ち → 約15%OFF / 2年落ち → 約30%OFF / 3年以上 → 約40%OFF
             </p>
           </div>
         </div>

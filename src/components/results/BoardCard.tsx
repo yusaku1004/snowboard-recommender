@@ -72,13 +72,25 @@ const GENDER_LABELS: Record<string, string> = {
   unisex: "ユニセックス",
 };
 
-function getYearsOldLabel(year: number): string | null {
+function getSeasonAge(year: number): number {
   const now = new Date();
   const currentSeasonYear =
     now.getMonth() >= 7 ? now.getFullYear() + 1 : now.getFullYear();
-  const yearsOld = currentSeasonYear - year;
+  return currentSeasonYear - year;
+}
+
+function getYearsOldLabel(year: number): string | null {
+  const yearsOld = getSeasonAge(year);
   if (yearsOld <= 0) return null;
   return `${yearsOld}年落ち`;
+}
+
+function getDiscountLabel(year: number): string {
+  const yearsOld = getSeasonAge(year);
+  if (yearsOld <= 0) return "10% OFF";
+  if (yearsOld === 1) return "15% OFF";
+  if (yearsOld === 2) return "30% OFF";
+  return "40% OFF";
 }
 
 function getRankStyle(rank: number) {
@@ -217,7 +229,12 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard }: 
         <div className="expand-enter px-4 pb-4 border-t border-white/[0.06] pt-4">
           <div className="grid grid-cols-2 gap-4 text-sm mb-5">
             <div className="bg-slate-800/40 rounded-xl p-3">
-              <span className="text-xs text-slate-500">価格</span>
+              <div className="flex items-center justify-between mb-0.5">
+                <span className="text-xs text-slate-500">価格</span>
+                <span className="text-[10px] font-semibold bg-sky-500/15 text-sky-400 px-1.5 py-0.5 rounded-full">
+                  {getDiscountLabel(board.year)}
+                </span>
+              </div>
               {hasDiscount ? (
                 <div>
                   <p className="text-xs text-slate-600 line-through">

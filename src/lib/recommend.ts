@@ -99,10 +99,10 @@ export function estimateDiscountedPrice(price: number, year: number): number {
   const yearsOld = currentSeasonYear - year;
 
   let discount = 0;
-  if (yearsOld <= 0) discount = 0;
-  else if (yearsOld === 1) discount = 0.2;
-  else if (yearsOld === 2) discount = 0.35;
-  else discount = 0.45;
+  if (yearsOld <= 0) discount = 0.1;
+  else if (yearsOld === 1) discount = 0.15;
+  else if (yearsOld === 2) discount = 0.3;
+  else discount = 0.4;
 
   return Math.round(price * (1 - discount));
 }
