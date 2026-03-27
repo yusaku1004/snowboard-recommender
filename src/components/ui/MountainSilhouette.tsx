@@ -1,6 +1,6 @@
 export function MountainSilhouette() {
   return (
-    <div className="fixed bottom-0 left-0 right-0 pointer-events-none z-0 h-24 sm:h-32 md:h-40">
+    <div className="fixed bottom-0 left-0 right-0 pointer-events-none z-5 h-24 sm:h-32 md:h-40">
       <svg
         viewBox="0 0 1440 320"
         className="w-full h-full"
