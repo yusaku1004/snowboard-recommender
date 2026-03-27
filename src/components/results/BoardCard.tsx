@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { RecommendResult } from "@/types";
+import { RecommendResult, Board } from "@/types";
 import { RadarChart } from "./RadarChart";
 
 interface BoardCardProps {
@@ -9,6 +9,7 @@ interface BoardCardProps {
   rank: number;
   budget: number;
   budgetFlexibility: number;
+  myBoard?: Board | null;
 }
 
 const SHAPE_LABELS: Record<string, string> = {
@@ -94,7 +95,22 @@ function getMatchColor(pct: number): string {
   return "from-slate-400 to-slate-500";
 }
 
-export function BoardCard({ result, rank, budget, budgetFlexibility }: BoardCardProps) {
+function getFlexLabel(flex: number): string {
+  if (flex <= 3) return "ソフト";
+  if (flex <= 6) return "ミドル";
+  return "ハード";
+}
+
+function getFlexDiff(target: number, mine: number): string | null {
+  const diff = target - mine;
+  if (diff === 0) return "同じ硬さ";
+  const abs = Math.abs(diff);
+  return diff > 0
+    ? `${abs}段階硬い`
+    : `${abs}段階柔らかい`;
+}
+
+export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard }: BoardCardProps) {
   const [expanded, setExpanded] = useState(false);
   const { board, matchPercentage, recommendedSize, overBudget, estimatedPrice } = result;
   const hasDiscount = estimatedPrice < board.price;
@@ -268,8 +284,48 @@ export function BoardCard({ result, rank, budget, budgetFlexibility }: BoardCard
           {/* Radar chart */}
           <div className="mb-5">
             <p className="text-xs text-slate-500 mb-2 font-medium">スタイル適性</p>
-            <RadarChart scores={board.style_scores} />
+            <RadarChart
+              scores={board.style_scores}
+              compareScores={myBoard?.style_scores}
+              compareLabel="自分の板"
+            />
           </div>
+
+          {/* Comparison with my board */}
+          {myBoard && (
+            <div className="mb-5 bg-orange-500/5 border border-orange-500/15 rounded-xl p-3">
+              <p className="text-xs text-orange-400 font-medium mb-2.5">
+                {myBoard.brand} {myBoard.model} との比較
+              </p>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="bg-slate-800/40 rounded-lg px-2.5 py-2">
+                  <span className="text-slate-500">フレックス</span>
+                  <p className="text-white font-medium mt-0.5">
+                    {getFlexLabel(board.flex)}({board.flex})
+                    <span className="text-orange-400 ml-1">
+                      vs {getFlexLabel(myBoard.flex)}({myBoard.flex})
+                    </span>
+                  </p>
+                  <p className="text-[10px] text-slate-400 mt-0.5">
+                    {getFlexDiff(board.flex, myBoard.flex)}
+                  </p>
+                </div>
+                <div className="bg-slate-800/40 rounded-lg px-2.5 py-2">
+                  <span className="text-slate-500">形状</span>
+                  <p className="text-white font-medium mt-0.5">
+                    {SHAPE_LABELS[board.shape]}
+                  </p>
+                  {board.shape !== myBoard.shape ? (
+                    <p className="text-[10px] text-orange-400 mt-0.5">
+                      {SHAPE_LABELS[myBoard.shape]} → {SHAPE_LABELS[board.shape]}
+                    </p>
+                  ) : (
+                    <p className="text-[10px] text-slate-400 mt-0.5">同じ形状</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* EC search links */}
           <div className="flex flex-wrap gap-2">

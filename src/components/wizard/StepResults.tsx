@@ -6,6 +6,7 @@ import { getRecommendations } from "@/lib/recommend";
 import { getShareUrl, getTwitterShareUrl } from "@/lib/share";
 import { BoardCard } from "@/components/results/BoardCard";
 import { AiExplanation } from "@/components/results/AiExplanation";
+import { MyBoardSelector } from "@/components/results/MyBoardSelector";
 import { Button } from "@/components/ui/Button";
 import { BottomSheet } from "@/components/ui/BottomSheet";
 import boardsData from "@/data/boards_data.json";
@@ -42,6 +43,7 @@ export function StepResults({
   const [copied, setCopied] = useState(false);
   const [selectedBrands, setSelectedBrands] = useState<Set<string> | null>(initialBrands);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [myBoard, setMyBoard] = useState<Board | null>(null);
 
   const allBoards = boardsData as Board[];
 
@@ -125,8 +127,13 @@ export function StepResults({
         <AiExplanation input={input} result={results[0]} />
       )}
 
-      {/* Brand filter */}
-      <div className="mb-5">
+      {/* Filters */}
+      <div className="flex flex-wrap gap-2 mb-5">
+        <MyBoardSelector
+          boards={allBoards}
+          selectedBoard={myBoard}
+          onSelect={setMyBoard}
+        />
         <button
           onClick={() => setIsSheetOpen(true)}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium border transition-all duration-200 cursor-pointer ${
@@ -202,7 +209,7 @@ export function StepResults({
 
       <div className="space-y-3 mb-4">
         {results.map((result, i) => (
-          <BoardCard key={`${result.board.brand}-${result.board.model}-${result.board.year}`} result={result} rank={i + 1} budget={input.budget} budgetFlexibility={input.budgetFlexibility} />
+          <BoardCard key={`${result.board.brand}-${result.board.model}-${result.board.year}`} result={result} rank={i + 1} budget={input.budget} budgetFlexibility={input.budgetFlexibility} myBoard={myBoard} />
         ))}
       </div>
 

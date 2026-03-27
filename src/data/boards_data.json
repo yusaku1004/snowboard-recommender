@@ -1279,7 +1279,7 @@
     "model": "Custom Flying V",
     "year": 2026,
     "flex": 6,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "available_lengths": [
       150,
       154,
@@ -1447,31 +1447,6 @@
   },
   {
     "brand": "BURTON",
-    "model": "High Fidelity",
-    "year": 2026,
-    "flex": 7,
-    "shape": "camber",
-    "gender": "unisex",
-    "available_lengths": [
-      150,
-      154,
-      158,
-      162,
-      166
-    ],
-    "price": 92400,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 3,
-      "park": 3,
-      "carving": 9,
-      "run_tricks": 8,
-      "powder": 8
-    }
-  },
-  {
-    "brand": "BURTON",
     "model": "Instigator",
     "year": 2026,
     "flex": 3,
@@ -1542,30 +1517,6 @@
       "carving": 4,
       "run_tricks": 5,
       "powder": 4
-    }
-  },
-  {
-    "brand": "BURTON",
-    "model": "Smooth Operator",
-    "year": 2026,
-    "flex": 7,
-    "shape": "camber",
-    "gender": "unisex",
-    "available_lengths": [
-      144,
-      148,
-      156,
-      158
-    ],
-    "price": 105600,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 3,
-      "park": 3,
-      "carving": 9,
-      "run_tricks": 7,
-      "powder": 9
     }
   },
   {
@@ -1717,36 +1668,10 @@
   },
   {
     "brand": "CAPITA",
-    "model": "Defenders of Awesome",
-    "year": 2026,
-    "flex": 6,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      150,
-      152,
-      154,
-      156,
-      158,
-      160
-    ],
-    "price": 79200,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 6,
-      "park": 7,
-      "carving": 7,
-      "run_tricks": 7,
-      "powder": 5
-    },
-    "gender": "mens"
-  },
-  {
-    "brand": "CAPITA",
     "model": "DOA",
     "year": 2026,
     "flex": 6,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "available_lengths": [
       150,
       152,
@@ -6019,14 +5944,14 @@
     "brand": "NITRO",
     "model": "Beast",
     "year": 2026,
-    "flex": 8,
+    "flex": 9,
     "shape": "camber",
     "gender": "mens",
     "available_lengths": [
+      151,
       155,
       158,
-      161,
-      164
+      162
     ],
     "price": 104500,
     "image_url": "",
@@ -6043,12 +5968,11 @@
     "brand": "NITRO",
     "model": "Cheap Thrills",
     "year": 2026,
-    "flex": 4,
-    "shape": "flat",
+    "flex": 5,
+    "shape": "camber",
     "gender": "mens",
     "available_lengths": [
       148,
-      150,
       152,
       155,
       157
@@ -6068,15 +5992,14 @@
     "brand": "NITRO",
     "model": "Cinema",
     "year": 2026,
-    "flex": 3,
-    "shape": "flat",
+    "flex": 5,
+    "shape": "double_camber",
     "gender": "mens",
     "available_lengths": [
-      148,
-      150,
       152,
       155,
-      157
+      159,
+      162
     ],
     "price": 55000,
     "image_url": "",
@@ -6142,12 +6065,11 @@
     "brand": "NITRO",
     "model": "Fintwin",
     "year": 2026,
-    "flex": 5,
-    "shape": "double_camber",
+    "flex": 7,
+    "shape": "camber",
     "available_lengths": [
-      152,
-      155,
-      158
+      149,
+      154
     ],
     "price": 77000,
     "image_url": "",
@@ -6165,14 +6087,14 @@
     "brand": "NITRO",
     "model": "Magnum",
     "year": 2026,
-    "flex": 6,
+    "flex": 7,
     "shape": "camber",
     "gender": "mens",
     "available_lengths": [
-      155,
       159,
-      162,
-      165
+      163,
+      167,
+      171
     ],
     "price": 82500,
     "image_url": "",
@@ -6190,13 +6112,15 @@
     "model": "Mystique",
     "year": 2026,
     "flex": 4,
-    "shape": "hybrid_camber",
+    "shape": "double_camber",
     "gender": "womens",
     "available_lengths": [
+      138,
       142,
       146,
       149,
-      152
+      152,
+      155
     ],
     "price": 66000,
     "image_url": "",
@@ -6217,10 +6141,11 @@
     "shape": "camber",
     "gender": "mens",
     "available_lengths": [
-      152,
-      155,
-      158,
-      161
+      146,
+      149,
+      153,
+      156,
+      159
     ],
     "price": 88000,
     "image_url": "",
@@ -6237,13 +6162,11 @@
     "brand": "NITRO",
     "model": "Pantera",
     "year": 2026,
-    "flex": 8,
+    "flex": 9,
     "shape": "camber",
     "available_lengths": [
-      156,
-      159,
-      162,
-      166
+      160,
+      163
     ],
     "price": 88000,
     "image_url": "",
@@ -6261,12 +6184,11 @@
     "brand": "NITRO",
     "model": "Pow",
     "year": 2026,
-    "flex": 6,
+    "flex": 8,
     "shape": "rocker",
     "available_lengths": [
-      152,
-      156,
-      160
+      157,
+      163
     ],
     "price": 88000,
     "image_url": "",
@@ -6284,13 +6206,12 @@
     "brand": "NITRO",
     "model": "Santoku",
     "year": 2026,
-    "flex": 6,
-    "shape": "hybrid_camber",
+    "flex": 5,
+    "shape": "camber",
     "available_lengths": [
-      152,
-      155,
-      158,
-      161
+      156,
+      159,
+      162
     ],
     "price": 85800,
     "image_url": "",
@@ -6311,10 +6232,9 @@
     "flex": 7,
     "shape": "camber",
     "available_lengths": [
-      155,
-      158,
-      161,
-      164
+      151,
+      156,
+      162
     ],
     "price": 82500,
     "image_url": "",
@@ -6332,12 +6252,10 @@
     "brand": "NITRO",
     "model": "Squash",
     "year": 2026,
-    "flex": 5,
-    "shape": "hybrid_camber",
+    "flex": 7,
+    "shape": "camber",
     "gender": "mens",
     "available_lengths": [
-      148,
-      152,
       156,
       159,
       163
@@ -6355,40 +6273,16 @@
   },
   {
     "brand": "NITRO",
-    "model": "Suprateam",
+    "model": "T1",
     "year": 2026,
     "flex": 7,
     "shape": "camber",
     "gender": "mens",
     "available_lengths": [
+      149,
+      152,
       155,
-      158,
-      161
-    ],
-    "price": 115500,
-    "image_url": "",
-    "url": "https://www.nitrosnowboards.com/en/suprateam",
-    "style_scores": {
-      "ground_tricks": 3,
-      "park": 5,
-      "carving": 9,
-      "run_tricks": 8,
-      "powder": 7
-    }
-  },
-  {
-    "brand": "NITRO",
-    "model": "T1",
-    "year": 2026,
-    "flex": 4,
-    "shape": "flat",
-    "gender": "mens",
-    "available_lengths": [
-      148,
-      151,
-      153,
-      155,
-      157
+      158
     ],
     "price": 60500,
     "image_url": "",
@@ -6405,7 +6299,7 @@
     "brand": "NITRO",
     "model": "Team",
     "year": 2026,
-    "flex": 6,
+    "flex": 7,
     "shape": "camber",
     "gender": "mens",
     "available_lengths": [
@@ -6430,10 +6324,13 @@
     "brand": "NITRO",
     "model": "Team Pro",
     "year": 2026,
-    "flex": 7,
+    "flex": 8,
     "shape": "camber",
     "gender": "mens",
     "available_lengths": [
+      146,
+      149,
+      152,
       155,
       157,
       159,
