@@ -10682,5 +10682,916 @@
       "run_tricks": 5,
       "powder": 8
     }
+  },
+  {
+    "brand": "WRX SB",
+    "model": "Mk-CW",
+    "year": 2026,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      144,
+      146,
+      150,
+      153,
+      156
+    ],
+    "price": 135300,
+    "image_url": "",
+    "url": "https://www.follows.co.jp/SHOP/sn-sb-wrx-005.html",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 5,
+      "carving": 9,
+      "run_tricks": 8,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "WRX SB",
+    "model": "Mk-S",
+    "year": 2026,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      142,
+      145,
+      149,
+      152,
+      155,
+      158
+    ],
+    "price": 132000,
+    "image_url": "",
+    "url": "https://www.follows.co.jp/SHOP/sn-sb-rice28-083.html",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 6,
+      "carving": 7,
+      "run_tricks": 9,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "WRX SB",
+    "model": "Mk-U",
+    "year": 2026,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      141,
+      145,
+      149,
+      152,
+      155
+    ],
+    "price": 135300,
+    "image_url": "",
+    "url": "https://www.follows.co.jp/SHOP/sn-sb-wrx-004.html",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 5,
+      "carving": 8,
+      "run_tricks": 7,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "leverage",
+    "model": "GT1",
+    "year": 2026,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      137,
+      140,
+      143,
+      148,
+      151,
+      154
+    ],
+    "price": 106700,
+    "image_url": "",
+    "url": "https://www.misty-snow.com/leverage_gt1.html",
+    "style_scores": {
+      "ground_tricks": 10,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 7,
+      "powder": 2
+    }
+  },
+  {
+    "brand": "leverage",
+    "model": "GT2",
+    "year": 2026,
+    "flex": 4,
+    "shape": "double_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      137,
+      141,
+      145,
+      148,
+      151,
+      154
+    ],
+    "price": 106700,
+    "image_url": "",
+    "url": "https://www.misty-snow.com/leverage_gt2.html",
+    "style_scores": {
+      "ground_tricks": 9,
+      "park": 7,
+      "carving": 6,
+      "run_tricks": 8,
+      "powder": 2
+    }
+  },
+  {
+    "brand": "leverage",
+    "model": "GT3",
+    "year": 2026,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      137,
+      141,
+      145,
+      149,
+      152,
+      155
+    ],
+    "price": 104500,
+    "image_url": "",
+    "url": "https://www.misty-snow.com/leverage_gt3.html",
+    "style_scores": {
+      "ground_tricks": 8,
+      "park": 7,
+      "carving": 7,
+      "run_tricks": 9,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "FIELD EARTH",
+    "model": "ARTRIDE TWIN",
+    "year": 2026,
+    "flex": 4,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      151,
+      155
+    ],
+    "price": 100100,
+    "image_url": "",
+    "url": "https://aresbmx.com/?pid=179529227",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 8,
+      "carving": 4,
+      "run_tricks": 6,
+      "powder": 5
+    }
+  },
+  {
+    "brand": "FIELD EARTH",
+    "model": "ARTRIDE DIRECTIONAL",
+    "year": 2026,
+    "flex": 5,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      142,
+      145,
+      148,
+      153,
+      158
+    ],
+    "price": 119900,
+    "image_url": "",
+    "url": "https://aresbmx.com/?pid=179529056",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 6,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 6
+    }
+  },
+  {
+    "brand": "FIELD EARTH",
+    "model": "ARTRIDE 3D",
+    "year": 2026,
+    "flex": 5,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      159
+    ],
+    "price": 150700,
+    "image_url": "",
+    "url": "https://robinoutdoor.jp/products/field-earth-artride-3d",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 5,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 8
+    }
+  },
+  {
+    "brand": "FIELD EARTH",
+    "model": "X3",
+    "year": 2026,
+    "flex": 7,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      146,
+      153,
+      161
+    ],
+    "price": 174900,
+    "image_url": "",
+    "url": "https://www.fieldearthdesign.com/x3.html",
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 2,
+      "carving": 8,
+      "run_tricks": 5,
+      "powder": 9
+    }
+  },
+  {
+    "brand": "TJ Brand",
+    "model": "NAPOLEON FISH",
+    "year": 2026,
+    "flex": 4,
+    "shape": "rocker",
+    "gender": "unisex",
+    "available_lengths": [
+      142,
+      147,
+      153
+    ],
+    "price": 132000,
+    "image_url": "",
+    "url": "https://tj-brand.com/3dimensions/",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 4,
+      "run_tricks": 5,
+      "powder": 10
+    }
+  },
+  {
+    "brand": "TJ Brand",
+    "model": "DHINGI",
+    "year": 2026,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      155,
+      159
+    ],
+    "price": 137500,
+    "image_url": "",
+    "url": "https://tj-brand.com/3dimensions/",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 5,
+      "carving": 6,
+      "run_tricks": 7,
+      "powder": 8
+    }
+  },
+  {
+    "brand": "TJ Brand",
+    "model": "DRAFT F.T.C.",
+    "year": 2026,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      152,
+      156
+    ],
+    "price": 138600,
+    "image_url": "",
+    "url": "https://tj-brand.com/3dimensions/",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 7,
+      "carving": 6,
+      "run_tricks": 7,
+      "powder": 7
+    }
+  },
+  {
+    "brand": "TJ Brand",
+    "model": "COELACANTH",
+    "year": 2026,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      148,
+      155,
+      158,
+      161
+    ],
+    "price": 132000,
+    "image_url": "",
+    "url": "https://tj-brand.com/product/",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 5,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 7
+    }
+  },
+  {
+    "brand": "TJ Brand",
+    "model": "CRUISER",
+    "year": 2026,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      149,
+      156,
+      157,
+      160
+    ],
+    "price": 115500,
+    "image_url": "",
+    "url": "https://tj-brand.com/product/",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 4,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 8
+    }
+  },
+  {
+    "brand": "DINOSAURS WILL DIE",
+    "model": "NeverNot",
+    "year": 2025,
+    "flex": 7,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      153,
+      157,
+      161
+    ],
+    "price": 79000,
+    "image_url": "",
+    "url": "https://dinosaurswilldie.com/product/2425-nevernot/",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 7,
+      "carving": 6,
+      "run_tricks": 7,
+      "powder": 6
+    }
+  },
+  {
+    "brand": "DINOSAURS WILL DIE",
+    "model": "Wizard Stick",
+    "year": 2025,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      146,
+      149,
+      154,
+      158,
+      160
+    ],
+    "price": 70000,
+    "image_url": "",
+    "url": "https://dinosaurswilldie.com/product/2425-wizard-stick/",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 7
+    }
+  },
+  {
+    "brand": "DINOSAURS WILL DIE",
+    "model": "Rat",
+    "year": 2025,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      151,
+      153,
+      155
+    ],
+    "price": 63000,
+    "image_url": "",
+    "url": "https://dinosaurswilldie.com/product/2425-rat/",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 7,
+      "carving": 4,
+      "run_tricks": 6,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "DINOSAURS WILL DIE",
+    "model": "Perry",
+    "year": 2025,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      150,
+      153,
+      156,
+      159
+    ],
+    "price": 75000,
+    "image_url": "",
+    "url": "https://dinosaurswilldie.com/product/2425-perry/",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 5
+    }
+  },
+  {
+    "brand": "DINOSAURS WILL DIE",
+    "model": "maeTier",
+    "year": 2025,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      152,
+      155,
+      158,
+      162
+    ],
+    "price": 70000,
+    "image_url": "",
+    "url": "https://dinosaurswilldie.com/product/2425-maetier/",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 7,
+      "carving": 6,
+      "run_tricks": 6,
+      "powder": 6
+    }
+  },
+  {
+    "brand": "DINOSAURS WILL DIE",
+    "model": "maeT",
+    "year": 2025,
+    "flex": 5,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      148,
+      152,
+      155,
+      158
+    ],
+    "price": 63000,
+    "image_url": "",
+    "url": "https://dinosaurswilldie.com/product/2425-maet/",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 7,
+      "carving": 4,
+      "run_tricks": 6,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "DINOSAURS WILL DIE",
+    "model": "Holce",
+    "year": 2025,
+    "flex": 6,
+    "shape": "flat",
+    "gender": "unisex",
+    "available_lengths": [
+      154,
+      157,
+      160
+    ],
+    "price": 79000,
+    "image_url": "",
+    "url": "https://dinosaurswilldie.com/product/2425-holce/",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 5,
+      "carving": 6,
+      "run_tricks": 7,
+      "powder": 5
+    }
+  },
+  {
+    "brand": "DINOSAURS WILL DIE",
+    "model": "BilBored",
+    "year": 2025,
+    "flex": 5,
+    "shape": "camber",
+    "gender": "womens",
+    "available_lengths": [
+      147,
+      151,
+      154,
+      157
+    ],
+    "price": 70000,
+    "image_url": "",
+    "url": "https://dinosaurswilldie.com/product/2425-bilbored/",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 7,
+      "carving": 4,
+      "run_tricks": 6,
+      "powder": 5
+    }
+  },
+  {
+    "brand": "DINOSAURS WILL DIE",
+    "model": "Darrah",
+    "year": 2025,
+    "flex": 4,
+    "shape": "flat",
+    "gender": "womens",
+    "available_lengths": [
+      146,
+      149,
+      152,
+      155
+    ],
+    "price": 75000,
+    "image_url": "",
+    "url": "https://dinosaurswilldie.com/product/2425-darrah-dark/",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 7,
+      "carving": 4,
+      "run_tricks": 5,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "DINOSAURS WILL DIE",
+    "model": "Brat",
+    "year": 2025,
+    "flex": 3,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      140,
+      143,
+      146
+    ],
+    "price": 58000,
+    "image_url": "",
+    "url": "https://dinosaurswilldie.com/product/2425-brat/",
+    "style_scores": {
+      "ground_tricks": 9,
+      "park": 8,
+      "carving": 2,
+      "run_tricks": 5,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "DINOSAURS WILL DIE",
+    "model": "Keenan's Board",
+    "year": 2025,
+    "flex": 7,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      152,
+      155,
+      158,
+      161
+    ],
+    "price": 82000,
+    "image_url": "",
+    "url": "https://dinosaurswilldie.com/product/2425-keenans-board-152/",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 5,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 6
+    }
+  },
+  {
+    "brand": "UNITED SHAPES",
+    "model": "Object",
+    "year": 2026,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      144,
+      148,
+      152,
+      156,
+      160
+    ],
+    "price": 72000,
+    "image_url": "",
+    "url": "https://unitedshapes.com/products/object",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 8,
+      "carving": 4,
+      "run_tricks": 6,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "UNITED SHAPES",
+    "model": "Horizon",
+    "year": 2026,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      143,
+      147,
+      151,
+      155,
+      159
+    ],
+    "price": 98000,
+    "image_url": "",
+    "url": "https://unitedshapes.com/products/horizon",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 6,
+      "carving": 6,
+      "run_tricks": 7,
+      "powder": 6
+    }
+  },
+  {
+    "brand": "UNITED SHAPES",
+    "model": "Cadet",
+    "year": 2026,
+    "flex": 7,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      146,
+      150,
+      154,
+      158,
+      162
+    ],
+    "price": 105000,
+    "image_url": "",
+    "url": "https://unitedshapes.com/products/cadet-2025",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 5,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 7
+    }
+  },
+  {
+    "brand": "UNITED SHAPES",
+    "model": "Deep Reach",
+    "year": 2026,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      149,
+      153,
+      156,
+      159,
+      162
+    ],
+    "price": 112000,
+    "image_url": "",
+    "url": "https://unitedshapes.com/products/deep-reach",
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 3,
+      "carving": 8,
+      "run_tricks": 5,
+      "powder": 9
+    }
+  },
+  {
+    "brand": "UNITED SHAPES",
+    "model": "Experiment",
+    "year": 2026,
+    "flex": 5,
+    "shape": "rocker",
+    "gender": "unisex",
+    "available_lengths": [
+      148,
+      155
+    ],
+    "price": 120000,
+    "image_url": "",
+    "url": "https://unitedshapes.com/products/experiment",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 5,
+      "run_tricks": 4,
+      "powder": 10
+    }
+  },
+  {
+    "brand": "UNITED SHAPES",
+    "model": "Transmission",
+    "year": 2026,
+    "flex": 9,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      154,
+      159
+    ],
+    "price": 112000,
+    "image_url": "",
+    "url": "https://unitedshapes.com/products/transmission",
+    "style_scores": {
+      "ground_tricks": 1,
+      "park": 2,
+      "carving": 10,
+      "run_tricks": 4,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "DC Snowboarding",
+    "model": "Ply",
+    "year": 2026,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "mens",
+    "available_lengths": [
+      150,
+      153,
+      156,
+      159
+    ],
+    "price": 60000,
+    "image_url": "",
+    "url": "https://www.dcshoes.com/",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 7,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "DC Snowboarding",
+    "model": "PBJ",
+    "year": 2026,
+    "flex": 4,
+    "shape": "flat",
+    "gender": "mens",
+    "available_lengths": [
+      149,
+      153,
+      155,
+      157,
+      159
+    ],
+    "price": 55000,
+    "image_url": "",
+    "url": "https://www.dcshoes.com/",
+    "style_scores": {
+      "ground_tricks": 8,
+      "park": 8,
+      "carving": 3,
+      "run_tricks": 5,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "DC Snowboarding",
+    "model": "EMB",
+    "year": 2026,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "mens",
+    "available_lengths": [
+      150,
+      153,
+      156,
+      158,
+      160
+    ],
+    "price": 58000,
+    "image_url": "",
+    "url": "https://www.dcshoes.com/",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 6,
+      "carving": 6,
+      "run_tricks": 6,
+      "powder": 5
+    }
+  },
+  {
+    "brand": "ThirtyTwo",
+    "model": "T32M",
+    "year": 2026,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "mens",
+    "available_lengths": [
+      148,
+      150,
+      152,
+      154,
+      156
+    ],
+    "price": 90000,
+    "image_url": "",
+    "url": "https://thirtytwo.com/collections/snowboards",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 9,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "ThirtyTwo",
+    "model": "Middle Earth Pro LTD",
+    "year": 2026,
+    "flex": 5,
+    "shape": "camber",
+    "gender": "mens",
+    "available_lengths": [
+      155,
+      157,
+      158
+    ],
+    "price": 90000,
+    "image_url": "",
+    "url": "https://thirtytwo.com/products/middle-earth-pro-limited-edition-snowboard-snu-mep-xx",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 8,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "ThirtyTwo",
+    "model": "XXX Fava Pro LTD",
+    "year": 2026,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "mens",
+    "available_lengths": [
+      152,
+      154,
+      156,
+      158
+    ],
+    "price": 95000,
+    "image_url": "",
+    "url": "https://thirtytwo.com/products/xxx-fava-pro-limited-edition-snowboard-snm-pat-xx",
+    "style_scores": {
+      "ground_tricks": 8,
+      "park": 9,
+      "carving": 4,
+      "run_tricks": 7,
+      "powder": 3
+    }
   }
 ]
