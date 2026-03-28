@@ -12104,5 +12104,146 @@
       "run_tricks": 7,
       "powder": 3
     }
+  },
+  {
+    "brand": "SALOMON",
+    "model": "HPS Sickstick",
+    "year": 2026,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "mens",
+    "available_lengths": [
+      149,
+      153,
+      156,
+      159,
+      163
+    ],
+    "price": 97020,
+    "image_url": "",
+    "url": "https://www.salomon.com/en-us/sport/snowboard/snowboards/hps-sickstick-c28009.html",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 5,
+      "carving": 6,
+      "run_tricks": 7,
+      "powder": 9
+    }
+  },
+  {
+    "brand": "SALOMON",
+    "model": "HPS Goop",
+    "year": 2026,
+    "flex": 7,
+    "shape": "hybrid_camber",
+    "gender": "mens",
+    "available_lengths": [
+      153,
+      157,
+      161
+    ],
+    "price": 121000,
+    "image_url": "",
+    "url": "https://www.salomon.com/en-us/sport/snowboard/snowboards/hps-goop-c28010.html",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 8,
+      "run_tricks": 7,
+      "powder": 9
+    }
+  },
+  {
+    "brand": "SALOMON",
+    "model": "HPS Wolle Nyvelt Fish",
+    "year": 2026,
+    "flex": 7,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      149,
+      153,
+      157,
+      162
+    ],
+    "price": 121000,
+    "image_url": "",
+    "url": "https://www.salomon.com/en-us/sport/snowboard/snowboards/hps-wolle-nyvelt-fish-c28011.html",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 10
+    }
+  },
+  {
+    "brand": "SALOMON",
+    "model": "HPS Louif Paradis",
+    "year": 2026,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      156,
+      160,
+      164
+    ],
+    "price": 121000,
+    "image_url": "",
+    "url": "https://www.salomon.com/en-us/sport/snowboard/snowboards/hps-louif-paradis-c28012.html",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 5,
+      "carving": 7,
+      "run_tricks": 8,
+      "powder": 8
+    }
+  },
+  {
+    "brand": "SALOMON",
+    "model": "HPS Takaharu Nakai",
+    "year": 2026,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      155,
+      158,
+      161
+    ],
+    "price": 107800,
+    "image_url": "",
+    "url": "https://www.salomon.com/en-us/sport/snowboard/snowboards/hps-takaharu-nakai-c28013.html",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 4,
+      "carving": 6,
+      "run_tricks": 7,
+      "powder": 9
+    }
+  },
+  {
+    "brand": "SALOMON",
+    "model": "HPS Catalyst",
+    "year": 2026,
+    "flex": 7,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      155,
+      158,
+      161
+    ],
+    "price": 132000,
+    "image_url": "",
+    "url": "https://www.salomon.com/en-us/sport/snowboard/snowboards/hps-catalyst-c28014.html",
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 2,
+      "carving": 8,
+      "run_tricks": 6,
+      "powder": 9
+    }
   }
 ]
