@@ -13,6 +13,15 @@ import { StepResults } from "./StepResults";
 const TOTAL_STEPS = 5;
 const STORAGE_KEY = "snowboard_last_input_v1";
 
+function clampStyle(style: StyleScores): StyleScores {
+  const keys = Object.keys(style) as (keyof StyleScores)[];
+  const clamped = {} as StyleScores;
+  for (const k of keys) {
+    clamped[k] = Math.min(5, Math.max(1, style[k]));
+  }
+  return clamped;
+}
+
 export function Wizard() {
   const [currentStep, setCurrentStep] = useState(0);
   const [direction, setDirection] = useState<"forward" | "backward">("forward");
@@ -47,7 +56,7 @@ export function Wizard() {
     setHeight(input.height);
     setWeight(input.weight);
     setGender(input.gender);
-    setStyle(input.style);
+    setStyle(clampStyle(input.style));
     setBudget(input.budget);
     setBudgetFlexibility(input.budgetFlexibility);
 
@@ -116,7 +125,7 @@ export function Wizard() {
     setHeight(input.height);
     setWeight(input.weight);
     setGender(input.gender);
-    setStyle(input.style);
+    setStyle(clampStyle(input.style));
     setBudget(input.budget);
     setBudgetFlexibility(input.budgetFlexibility);
     setSavedInput(null);

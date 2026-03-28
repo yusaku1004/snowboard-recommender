@@ -3,6 +3,8 @@
 import { useMemo } from "react";
 import { Board, Shape, FlexCategory } from "@/types";
 import { Button } from "@/components/ui/Button";
+import { Tooltip } from "@/components/ui/Tooltip";
+import { SHAPE_DESCRIPTIONS, FLEX_DESCRIPTIONS } from "@/lib/glossary";
 import boardsData from "@/data/boards_data.json";
 
 interface StepBrandsProps {
@@ -115,17 +117,18 @@ export function StepBrands({
           {ALL_SHAPES.map((s) => {
             const isSelected = allShapesSelected || selectedShapes!.has(s.value);
             return (
-              <button
-                key={s.value}
-                onClick={() => toggleShape(s.value)}
-                className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border ${
-                  isSelected
-                    ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
-                    : "bg-slate-800/60 text-slate-500 border-slate-700/50 hover:bg-slate-700/60"
-                }`}
-              >
-                {s.label}
-              </button>
+              <Tooltip key={s.value} text={SHAPE_DESCRIPTIONS[s.value]}>
+                <button
+                  onClick={() => toggleShape(s.value)}
+                  className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border ${
+                    isSelected
+                      ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
+                      : "bg-slate-800/60 text-slate-500 border-slate-700/50 hover:bg-slate-700/60"
+                  }`}
+                >
+                  {s.label}
+                </button>
+              </Tooltip>
             );
           })}
         </div>
@@ -138,18 +141,24 @@ export function StepBrands({
           {ALL_FLEX.map((f) => {
             const isSelected = allFlexSelected || selectedFlex!.has(f.value);
             return (
-              <button
-                key={f.value}
-                onClick={() => toggleFlex(f.value)}
-                className={`flex-1 py-1.5 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border text-center ${
-                  isSelected
-                    ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
-                    : "bg-slate-800/60 text-slate-500 border-slate-700/50 hover:bg-slate-700/60"
-                }`}
-              >
-                <div>{f.label}</div>
-                <div className="text-[10px] opacity-60 mt-0.5">{f.desc}</div>
-              </button>
+              <div key={f.value} className="flex-1 relative">
+                <button
+                  onClick={() => toggleFlex(f.value)}
+                  className={`w-full py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${
+                    isSelected
+                      ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
+                      : "bg-slate-800/60 text-slate-500 border-slate-700/50 hover:bg-slate-700/60"
+                  }`}
+                >
+                  <div>{f.label}</div>
+                  <div className="text-[10px] opacity-60 mt-0.5">{f.desc}</div>
+                </button>
+                <div className="absolute top-1 right-1">
+                  <Tooltip text={FLEX_DESCRIPTIONS[f.value]}>
+                    <span />
+                  </Tooltip>
+                </div>
+              </div>
             );
           })}
         </div>

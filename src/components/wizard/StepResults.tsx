@@ -10,6 +10,9 @@ import { MyBoardSelector } from "@/components/results/MyBoardSelector";
 import { Button } from "@/components/ui/Button";
 import { BottomSheet } from "@/components/ui/BottomSheet";
 import { Slider } from "@/components/ui/Slider";
+import { useFavorites } from "@/hooks/useFavorites";
+import { Tooltip } from "@/components/ui/Tooltip";
+import { SHAPE_DESCRIPTIONS, FLEX_DESCRIPTIONS } from "@/lib/glossary";
 import boardsData from "@/data/boards_data.json";
 
 const STYLE_LABELS: Record<keyof StyleScores, string> = {
@@ -100,6 +103,8 @@ export function StepResults({
   initialPriceRanges = null,
 }: StepResultsProps) {
   const [copied, setCopied] = useState(false);
+  const [activeTab, setActiveTab] = useState<"results" | "favorites">("results");
+  const { isFavorite, toggleFavorite, count: favoriteCount } = useFavorites();
   const [selectedBrands, setSelectedBrands] = useState<Set<string> | null>(initialBrands);
   const [selectedShapes, setSelectedShapes] = useState<Set<Shape> | null>(initialShapes);
   const [selectedFlex, setSelectedFlex] = useState<Set<FlexCategory> | null>(initialFlex);
@@ -184,6 +189,11 @@ export function StepResults({
     (allShapesSelected ? 0 : 1) +
     (allFlexSelected ? 0 : 1) +
     (allPriceRangesSelected ? 0 : 1);
+
+  const favoriteResults = useMemo(() => {
+    const favoriteBoards = allBoards.filter((b) => isFavorite(b));
+    return getRecommendations(favoriteBoards, adjustedInput);
+  }, [allBoards, adjustedInput, isFavorite]);
 
   const results = useMemo(() => {
     let filtered = allBoards;
@@ -429,17 +439,18 @@ export function StepResults({
             {ALL_SHAPES.map((s) => {
               const isSelected = allShapesSelected || selectedShapes!.has(s.value);
               return (
-                <button
-                  key={s.value}
-                  onClick={() => toggleShape(s.value)}
-                  className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border ${
-                    isSelected
-                      ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
-                      : "bg-slate-800/60 text-slate-500 border-slate-700/50"
-                  }`}
-                >
-                  {s.label}
-                </button>
+                <Tooltip key={s.value} text={SHAPE_DESCRIPTIONS[s.value]}>
+                  <button
+                    onClick={() => toggleShape(s.value)}
+                    className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border ${
+                      isSelected
+                        ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
+                        : "bg-slate-800/60 text-slate-500 border-slate-700/50"
+                    }`}
+                  >
+                    {s.label}
+                  </button>
+                </Tooltip>
               );
             })}
           </div>
@@ -459,18 +470,24 @@ export function StepResults({
             {ALL_FLEX.map((f) => {
               const isSelected = allFlexSelected || selectedFlex!.has(f.value);
               return (
-                <button
-                  key={f.value}
-                  onClick={() => toggleFlex(f.value)}
-                  className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${
-                    isSelected
-                      ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
-                      : "bg-slate-800/60 text-slate-500 border-slate-700/50"
-                  }`}
-                >
-                  <div>{f.label}</div>
-                  <div className="text-[10px] opacity-60 mt-0.5">{f.desc}</div>
-                </button>
+                <div key={f.value} className="flex-1 relative">
+                  <button
+                    onClick={() => toggleFlex(f.value)}
+                    className={`w-full py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${
+                      isSelected
+                        ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
+                        : "bg-slate-800/60 text-slate-500 border-slate-700/50"
+                    }`}
+                  >
+                    <div>{f.label}</div>
+                    <div className="text-[10px] opacity-60 mt-0.5">{f.desc}</div>
+                  </button>
+                  <div className="absolute top-1 right-1">
+                    <Tooltip text={FLEX_DESCRIPTIONS[f.value]}>
+                      <span />
+                    </Tooltip>
+                  </div>
+                </div>
               );
             })}
           </div>
@@ -524,6 +541,69 @@ export function StepResults({
         </button>
       </BottomSheet>
 
+      {/* Tab switcher */}
+      <div className="flex gap-1 bg-slate-800/60 border border-slate-700/50 rounded-xl p-1 mb-4">
+        <button
+          type="button"
+          onClick={() => setActiveTab("results")}
+          className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+            activeTab === "results"
+              ? "bg-slate-700 text-white"
+              : "text-slate-500 hover:text-slate-400"
+          }`}
+        >
+          診断結果
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab("favorites")}
+          className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+            activeTab === "favorites"
+              ? "bg-slate-700 text-white"
+              : "text-slate-500 hover:text-slate-400"
+          }`}
+        >
+          <svg className={`w-3.5 h-3.5 ${favoriteCount > 0 ? "text-rose-400 fill-rose-400" : "fill-none"}`} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+          お気に入り
+          {favoriteCount > 0 && (
+            <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+              {favoriteCount}
+            </span>
+          )}
+        </button>
+      </div>
+
+      {activeTab === "favorites" ? (
+        favoriteCount === 0 ? (
+          <div className="text-center py-12 px-4">
+            <div className="w-14 h-14 rounded-2xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-7 h-7 text-slate-600 fill-none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </div>
+            <p className="text-slate-400 font-medium mb-1">お気に入りはまだありません</p>
+            <p className="text-slate-600 text-sm">カードのハートボタンで保存できます</p>
+          </div>
+        ) : (
+          <div className="space-y-3 mb-4">
+            {favoriteResults.map((result, i) => (
+              <BoardCard
+                key={`fav-${result.board.brand}-${result.board.model}-${result.board.year}`}
+                result={result}
+                rank={i + 1}
+                budget={adjustedInput.budget}
+                budgetFlexibility={adjustedInput.budgetFlexibility}
+                myBoard={myBoard}
+                isFavorite={true}
+                onToggleFavorite={toggleFavorite}
+              />
+            ))}
+          </div>
+        )
+      ) : (
+        <>
       {activeFilterCount > 0 && (
         <p className="text-slate-500 text-center mb-4 text-xs">
           絞り込み中 — {results.length}件表示中
@@ -549,9 +629,20 @@ export function StepResults({
       ) : (
         <div className="space-y-3 mb-4">
           {results.map((result, i) => (
-            <BoardCard key={`${result.board.brand}-${result.board.model}-${result.board.year}`} result={result} rank={i + 1} budget={adjustedInput.budget} budgetFlexibility={adjustedInput.budgetFlexibility} myBoard={myBoard} />
+            <BoardCard
+              key={`${result.board.brand}-${result.board.model}-${result.board.year}`}
+              result={result}
+              rank={i + 1}
+              budget={adjustedInput.budget}
+              budgetFlexibility={adjustedInput.budgetFlexibility}
+              myBoard={myBoard}
+              isFavorite={isFavorite(result.board)}
+              onToggleFavorite={toggleFavorite}
+            />
           ))}
         </div>
+      )}
+        </>
       )}
 
       {/* Share buttons */}

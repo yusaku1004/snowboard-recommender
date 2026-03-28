@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { RecommendResult, Board } from "@/types";
 import { RadarChart } from "./RadarChart";
+import { Tooltip } from "@/components/ui/Tooltip";
+import { SHAPE_DESCRIPTIONS, FLEX_DESCRIPTIONS } from "@/lib/glossary";
 
 interface BoardCardProps {
   result: RecommendResult;
@@ -10,6 +12,8 @@ interface BoardCardProps {
   budget: number;
   budgetFlexibility: number;
   myBoard?: Board | null;
+  isFavorite?: boolean;
+  onToggleFavorite?: (board: Board) => void;
 }
 
 const SHAPE_LABELS: Record<string, string> = {
@@ -125,7 +129,7 @@ function getFlexDiff(target: number, mine: number): string | null {
     : `${abs}段階柔らかい`;
 }
 
-export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard }: BoardCardProps) {
+export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, isFavorite = false, onToggleFavorite }: BoardCardProps) {
   const [expanded, setExpanded] = useState(false);
   const { board, matchPercentage, recommendedSize, overBudget, estimatedPrice } = result;
   const hasDiscount = estimatedPrice < board.price;
@@ -213,10 +217,27 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard }: 
             </div>
           </div>
 
-          {/* Expand indicator */}
-          <div className="flex-shrink-0 text-slate-600 mt-2">
+          {/* Favorite + Expand */}
+          <div className="flex-shrink-0 flex flex-col items-center gap-1.5 mt-1">
+            {onToggleFavorite && (
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); onToggleFavorite(board); }}
+                className="p-1 rounded-lg transition-colors cursor-pointer"
+                aria-label={isFavorite ? "お気に入りを解除" : "お気に入りに追加"}
+              >
+                <svg
+                  className={`w-4 h-4 transition-colors ${isFavorite ? "text-rose-400 fill-rose-400" : "text-slate-600 fill-none hover:text-rose-400"}`}
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </button>
+            )}
             <svg
-              className={`w-4 h-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+              className={`w-4 h-4 text-slate-600 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -260,21 +281,25 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard }: 
             </div>
             <div className="bg-slate-800/40 rounded-xl p-3">
               <span className="text-xs text-slate-500">形状</span>
-              <p className="text-white font-medium text-sm">
-                {SHAPE_LABELS[board.shape] || board.shape}
-              </p>
+              <div className="mt-0.5">
+                <Tooltip text={SHAPE_DESCRIPTIONS[board.shape] ?? ""}>
+                  <span className="text-white font-medium text-sm">{SHAPE_LABELS[board.shape] || board.shape}</span>
+                </Tooltip>
+              </div>
             </div>
             <div className="bg-slate-800/40 rounded-xl p-3">
               <span className="text-xs text-slate-500">フレックス</span>
-              <div className="flex items-center gap-2 mt-0.5">
-                <div className="flex-1 h-1 bg-slate-700 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-sky-400 to-cyan-400"
-                    style={{ width: `${board.flex * 10}%` }}
-                  />
+              <Tooltip text={FLEX_DESCRIPTIONS[getFlexLabel(board.flex) === "ソフト" ? "soft" : getFlexLabel(board.flex) === "ミドル" ? "mid" : "hard"]}>
+                <div className="flex items-center gap-2 mt-0.5 flex-1">
+                  <div className="flex-1 h-1 bg-slate-700 rounded-full overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-sky-400 to-cyan-400"
+                      style={{ width: `${board.flex * 10}%` }}
+                    />
+                  </div>
+                  <span className="text-white font-medium text-sm tabular-nums">{board.flex}</span>
                 </div>
-                <span className="text-white font-medium text-sm tabular-nums">{board.flex}</span>
-              </div>
+              </Tooltip>
             </div>
             <div className="bg-slate-800/40 rounded-xl p-3">
               <span className="text-xs text-slate-500">対象</span>
