@@ -1,25 +1,25 @@
 [
   {
     "brand": "011 Artistic",
-    "model": "BALANCE",
+    "model": "BALANCE FLY",
     "year": 2026,
-    "flex": 3,
-    "shape": "flat",
+    "flex": 4,
+    "shape": "hybrid_camber",
     "available_lengths": [
-      138,
-      142,
       148,
       150,
-      152
+      151,
+      152,
+      153
     ],
-    "price": 85800,
+    "price": 114290,
     "image_url": "",
     "url": "",
     "style_scores": {
       "ground_tricks": 9,
-      "park": 6,
-      "carving": 3,
-      "run_tricks": 4,
+      "park": 5,
+      "carving": 7,
+      "run_tricks": 6,
       "powder": 2
     },
     "gender": "unisex"
@@ -151,13 +151,12 @@
     "brand": "011 Artistic",
     "model": "ZERO",
     "year": 2026,
-    "flex": 4,
-    "shape": "flat",
+    "flex": 3,
+    "shape": "hybrid_camber",
     "available_lengths": [
       148,
       150,
-      152,
-      154
+      152
     ],
     "price": 95700,
     "image_url": "",
@@ -165,7 +164,30 @@
     "style_scores": {
       "ground_tricks": 9,
       "park": 7,
-      "carving": 3,
+      "carving": 5,
+      "run_tricks": 5,
+      "powder": 3
+    },
+    "gender": "unisex"
+  },
+  {
+    "brand": "011 Artistic",
+    "model": "ZERO WIDE SPIN",
+    "year": 2026,
+    "flex": 3,
+    "shape": "double_camber",
+    "available_lengths": [
+      148,
+      150,
+      152
+    ],
+    "price": 95700,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 9,
+      "park": 7,
+      "carving": 5,
       "run_tricks": 5,
       "powder": 3
     },
