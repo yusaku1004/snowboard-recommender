@@ -154,7 +154,18 @@ export function Wizard() {
     setSelectedShapes(null);
     setSelectedFlex(null);
     setSelectedPriceRanges(null);
-    setSavedInput(null);
+    // Reload savedInput from localStorage so the banner shows immediately
+    try {
+      const raw = typeof window !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
+      if (raw) {
+        const data = JSON.parse(raw) as UserInput;
+        setSavedInput(data.height && data.style ? data : null);
+      } else {
+        setSavedInput(null);
+      }
+    } catch {
+      setSavedInput(null);
+    }
     // Clear URL params
     if (typeof window !== "undefined") {
       window.history.replaceState({}, "", window.location.pathname);
