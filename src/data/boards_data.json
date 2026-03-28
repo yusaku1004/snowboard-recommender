@@ -12245,5 +12245,55 @@
       "run_tricks": 6,
       "powder": 9
     }
+  },
+  {
+    "brand": "SALOMON",
+    "model": "No Drama",
+    "year": 2026,
+    "flex": 7,
+    "shape": "camber",
+    "gender": "womens",
+    "available_lengths": [
+      139,
+      143,
+      146,
+      149,
+      152
+    ],
+    "price": 85800,
+    "image_url": "",
+    "url": "https://www.salomon.com/en-us/product/no-drama-li8543",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 9,
+      "carving": 6,
+      "run_tricks": 7,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "SALOMON",
+    "model": "Reflect",
+    "year": 2026,
+    "flex": 2,
+    "shape": "flat",
+    "gender": "womens",
+    "available_lengths": [
+      135,
+      138,
+      142,
+      146,
+      151
+    ],
+    "price": 59400,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 5,
+      "carving": 4,
+      "run_tricks": 4,
+      "powder": 4
+    }
   }
 ]
