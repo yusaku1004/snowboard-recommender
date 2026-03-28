@@ -1,0 +1,505 @@
+﻿brand,model,year,flex,shape,price,available_lengths,ground_tricks,park,carving,run_tricks,powder,image_url,url
+011 Artistic,BALANCE,2026,3,flat,85800,138 / 142 / 148 / 150 / 152,9,6,3,4,2,,
+011 Artistic,BALANCE SPIN,2026,3,double_camber,94600,138 / 142 / 148 / 150 / 152,10,7,3,5,2,,
+011 Artistic,DOUBLE FLY,2026,5,double_camber,111100,148 / 150 / 152 / 154 / 156,8,7,4,7,4,,
+011 Artistic,DOUBLE FLY SPIN,2026,2,double_camber,104500,139 / 143 / 149 / 151,10,8,2,4,1,,
+011 Artistic,X FLY,2026,5,hybrid_camber,111100,148 / 150 / 152 / 154 / 156,7,6,5,7,5,,
+011 Artistic,X FLY SPIN,2026,5,hybrid_camber,114300,148 / 150 / 152 / 154,8,7,4,7,4,,
+011 Artistic,ZERO,2026,4,flat,95700,148 / 150 / 152 / 154,9,7,3,5,3,,
+ACADEMY,Graduate,2026,5,hybrid_camber,60500,150 / 153 / 156 / 159,6,6,6,6,5,,
+ACADEMY,Master,2026,6,camber,74800,153 / 156 / 159 / 162,4,5,8,7,6,,
+ACADEMY,Propacamba,2026,5,hybrid_camber,68200,150 / 153 / 156 / 159,6,7,6,6,5,,
+ACADEMY,Propaganda,2026,3,flat,52800,147 / 150 / 153 / 156,8,8,3,5,3,,
+ACADEMY,Team,2026,5,hybrid_camber,52800,151 / 154 / 157,6,7,6,6,5,,
+ALLIAN,ATLANTIS,2026,6,hybrid_camber,79200,152 / 155 / 158 / 160,5,5,7,8,7,,
+ALLIAN,DAMAGE,2026,5,camber,75900,150 / 152 / 154 / 156,6,7,7,7,5,,
+ALLIAN,FREE LINE,2026,6,hybrid_camber,85800,150 / 153 / 156 / 159,4,4,7,7,7,,
+ALLIAN,PRISM,2026,4,hybrid_camber,72600,148 / 150 / 152 / 155,8,8,5,6,5,,
+ALLIAN,PRISM GIRL,2026,4,hybrid_camber,68200,138 / 142 / 146 / 150,8,8,5,6,5,,
+ALLIAN,PRISM INVISIBLE,2026,4,double_camber,82500,148 / 150 / 152 / 154,9,7,4,6,3,,
+ALLIAN,PRISM LTD,2026,5,double_camber,85800,148 / 150 / 152 / 154,9,8,3,6,3,,
+ALLIAN,VIVIAN,2026,3,rocker,63800,139 / 143 / 147 / 150,9,7,3,4,5,,
+AMPLID,Kill Switch,2026,7,camber,110000,155 / 158 / 161,3,3,8,7,7,,
+AMPLID,Pentaquark,2026,7,camber,121000,156 / 159 / 162 / 165,3,3,9,8,7,,
+AMPLID,Singular,2026,4,hybrid_camber,88000,149 / 152 / 155 / 158,7,8,5,5,4,,
+AMPLID,Souly Grail,2026,6,rocker,104500,152 / 156 / 160,3,3,5,5,9,,
+AMPLID,UNW8,2026,5,hybrid_camber,99000,152 / 155 / 158 / 161,5,5,7,7,6,,
+ARBOR,A-Frame,2026,7,hybrid_camber,82500,155 / 158 / 161,3,3,6,6,9,,
+ARBOR,Bryan Iguchi Pro,2026,7,camber,93500,156 / 159 / 161 / 164,2,3,8,7,8,,
+ARBOR,Coda,2026,6,camber,82500,153 / 156 / 159 / 162,4,5,8,7,6,,
+ARBOR,Draft,2026,3,rocker,60500,149 / 152 / 155 / 158,8,7,3,5,5,,
+ARBOR,Element,2026,5,rocker,71500,152 / 155 / 158 / 161,7,7,5,6,5,,
+ARBOR,Formula,2026,6,camber,71500,152 / 155 / 158 / 161,5,5,7,7,5,,
+ARBOR,Swoon,2026,5,hybrid_camber,71500,143 / 147 / 151,5,6,6,6,6,,
+ARBOR,Veda,2026,5,hybrid_camber,71500,142 / 145 / 148 / 151,5,6,5,6,6,,
+ARBOR,Westmark,2026,4,rocker,74800,150 / 153 / 156 / 159,7,8,4,5,4,,
+BATALEON,Blow,2026,3,flat,71500,145 / 149 / 152 / 155,8,8,3,4,3,,
+BATALEON,Camel Two,2026,5,hybrid_camber,88000,152 / 155 / 158 / 161,6,6,6,7,7,,
+BATALEON,Evil Twin,2026,5,hybrid_camber,85800,151 / 154 / 157 / 160,7,8,5,6,4,,
+BATALEON,Goliath,2026,7,camber,93500,155 / 157 / 159 / 162,3,4,8,7,7,,
+BATALEON,Party Wave,2026,5,rocker,79200,151 / 154 / 157,5,5,4,6,9,,
+BATALEON,Push Up,2026,4,hybrid_camber,82500,141 / 144 / 147 / 150,7,7,5,6,5,,
+BATALEON,Surfer,2026,6,hybrid_camber,88000,151 / 154 / 157 / 160,4,4,6,6,9,,
+BATALEON,Wallie,2026,4,hybrid_camber,60500,148 / 151 / 154 / 157,8,8,3,5,3,,
+BATALEON,Whatever,2026,3,flat,68200,148 / 151 / 154 / 157,8,7,3,5,4,,
+BC STREAM,DR,2026,8,camber,143000,154 / 157 / 160 / 163,2,2,10,6,5,,
+BC STREAM,NW,2026,7,hybrid_camber,147400,150 / 153 / 156 / 159,3,3,8,7,7,,
+BC STREAM,RS,2026,8,camber,130900,150 / 153 / 156 / 159,2,2,9,7,5,,
+BC STREAM,S,2026,6,camber,121000,149 / 152 / 155 / 158,5,5,8,7,5,,
+BURTON,Alekesam,2026,5,hybrid_camber,101200,140 / 152 / 156 / 160,6,5,7,7,7,,
+BURTON,Blossom,2026,5,camber,90200,144 / 149 / 152 / 155 / 158 / 162,6,7,6,7,5,,
+BURTON,Cartographer,2026,5,hybrid_camber,88000,152 / 155 / 158 / 162,5,5,6,7,8,,
+BURTON,Counterbalance,2026,6,hybrid_camber,88000,142 / 146 / 150 / 154 / 158 / 162,4,4,7,8,7,,
+BURTON,Cultivator,2026,2,flat,59400,145 / 150 / 155 / 160,5,5,3,4,4,,
+BURTON,Custom,2026,6,camber,99000,150 / 154 / 156 / 158 / 162,5,6,8,7,6,,
+BURTON,Custom Flying V,2026,6,hybrid_camber,92400,150 / 154 / 156 / 158 / 162,5,6,6,7,7,,
+BURTON,Custom X,2026,8,camber,115500,150 / 154 / 156 / 158 / 162,3,4,9,7,5,,
+BURTON,Family Tree High Fidelity,2026,7,hybrid_camber,115500,150 / 154 / 157 / 160,3,3,8,7,8,,
+BURTON,Family Tree Sketch Artist,2026,6,camber,99000,147 / 152 / 157 / 162,4,4,6,7,9,,
+BURTON,Family Tree Smooth Operator,2026,6,hybrid_camber,132000,150 / 154 / 158,4,4,7,7,8,,
+BURTON,Feelgood,2026,5,camber,93500,140 / 144 / 146 / 149 / 152,5,6,8,7,6,,
+BURTON,Good Company,2026,3,hybrid_camber,66000,135 / 148 / 152 / 155 / 159,8,7,4,5,4,,
+BURTON,Instigator,2026,3,flat,57200,150 / 155 / 160,7,6,4,4,4,,
+BURTON,Process,2026,4,hybrid_camber,83600,148 / 152 / 155 / 157 / 159,7,8,5,6,5,,
+BURTON,Rewind,2026,3,camber,70400,140 / 145 / 148 / 151 / 155 / 158,8,8,4,5,4,,
+BURTON,Yeasayer,2026,3,flat,66000,140 / 144 / 148 / 152,8,7,4,5,5,,
+CAPITA,Aeronaut,2026,6,hybrid_camber,99000,153 / 155 / 157 / 159 / 162,4,4,7,7,9,,
+CAPITA,Asymulator,2026,5,hybrid_camber,74800,150 / 152 / 154 / 156 / 158,7,7,6,6,4,,
+CAPITA,Birds of a Feather,2026,5,hybrid_camber,71500,140 / 143 / 146 / 148 / 150,6,7,6,6,5,,
+CAPITA,Dark Horse,2026,5,hybrid_camber,55000,151 / 153 / 155 / 157,6,7,5,6,4,,
+CAPITA,DOA,2026,6,hybrid_camber,89100,150 / 152 / 154 / 156 / 158 / 160,5,8,7,7,5,,
+CAPITA,Indoor Survival,2026,5,hybrid_camber,82500,148 / 150 / 152 / 154 / 156,7,8,5,6,4,,
+CAPITA,Mega Merc,2026,8,camber,115500,155 / 157 / 159 / 162,2,4,9,8,7,,
+CAPITA,Mercury,2026,7,hybrid_camber,97200,153 / 155 / 157 / 159 / 162,4,5,8,8,7,,
+CAPITA,Navigator,2026,7,hybrid_camber,82500,155 / 158 / 161 / 164,4,4,7,7,8,,
+CAPITA,Outerspace Living,2026,5,hybrid_camber,71500,150 / 152 / 154 / 156 / 158,7,7,5,6,5,,
+CAPITA,Paradise,2026,5,hybrid_camber,72600,141 / 143 / 145 / 147 / 149,7,7,4,6,5,,
+CAPITA,Pathfinder,2026,5,camber,71500,148 / 151 / 153 / 155 / 158,6,6,6,7,5,,
+CAPITA,Pathfinder Reverse,2026,5,rocker,66000,148 / 151 / 154 / 157,6,6,4,5,7,,
+CAPITA,Space Metal Fantasy,2026,5,hybrid_camber,71500,141 / 145 / 147 / 149 / 151,7,7,5,6,5,,
+CAPITA,Super DOA,2026,7,hybrid_camber,93500,154 / 156 / 158 / 160 / 162,4,6,8,8,6,,
+CAPITA,Ultrafear,2026,4,hybrid_camber,77000,149 / 151 / 153 / 155 / 157,7,9,4,5,3,,
+DEATH LABEL,BLACK FLAG,2026,2,hybrid_camber,60500,137 / 142 / 148 / 151 / 154,10,8,2,4,3,,
+DEATH LABEL,BLACK FLAG DW,2026,3,double_camber,44990,137 / 142 / 148 / 151 / 154,9,7,2,5,2,,
+DEATH LABEL,DEATH MACHINE,2026,4,flat,55000,148 / 151 / 153,8,7,3,5,3,,
+DEATH LABEL,DEATH SERIES,2026,3,flat,71500,148 / 150 / 152 / 154,9,7,3,4,3,,
+DEATH LABEL,DW,2026,3,rocker,55000,139 / 143 / 147 / 150 / 153,9,7,3,4,5,,
+DEATH LABEL,DWS,2026,4,double_camber,44990,137 / 142 / 148 / 151 / 154 / 157 / 160,8,6,3,5,3,,
+DEATH LABEL,FLAT SPIN,2026,3,flat,68200,138 / 143 / 148 / 150 / 153,9,7,3,4,2,,
+DEATH LABEL,FLOWER,2026,4,hybrid_camber,71500,138 / 142 / 146 / 150,7,7,5,6,4,,
+DEATH LABEL,KINTONE,2026,5,hybrid_camber,49500,148 / 152 / 155,5,4,5,6,7,,
+DRAKE,DF,2026,5,hybrid_camber,66000,150 / 153 / 156 / 159,6,7,5,6,4,,
+DRAKE,DFL,2026,4,hybrid_camber,60500,138 / 142 / 146 / 150,6,6,5,5,4,,
+DRAKE,League,2026,3,rocker,52800,148 / 152 / 156,7,6,3,4,5,,
+DRAKE,Misty,2026,4,hybrid_camber,60500,141 / 145 / 149 / 152,7,7,5,6,5,,
+DRAKE,Squad,2026,4,hybrid_camber,55000,148 / 151 / 154 / 157,7,7,4,5,3,,
+DRAKE,Team,2026,6,hybrid_camber,71500,152 / 155 / 158,5,6,6,6,5,,
+ENDEAVOR,Archetype,2026,5,hybrid_camber,77000,148 / 152 / 156 / 160,6,7,6,6,5,,
+ENDEAVOR,BOD,2026,5,hybrid_camber,74800,150 / 153 / 156,7,7,5,6,5,,
+ENDEAVOR,Clout,2026,4,double_camber,74800,149 / 152 / 155 / 158,8,8,4,5,3,,
+ENDEAVOR,High 5,2026,6,camber,71500,152 / 155 / 158 / 161,5,5,7,7,5,,
+ENDEAVOR,Live,2026,6,hybrid_camber,82500,152 / 155 / 158 / 161,5,5,7,7,6,,
+ENDEAVOR,Pioneer,2026,6,camber,82500,154 / 157 / 160 / 163,4,5,8,7,7,,
+ENDEAVOR,Ranger,2026,7,camber,88000,155 / 158 / 161 / 164,3,3,8,7,8,,
+ENDEAVOR,Scout,2026,5,hybrid_camber,71500,150 / 153 / 156 / 159,6,7,6,6,5,,
+FANATIC,Autobahn,2026,8,camber,88000,155 / 158 / 161 / 164,2,2,9,7,5,,
+FANATIC,BT,2026,3,flat,66000,148 / 150 / 152 / 154,9,7,3,5,3,,
+FANATIC,FTC,2026,5,hybrid_camber,110000,148 / 151 / 154 / 157,6,6,7,7,5,,
+FANATIC,Kaiser,2026,6,hybrid_camber,77000,152 / 155 / 158 / 161,5,5,7,7,6,,
+FANATIC,TRICKMASTER,2026,3,double_camber,99000,142 / 147 / 150 / 153,10,7,3,5,2,,
+FNTC,AND,2026,6,double_camber,69300,148 / 150 / 153 / 155 / 158,8,6,7,7,5,,
+FNTC,CAT,2026,5,hybrid_camber,66000,150 / 153 / 155 / 157,6,6,7,7,6,,
+FNTC,CVT,2026,7,camber,72600,150 / 153 / 155 / 158,3,3,9,6,5,,
+FNTC,DCC,2026,7,camber,72600,150 / 153 / 155 / 157 / 160,3,3,9,7,6,,
+FNTC,SOT,2026,1,rocker,65780,143 / 147 / 150 / 153,10,8,2,3,3,,
+FNTC,SSS,2026,2,double_camber,59400,143 / 147 / 150 / 153,10,7,2,4,3,,
+FNTC,TNT C,2026,3,hybrid_camber,66000,148 / 150 / 153,9,8,4,5,3,,
+FNTC,TNT L,2026,3,double_camber,63800,138 / 141 / 144 / 147,10,7,3,5,3,,
+FNTC,TNT R,2026,3,double_camber,69300,147 / 150 / 153 / 155,10,7,3,5,3,,
+GENTEMSTICK,Floater,2026,5,rocker,165000,153,4,3,5,6,10,,
+GENTEMSTICK,Mantaray,2026,6,rocker,165000,156,2,1,5,5,10,,
+GENTEMSTICK,Rocket Fish,2026,6,rocker,159500,154,2,2,6,5,10,,
+GENTEMSTICK,Slasher II,2026,5,rocker,165000,149,5,4,5,6,9,,
+GENTEMSTICK,Speedmaster,2026,8,camber,198000,162,2,2,9,7,7,,
+GENTEMSTICK,Spoon Fish,2026,5,rocker,154000,144,3,2,5,5,9,,
+GENTEMSTICK,Stingray,2026,6,rocker,170500,161,2,1,6,5,10,,
+GENTEMSTICK,T.T 158,2026,6,hybrid_camber,176000,158,4,3,7,7,8,,
+GENTEMSTICK,T.T 165 Classic,2026,7,camber,187000,165,1,1,8,6,9,,
+GENTEMSTICK,Trinity,2026,6,hybrid_camber,187000,156,3,3,7,7,9,,
+GENTEMSTICK,Zephyr,2026,6,hybrid_camber,176000,152,4,4,7,7,8,,
+GNU,Antigravity,2026,6,hybrid_camber,88000,150 / 153 / 156 / 159 / 162,5,6,8,8,7,,https://www.gnu.com/snowboards/antigravity
+GNU,Banked Country,2026,7,hybrid_camber,93500,155 / 158 / 161 / 164,3,3,8,7,9,,https://www.gnu.com/snowboards/banked-country
+GNU,Barrett,2026,5,hybrid_camber,79200,143 / 146 / 149 / 152,6,7,6,6,5,,
+GNU,Essential Service,2026,6,hybrid_camber,88000,152 / 155 / 158 / 161,5,6,7,7,6,,
+GNU,Gloss,2026,3,rocker,46200,139 / 142 / 146,8,6,3,4,5,,
+GNU,Headspace,2026,5,hybrid_camber,82500,149 / 152 / 155 / 158 / 161,7,7,6,7,6,,https://www.gnu.com/snowboards/headspace
+GNU,Impossible,2026,5,hybrid_camber,82500,148 / 151 / 155 / 159,7,7,5,6,5,,
+GNU,Klassy,2026,6,hybrid_camber,82500,142 / 146 / 149 / 152,5,5,7,7,8,,https://www.gnu.com/snowboards/klassy
+GNU,Money,2026,4,hybrid_camber,72600,147 / 150 / 153 / 156,8,8,4,6,5,,https://www.gnu.com/snowboards/money
+GNU,Ravish,2026,5,hybrid_camber,77000,139 / 143 / 147 / 150 / 153,6,6,7,7,6,,https://www.gnu.com/snowboards/ravish
+GNU,Riders Choice,2026,6,hybrid_camber,108900,151 / 154 / 157 / 160,6,6,7,8,7,,https://www.gnu.com/snowboards/riders-choice
+GNU,T.R.E.,2026,6,hybrid_camber,88000,155 / 158 / 161,4,4,8,7,7,,
+GNU,Upgrade,2026,5,hybrid_camber,60500,149 / 152 / 155 / 158,7,8,4,5,4,,
+GNU,Velvet,2026,4,hybrid_camber,71500,140 / 143 / 146 / 149 / 152,7,7,5,6,5,,https://www.gnu.com/snowboards/velvet
+GRAY,DESPERADO,2026,8,camber,132000,152 / 155 / 157 / 159 / 162,2,2,10,7,5,,
+GRAY,EPIC,2026,10,camber,143000,156 / 159 / 162,1,2,10,4,3,,
+GRAY,FORCE,2026,9,camber,143000,155 / 158 / 161,1,1,10,6,5,,
+GRAY,GENIUS,2026,5,hybrid_camber,99000,148 / 150 / 152 / 154 / 156,7,7,5,6,4,,
+GRAY,LOVEBUZZ 52,2026,3,flat,77000,152,9,7,3,5,3,,
+GRAY,LOVEBUZZ 57,2026,4,rocker,82500,157,8,6,3,5,7,,
+GRAY,PRODIGY,2026,5,hybrid_camber,99000,145 / 148 / 151 / 154,6,6,7,7,5,,
+GRAY,QUADRA,2026,9,camber,143000,155 / 158 / 162,1,1,10,5,3,,
+GRAY,SONICALMACH,2026,9,camber,154000,154 / 155 / 158,1,1,10,5,2,,
+GRAY,TRICKSTICK,2026,4,double_camber,110000,148 / 150 / 152 / 155,9,8,4,6,3,,
+GRAY,TYCOON,2026,8,camber,132000,152 / 155 / 158 / 162,2,2,10,6,3,,
+HEAD,Beam,2026,6,hybrid_camber,71500,152 / 155 / 158 / 161,5,5,7,7,6,,
+HEAD,Daymaker,2026,5,hybrid_camber,66000,149 / 152 / 155 / 158,7,7,5,6,5,,https://www.head.com/en_US/daymaker-snowboard
+HEAD,Kizamu,2026,9,hybrid_camber,93500,150 / 153 / 156 / 159 / 162,4,4,9,7,5,,
+HEAD,Powerhouse,2026,8,camber,88000,157 / 160 / 163,2,2,9,7,5,,
+HEAD,Pride,2026,5,hybrid_camber,71500,139 / 143 / 147 / 150 / 153,6,6,7,7,6,,https://www.head.com/en_US/pride-snowboard
+HEAD,Rush,2026,4,hybrid_camber,55000,148 / 152 / 156 / 160,6,6,5,5,5,,
+HEAD,Shine LYT,2026,4,hybrid_camber,60500,138 / 142 / 146 / 149,7,7,5,6,5,,https://www.head.com/en_US/shine-lyt-snowboard
+HEAD,Solace,2026,7,camber,77000,155 / 158 / 161,4,4,8,7,5,,
+HEAD,True,2026,6,hybrid_camber,77000,152 / 155 / 158 / 160 / 163,5,6,7,8,7,,https://www.head.com/en_US/true-snowboard
+JONES,Aviator 2.0,2026,7,camber,104500,156 / 158 / 160 / 162 / 164,3,3,9,8,6,,
+JONES,Dream Catcher,2026,5,hybrid_camber,58300,142 / 145 / 148 / 151 / 154,5,5,6,6,7,,
+JONES,Flagship,2026,8,hybrid_camber,110000,155 / 158 / 161 / 164 / 167,2,2,9,8,9,,https://www.jonessnowboards.com/collections/mens-snowboards
+JONES,Freecarver 6000s,2026,9,camber,99000,156 / 159 / 162,2,2,10,6,4,,
+JONES,Frontier,2026,5,hybrid_camber,77000,152 / 156 / 158 / 162,6,5,7,7,8,,
+JONES,Mind Expander,2026,6,rocker,93500,154 / 158 / 162,4,3,5,6,10,,
+JONES,Mind Expander Twin,2026,6,hybrid_camber,82500,152 / 155 / 158 / 161,5,5,6,7,8,,
+JONES,Mountain Twin,2026,6,hybrid_camber,88000,151 / 154 / 157 / 160 / 163,5,5,8,8,7,,
+JONES,Storm Wolf,2026,7,hybrid_camber,88000,155 / 158 / 161 / 164,3,3,8,7,9,,
+JONES,Stratos,2026,7,hybrid_camber,105600,152 / 155 / 158 / 161 / 164,3,3,8,8,8,,https://www.jonessnowboards.com/collections/mens-snowboards
+JONES,Tweaker,2026,5,camber,82500,148 / 150 / 152 / 154 / 156,7,8,5,6,4,,https://www.jonessnowboards.com/collections/mens-snowboards
+JONES,Twin Sister,2026,5,hybrid_camber,60500,143 / 146 / 149 / 152,6,6,6,7,6,,
+JONES,Ultra Flagship,2026,8,camber,143000,155 / 158 / 161 / 164,2,2,9,8,9,,
+JONES,Ultra Mind Expander,2026,6,rocker,115500,154 / 158 / 162,3,3,6,6,9,,
+JONES,Women's Flagship,2026,6,camber,99000,146 / 149 / 152 / 155,3,4,8,7,8,,
+JONES,Women's Stratos,2026,6,hybrid_camber,99000,143 / 146 / 149 / 152 / 155,3,3,8,8,8,,https://www.jonessnowboards.com/collections/womens-snowboards
+K2,Afterblack,2026,5,hybrid_camber,77000,152 / 155 / 158 / 160,6,7,6,7,6,,
+K2,Almanac,2026,6,hybrid_camber,77000,152 / 155 / 158,4,4,7,7,8,,
+K2,Commonwealth,2026,6,hybrid_camber,72600,152 / 155 / 158 / 161,5,5,7,7,6,,
+K2,Dreamsicle,2026,3,rocker,55000,142 / 146 / 149 / 152,8,7,3,4,5,,
+K2,Embassy,2026,7,hybrid_camber,82500,155 / 158 / 161 / 164,3,3,8,7,8,,
+K2,Excavator,2026,7,hybrid_camber,82500,155 / 158 / 161 / 164,3,3,7,6,9,,
+K2,Freeloader,2026,4,rocker,71500,148 / 151 / 154 / 157,7,7,4,6,6,,
+K2,Hypnotist,2026,4,hybrid_camber,63800,148 / 151 / 154 / 157,7,8,4,5,3,,
+K2,Lime Lite,2026,4,hybrid_camber,49500,142 / 146 / 149,6,6,5,6,5,,
+K2,Manifest,2026,6,hybrid_camber,88000,154 / 158 / 160 / 162,3,4,9,7,7,,
+K2,Party Platter,2026,5,hybrid_camber,71500,147 / 150 / 152 / 155 / 158,7,6,5,6,8,,
+K2,Passport,2026,6,hybrid_camber,88000,152 / 155 / 158 / 162,5,5,7,7,8,,
+K2,Spellcaster,2026,5,hybrid_camber,63800,142 / 145 / 148 / 151,5,6,5,6,6,,
+K2,Standard,2026,4,rocker,60500,147 / 152 / 155 / 158,8,6,4,5,6,,
+KORUA,Apollo,2026,7,hybrid_camber,93500,155 / 158 / 161,3,3,7,7,8,,
+KORUA,Cafe Racer,2026,7,camber,115500,156 / 160 / 164,2,2,9,7,7,,
+KORUA,Dart,2026,7,camber,110000,155 / 159 / 163,2,2,9,7,7,,
+KORUA,Otto,2026,6,hybrid_camber,104500,154 / 158 / 162,3,3,8,7,8,,
+KORUA,Pencil,2026,6,rocker,115500,157 / 164 / 170,1,1,6,5,10,,
+KORUA,Pocket Rocket,2026,6,hybrid_camber,79200,146 / 150 / 154,5,5,6,7,8,,
+KORUA,Tranny Finder,2026,5,rocker,99000,148 / 152 / 156 / 160,5,4,5,6,9,,
+KORUA,Transition Finder,2026,6,hybrid_camber,85800,152 / 156 / 160,4,4,6,7,8,,
+LIB TECH,Apex Orca,2026,8,hybrid_camber,176000,153 / 156 / 159,2,2,8,7,10,,
+LIB TECH,Bent Metal,2026,5,camber,57200,140 / 143 / 147 / 150,5,6,7,6,5,,
+LIB TECH,Birdman,2026,5,hybrid_camber,88000,151 / 154 / 157 / 160,6,7,6,7,5,,
+LIB TECH,Box Knife,2026,6,hybrid_camber,88000,151 / 154 / 157 / 160,5,7,7,8,6,,https://www.lib-tech.com/snowboards/box-knife
+LIB TECH,Cold Brew,2026,5,hybrid_camber,82500,149 / 153 / 155 / 157 / 160,7,7,6,7,6,,https://www.lib-tech.com/snowboards/cold-brew
+LIB TECH,Cortado,2026,5,hybrid_camber,77000,140 / 143 / 146 / 149 / 152,7,7,6,6,6,,https://www.lib-tech.com/snowboards/cortado
+LIB TECH,Dynamo,2026,6,hybrid_camber,88000,153 / 156 / 159 / 162,5,5,7,8,7,,https://www.lib-tech.com/snowboards/dynamo
+LIB TECH,Ejack Knife,2026,5,hybrid_camber,77000,148 / 151 / 154 / 157,7,8,5,6,5,,https://www.lib-tech.com/snowboards/ejack-knife
+LIB TECH,Glider,2026,6,hybrid_camber,82500,143 / 146 / 149 / 152 / 155,5,5,7,7,8,,https://www.lib-tech.com/snowboards/glider
+LIB TECH,Golden Orca,2026,8,hybrid_camber,115500,153 / 156 / 159 / 162 / 165,2,3,8,7,10,,https://www.lib-tech.com/snowboards/golden-orca
+LIB TECH,Legitimizer,2026,4,hybrid_camber,66000,148 / 151 / 154 / 157,8,8,3,5,3,,
+LIB TECH,Off Ramp,2026,4,camber,60500,148 / 151 / 154 / 157,7,8,4,5,3,,
+LIB TECH,Orca,2026,6,hybrid_camber,99000,144 / 147 / 150 / 153 / 156 / 159,4,4,7,7,9,,https://www.lib-tech.com/snowboards/orca
+LIB TECH,Skate Banana,2026,4,rocker,77000,148 / 152 / 154 / 156 / 159,9,8,4,5,5,,https://www.lib-tech.com/snowboards/skate-banana
+LIB TECH,Skunk Ape,2026,7,hybrid_camber,104500,157 / 161 / 165 / 170,2,3,7,6,9,,
+LIB TECH,T.Rice Orca,2026,7,hybrid_camber,104500,150 / 153 / 156 / 159 / 162,3,3,8,8,9,,https://www.lib-tech.com/snowboards/t-rice-orca
+LIB TECH,T.Rice Pro,2026,7,hybrid_camber,110000,153 / 155 / 157 / 161 / 164,4,5,8,8,8,,https://www.lib-tech.com/snowboards/t-rice-pro
+LIB TECH,T.Rice Pro Camber,2026,7,camber,71500,153 / 155 / 157 / 159 / 161,5,6,7,7,6,,
+LIB TECH,Terrain Wrecker,2026,6,hybrid_camber,82500,150 / 153 / 156 / 159 / 162,6,6,7,7,7,,https://www.lib-tech.com/snowboards/terrain-wrecker
+LOBSTER,Jibboard,2026,3,rocker,57200,148 / 151 / 153 / 155,9,8,3,4,3,,
+LOBSTER,Sender,2026,6,hybrid_camber,62700,152 / 155 / 157 / 159,5,6,7,7,6,,
+MARHAR,Darkside,2026,5,hybrid_camber,71500,150 / 153 / 156 / 159,6,7,6,6,5,,
+MARHAR,Lumberjack,2026,6,camber,79200,153 / 156 / 159 / 162,4,5,8,7,7,,
+MARHAR,Sasquatch,2026,7,hybrid_camber,77000,156 / 159 / 162,3,3,7,7,8,,
+MOSS,CIRCUS,2026,4,double_camber,99000,145 / 148 / 150 / 153,9,7,4,5,3,,
+MOSS,EBIS,2026,4,double_camber,88000,148 / 150 / 152 / 154,8,7,4,6,4,,
+MOSS,FIFTY-FIFTY,2026,5,hybrid_camber,99000,150 / 153 / 156,6,6,6,7,7,,
+MOSS,KING,2026,5,hybrid_camber,104500,150 / 153 / 155 / 158 / 160,6,6,7,7,7,,
+MOSS,LEGIT,2026,6,hybrid_camber,104500,148 / 152 / 155 / 158,5,5,7,7,6,,
+MOSS,REVOLVER,2026,9,camber,121000,155 / 158 / 161,2,3,10,6,4,,
+MOSS,RRR,2026,7,camber,121000,152 / 155 / 158 / 162,3,3,8,7,6,,
+MOSS,TOTO,2026,5,hybrid_camber,99000,150 / 153 / 156 / 159,5,5,7,7,6,,
+MOSS,TWISTER,2026,4,hybrid_camber,99000,145 / 148 / 150 / 153 / 155,9,7,4,6,4,,
+NEVER SUMMER,Infinity,2026,5,hybrid_camber,99000,142 / 145 / 149 / 152,6,6,6,7,6,,
+NEVER SUMMER,Proto Type 3,2026,6,hybrid_camber,88000,152 / 155 / 157 / 160,6,6,6,7,6,,
+NEVER SUMMER,Proto Ultra,2026,5,hybrid_camber,99000,148 / 151 / 154 / 157,6,7,6,6,5,,
+NEVER SUMMER,Swift,2026,7,hybrid_camber,110000,155 / 158 / 161 / 164,3,3,8,8,7,,
+NEVER SUMMER,Valhalla,2026,7,hybrid_camber,93500,155 / 158 / 161,3,4,8,7,7,,
+NIDECKER,Blade,2026,8,camber,93500,156 / 159 / 162,2,2,10,6,4,,
+NIDECKER,Megalight,2026,6,hybrid_camber,88000,152 / 155 / 158 / 161,5,5,7,7,7,,
+NIDECKER,Merc,2026,6,hybrid_camber,82500,155 / 158 / 161 / 164,4,5,8,7,6,,
+NIDECKER,Score,2026,4,rocker,57200,149 / 152 / 155 / 158,7,7,4,5,5,,
+NIDECKER,Sensor,2026,5,hybrid_camber,74800,152 / 155 / 158 / 161,6,6,6,7,6,,
+NIDECKER,Sensor Mons,2026,5,hybrid_camber,77000,149 / 152 / 155 / 158,7,7,5,6,4,,
+NIDECKER,Venus,2026,4,hybrid_camber,68200,142 / 146 / 149 / 152,7,7,5,6,5,,
+NITRO,Arial,2026,4,hybrid_camber,63800,142 / 146 / 149 / 152,7,7,5,6,5,,
+NITRO,Beast,2026,9,camber,104500,151 / 155 / 158 / 162,2,3,9,8,8,,https://www.nitrosnowboards.com/en/beast
+NITRO,Cheap Thrills,2026,5,camber,60500,148 / 152 / 155 / 157,8,9,3,5,3,,https://www.nitrosnowboards.com/en/cheap-thrills
+NITRO,Cinema,2026,5,rocker,55000,152 / 155 / 159 / 162,9,8,3,4,4,,https://www.nitrosnowboards.com/en/cinema
+NITRO,Drop,2026,5,hybrid_camber,71500,143 / 146 / 149 / 152 / 155,6,6,7,7,6,,https://www.nitrosnowboards.com/en/drop
+NITRO,Fate,2026,5,camber,77000,143 / 147 / 150 / 153,5,6,7,7,6,,https://www.nitrosnowboards.com/en/fate
+NITRO,Fintwin,2026,7,camber,77000,149 / 154,7,7,5,6,6,,
+NITRO,Magnum,2026,7,camber,82500,159 / 163 / 167 / 171,4,5,8,7,7,,https://www.nitrosnowboards.com/en/magnum
+NITRO,Mystique,2026,4,double_camber,66000,138 / 142 / 146 / 149 / 152 / 155,7,7,5,6,5,,https://www.nitrosnowboards.com/en/mystique
+NITRO,Optisym,2026,6,camber,88000,146 / 149 / 153 / 156 / 159,5,6,8,8,6,,https://www.nitrosnowboards.com/en/optisym
+NITRO,Pantera,2026,9,camber,88000,160 / 163,2,3,9,7,6,,
+NITRO,Pow,2026,8,rocker,88000,157 / 163,3,3,5,5,9,,
+NITRO,Santoku,2026,5,camber,85800,156 / 159 / 162,5,5,7,7,7,,
+NITRO,Slash,2026,7,camber,82500,151 / 156 / 162,3,3,8,7,8,,
+NITRO,Squash,2026,7,camber,77000,156 / 159 / 163,6,5,6,7,8,,https://www.nitrosnowboards.com/en/squash
+NITRO,T1,2026,7,camber,60500,149 / 152 / 155 / 158,8,9,3,5,3,,https://www.nitrosnowboards.com/en/t1
+NITRO,Team,2026,7,camber,82500,152 / 155 / 157 / 159 / 162,5,7,7,7,6,,https://www.nitrosnowboards.com/en/team
+NITRO,Team Pro,2026,8,camber,99000,146 / 149 / 152 / 155 / 157 / 159 / 162,4,6,8,8,7,,https://www.nitrosnowboards.com/en/team-pro
+NOVEMBER,ARTISTE,2026,4,hybrid_camber,99000,148 / 150 / 152 / 154 / 156,9,7,5,7,4,,
+NOVEMBER,BACKCITY,2026,6,camber,110000,150 / 153 / 156 / 159,5,5,8,8,7,,
+NOVEMBER,C-KENTIAL,2026,6,hybrid_camber,93500,150 / 153 / 156 / 159,5,5,7,7,6,,
+NOVEMBER,D4,2026,3,double_camber,99000,147 / 150 / 152 / 155,10,8,3,5,3,,
+NOVEMBER,DESIRE,2026,6,camber,107800,150 / 153 / 155 / 158,5,5,9,8,6,,
+NOVEMBER,DESIRE RS,2026,7,camber,110000,148 / 152 / 156 / 160,3,3,9,7,5,,
+NOVEMBER,DESIRE W,2026,5,hybrid_camber,82500,138 / 142 / 146 / 150,5,5,6,6,5,,
+NOVEMBER,DOGWALK,2026,5,hybrid_camber,88000,150 / 152 / 155 / 158,6,6,6,7,5,,
+NOVEMBER,DX4,2026,4,double_camber,102300,148 / 150 / 153 / 155,9,7,4,6,4,,
+NOVEMBER,ICECAT,2026,4,hybrid_camber,88000,148 / 150 / 152 / 154,8,7,4,6,4,,
+NOVEMBER,KAILA,2026,3,double_camber,95700,139 / 143 / 147 / 150 / 153,10,7,3,5,3,,
+NOVEMBER,KJ,2026,5,hybrid_camber,88000,148 / 150 / 152 / 154 / 156,7,6,5,6,5,,
+OGASAKA,CT,2026,6,camber,116600,146 / 148 / 150 / 152 / 154 / 156 / 158 / 161,5,5,8,7,6,,https://www.ogasaka-snowboard.com/product.html
+OGASAKA,CT-IZ,2026,6,camber,123200,148 / 150 / 152 / 154 / 156 / 158,6,5,9,8,5,,
+OGASAKA,CT-IZS,2026,7,camber,110000,148 / 152 / 154 / 156 / 158,3,3,9,8,5,,
+OGASAKA,CT-S,2026,7,camber,136400,150 / 154 / 156 / 158 / 160 / 162,3,3,10,7,5,,https://www.ogasaka-snowboard.com/product.html
+OGASAKA,CT-TWIN,2026,5,camber,116600,148 / 150 / 152 / 154 / 156 / 158,7,6,7,7,5,,https://www.ogasaka-snowboard.com/product.html
+OGASAKA,FC,2026,10,camber,132000,155 / 158 / 161 / 164,1,2,10,5,4,,
+OGASAKA,FC-S,2026,9,camber,137500,154 / 156 / 158 / 160 / 163,1,2,10,6,4,,https://www.ogasaka-snowboard.com/product.html
+OGASAKA,ORCA,2026,6,hybrid_camber,138600,150 / 153 / 156 / 159,5,5,7,7,7,,
+OGASAKA,SPROUT,2026,6,camber,138600,148 / 152 / 156 / 159 / 164,4,4,7,7,9,,https://www.ogasaka-snowboard.com/product.html
+OGASAKA,TF,2026,5,hybrid_camber,110000,148 / 150 / 153 / 155 / 158,7,6,6,7,5,,
+RICE28,RT6,2026,5,hybrid_camber,111100,148 / 150 / 152 / 154 / 156,7,6,5,7,5,,
+RICE28,RT7,2026,3,double_camber,83600,147 / 150 / 152 / 154,10,8,3,5,3,,https://www.rice28jp.com/
+RICE28,RT7 LTD,2026,5,hybrid_camber,121000,148 / 150 / 152 / 154,8,7,4,7,4,,
+RICE28,RT9,2026,1,flat,75900,148 / 150 / 152 / 154,10,7,2,4,2,,
+RICE28,TP8,2026,6,hybrid_camber,113300,148 / 150 / 152 / 154 / 156,6,5,6,7,6,,
+RIDE,Agenda,2026,6,hybrid_camber,71500,152 / 155 / 158 / 161,5,5,7,7,6,,
+RIDE,Algorythm,2026,6,hybrid_camber,82500,152 / 155 / 157 / 159 / 162,5,6,7,8,7,,
+RIDE,Benchwarmer,2026,3,flat,60500,148 / 151 / 154 / 157,8,8,3,5,4,,
+RIDE,Berzerker,2026,7,hybrid_camber,88000,155 / 158 / 160 / 163,3,4,9,8,7,,
+RIDE,Burnout,2026,4,hybrid_camber,66000,148 / 152 / 155 / 158,7,8,4,5,4,,
+RIDE,Compact,2026,4,hybrid_camber,66000,138 / 142 / 146 / 150,7,7,5,6,5,,
+RIDE,Heartbreaker,2026,3,flat,44000,139 / 143 / 147,8,7,3,4,4,,
+RIDE,Manic,2026,4,hybrid_camber,63800,148 / 151 / 154 / 157,8,9,3,5,3,,
+RIDE,Mtnpig,2026,7,hybrid_camber,93500,155 / 158 / 161 / 164,3,3,7,7,9,,
+RIDE,Peace Seeker,2026,7,hybrid_camber,77000,155 / 158 / 161 / 164,3,3,8,7,8,,
+RIDE,Psychocandy,2026,4,rocker,71500,147 / 151 / 154 / 157,8,8,4,5,6,,
+RIDE,Saturday,2026,4,hybrid_camber,71500,138 / 142 / 146 / 150,7,7,5,6,6,,
+RIDE,Shadowban,2026,5,hybrid_camber,77000,151 / 154 / 156 / 159 / 162,6,7,6,7,6,,
+RIDE,Superpig,2026,6,hybrid_camber,93500,148 / 151 / 154 / 158,6,6,7,7,8,,
+RIDE,Twinpig,2026,4,flat,71500,148 / 151 / 154 / 157,8,9,3,5,3,,
+RIDE,Warpig,2026,5,flat,77000,148 / 151 / 154 / 158,7,7,6,6,8,,
+RIDE,Zero,2026,3,rocker,57200,147 / 151 / 155,8,7,3,4,4,,
+ROME,Agent,2026,6,hybrid_camber,79200,152 / 155 / 158 / 161,5,6,7,7,6,,
+ROME,Artifact,2026,4,hybrid_camber,60500,149 / 152 / 155 / 158,8,8,3,5,3,,
+ROME,Freaker,2026,5,rocker,66000,150 / 153 / 156 / 159,7,6,4,6,7,,
+ROME,Mechanic,2026,5,hybrid_camber,74800,150 / 153 / 156 / 159,7,8,5,6,4,,
+ROME,Muse,2026,4,hybrid_camber,69300,143 / 146 / 149 / 152,7,7,5,6,5,,
+ROME,Ravine,2026,6,hybrid_camber,88000,155 / 158 / 161,3,4,9,7,6,,
+ROME,Stale Crewzer,2026,4,double_camber,82500,148 / 151 / 154 / 157,8,9,3,5,3,,
+ROME,Stale Fish,2026,5,hybrid_camber,71500,148 / 151 / 154 / 157,7,7,4,6,6,,
+ROME,Warden,2026,6,hybrid_camber,85800,155 / 158 / 161 / 164,4,4,8,7,7,,
+ROSSIGNOL,District,2026,4,flat,55000,149 / 152 / 155 / 158,7,7,4,5,4,,
+ROSSIGNOL,Frenemy,2026,4,hybrid_camber,46200,140 / 144 / 148 / 152,6,6,5,6,5,,
+ROSSIGNOL,Gala,2026,3,rocker,39600,138 / 142 / 146,8,6,3,4,5,,
+ROSSIGNOL,Jibsaw,2026,4,hybrid_camber,63800,149 / 152 / 155 / 158,8,8,4,5,3,,
+ROSSIGNOL,Juggernaut,2026,9,camber,93500,157 / 160 / 163,2,2,10,6,5,,
+ROSSIGNOL,One,2026,5,hybrid_camber,71500,152 / 155 / 158 / 161,6,6,6,7,6,,
+ROSSIGNOL,Resurgence,2026,7,hybrid_camber,82500,155 / 158 / 161 / 164,3,3,8,7,7,,
+ROSSIGNOL,Retox,2026,4,hybrid_camber,60500,148 / 151 / 154 / 157,8,8,4,5,3,,
+ROSSIGNOL,Revenant,2026,8,camber,82500,155 / 158 / 161 / 164,3,4,9,7,7,,
+ROSSIGNOL,Soulside,2026,5,hybrid_camber,93500,155 / 158 / 162,4,5,8,8,7,,
+ROXY,Dawn,2026,4,hybrid_camber,63800,142 / 146 / 149 / 152,7,7,5,6,5,,
+ROXY,Raina,2026,5,hybrid_camber,66000,142 / 145 / 148 / 151 / 154,5,5,6,6,6,,
+ROXY,Smoothie,2026,5,hybrid_camber,68200,143 / 146 / 149 / 152,6,6,6,7,6,,
+ROXY,XOXO,2026,5,hybrid_camber,71500,141 / 145 / 149 / 152,5,6,6,7,6,,
+SALOMON,Abstract,2026,6,hybrid_camber,82500,152 / 155 / 158 / 162,5,5,7,7,8,,
+SALOMON,Assassin,2026,6,hybrid_camber,88000,151 / 153 / 156 / 159 / 162,5,6,8,8,7,,
+SALOMON,Craft,2026,6,hybrid_camber,88000,153 / 156 / 159 / 162,4,5,8,7,6,,
+SALOMON,Dancehaul,2026,4,rocker,66000,148 / 152 / 155 / 158 / 161,8,7,4,5,7,,
+SALOMON,Fastlane,2026,7,hybrid_camber,88000,155 / 158 / 161 / 164,3,3,7,7,9,,
+SALOMON,Highpath,2026,6,hybrid_camber,82500,152 / 155 / 158 / 161,4,4,7,7,7,,
+SALOMON,Huck Knife,2026,5,hybrid_camber,79200,148 / 150 / 152 / 155 / 158,6,9,5,6,3,,
+SALOMON,Jetstream,2026,7,hybrid_camber,85800,155 / 158 / 161,3,3,8,7,8,,
+SALOMON,Lotus,2026,3,rocker,44000,138 / 142 / 146,8,6,3,4,5,,
+SALOMON,Oh Yeah,2026,4,hybrid_camber,66000,138 / 142 / 146 / 149 / 152,7,7,5,6,5,,
+SALOMON,Pulse,2026,3,flat,60500,149 / 152 / 156 / 160,7,6,4,5,4,,
+SALOMON,Rumble Fish,2026,5,hybrid_camber,79200,142 / 146 / 148 / 150 / 153,6,6,7,7,7,,
+SALOMON,Sight,2026,4,hybrid_camber,60500,150 / 153 / 156 / 159 / 162,6,7,5,6,5,,
+SALOMON,Sleepwalker,2026,3,flat,55000,148 / 150 / 152 / 155 / 158,8,9,3,4,3,,
+SANTA CRUZ,All Star,2026,5,hybrid_camber,63800,152 / 155 / 158,6,7,6,6,5,,
+SANTA CRUZ,Screaming Hand,2026,4,hybrid_camber,60500,150 / 153 / 156 / 159,7,8,4,5,4,,
+SANTA CRUZ,Street Shark,2026,4,flat,46200,149 / 152 / 155,8,8,3,5,3,,
+SCOOTER,DAYLIFE,2026,1,flat,68200,139 / 143 / 147 / 150,10,7,2,3,2,,
+SCOOTER,DAYLIFE THRUSTER,2026,6,hybrid_camber,110000,147 / 150 / 152 / 155 / 158,5,5,8,8,6,,
+SCOOTER,DAYLIFE VERNIER,2026,6,hybrid_camber,112200,143 / 147 / 150 / 151 / 155 / 159,6,5,7,8,7,,
+SCOOTER,G9,2026,5,hybrid_camber,99000,145 / 148 / 150 / 153 / 155,7,7,6,7,5,,
+SCOOTER,MACHS,2026,7,camber,115500,152 / 155 / 158 / 160 / 163,3,3,9,8,7,,
+SCOOTER,SCT,2026,4,hybrid_camber,99000,143 / 147 / 150 / 152 / 155,8,7,5,6,5,,
+SCOOTER,SPINOR,2026,6,camber,115500,148 / 152 / 155 / 158,4,4,8,7,5,,
+SCOOTER,XX,2026,8,camber,138600,152 / 155 / 158 / 162,2,2,10,6,4,,
+SEASON,Aero,2026,5,hybrid_camber,79200,149 / 153 / 157 / 161,6,7,6,6,5,,
+SEASON,Forma,2026,7,camber,99000,155 / 158 / 162,3,3,9,8,6,,
+SEASON,Kin,2026,4,hybrid_camber,71500,148 / 151 / 154 / 157,7,8,5,5,4,,
+SEASON,Nexus,2026,6,camber,88000,152 / 155 / 158 / 161,4,5,8,7,7,,
+SEASON,Primer,2026,4,hybrid_camber,60500,149 / 152 / 155 / 158,6,6,5,6,5,,
+SIGNAL,Disruptor,2026,6,hybrid_camber,79200,153 / 156 / 159 / 162,5,6,7,7,6,,
+SIGNAL,Ludo Machine,2026,5,hybrid_camber,77000,152 / 155 / 158 / 161,5,5,6,7,7,,
+SIGNAL,OG,2026,5,camber,49500,151 / 154 / 157,5,6,7,6,5,,
+SIGNAL,Park,2026,4,flat,46200,149 / 152 / 155,7,9,3,5,3,,
+SIGNAL,Park Series,2026,4,hybrid_camber,68200,149 / 152 / 155 / 158,7,9,4,5,3,,
+SIGNAL,Sierra,2026,6,camber,82500,155 / 158 / 161,4,5,8,7,6,,
+SIGNAL,Yup,2026,3,flat,60500,148 / 151 / 154 / 157,9,8,3,4,3,,
+SIMS,ATV,2026,5,hybrid_camber,66000,150 / 153 / 156 / 159,6,6,6,7,6,,
+SIMS,Bowl Squad,2026,4,flat,60500,148 / 151 / 154,8,8,3,5,3,,
+SIMS,Distortion,2026,5,hybrid_camber,60500,150 / 153 / 156 / 159,6,6,6,6,5,,
+SIMS,Nub,2026,3,flat,55000,148 / 151 / 154,8,7,3,5,3,,
+SLASH,ATV,2026,5,hybrid_camber,77000,152 / 155 / 158 / 161,6,6,6,7,6,,
+SLASH,Brainstorm,2026,6,camber,82500,155 / 158 / 161 / 164,4,4,8,7,7,,
+SLASH,Floater,2026,6,hybrid_camber,71500,154 / 157 / 160,3,3,6,6,9,,
+SLASH,Happy Place,2026,3,rocker,55000,148 / 151 / 154 / 157,7,7,3,5,5,,
+SLASH,Portal,2026,4,rocker,71500,148 / 152 / 156,7,7,4,5,6,,
+SLASH,Spectrum,2026,5,hybrid_camber,71500,143 / 147 / 151,6,7,5,6,5,,
+SPREAD,AX-F,2026,4,camber,99000,148 / 150 / 152 / 154,7,6,6,6,4,,
+SPREAD,BX,2026,5,hybrid_camber,104500,148 / 150 / 152 / 154,6,6,6,7,5,,
+SPREAD,BX-F,2026,4,hybrid_camber,99000,148 / 150 / 152 / 154,7,6,5,6,5,,
+SPREAD,LTA,2026,5,flat,109780,148 / 150 / 152 / 154 / 156,7,6,5,6,5,,
+SPREAD,LTA-F,2026,3,flat,89100,148 / 151 / 153 / 156,10,7,3,5,3,,
+SPREAD,LTB,2026,4,hybrid_camber,89100,148 / 151 / 153 / 156,9,7,5,6,4,,
+SPREAD,RD,2026,6,camber,82500,150 / 153 / 156 / 159,5,4,8,7,5,,
+SPREAD,ZERO,2026,6,camber,115500,148 / 150 / 152 / 154,5,5,7,7,5,,
+TELOS,Backslash,2026,5,hybrid_camber,74800,150 / 153 / 156 / 159,6,7,6,6,5,,
+TELOS,Chillum,2026,4,rocker,66000,148 / 152 / 156,7,6,4,5,7,,
+TELOS,DST,2026,6,camber,82500,154 / 157 / 160 / 163,4,5,8,7,6,,
+TELOS,Legend,2026,4,hybrid_camber,82500,150 / 153 / 156,7,7,5,6,5,,
+TELOS,Lemurian,2026,7,camber,143000,155 / 158 / 161,3,3,8,7,7,,
+TORQREX,DIABLO,2026,3,double_camber,99000,148 / 150 / 152 / 154,10,8,2,5,2,,
+TORQREX,FENRIR,2026,7,camber,121000,152 / 155 / 158 / 161,3,3,8,7,6,,
+TORQREX,HYDRA,2026,4,hybrid_camber,110000,148 / 150 / 152 / 154 / 156,8,7,4,6,4,,
+TORQREX,UNICORN,2026,3,flat,104500,148 / 150 / 152 / 154,9,7,3,5,3,,
+TORQREX,WYVERN,2026,6,hybrid_camber,115500,150 / 153 / 156 / 159,5,5,7,7,6,,
+UNIT,Drifter,2026,4,rocker,49500,149 / 152 / 155,7,6,4,5,6,,
+UNIT,MOUNTAIN FREE,2026,5,rocker,115500,152 / 155 / 158 / 161,3,3,5,6,9,,
+UNIT,RABBIT,2026,5,rocker,110000,148 / 152 / 156,4,4,5,6,9,,
+UNIT,STROLLER,2026,6,hybrid_camber,124300,150 / 153 / 156 / 159,3,3,6,7,9,,
+UNIT,TORNADO,2026,6,hybrid_camber,124300,150 / 153 / 156 / 159,4,3,6,7,9,,
+WESTON,Backwoods,2026,7,hybrid_camber,93500,155 / 158 / 161 / 165,2,3,7,6,9,,
+WESTON,Dream Machine,2026,5,hybrid_camber,71500,152 / 155 / 158 / 161,5,5,6,7,7,,
+WESTON,Gnarnia,2026,7,hybrid_camber,82500,155 / 158 / 161,3,3,7,7,9,,
+WESTON,Hatchet,2026,6,hybrid_camber,88000,153 / 157 / 161,4,5,7,7,8,,
+WESTON,Logger,2026,5,rocker,82500,155 / 159 / 163,4,4,5,5,9,,
+YES.,All-In,2026,5,hybrid_camber,71500,151 / 154 / 157 / 160,6,6,6,7,6,,
+YES.,Basic,2026,3,flat,63800,148 / 151 / 154 / 157,8,7,3,4,4,,
+YES.,Greats,2026,6,hybrid_camber,88000,154 / 156 / 158 / 161,5,6,7,7,7,,
+YES.,Hel Yes,2026,5,hybrid_camber,79200,143 / 146 / 149 / 152,6,7,6,6,5,,
+YES.,Hello,2026,4,hybrid_camber,52800,141 / 144 / 147 / 149,7,7,5,6,5,,
+YES.,Pick Your Line,2026,7,hybrid_camber,93500,155 / 158 / 162 / 165,3,3,7,7,9,,
+YES.,Rival,2026,5,hybrid_camber,63800,142 / 145 / 148 / 151,6,6,5,6,5,,
+YES.,Sender,2026,7,hybrid_camber,82500,155 / 158 / 161,3,4,7,7,8,,
+YES.,Shifter 3D,2026,4,double_camber,66000,148 / 151 / 154 / 157,9,8,3,6,3,,
+YES.,Standard,2026,5,hybrid_camber,79200,152 / 155 / 158 / 161,6,7,6,7,6,,
+YONEX,4XP,2026,4,hybrid_camber,81400,138 / 143 / 148 / 151 / 154,8,8,4,6,5,,https://www.yonex.co.jp/snowboards/boards/
+YONEX,4XP POWTWIN,2026,5,hybrid_camber,81400,154 / 155 / 158,8,7,5,7,9,,
+YONEX,ACHSE,2026,7,camber,92400,150 / 153 / 156 / 159,4,4,9,8,6,,
+YONEX,DECLIC,2026,3,hybrid_camber,68200,136 / 139 / 142 / 145,9,7,4,5,4,,https://www.yonex.co.jp/snowboards/boards/
+YONEX,GLIDE,2026,6,flat,101200,157 / 161,3,2,7,7,9,,https://www.yonex.co.jp/snowboards/boards/
+YONEX,GRACE,2026,5,flat,99000,147 / 151,4,3,7,7,8,,https://www.yonex.co.jp/snowboards/boards/
+YONEX,GROWENT,2026,3,hybrid_camber,68200,148 / 151 / 154 / 157,9,7,4,6,4,,https://www.yonex.co.jp/snowboards/boards/
+YONEX,LUVARTH,2026,6,flat,110000,150 / 154 / 158,4,3,8,7,8,,https://www.yonex.co.jp/snowboards/boards/
+YONEX,NEXTAGE,2026,6,camber,92400,152 / 155 / 158 / 161,5,5,8,7,7,,
+YONEX,REGNA,2026,8,camber,231000,152 / 155 / 158 / 162,2,2,9,7,5,,
+YONEX,REV,2026,7,camber,112200,150 / 153 / 156 / 159,4,4,8,8,7,,https://www.yonex.co.jp/snowboards/boards/
+YONEX,SLEEK,2026,5,camber,99000,138 / 142 / 146,5,5,7,7,6,,https://www.yonex.co.jp/snowboards/boards/
+YONEX,SMOOTH,2026,4,hybrid_camber,101200,148 / 150 / 152 / 155,8,8,5,6,5,,
+YONEX,STYLAHOLIC,2026,5,camber,99000,138 / 143 / 148 / 151 / 154,7,9,5,6,3,,https://www.yonex.co.jp/snowboards/boards/
+YONEX,SYMARC,2026,9,camber,114400,151 / 156 / 160 / 164,1,1,10,6,4,,https://www.yonex.co.jp/snowboards/boards/
+GT Snowboards,BASE,2026,5,hybrid_camber,88000,148 / 150 / 152 / 154 / 156,10,7,5,6,3,,https://sportsbomber.base.shop/items/97752161
+GT Snowboards,BUFF,2026,4,double_camber,88000,148 / 150 / 152 / 154,10,7,4,6,4,,https://sportsbomber.base.shop/items/97752222
+GT Snowboards,BUFF Ladies,2026,3,double_camber,88000,136 / 138 / 140 / 142 / 145,10,7,4,5,4,,https://sportsbomber.base.shop/items/97752289
+GT Snowboards,XENO,2026,4,flat,88000,148 / 150 / 152 / 154 / 156,10,7,4,6,3,,https://sportsbomber.base.shop/items/97751366
+GT Snowboards,GRACE,2026,3,hybrid_camber,88000,139 / 141 / 143 / 145,10,7,5,6,3,,https://sportsbomber.base.shop/items/97753127
+GT Snowboards,GAIN,2026,3,hybrid_camber,64900,148 / 150 / 152 / 154 / 156,8,6,4,5,3,,https://gtsnowboards.stores.jp/items/679c5f127dd1ee0240020f24
+GT Snowboards,BUFF LIMITED,2026,6,double_camber,118800,148 / 150 / 152 / 154,10,8,5,7,4,,https://www.misty-snow.com/gt-snowboard_buff-ltd.html
+HOLIDAY,Hi-Fi,2026,3,double_camber,97020,149 / 151 / 153 / 156,9,7,4,7,3,,https://item.rakuten.co.jp/auc-breakout/hifi/
+HOLIDAY,Hi-Fi ZERO,2025,4,hybrid_camber,50050,141 / 145 / 149 / 151 / 153,7,6,5,6,3,,https://item.rakuten.co.jp/auc-breakout/17-jnus/
+HOLIDAY,Hi-Fi SLAP,2025,4,hybrid_camber,70070,141 / 145 / 149 / 151 / 153,7,6,5,6,3,,https://item.rakuten.co.jp/auc-breakout/hdhf/
+CROOJA,WORM,2026,4,double_camber,99000,137 / 139 / 142 / 145 / 148 / 150 / 152 / 154 / 156,9,7,4,8,3,,https://item.rakuten.co.jp/auc-breakout/quadra78-alf/
+CROOJA,LOCUST,2026,5,camber,99000,148 / 150 / 152 / 154 / 156,7,6,6,7,4,,https://item.rakuten.co.jp/auc-breakout/quadra63/
+CROOJA,BEETLE,2026,5,hybrid_camber,99000,148 / 150 / 152 / 154 / 156,8,6,5,8,3,,https://item.rakuten.co.jp/auc-breakout/gy-mach56/
+CROOJA,SPIDER,2026,4,double_camber,99000,148 / 150 / 152 / 154,9,7,4,8,3,,https://item.rakuten.co.jp/auc-breakout/16-day/
+PUBLIC,RESEARCH,2026,6,hybrid_camber,88110,154 / 157 / 160,3,3,7,5,8,,https://item.rakuten.co.jp/auc-breakout/pb-display/
+WRX SB,Mk-CW,2026,6,hybrid_camber,135300,144 / 146 / 150 / 153 / 156,6,5,9,8,3,,https://www.follows.co.jp/SHOP/sn-sb-wrx-005.html
+WRX SB,Mk-S,2026,5,hybrid_camber,132000,142 / 145 / 149 / 152 / 155 / 158,7,6,7,9,4,,https://www.follows.co.jp/SHOP/sn-sb-rice28-083.html
+WRX SB,Mk-U,2026,5,hybrid_camber,135300,141 / 145 / 149 / 152 / 155,6,5,8,7,3,,https://www.follows.co.jp/SHOP/sn-sb-wrx-004.html
+leverage,GT1,2026,4,hybrid_camber,106700,137 / 140 / 143 / 148 / 151 / 154,10,6,5,7,2,,https://www.misty-snow.com/leverage_gt1.html
+leverage,GT2,2026,4,double_camber,106700,137 / 141 / 145 / 148 / 151 / 154,9,7,6,8,2,,https://www.misty-snow.com/leverage_gt2.html
+leverage,GT3,2026,5,hybrid_camber,104500,137 / 141 / 145 / 149 / 152 / 155,8,7,7,9,3,,https://www.misty-snow.com/leverage_gt3.html
+FIELD EARTH,ARTRIDE TWIN,2026,4,camber,100100,151 / 155,7,8,4,6,5,,https://aresbmx.com/?pid=179529227
+FIELD EARTH,ARTRIDE DIRECTIONAL,2026,5,camber,119900,142 / 145 / 148 / 153 / 158,5,6,7,7,6,,https://aresbmx.com/?pid=179529056
+FIELD EARTH,ARTRIDE 3D,2026,5,camber,150700,159,4,5,7,6,8,,https://robinoutdoor.jp/products/field-earth-artride-3d
+FIELD EARTH,X3,2026,7,camber,174900,146 / 153 / 161,2,2,8,5,9,,https://www.fieldearthdesign.com/x3.html
+TJ Brand,NAPOLEON FISH,2026,4,rocker,132000,142 / 147 / 153,3,3,4,5,10,,https://tj-brand.com/3dimensions/
+TJ Brand,DHINGI,2026,5,hybrid_camber,137500,155 / 159,4,5,6,7,8,,https://tj-brand.com/3dimensions/
+TJ Brand,DRAFT F.T.C.,2026,5,hybrid_camber,138600,152 / 156,5,7,6,7,7,,https://tj-brand.com/3dimensions/
+TJ Brand,COELACANTH,2026,6,hybrid_camber,132000,148 / 155 / 158 / 161,5,5,7,7,7,,https://tj-brand.com/product/
+TJ Brand,CRUISER,2026,6,hybrid_camber,115500,149 / 156 / 157 / 160,4,4,7,7,8,,https://tj-brand.com/product/
+DINOSAURS WILL DIE,NeverNot,2025,7,camber,79000,153 / 157 / 161,5,7,6,7,6,,https://dinosaurswilldie.com/product/2425-nevernot/
+DINOSAURS WILL DIE,Wizard Stick,2025,6,hybrid_camber,70000,146 / 149 / 154 / 158 / 160,6,6,5,6,7,,https://dinosaurswilldie.com/product/2425-wizard-stick/
+DINOSAURS WILL DIE,Rat,2025,5,hybrid_camber,63000,151 / 153 / 155,7,7,4,6,4,,https://dinosaurswilldie.com/product/2425-rat/
+DINOSAURS WILL DIE,Perry,2025,6,hybrid_camber,75000,150 / 153 / 156 / 159,6,6,5,6,5,,https://dinosaurswilldie.com/product/2425-perry/
+DINOSAURS WILL DIE,maeTier,2025,6,camber,70000,152 / 155 / 158 / 162,6,7,6,6,6,,https://dinosaurswilldie.com/product/2425-maetier/
+DINOSAURS WILL DIE,maeT,2025,5,camber,63000,148 / 152 / 155 / 158,7,7,4,6,4,,https://dinosaurswilldie.com/product/2425-maet/
+DINOSAURS WILL DIE,Holce,2025,6,flat,79000,154 / 157 / 160,6,5,6,7,5,,https://dinosaurswilldie.com/product/2425-holce/
+DINOSAURS WILL DIE,BilBored,2025,5,camber,70000,147 / 151 / 154 / 157,7,7,4,6,5,,https://dinosaurswilldie.com/product/2425-bilbored/
+DINOSAURS WILL DIE,Darrah,2025,4,flat,75000,146 / 149 / 152 / 155,7,7,4,5,4,,https://dinosaurswilldie.com/product/2425-darrah-dark/
+DINOSAURS WILL DIE,Brat,2025,3,hybrid_camber,58000,140 / 143 / 146,9,8,2,5,3,,https://dinosaurswilldie.com/product/2425-brat/
+DINOSAURS WILL DIE,Keenan's Board,2025,7,hybrid_camber,82000,152 / 155 / 158 / 161,4,5,7,7,6,,https://dinosaurswilldie.com/product/2425-keenans-board-152/
+UNITED SHAPES,Object,2026,5,hybrid_camber,72000,144 / 148 / 152 / 156 / 160,7,8,4,6,3,,https://unitedshapes.com/products/object
+UNITED SHAPES,Horizon,2026,6,hybrid_camber,98000,143 / 147 / 151 / 155 / 159,5,6,6,7,6,,https://unitedshapes.com/products/horizon
+UNITED SHAPES,Cadet,2026,7,hybrid_camber,105000,146 / 150 / 154 / 158 / 162,4,5,7,7,7,,https://unitedshapes.com/products/cadet-2025
+UNITED SHAPES,Deep Reach,2026,6,hybrid_camber,112000,149 / 153 / 156 / 159 / 162,2,3,8,5,9,,https://unitedshapes.com/products/deep-reach
+UNITED SHAPES,Experiment,2026,5,rocker,120000,148 / 155,3,3,5,4,10,,https://unitedshapes.com/products/experiment
+UNITED SHAPES,Transmission,2026,9,camber,112000,154 / 159,1,2,10,4,3,,https://unitedshapes.com/products/transmission
+DC Snowboarding,Ply,2026,6,hybrid_camber,60000,150 / 153 / 156 / 159,6,7,5,6,4,,https://www.dcshoes.com/
+DC Snowboarding,PBJ,2026,4,flat,55000,149 / 153 / 155 / 157 / 159,8,8,3,5,3,,https://www.dcshoes.com/
+DC Snowboarding,EMB,2026,5,hybrid_camber,58000,150 / 153 / 156 / 158 / 160,5,6,6,6,5,,https://www.dcshoes.com/
+ThirtyTwo,T32M,2026,6,camber,90000,148 / 150 / 152 / 154 / 156,6,9,5,6,3,,https://thirtytwo.com/collections/snowboards
+ThirtyTwo,Middle Earth Pro LTD,2026,5,camber,90000,155 / 157 / 158,7,8,5,6,4,,https://thirtytwo.com/products/middle-earth-pro-limited-edition-snowboard-snu-mep-xx
+ThirtyTwo,XXX Fava Pro LTD,2026,6,camber,95000,152 / 154 / 156 / 158,8,9,4,7,3,,https://thirtytwo.com/products/xxx-fava-pro-limited-edition-snowboard-snm-pat-xx
+SIMS,FLUID,2025,3,double_camber,68200,138 / 142 / 146,6,7,4,5,4,,https://simsnow.jp/products/26-fluid
+SIMS,VANILLA,2025,4,hybrid_camber,75900,139 / 144 / 149,7,8,4,6,3,,https://simsnow.jp/products/26-vanilla
+SIMS,BOWL SQUAD,2025,3,hybrid_camber,68200,149 / 151 / 154 / 155 / 157 / 159,5,6,5,6,4,,https://simsnow.jp/products/26-bowl-squad
+SIMS,JOKER,2025,3,double_camber,68200,148 / 151 / 154 / 156 / 159 / 162,7,8,4,6,3,,https://simsnow.jp/products/26-joker
+SIMS,AURUM EDITION,2025,5,double_camber,75900,149 / 151 / 153 / 155,6,7,5,7,4,,https://simsnow.jp/products/26-aurum-edition
+SIMS,DISTORTION,2025,5,hybrid_camber,83600,149 / 152 / 155 / 158 / 161,5,7,6,8,5,,https://simsnow.jp/products/26-distortion
+SIMS,ATV,2025,5,hybrid_camber,85800,139 / 143 / 147 / 150 / 152 / 155 / 158,4,5,8,7,6,,https://simsnow.jp/products/26-atv
+SIMS,UAP,2025,6,camber,86900,150 / 153 / 156 / 159 / 162,4,5,7,8,6,,https://simsnow.jp/products/26-uap
+SIMS,NUB,2025,3,flat,86900,145 / 148 / 151 / 153 / 156 / 158 / 161,4,6,6,8,7,,https://simsnow.jp/products/26-nub
+SIMS,MACRODOSE,2025,7,rocker,97900,146 / 150 / 154 / 158 / 162,2,3,5,7,10,,https://simsnow.jp/products/macrodose-%E3%82%B3%E3%83%94%E3%83%BC
+SIMS,FAKIE,2025,7,camber,101200,153 / 157 / 161 / 164,3,3,7,7,9,,https://simsnow.jp/products/26-fakie
+SIMS,ATVX,2025,7,hybrid_camber,132000,153 / 158 / 163,2,2,6,7,10,,https://simsnow.jp/products/26-atvx
+SALOMON,Wonder,2025,5,hybrid_camber,81400,140 / 144 / 148 / 152 / 155,5,5,7,6,5,,https://salomon.jp/products/wonder-l476649
+SALOMON,Bliss,2025,3,hybrid_camber,63800,138 / 141 / 144 / 148 / 151 / 155,3,3,5,4,7,,https://salomon.jp/products/bliss-l473505
+K2,Extravision,2025,5,hybrid_camber,80300,139 / 142 / 145 / 147 / 149 / 152,4,4,7,6,5,,https://k2snow.com/en-us/p/extravision-womens-snowboard-2526
+BC STREAM,SOLEIL,2025,3,camber,65780,136 / 139 / 142 / 145,5,5,6,5,5,,http://www.bc-stream.com/
+DEATH LABEL,TRUST GIRLS×DAYZE,2025,4,camber,74800,138 / 142 / 145,7,8,6,6,3,,https://store.shopping.yahoo.co.jp/breakout/13-trust-g.html
+GENTEMSTICK,BABY MANTARAY 148,2025,4,hybrid_camber,147400,148,3,3,6,6,9,,https://gentemstick.com/products/24-25-baby-mantaray-148
+GENTEMSTICK,FLAIR,2025,4,hybrid_camber,137500,144,2,3,7,5,9,,https://gentemstick.com/products/24-25-flair
+BURTON,Feelgood Camber,2025,6,camber,94600,142 / 146 / 149 / 152,4,5,8,7,5,,https://www.burton.com/jp/ja/p/womens-burton-feelgood-camber-snowboard/W25-106911.html
+MOSS,FIFTY-FIFTY RIDER,2025,3,double_camber,96800,143 / 147 / 150,9,8,4,7,3,,https://mosssnowboards.co.jp/
