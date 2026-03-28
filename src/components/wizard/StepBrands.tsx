@@ -141,7 +141,7 @@ export function StepBrands({
               <button
                 key={f.value}
                 onClick={() => toggleFlex(f.value)}
-                className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${
+                className={`flex-1 py-1.5 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border text-center ${
                   isSelected
                     ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
                     : "bg-slate-800/60 text-slate-500 border-slate-700/50 hover:bg-slate-700/60"
@@ -166,7 +166,7 @@ export function StepBrands({
             {allBrandsSelected ? "すべて解除" : "すべて選択"}
           </button>
         </div>
-        <div className="grid grid-cols-2 gap-2 max-h-52 overflow-y-auto pr-1">
+        <div className="grid grid-cols-2 gap-2 max-h-72 overflow-y-auto pr-1">
           {brands.map((brand) => {
             const isSelected = allBrandsSelected || selectedBrands!.has(brand);
             return (

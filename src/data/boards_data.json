@@ -11601,7 +11601,11 @@
     "flex": 3,
     "shape": "double_camber",
     "gender": "womens",
-    "available_lengths": [138, 142, 146],
+    "available_lengths": [
+      138,
+      142,
+      146
+    ],
     "price": 68200,
     "image_url": "",
     "url": "https://simsnow.jp/products/26-fluid",
@@ -11620,7 +11624,11 @@
     "flex": 4,
     "shape": "hybrid_camber",
     "gender": "womens",
-    "available_lengths": [139, 144, 149],
+    "available_lengths": [
+      139,
+      144,
+      149
+    ],
     "price": 75900,
     "image_url": "",
     "url": "https://simsnow.jp/products/26-vanilla",
@@ -11639,7 +11647,14 @@
     "flex": 3,
     "shape": "hybrid_camber",
     "gender": "womens",
-    "available_lengths": [149, 151, 154, 155, 157, 159],
+    "available_lengths": [
+      149,
+      151,
+      154,
+      155,
+      157,
+      159
+    ],
     "price": 68200,
     "image_url": "",
     "url": "https://simsnow.jp/products/26-bowl-squad",
@@ -11658,7 +11673,14 @@
     "flex": 3,
     "shape": "double_camber",
     "gender": "womens",
-    "available_lengths": [148, 151, 154, 156, 159, 162],
+    "available_lengths": [
+      148,
+      151,
+      154,
+      156,
+      159,
+      162
+    ],
     "price": 68200,
     "image_url": "",
     "url": "https://simsnow.jp/products/26-joker",
@@ -11677,7 +11699,12 @@
     "flex": 5,
     "shape": "double_camber",
     "gender": "womens",
-    "available_lengths": [149, 151, 153, 155],
+    "available_lengths": [
+      149,
+      151,
+      153,
+      155
+    ],
     "price": 75900,
     "image_url": "",
     "url": "https://simsnow.jp/products/26-aurum-edition",
@@ -11696,7 +11723,13 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "gender": "womens",
-    "available_lengths": [149, 152, 155, 158, 161],
+    "available_lengths": [
+      149,
+      152,
+      155,
+      158,
+      161
+    ],
     "price": 83600,
     "image_url": "",
     "url": "https://simsnow.jp/products/26-distortion",
@@ -11715,7 +11748,15 @@
     "flex": 6,
     "shape": "camber",
     "gender": "womens",
-    "available_lengths": [139, 143, 147, 150, 152, 155, 158],
+    "available_lengths": [
+      139,
+      143,
+      147,
+      150,
+      152,
+      155,
+      158
+    ],
     "price": 85800,
     "image_url": "",
     "url": "https://simsnow.jp/products/26-atv",
@@ -11734,7 +11775,13 @@
     "flex": 6,
     "shape": "camber",
     "gender": "womens",
-    "available_lengths": [150, 153, 156, 159, 162],
+    "available_lengths": [
+      150,
+      153,
+      156,
+      159,
+      162
+    ],
     "price": 86900,
     "image_url": "",
     "url": "https://simsnow.jp/products/26-uap",
@@ -11753,7 +11800,15 @@
     "flex": 6,
     "shape": "camber",
     "gender": "womens",
-    "available_lengths": [145, 148, 151, 153, 156, 158, 161],
+    "available_lengths": [
+      145,
+      148,
+      151,
+      153,
+      156,
+      158,
+      161
+    ],
     "price": 86900,
     "image_url": "",
     "url": "https://simsnow.jp/products/26-nub",
@@ -11772,7 +11827,13 @@
     "flex": 7,
     "shape": "rocker",
     "gender": "womens",
-    "available_lengths": [146, 150, 154, 158, 162],
+    "available_lengths": [
+      146,
+      150,
+      154,
+      158,
+      162
+    ],
     "price": 97900,
     "image_url": "",
     "url": "https://simsnow.jp/products/macrodose-%E3%82%B3%E3%83%94%E3%83%BC",
@@ -11791,7 +11852,12 @@
     "flex": 7,
     "shape": "camber",
     "gender": "womens",
-    "available_lengths": [153, 157, 161, 164],
+    "available_lengths": [
+      153,
+      157,
+      161,
+      164
+    ],
     "price": 101200,
     "image_url": "",
     "url": "https://simsnow.jp/products/26-fakie",
@@ -11810,7 +11876,11 @@
     "flex": 8,
     "shape": "rocker",
     "gender": "womens",
-    "available_lengths": [153, 158, 163],
+    "available_lengths": [
+      153,
+      158,
+      163
+    ],
     "price": 132000,
     "image_url": "",
     "url": "https://simsnow.jp/products/26-atvx",
@@ -11820,6 +11890,219 @@
       "carving": 6,
       "run_tricks": 7,
       "powder": 10
+    }
+  },
+  {
+    "brand": "SALOMON",
+    "model": "Wonder",
+    "year": 2025,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [
+      140,
+      144,
+      148,
+      152,
+      155
+    ],
+    "price": 81400,
+    "image_url": "",
+    "url": "https://salomon.jp/products/wonder-l476649",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 5,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 5
+    }
+  },
+  {
+    "brand": "SALOMON",
+    "model": "Bliss",
+    "year": 2025,
+    "flex": 3,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [
+      138,
+      141,
+      144,
+      148,
+      151,
+      155
+    ],
+    "price": 63800,
+    "image_url": "",
+    "url": "https://salomon.jp/products/bliss-l473505",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 5,
+      "run_tricks": 4,
+      "powder": 7
+    }
+  },
+  {
+    "brand": "K2",
+    "model": "Extravision",
+    "year": 2025,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [
+      139,
+      142,
+      145,
+      147,
+      149,
+      152
+    ],
+    "price": 80300,
+    "image_url": "",
+    "url": "https://k2snow.com/en-us/p/extravision-womens-snowboard-2526",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 4,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 5
+    }
+  },
+  {
+    "brand": "BC STREAM",
+    "model": "SOLEIL",
+    "year": 2025,
+    "flex": 3,
+    "shape": "camber",
+    "gender": "womens",
+    "available_lengths": [
+      136,
+      139,
+      142,
+      145
+    ],
+    "price": 65780,
+    "image_url": "",
+    "url": "http://www.bc-stream.com/",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 5,
+      "carving": 6,
+      "run_tricks": 5,
+      "powder": 5
+    }
+  },
+  {
+    "brand": "DEATH LABEL",
+    "model": "TRUST GIRLS×DAYZE",
+    "year": 2025,
+    "flex": 4,
+    "shape": "camber",
+    "gender": "womens",
+    "available_lengths": [
+      138,
+      142,
+      145
+    ],
+    "price": 74800,
+    "image_url": "",
+    "url": "https://store.shopping.yahoo.co.jp/breakout/13-trust-g.html",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 8,
+      "carving": 6,
+      "run_tricks": 6,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "GENTEMSTICK",
+    "model": "BABY MANTARAY 148",
+    "year": 2025,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [
+      148
+    ],
+    "price": 147400,
+    "image_url": "",
+    "url": "https://gentemstick.com/products/24-25-baby-mantaray-148",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 6,
+      "run_tricks": 6,
+      "powder": 9
+    }
+  },
+  {
+    "brand": "GENTEMSTICK",
+    "model": "FLAIR",
+    "year": 2025,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [
+      144
+    ],
+    "price": 137500,
+    "image_url": "",
+    "url": "https://gentemstick.com/products/24-25-flair",
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 3,
+      "carving": 7,
+      "run_tricks": 5,
+      "powder": 9
+    }
+  },
+  {
+    "brand": "BURTON",
+    "model": "Feelgood Camber",
+    "year": 2025,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "womens",
+    "available_lengths": [
+      142,
+      146,
+      149,
+      152
+    ],
+    "price": 94600,
+    "image_url": "",
+    "url": "https://www.burton.com/jp/ja/p/womens-burton-feelgood-camber-snowboard/W25-106911.html",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 5,
+      "carving": 8,
+      "run_tricks": 7,
+      "powder": 5
+    }
+  },
+  {
+    "brand": "MOSS",
+    "model": "FIFTY-FIFTY RIDER",
+    "year": 2025,
+    "flex": 3,
+    "shape": "double_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      143,
+      147,
+      150
+    ],
+    "price": 96800,
+    "image_url": "",
+    "url": "https://mosssnowboards.co.jp/",
+    "style_scores": {
+      "ground_tricks": 9,
+      "park": 8,
+      "carving": 4,
+      "run_tricks": 7,
+      "powder": 3
     }
   }
 ]
