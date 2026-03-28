@@ -102,7 +102,7 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       <head>
         <script
@@ -110,7 +110,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-[#0a1628] text-slate-200">
+      <body className="min-h-dvh flex flex-col bg-[#0a1628] text-slate-200 overflow-x-hidden">
         <div className="aurora-bg" />
         <SnowParticles />
         <MountainSilhouette />

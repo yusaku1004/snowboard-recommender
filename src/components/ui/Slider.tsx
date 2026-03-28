@@ -24,7 +24,10 @@ export function Slider({
   onChange,
 }: SliderProps) {
   const displayValue = formatValue ? formatValue(value) : `${value}${unit}`;
-  const percent = ((value - min) / (max - min)) * 100;
+  // Extend visual range by one step below min so that value=min appears
+  // slightly right of the left edge (not as "empty/zero").
+  const visualMin = min - step;
+  const percent = ((value - visualMin) / (max - visualMin)) * 100;
 
   const decrement = () => onChange(Math.max(min, value - step));
   const increment = () => onChange(Math.min(max, value + step));
@@ -57,11 +60,11 @@ export function Slider({
           />
           <input
             type="range"
-            min={min}
+            min={visualMin}
             max={max}
             step={step}
             value={value}
-            onChange={(e) => onChange(Number(e.target.value))}
+            onChange={(e) => onChange(Math.max(min, Number(e.target.value)))}
             className="w-full relative z-10"
           />
         </div>
