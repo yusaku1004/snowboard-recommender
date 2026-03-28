@@ -9960,7 +9960,7 @@
     "brand": "YONEX",
     "model": "4XP",
     "year": 2026,
-    "flex": 4,
+    "flex": 3,
     "shape": "hybrid_camber",
     "gender": "unisex",
     "available_lengths": [
@@ -9985,7 +9985,7 @@
     "brand": "YONEX",
     "model": "4XP POWTWIN",
     "year": 2026,
-    "flex": 5,
+    "flex": 4,
     "shape": "hybrid_camber",
     "available_lengths": [
       154,
@@ -10008,8 +10008,8 @@
     "brand": "YONEX",
     "model": "ACHSE",
     "year": 2026,
-    "flex": 7,
-    "shape": "camber",
+    "flex": 3,
+    "shape": "hybrid_camber",
     "available_lengths": [
       150,
       153,
@@ -10100,7 +10100,7 @@
     "brand": "YONEX",
     "model": "GROWENT",
     "year": 2026,
-    "flex": 3,
+    "flex": 2,
     "shape": "hybrid_camber",
     "gender": "unisex",
     "available_lengths": [
@@ -10242,7 +10242,7 @@
     "brand": "YONEX",
     "model": "SMOOTH",
     "year": 2026,
-    "flex": 4,
+    "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
       148,
@@ -10266,7 +10266,7 @@
     "brand": "YONEX",
     "model": "STYLAHOLIC",
     "year": 2026,
-    "flex": 5,
+    "flex": 6,
     "shape": "camber",
     "gender": "unisex",
     "available_lengths": [
