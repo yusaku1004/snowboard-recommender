@@ -12,6 +12,21 @@ import { BottomSheet } from "@/components/ui/BottomSheet";
 import { Slider } from "@/components/ui/Slider";
 import boardsData from "@/data/boards_data.json";
 
+const STYLE_LABELS: Record<keyof StyleScores, string> = {
+  ground_tricks: "グラトリ",
+  park: "パーク",
+  carving: "カービング",
+  run_tricks: "ラントリ",
+  powder: "パウダー",
+};
+
+function getTopStyleLabel(style: StyleScores): string {
+  const top = (Object.keys(style) as (keyof StyleScores)[]).reduce((a, b) =>
+    style[a] >= style[b] ? a : b
+  );
+  return STYLE_LABELS[top];
+}
+
 const ALL_SHAPES: { value: Shape; label: string }[] = [
   { value: "camber", label: "キャンバー" },
   { value: "rocker", label: "ロッカー" },
@@ -252,9 +267,26 @@ export function StepResults({
   return (
     <div>
       <h2 className="text-xl font-bold text-center mb-1 text-white">診断結果</h2>
-      <p className="text-slate-500 text-center mb-4 text-sm">
+      <p className="text-slate-500 text-center mb-3 text-sm">
         あなたにおすすめのボード TOP10
       </p>
+
+      {/* Input summary chips */}
+      <div className="flex flex-wrap gap-1.5 justify-center mb-4">
+        {[
+          `${adjustedInput.height}cm`,
+          `${adjustedInput.weight}kg`,
+          `${getTopStyleLabel(adjustedInput.style)}重視`,
+          `¥${adjustedInput.budget.toLocaleString()}`,
+        ].map((label) => (
+          <span
+            key={label}
+            className="text-xs text-slate-400 bg-slate-800/60 border border-slate-700/50 px-2.5 py-1 rounded-full"
+          >
+            {label}
+          </span>
+        ))}
+      </div>
 
       {/* AI explanation for top result */}
       {results.length > 0 && (

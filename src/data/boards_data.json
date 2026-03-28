@@ -11593,5 +11593,233 @@
       "run_tricks": 7,
       "powder": 3
     }
+  },
+  {
+    "brand": "SIMS",
+    "model": "FLUID",
+    "year": 2025,
+    "flex": 3,
+    "shape": "double_camber",
+    "gender": "womens",
+    "available_lengths": [138, 142, 146],
+    "price": 68200,
+    "image_url": "",
+    "url": "https://simsnow.jp/products/26-fluid",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 7,
+      "carving": 4,
+      "run_tricks": 5,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "SIMS",
+    "model": "VANILLA",
+    "year": 2025,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [139, 144, 149],
+    "price": 75900,
+    "image_url": "",
+    "url": "https://simsnow.jp/products/26-vanilla",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 8,
+      "carving": 4,
+      "run_tricks": 6,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "SIMS",
+    "model": "BOWL SQUAD",
+    "year": 2025,
+    "flex": 3,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [149, 151, 154, 155, 157, 159],
+    "price": 68200,
+    "image_url": "",
+    "url": "https://simsnow.jp/products/26-bowl-squad",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "SIMS",
+    "model": "JOKER",
+    "year": 2025,
+    "flex": 3,
+    "shape": "double_camber",
+    "gender": "womens",
+    "available_lengths": [148, 151, 154, 156, 159, 162],
+    "price": 68200,
+    "image_url": "",
+    "url": "https://simsnow.jp/products/26-joker",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 8,
+      "carving": 4,
+      "run_tricks": 6,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "SIMS",
+    "model": "AURUM EDITION",
+    "year": 2025,
+    "flex": 5,
+    "shape": "double_camber",
+    "gender": "womens",
+    "available_lengths": [149, 151, 153, 155],
+    "price": 75900,
+    "image_url": "",
+    "url": "https://simsnow.jp/products/26-aurum-edition",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 7,
+      "carving": 5,
+      "run_tricks": 7,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "SIMS",
+    "model": "DISTORTION",
+    "year": 2025,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [149, 152, 155, 158, 161],
+    "price": 83600,
+    "image_url": "",
+    "url": "https://simsnow.jp/products/26-distortion",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 7,
+      "carving": 6,
+      "run_tricks": 8,
+      "powder": 5
+    }
+  },
+  {
+    "brand": "SIMS",
+    "model": "ATV",
+    "year": 2025,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "womens",
+    "available_lengths": [139, 143, 147, 150, 152, 155, 158],
+    "price": 85800,
+    "image_url": "",
+    "url": "https://simsnow.jp/products/26-atv",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 5,
+      "carving": 8,
+      "run_tricks": 7,
+      "powder": 6
+    }
+  },
+  {
+    "brand": "SIMS",
+    "model": "UAP",
+    "year": 2025,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "womens",
+    "available_lengths": [150, 153, 156, 159, 162],
+    "price": 86900,
+    "image_url": "",
+    "url": "https://simsnow.jp/products/26-uap",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 5,
+      "carving": 7,
+      "run_tricks": 8,
+      "powder": 6
+    }
+  },
+  {
+    "brand": "SIMS",
+    "model": "NUB",
+    "year": 2025,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "womens",
+    "available_lengths": [145, 148, 151, 153, 156, 158, 161],
+    "price": 86900,
+    "image_url": "",
+    "url": "https://simsnow.jp/products/26-nub",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 6,
+      "carving": 6,
+      "run_tricks": 8,
+      "powder": 7
+    }
+  },
+  {
+    "brand": "SIMS",
+    "model": "MACRODOSE",
+    "year": 2025,
+    "flex": 7,
+    "shape": "rocker",
+    "gender": "womens",
+    "available_lengths": [146, 150, 154, 158, 162],
+    "price": 97900,
+    "image_url": "",
+    "url": "https://simsnow.jp/products/macrodose-%E3%82%B3%E3%83%94%E3%83%BC",
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 3,
+      "carving": 5,
+      "run_tricks": 7,
+      "powder": 10
+    }
+  },
+  {
+    "brand": "SIMS",
+    "model": "FAKIE",
+    "year": 2025,
+    "flex": 7,
+    "shape": "camber",
+    "gender": "womens",
+    "available_lengths": [153, 157, 161, 164],
+    "price": 101200,
+    "image_url": "",
+    "url": "https://simsnow.jp/products/26-fakie",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 9
+    }
+  },
+  {
+    "brand": "SIMS",
+    "model": "ATVX",
+    "year": 2025,
+    "flex": 8,
+    "shape": "rocker",
+    "gender": "womens",
+    "available_lengths": [153, 158, 163],
+    "price": 132000,
+    "image_url": "",
+    "url": "https://simsnow.jp/products/26-atvx",
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 2,
+      "carving": 6,
+      "run_tricks": 7,
+      "powder": 10
+    }
   }
 ]

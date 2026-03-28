@@ -11,6 +11,7 @@ import { StepBrands } from "./StepBrands";
 import { StepResults } from "./StepResults";
 
 const TOTAL_STEPS = 5;
+const STORAGE_KEY = "snowboard_last_input_v1";
 
 export function Wizard() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -32,6 +33,7 @@ export function Wizard() {
   const [selectedFlex, setSelectedFlex] = useState<Set<FlexCategory> | null>(null);
   const [selectedPriceRanges, setSelectedPriceRanges] = useState<Set<PriceRange> | null>(null);
   const [restored, setRestored] = useState(false);
+  const [savedInput, setSavedInput] = useState<UserInput | null>(null);
 
   // Restore from URL parameters
   useEffect(() => {
@@ -65,6 +67,25 @@ export function Wizard() {
     }
   }, [restored]);
 
+  // Load previous session from localStorage (skip if URL params present)
+  useEffect(() => {
+    if (typeof window === "undefined" || window.location.search) return;
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw) as UserInput;
+      if (data.height && data.weight && data.style && data.budget !== undefined) {
+        setSavedInput(data);
+      }
+    } catch {}
+  }, []);
+
+  // Save to localStorage when user reaches results
+  useEffect(() => {
+    if (currentStep !== 4 || typeof window === "undefined") return;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ height, weight, gender, style, budget, budgetFlexibility }));
+  }, [currentStep, height, weight, gender, style, budget, budgetFlexibility]);
+
   const scrollToTop = useCallback(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -91,6 +112,29 @@ export function Wizard() {
     setStyle(preset);
   }, []);
 
+  const applyInput = useCallback((input: UserInput) => {
+    setHeight(input.height);
+    setWeight(input.weight);
+    setGender(input.gender);
+    setStyle(input.style);
+    setBudget(input.budget);
+    setBudgetFlexibility(input.budgetFlexibility);
+    setSavedInput(null);
+  }, []);
+
+  const handleRestoreAndShowResults = useCallback(() => {
+    if (!savedInput) return;
+    applyInput(savedInput);
+    setDirection("forward");
+    setCurrentStep(4);
+    scrollToTop();
+  }, [savedInput, applyInput, scrollToTop]);
+
+  const handleRestoreAndContinue = useCallback(() => {
+    if (!savedInput) return;
+    applyInput(savedInput);
+  }, [savedInput, applyInput]);
+
   const handleRestart = useCallback(() => {
     setDirection("backward");
     setCurrentStep(0);
@@ -110,6 +154,7 @@ export function Wizard() {
     setSelectedShapes(null);
     setSelectedFlex(null);
     setSelectedPriceRanges(null);
+    setSavedInput(null);
     // Clear URL params
     if (typeof window !== "undefined") {
       window.history.replaceState({}, "", window.location.pathname);
@@ -141,6 +186,32 @@ export function Wizard() {
       </p>
 
       <StepIndicator currentStep={currentStep} totalSteps={TOTAL_STEPS} />
+
+      {/* Previous session banner */}
+      {currentStep === 0 && savedInput && (
+        <div className="mb-4 bg-sky-500/[0.07] border border-sky-500/20 rounded-2xl p-4">
+          <p className="text-sm font-medium text-sky-300 mb-1">前回の診断データがあります</p>
+          <p className="text-xs text-slate-500 mb-3">
+            {savedInput.height}cm · {savedInput.weight}kg · ¥{savedInput.budget.toLocaleString()}
+          </p>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={handleRestoreAndShowResults}
+              className="flex-1 py-2 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30 text-xs font-medium hover:bg-sky-500/20 transition-all cursor-pointer"
+            >
+              前回の結果を見る
+            </button>
+            <button
+              type="button"
+              onClick={handleRestoreAndContinue}
+              className="flex-1 py-2 rounded-xl bg-slate-800/60 text-slate-400 border border-slate-700/50 text-xs font-medium hover:bg-slate-700/60 transition-all cursor-pointer"
+            >
+              設定を引き継いで再診断
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="overflow-hidden">
         <div key={currentStep} className={animationClass}>
