@@ -321,8 +321,8 @@ export function StepResults({
           </svg>
         </button>
 
-        <div className={`overflow-hidden transition-all duration-300 ${isAdjustOpen ? "max-h-[600px] opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
-          <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl p-5">
+        <div className={`overflow-hidden transition-all duration-300 ${isAdjustOpen ? "max-h-[500px] opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
+          <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl p-5 max-h-[480px] overflow-y-auto">
             <p className="text-xs text-slate-500 font-medium mb-4">変更するとリアルタイムで結果に反映されます</p>
             <Slider
               label="予算上限"

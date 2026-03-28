@@ -5945,7 +5945,7 @@
     "model": "Cinema",
     "year": 2026,
     "flex": 5,
-    "shape": "double_camber",
+    "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
       152,
@@ -7808,7 +7808,7 @@
     "model": "Soulside",
     "year": 2026,
     "flex": 3,
-    "shape": "hybrid_camber",
+    "shape": "rocker",
     "available_lengths": [
       155,
       158,
@@ -7818,10 +7818,10 @@
     "image_url": "",
     "url": "",
     "style_scores": {
-      "ground_tricks": 4,
+      "ground_tricks": 5,
       "park": 5,
-      "carving": 8,
-      "run_tricks": 8,
+      "carving": 4,
+      "run_tricks": 5,
       "powder": 7
     },
     "gender": "womens"
@@ -8821,7 +8821,7 @@
     "model": "ATV",
     "year": 2026,
     "flex": 5,
-    "shape": "hybrid_camber",
+    "shape": "camber",
     "available_lengths": [
       150,
       153,
@@ -8892,7 +8892,7 @@
     "model": "Nub",
     "year": 2026,
     "flex": 3,
-    "shape": "flat",
+    "shape": "camber",
     "available_lengths": [
       148,
       151,
@@ -10462,7 +10462,7 @@
   {
     "brand": "GT Snowboards",
     "model": "BUFF LIMITED",
-    "year": 2027,
+    "year": 2026,
     "flex": 6,
     "shape": "double_camber",
     "gender": "unisex",
@@ -10560,7 +10560,7 @@
   {
     "brand": "CROOJA",
     "model": "WORM",
-    "year": 2027,
+    "year": 2026,
     "flex": 4,
     "shape": "double_camber",
     "gender": "unisex",
@@ -10589,7 +10589,7 @@
   {
     "brand": "CROOJA",
     "model": "LOCUST",
-    "year": 2027,
+    "year": 2026,
     "flex": 5,
     "shape": "camber",
     "gender": "unisex",
@@ -10614,7 +10614,7 @@
   {
     "brand": "CROOJA",
     "model": "BEETLE",
-    "year": 2027,
+    "year": 2026,
     "flex": 5,
     "shape": "hybrid_camber",
     "gender": "unisex",
@@ -11745,7 +11745,7 @@
     "brand": "SIMS",
     "model": "ATV",
     "year": 2025,
-    "flex": 6,
+    "flex": 5,
     "shape": "camber",
     "gender": "womens",
     "available_lengths": [
@@ -11797,7 +11797,7 @@
     "brand": "SIMS",
     "model": "NUB",
     "year": 2025,
-    "flex": 6,
+    "flex": 3,
     "shape": "camber",
     "gender": "womens",
     "available_lengths": [
@@ -11873,8 +11873,8 @@
     "brand": "SIMS",
     "model": "ATVX",
     "year": 2025,
-    "flex": 8,
-    "shape": "rocker",
+    "flex": 7,
+    "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
       153,
