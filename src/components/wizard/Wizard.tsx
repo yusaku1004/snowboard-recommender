@@ -201,9 +201,24 @@ export function Wizard() {
       >
         スノーボード診断
       </h1>
-      <p className="text-slate-500 text-center mb-8 text-xs tracking-wide">
+      <p className="text-slate-500 text-center mb-4 text-xs tracking-wide">
         あなたにぴったりの板を見つけよう
       </p>
+
+      {currentStep === 0 && !savedInput && (
+        <div className="flex items-center justify-center gap-4 mb-6">
+          {[
+            { icon: "⏱", text: "約1分で完了" },
+            { icon: "✅", text: "4つの質問に答えるだけ" },
+            { icon: "🏂", text: "500本以上から診断" },
+          ].map(({ icon, text }) => (
+            <div key={text} className="flex items-center gap-1.5 text-xs text-slate-500">
+              <span>{icon}</span>
+              <span>{text}</span>
+            </div>
+          ))}
+        </div>
+      )}
 
       <StepIndicator currentStep={currentStep} totalSteps={TOTAL_STEPS} />
 

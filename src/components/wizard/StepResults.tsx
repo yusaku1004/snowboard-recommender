@@ -104,6 +104,7 @@ export function StepResults({
 }: StepResultsProps) {
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<"results" | "favorites">("results");
+  const [showAll, setShowAll] = useState(false);
   const { isFavorite, toggleFavorite, count: favoriteCount } = useFavorites();
   const [selectedBrands, setSelectedBrands] = useState<Set<string> | null>(initialBrands);
   const [selectedShapes, setSelectedShapes] = useState<Set<Shape> | null>(initialShapes);
@@ -233,6 +234,7 @@ export function StepResults({
     setSelectedShapes(null);
     setSelectedFlex(null);
     setSelectedPriceRanges(null);
+    setShowAll(false);
   };
 
   const currentFilters: FilterState = {
@@ -627,20 +629,41 @@ export function StepResults({
           </button>
         </div>
       ) : (
-        <div className="space-y-3 mb-4">
-          {results.map((result, i) => (
-            <BoardCard
-              key={`${result.board.brand}-${result.board.model}-${result.board.year}`}
-              result={result}
-              rank={i + 1}
-              budget={adjustedInput.budget}
-              budgetFlexibility={adjustedInput.budgetFlexibility}
-              myBoard={myBoard}
-              isFavorite={isFavorite(result.board)}
-              onToggleFavorite={toggleFavorite}
-            />
-          ))}
-        </div>
+        <>
+          <div className="space-y-3 mb-3">
+            {(showAll ? results : results.slice(0, 3)).map((result, i) => (
+              <BoardCard
+                key={`${result.board.brand}-${result.board.model}-${result.board.year}`}
+                result={result}
+                rank={i + 1}
+                budget={adjustedInput.budget}
+                budgetFlexibility={adjustedInput.budgetFlexibility}
+                myBoard={myBoard}
+                isFavorite={isFavorite(result.board)}
+                onToggleFavorite={toggleFavorite}
+              />
+            ))}
+          </div>
+          {results.length > 3 && (
+            <button
+              type="button"
+              onClick={() => setShowAll((v) => !v)}
+              className="w-full py-3 mb-4 rounded-xl border border-slate-700/50 bg-slate-800/40 text-slate-400 text-sm font-medium hover:bg-slate-700/40 hover:text-slate-300 transition-all cursor-pointer flex items-center justify-center gap-2"
+            >
+              {showAll ? (
+                <>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" /></svg>
+                  TOP3だけ表示
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  残り{results.length - 3}件を表示
+                </>
+              )}
+            </button>
+          )}
+        </>
       )}
         </>
       )}

@@ -8,8 +8,12 @@ interface StepIndicatorProps {
 const STEP_LABELS = ["体格", "スタイル", "予算", "こだわり", "結果"];
 
 export function StepIndicator({ currentStep, totalSteps }: StepIndicatorProps) {
+  const isResult = currentStep === totalSteps - 1;
+  const remaining = totalSteps - 1 - currentStep; // 結果ステップは除く
+
   return (
-    <div className="flex items-center justify-center gap-0 mb-8 px-2">
+    <div className="mb-8">
+    <div className="flex items-center justify-center gap-0 px-2 mb-2">
       {Array.from({ length: totalSteps }, (_, i) => {
         const isCompleted = i < currentStep;
         const isCurrent = i === currentStep;
@@ -57,6 +61,16 @@ export function StepIndicator({ currentStep, totalSteps }: StepIndicatorProps) {
           </div>
         );
       })}
+    </div>
+    {!isResult && (
+      <p className="text-center text-[11px] text-slate-600">
+        {currentStep === 0
+          ? `全${totalSteps - 1}ステップ`
+          : remaining === 1
+            ? "あと1ステップで診断！"
+            : `あと${remaining}ステップ`}
+      </p>
+    )}
     </div>
   );
 }
