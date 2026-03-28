@@ -26,7 +26,8 @@ export function Slider({
   const displayValue = formatValue ? formatValue(value) : `${value}${unit}`;
   // Extend visual range by one step below min so that value=min appears
   // slightly right of the left edge (not as "empty/zero").
-  const visualMin = min - step;
+  // When min=0, the left edge correctly represents "none", so no offset.
+  const visualMin = min > 0 ? min - step : min;
   const percent = ((value - visualMin) / (max - visualMin)) * 100;
 
   const decrement = () => onChange(Math.max(min, value - step));

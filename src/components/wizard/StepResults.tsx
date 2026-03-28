@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { UserInput, Board, Shape, FlexCategory, PriceRange } from "@/types";
+import { UserInput, Board, Shape, FlexCategory, PriceRange, StyleScores } from "@/types";
 import { getRecommendations, estimateDiscountedPrice } from "@/lib/recommend";
 import { getShareUrl, getTwitterShareUrl, FilterState } from "@/lib/share";
 import { BoardCard } from "@/components/results/BoardCard";
@@ -9,6 +9,7 @@ import { AiExplanation } from "@/components/results/AiExplanation";
 import { MyBoardSelector } from "@/components/results/MyBoardSelector";
 import { Button } from "@/components/ui/Button";
 import { BottomSheet } from "@/components/ui/BottomSheet";
+import { Slider } from "@/components/ui/Slider";
 import boardsData from "@/data/boards_data.json";
 
 const ALL_SHAPES: { value: Shape; label: string }[] = [
@@ -63,6 +64,18 @@ function matchesFlex(flex: number, categories: Set<FlexCategory>): boolean {
   return false;
 }
 
+const STYLE_ITEMS: { key: keyof StyleScores; label: string }[] = [
+  { key: "ground_tricks", label: "グラトリ" },
+  { key: "park", label: "パーク" },
+  { key: "carving", label: "カービング" },
+  { key: "run_tricks", label: "ラントリ" },
+  { key: "powder", label: "パウダー" },
+];
+
+function formatYen(value: number): string {
+  return `¥${value.toLocaleString()}`;
+}
+
 export function StepResults({
   input,
   onRestart,
@@ -78,6 +91,20 @@ export function StepResults({
   const [selectedPriceRanges, setSelectedPriceRanges] = useState<Set<PriceRange> | null>(initialPriceRanges);
   const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
   const [myBoard, setMyBoard] = useState<Board | null>(null);
+
+  // Inline adjustment state
+  const [isAdjustOpen, setIsAdjustOpen] = useState(false);
+  const [localBudget, setLocalBudget] = useState(input.budget);
+  const [localStyle, setLocalStyle] = useState<StyleScores>(input.style);
+
+  const hasAdjustments =
+    localBudget !== input.budget ||
+    (Object.keys(localStyle) as (keyof StyleScores)[]).some((k) => localStyle[k] !== input.style[k]);
+
+  const adjustedInput = useMemo<UserInput>(
+    () => ({ ...input, budget: localBudget, style: localStyle }),
+    [input, localBudget, localStyle]
+  );
 
   const allBoards = boardsData as Board[];
 
@@ -159,8 +186,8 @@ export function StepResults({
         matchesPriceRange(estimateDiscountedPrice(b.price, b.year), selectedPriceRanges!)
       );
     }
-    return getRecommendations(filtered, input);
-  }, [allBoards, input, allBrandsSelected, selectedBrands, allShapesSelected, selectedShapes, allFlexSelected, selectedFlex, allPriceRangesSelected, selectedPriceRanges]);
+    return getRecommendations(filtered, adjustedInput);
+  }, [allBoards, adjustedInput, allBrandsSelected, selectedBrands, allShapesSelected, selectedShapes, allFlexSelected, selectedFlex, allPriceRangesSelected, selectedPriceRanges]);
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prev) => {
@@ -191,7 +218,7 @@ export function StepResults({
   };
 
   const handleCopyUrl = async () => {
-    const url = getShareUrl(input, currentFilters);
+    const url = getShareUrl(adjustedInput, currentFilters);
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
@@ -231,8 +258,73 @@ export function StepResults({
 
       {/* AI explanation for top result */}
       {results.length > 0 && (
-        <AiExplanation input={input} result={results[0]} />
+        <AiExplanation input={adjustedInput} result={results[0]} />
       )}
+
+      {/* Inline adjustment panel */}
+      <div className="mb-5">
+        <button
+          type="button"
+          onClick={() => setIsAdjustOpen((v) => !v)}
+          className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-200 cursor-pointer ${
+            hasAdjustments
+              ? "bg-sky-500/10 text-sky-400 border-sky-500/30"
+              : "bg-slate-800/60 text-slate-400 border-slate-700/50 hover:bg-slate-700/60"
+          }`}
+        >
+          <span className="flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+            診断条件を調整
+            {hasAdjustments && (
+              <span className="px-1.5 py-0.5 bg-sky-500 text-white text-[10px] font-bold rounded-full">変更中</span>
+            )}
+          </span>
+          <svg
+            className={`w-4 h-4 transition-transform duration-200 ${isAdjustOpen ? "rotate-180" : ""}`}
+            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        <div className={`overflow-hidden transition-all duration-300 ${isAdjustOpen ? "max-h-[600px] opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
+          <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl p-5">
+            <p className="text-xs text-slate-500 font-medium mb-4">変更するとリアルタイムで結果に反映されます</p>
+            <Slider
+              label="予算上限"
+              value={localBudget}
+              min={30000}
+              max={200000}
+              step={5000}
+              formatValue={formatYen}
+              onChange={setLocalBudget}
+            />
+            <div className="border-t border-white/[0.06] my-4" />
+            {STYLE_ITEMS.map((item) => (
+              <Slider
+                key={item.key}
+                label={item.label}
+                value={localStyle[item.key]}
+                min={1}
+                max={5}
+                step={1}
+                onChange={(v) => setLocalStyle((prev) => ({ ...prev, [item.key]: v }))}
+              />
+            ))}
+            {hasAdjustments && (
+              <button
+                type="button"
+                onClick={() => { setLocalBudget(input.budget); setLocalStyle(input.style); }}
+                className="mt-2 text-xs text-slate-500 hover:text-sky-400 transition-colors cursor-pointer underline underline-offset-2"
+              >
+                元の条件に戻す
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-5">
@@ -425,7 +517,7 @@ export function StepResults({
       ) : (
         <div className="space-y-3 mb-4">
           {results.map((result, i) => (
-            <BoardCard key={`${result.board.brand}-${result.board.model}-${result.board.year}`} result={result} rank={i + 1} budget={input.budget} budgetFlexibility={input.budgetFlexibility} myBoard={myBoard} />
+            <BoardCard key={`${result.board.brand}-${result.board.model}-${result.board.year}`} result={result} rank={i + 1} budget={adjustedInput.budget} budgetFlexibility={adjustedInput.budgetFlexibility} myBoard={myBoard} />
           ))}
         </div>
       )}

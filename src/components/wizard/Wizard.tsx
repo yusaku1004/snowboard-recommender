@@ -87,6 +87,10 @@ export function Wizard() {
     setStyle((prev) => ({ ...prev, [key]: value }));
   }, []);
 
+  const handlePresetApply = useCallback((preset: StyleScores) => {
+    setStyle(preset);
+  }, []);
+
   const handleRestart = useCallback(() => {
     setDirection("backward");
     setCurrentStep(0);
@@ -155,6 +159,7 @@ export function Wizard() {
             <StepStyle
               style={style}
               onStyleChange={handleStyleChange}
+              onPresetApply={handlePresetApply}
               onNext={goForward}
               onBack={goBack}
             />
