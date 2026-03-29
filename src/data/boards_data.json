@@ -194,145 +194,25 @@
     "gender": "unisex"
   },
   {
-    "brand": "ACADEMY",
-    "model": "Graduate",
-    "year": 2026,
-    "flex": 5,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      150,
-      153,
-      156,
-      159
-    ],
-    "price": 60500,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 6,
-      "park": 6,
-      "carving": 6,
-      "run_tricks": 6,
-      "powder": 5
-    },
-    "gender": "mens"
-  },
-  {
-    "brand": "ACADEMY",
-    "model": "Master",
-    "year": 2026,
-    "flex": 6,
-    "shape": "camber",
-    "available_lengths": [
-      153,
-      156,
-      159,
-      162
-    ],
-    "price": 74800,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 4,
-      "park": 5,
-      "carving": 8,
-      "run_tricks": 7,
-      "powder": 6
-    },
-    "gender": "mens"
-  },
-  {
-    "brand": "ACADEMY",
-    "model": "Propacamba",
-    "year": 2026,
-    "flex": 5,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      150,
-      153,
-      156,
-      159
-    ],
-    "price": 68200,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 6,
-      "park": 7,
-      "carving": 6,
-      "run_tricks": 6,
-      "powder": 5
-    },
-    "gender": "mens"
-  },
-  {
-    "brand": "ACADEMY",
-    "model": "Propaganda",
-    "year": 2026,
-    "flex": 3,
-    "shape": "flat",
-    "available_lengths": [
-      147,
-      150,
-      153,
-      156
-    ],
-    "price": 52800,
-    "image_url": "",
-    "url": "",
-    "style_scores": {
-      "ground_tricks": 8,
-      "park": 8,
-      "carving": 3,
-      "run_tricks": 5,
-      "powder": 3
-    },
-    "gender": "mens"
-  },
-  {
-    "brand": "ACADEMY",
-    "model": "Team",
-    "year": 2026,
-    "flex": 5,
-    "shape": "hybrid_camber",
-    "available_lengths": [
-      151,
-      154,
-      157
-    ],
-    "price": 52800,
-    "image_url": "",
-    "url": "",
-    "gender": "mens",
-    "style_scores": {
-      "ground_tricks": 6,
-      "park": 7,
-      "carving": 6,
-      "run_tricks": 6,
-      "powder": 5
-    }
-  },
-  {
     "brand": "ALLIAN",
     "model": "ATLANTIS",
     "year": 2026,
-    "flex": 6,
-    "shape": "hybrid_camber",
+    "flex": 4,
+    "shape": "double_camber",
     "available_lengths": [
-      152,
-      155,
-      158,
-      160
+      149,
+      153,
+      156
     ],
     "price": 79200,
     "image_url": "",
     "url": "",
     "style_scores": {
-      "ground_tricks": 5,
-      "park": 5,
-      "carving": 7,
-      "run_tricks": 8,
-      "powder": 7
+      "ground_tricks": 6,
+      "park": 7,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 4
     },
     "gender": "mens"
   },
@@ -340,23 +220,23 @@
     "brand": "ALLIAN",
     "model": "DAMAGE",
     "year": 2026,
-    "flex": 5,
+    "flex": 4,
     "shape": "camber",
     "available_lengths": [
-      150,
-      152,
-      154,
-      156
+      149,
+      151,
+      153,
+      155
     ],
     "price": 75900,
     "image_url": "",
     "url": "",
     "style_scores": {
-      "ground_tricks": 6,
+      "ground_tricks": 5,
       "park": 7,
       "carving": 7,
       "run_tricks": 7,
-      "powder": 5
+      "powder": 2
     },
     "gender": "mens"
   },
@@ -364,20 +244,19 @@
     "brand": "ALLIAN",
     "model": "FREE LINE",
     "year": 2026,
-    "flex": 6,
+    "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
-      150,
-      153,
-      156,
-      159
+      147,
+      154,
+      158
     ],
     "price": 85800,
     "image_url": "",
     "url": "",
     "style_scores": {
-      "ground_tricks": 4,
-      "park": 4,
+      "ground_tricks": 3,
+      "park": 3,
       "carving": 7,
       "run_tricks": 7,
       "powder": 7
@@ -388,23 +267,22 @@
     "brand": "ALLIAN",
     "model": "PRISM",
     "year": 2026,
-    "flex": 4,
-    "shape": "hybrid_camber",
+    "flex": 5,
+    "shape": "camber",
     "available_lengths": [
-      148,
-      150,
-      152,
-      155
+      151,
+      155,
+      157
     ],
     "price": 72600,
     "image_url": "",
     "url": "",
     "style_scores": {
-      "ground_tricks": 8,
+      "ground_tricks": 6,
       "park": 8,
       "carving": 5,
       "run_tricks": 6,
-      "powder": 5
+      "powder": 3
     },
     "gender": "mens"
   },
@@ -413,31 +291,29 @@
     "model": "PRISM GIRL",
     "year": 2026,
     "flex": 4,
-    "shape": "hybrid_camber",
+    "shape": "camber",
     "gender": "womens",
     "available_lengths": [
-      138,
-      142,
-      146,
-      150
+      144,
+      147
     ],
     "price": 68200,
     "image_url": "",
     "url": "",
     "style_scores": {
-      "ground_tricks": 8,
+      "ground_tricks": 6,
       "park": 8,
       "carving": 5,
       "run_tricks": 6,
-      "powder": 5
+      "powder": 3
     }
   },
   {
     "brand": "ALLIAN",
     "model": "PRISM INVISIBLE",
     "year": 2026,
-    "flex": 4,
-    "shape": "double_camber",
+    "flex": 6,
+    "shape": "camber",
     "available_lengths": [
       148,
       150,
@@ -448,9 +324,9 @@
     "image_url": "",
     "url": "",
     "style_scores": {
-      "ground_tricks": 9,
-      "park": 7,
-      "carving": 4,
+      "ground_tricks": 6,
+      "park": 9,
+      "carving": 6,
       "run_tricks": 6,
       "powder": 3
     },
@@ -463,18 +339,17 @@
     "flex": 5,
     "shape": "double_camber",
     "available_lengths": [
-      148,
       150,
-      152,
-      154
+      153,
+      156
     ],
     "price": 85800,
     "image_url": "",
     "url": "",
     "style_scores": {
-      "ground_tricks": 9,
+      "ground_tricks": 6,
       "park": 8,
-      "carving": 3,
+      "carving": 6,
       "run_tricks": 6,
       "powder": 3
     },
@@ -485,22 +360,21 @@
     "model": "VIVIAN",
     "year": 2026,
     "flex": 3,
-    "shape": "rocker",
+    "shape": "camber",
     "available_lengths": [
-      139,
-      143,
-      147,
-      150
+      138,
+      142,
+      146
     ],
     "price": 63800,
     "image_url": "",
     "url": "",
     "style_scores": {
-      "ground_tricks": 9,
-      "park": 7,
-      "carving": 3,
-      "run_tricks": 4,
-      "powder": 5
+      "ground_tricks": 7,
+      "park": 8,
+      "carving": 5,
+      "run_tricks": 5,
+      "powder": 3
     },
     "gender": "womens"
   },
@@ -508,8 +382,8 @@
     "brand": "AMPLID",
     "model": "Kill Switch",
     "year": 2026,
-    "flex": 7,
-    "shape": "camber",
+    "flex": 6,
+    "shape": "hybrid_camber",
     "available_lengths": [
       155,
       158,
@@ -520,6 +394,104 @@
     "url": "",
     "style_scores": {
       "ground_tricks": 3,
+      "park": 4,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 8
+    },
+    "gender": "mens"
+  },
+  {
+    "brand": "AMPLID",
+    "model": "Pentaquark",
+    "year": 2026,
+    "flex": 8,
+    "shape": "camber",
+    "available_lengths": [
+      156,
+      158,
+      160
+    ],
+    "price": 154000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 2,
+      "carving": 10,
+      "run_tricks": 6,
+      "powder": 3
+    },
+    "gender": "mens"
+  },
+  {
+    "brand": "AMPLID",
+    "model": "Singular",
+    "year": 2026,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      144,
+      148,
+      151,
+      155,
+      158,
+      162,
+      166
+    ],
+    "price": 126500,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 6,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 7
+    },
+    "gender": "mens"
+  },
+  {
+    "brand": "AMPLID",
+    "model": "Singular Twin",
+    "year": 2026,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      143,
+      148,
+      151,
+      154,
+      158
+    ],
+    "price": 118800,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 7,
+      "carving": 6,
+      "run_tricks": 7,
+      "powder": 6
+    },
+    "gender": "unisex"
+  },
+  {
+    "brand": "AMPLID",
+    "model": "Souly Grail",
+    "year": 2026,
+    "flex": 7,
+    "shape": "camber",
+    "available_lengths": [
+      153,
+      157,
+      162
+    ],
+    "price": 154000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 2,
       "park": 3,
       "carving": 8,
       "run_tricks": 7,
@@ -529,23 +501,22 @@
   },
   {
     "brand": "AMPLID",
-    "model": "Pentaquark",
+    "model": "UNW8",
     "year": 2026,
-    "flex": 7,
+    "flex": 8,
     "shape": "camber",
     "available_lengths": [
       156,
       159,
-      162,
-      165
+      163
     ],
-    "price": 121000,
+    "price": 154000,
     "image_url": "",
     "url": "",
     "style_scores": {
-      "ground_tricks": 3,
-      "park": 3,
-      "carving": 9,
+      "ground_tricks": 4,
+      "park": 5,
+      "carving": 8,
       "run_tricks": 8,
       "powder": 7
     },
@@ -553,72 +524,162 @@
   },
   {
     "brand": "AMPLID",
-    "model": "Singular",
+    "model": "Time Machine",
     "year": 2026,
-    "flex": 4,
-    "shape": "hybrid_camber",
+    "flex": 7,
+    "shape": "camber",
     "available_lengths": [
-      149,
-      152,
       155,
-      158
+      160
     ],
-    "price": 88000,
+    "price": 154000,
     "image_url": "",
     "url": "",
     "style_scores": {
-      "ground_tricks": 7,
-      "park": 8,
-      "carving": 5,
-      "run_tricks": 5,
-      "powder": 4
+      "ground_tricks": 2,
+      "park": 3,
+      "carving": 9,
+      "run_tricks": 6,
+      "powder": 5
     },
     "gender": "mens"
   },
   {
     "brand": "AMPLID",
-    "model": "Souly Grail",
+    "model": "Surfari",
     "year": 2026,
-    "flex": 6,
-    "shape": "rocker",
+    "flex": 7,
+    "shape": "hybrid_camber",
     "available_lengths": [
-      152,
-      156,
-      160
+      154,
+      158,
+      163
     ],
-    "price": 104500,
+    "price": 154000,
     "image_url": "",
     "url": "",
     "style_scores": {
       "ground_tricks": 3,
-      "park": 3,
-      "carving": 5,
-      "run_tricks": 5,
+      "park": 4,
+      "carving": 7,
+      "run_tricks": 6,
       "powder": 9
     },
     "gender": "mens"
   },
   {
     "brand": "AMPLID",
-    "model": "UNW8",
+    "model": "Ohana Vibes",
+    "year": 2026,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      156
+    ],
+    "price": 88000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 3,
+      "carving": 4,
+      "run_tricks": 5,
+      "powder": 10
+    },
+    "gender": "unisex"
+  },
+  {
+    "brand": "AMPLID",
+    "model": "Mood Bender",
+    "year": 2026,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      154
+    ],
+    "price": 88000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 7,
+      "powder": 7
+    },
+    "gender": "unisex"
+  },
+  {
+    "brand": "AMPLID",
+    "model": "Memory Stick",
     "year": 2026,
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
-      152,
-      155,
-      158,
-      161
+      148,
+      153,
+      156,
+      159,
+      163
     ],
-    "price": 99000,
+    "price": 96800,
     "image_url": "",
     "url": "",
     "style_scores": {
-      "ground_tricks": 5,
-      "park": 5,
-      "carving": 7,
+      "ground_tricks": 6,
+      "park": 6,
+      "carving": 6,
       "run_tricks": 7,
       "powder": 6
+    },
+    "gender": "unisex"
+  },
+  {
+    "brand": "AMPLID",
+    "model": "Cab Driver",
+    "year": 2026,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      144,
+      149,
+      152,
+      155,
+      158
+    ],
+    "price": 96800,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 7,
+      "carving": 5,
+      "run_tricks": 7,
+      "powder": 5
+    },
+    "gender": "unisex"
+  },
+  {
+    "brand": "AMPLID",
+    "model": "Soulmate",
+    "year": 2026,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      149,
+      153,
+      157,
+      161
+    ],
+    "price": 96800,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 4,
+      "carving": 6,
+      "run_tricks": 6,
+      "powder": 8
     },
     "gender": "mens"
   },
