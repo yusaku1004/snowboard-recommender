@@ -204,7 +204,7 @@
       153,
       156
     ],
-    "price": 79200,
+    "price": 62370,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -228,7 +228,7 @@
       153,
       155
     ],
-    "price": 75900,
+    "price": 69300,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -251,7 +251,7 @@
       154,
       158
     ],
-    "price": 85800,
+    "price": 77220,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -274,7 +274,7 @@
       155,
       157
     ],
-    "price": 72600,
+    "price": 77220,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -297,7 +297,7 @@
       144,
       147
     ],
-    "price": 68200,
+    "price": 74250,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -317,10 +317,14 @@
     "available_lengths": [
       148,
       150,
+      151,
       152,
-      154
+      154,
+      155,
+      157,
+      159
     ],
-    "price": 82500,
+    "price": 77220,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -343,7 +347,7 @@
       153,
       156
     ],
-    "price": 85800,
+    "price": 77220,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -1140,10 +1144,11 @@
     "brand": "BC STREAM",
     "model": "NW",
     "year": 2026,
-    "flex": 9,
-    "shape": "camber",
+    "flex": 7,
+    "shape": "hybrid_camber",
     "available_lengths": [
       156,
+      159,
       162,
       168
     ],
@@ -1167,7 +1172,7 @@
     "shape": "camber",
     "available_lengths": [
       156,
-      162
+      159
     ],
     "price": 130900,
     "image_url": "",
@@ -6421,13 +6426,17 @@
     "flex": 4,
     "shape": "hybrid_camber",
     "available_lengths": [
+      138,
+      142,
+      146,
       148,
       150,
       152,
       154,
-      156
+      156,
+      158
     ],
-    "price": 99000,
+    "price": 109780,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -6527,8 +6536,11 @@
     "flex": 6,
     "shape": "camber",
     "available_lengths": [
+      147,
       150,
+      152,
       153,
+      154,
       155,
       158
     ],
@@ -6735,6 +6747,8 @@
     "shape": "camber",
     "gender": "unisex",
     "available_lengths": [
+      139,
+      143,
       146,
       148,
       150,
@@ -6896,11 +6910,15 @@
     "shape": "camber",
     "gender": "mens",
     "available_lengths": [
+      150,
       154,
       156,
       158,
+      159,
       160,
-      163
+      162,
+      163,
+      165
     ],
     "price": 137500,
     "image_url": "",
@@ -6923,7 +6941,11 @@
       150,
       153,
       156,
-      159
+      157,
+      159,
+      160,
+      163,
+      166
     ],
     "price": 138600,
     "image_url": "",
@@ -7074,6 +7096,8 @@
     "flex": 1,
     "shape": "flat",
     "available_lengths": [
+      142,
+      146,
       151,
       154
     ],
@@ -8496,10 +8520,11 @@
       145,
       149,
       153,
+      155,
       157,
       162
     ],
-    "price": 125400,
+    "price": 118800,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -10936,7 +10961,7 @@
     }
   },
   {
-    "brand": "LEVERAGE",
+    "brand": "leverage",
     "model": "GT1",
     "year": 2026,
     "flex": 4,
@@ -10950,7 +10975,7 @@
       151,
       154
     ],
-    "price": 106700,
+    "price": 91300,
     "image_url": "",
     "url": "https://www.misty-snow.com/leverage_gt1.html",
     "style_scores": {
@@ -10962,7 +10987,7 @@
     }
   },
   {
-    "brand": "LEVERAGE",
+    "brand": "leverage",
     "model": "GT2",
     "year": 2026,
     "flex": 4,
@@ -10979,7 +11004,7 @@
       154,
       155
     ],
-    "price": 106700,
+    "price": 91300,
     "image_url": "",
     "url": "https://www.misty-snow.com/leverage_gt2.html",
     "style_scores": {
@@ -10991,7 +11016,7 @@
     }
   },
   {
-    "brand": "LEVERAGE",
+    "brand": "leverage",
     "model": "GT3",
     "year": 2026,
     "flex": 5,
@@ -11005,7 +11030,7 @@
       152,
       155
     ],
-    "price": 104500,
+    "price": 91300,
     "image_url": "",
     "url": "https://www.misty-snow.com/leverage_gt3.html",
     "style_scores": {
@@ -12724,6 +12749,7 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      157,
       158
     ],
     "price": 150700,
@@ -12769,7 +12795,7 @@
     "available_lengths": [
       163
     ],
-    "price": 154000,
+    "price": 189200,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -12811,7 +12837,7 @@
     "available_lengths": [
       164
     ],
-    "price": 154000,
+    "price": 195800,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -12979,7 +13005,7 @@
     "available_lengths": [
       152
     ],
-    "price": 149600,
+    "price": 188100,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -13063,7 +13089,7 @@
     "available_lengths": [
       176
     ],
-    "price": 155100,
+    "price": 190300,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -13124,6 +13150,7 @@
     "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
+      155,
       156
     ],
     "price": 150700,
@@ -14776,6 +14803,7 @@
     "shape": "hybrid_camber",
     "available_lengths": [
       147,
+      150,
       153
     ],
     "price": 130900,
@@ -14864,7 +14892,7 @@
     "available_lengths": [
       155
     ],
-    "price": 154000,
+    "price": 165000,
     "image_url": "",
     "url": "",
     "style_scores": {
