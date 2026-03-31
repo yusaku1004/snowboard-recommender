@@ -56,13 +56,19 @@
     "flex": 5,
     "shape": "double_camber",
     "available_lengths": [
+      138,
+      140,
+      143,
+      145,
       148,
+      148.5,
       150,
+      151,
       152,
       154,
       156
     ],
-    "price": 111100,
+    "price": 118690,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -81,12 +87,19 @@
     "flex": 2,
     "shape": "double_camber",
     "available_lengths": [
+      138,
       139,
+      140,
       143,
+      145,
+      148.5,
       149,
-      151
+      151,
+      152,
+      153,
+      154
     ],
-    "price": 104500,
+    "price": 118690,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -105,8 +118,12 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      138,
+      141,
+      144,
       148,
       150,
+      151,
       152,
       154,
       156
@@ -130,8 +147,12 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      138,
+      141,
+      144,
       148,
       150,
+      151,
       152,
       154
     ],
@@ -393,7 +414,7 @@
       158,
       161
     ],
-    "price": 110000,
+    "price": 99000,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -443,7 +464,7 @@
       162,
       166
     ],
-    "price": 92400,
+    "price": 104500,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -468,7 +489,7 @@
       154,
       158
     ],
-    "price": 118800,
+    "price": 97900,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -491,7 +512,7 @@
       157,
       162
     ],
-    "price": 154000,
+    "price": 137500,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -536,7 +557,7 @@
       155,
       160
     ],
-    "price": 154000,
+    "price": 137500,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -580,7 +601,7 @@
     "available_lengths": [
       156
     ],
-    "price": 88000,
+    "price": 99000,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -601,7 +622,7 @@
     "available_lengths": [
       154
     ],
-    "price": 88000,
+    "price": 99000,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -626,7 +647,7 @@
       159,
       163
     ],
-    "price": 96800,
+    "price": 75900,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -651,7 +672,7 @@
       155,
       158
     ],
-    "price": 96800,
+    "price": 75900,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -675,7 +696,7 @@
       157,
       161
     ],
-    "price": 96800,
+    "price": 80300,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -718,8 +739,10 @@
     "shape": "camber",
     "available_lengths": [
       156,
+      158,
       159,
       161,
+      162,
       164
     ],
     "price": 132000,
@@ -746,7 +769,7 @@
       159,
       162
     ],
-    "price": 82500,
+    "price": 99990,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -790,9 +813,14 @@
     "shape": "rocker",
     "available_lengths": [
       152,
+      154,
       155,
+      156,
       158,
-      161
+      160,
+      161,
+      162,
+      164
     ],
     "price": 93500,
     "image_url": "",
@@ -813,10 +841,14 @@
     "flex": 6,
     "shape": "camber",
     "available_lengths": [
+      148,
       152,
       155,
+      156,
       158,
-      161
+      159,
+      161,
+      162
     ],
     "price": 93500,
     "image_url": "",
@@ -837,11 +869,15 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      140,
       143,
+      144,
       147,
-      151
+      148,
+      151,
+      152
     ],
-    "price": 71500,
+    "price": 75900,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -909,11 +945,15 @@
     "shape": "flat",
     "available_lengths": [
       145,
+      148,
       149,
+      151,
       152,
+      153,
+      154,
       155
     ],
-    "price": 71500,
+    "price": 75900,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -961,7 +1001,7 @@
       157,
       160
     ],
-    "price": 85800,
+    "price": 99000,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -1027,12 +1067,18 @@
     "flex": 4,
     "shape": "hybrid_camber",
     "available_lengths": [
+      138,
+      140,
       141,
+      143,
       144,
+      146,
       147,
-      150
+      149,
+      150,
+      152
     ],
-    "price": 82500,
+    "price": 99000,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -1104,7 +1150,7 @@
       154,
       157
     ],
-    "price": 68200,
+    "price": 91300,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -1147,6 +1193,8 @@
     "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
+      150,
+      153,
       156,
       159,
       162,
@@ -1171,6 +1219,8 @@
     "flex": 8,
     "shape": "camber",
     "available_lengths": [
+      150,
+      153,
       156,
       159
     ],
@@ -1193,10 +1243,17 @@
     "flex": 6,
     "shape": "camber",
     "available_lengths": [
+      143,
+      147,
       149,
+      150,
       152,
+      153,
       155,
-      158
+      156,
+      158,
+      159,
+      162
     ],
     "price": 121000,
     "image_url": "",
@@ -1219,6 +1276,8 @@
     "gender": "unisex",
     "available_lengths": [
       140,
+      144,
+      148,
       152,
       156,
       160
@@ -1318,6 +1377,8 @@
     "flex": 2,
     "shape": "flat",
     "available_lengths": [
+      135,
+      140,
       145,
       150,
       155,
@@ -1342,6 +1403,11 @@
     "flex": 6,
     "shape": "camber",
     "available_lengths": [
+      125,
+      130,
+      135,
+      140,
+      145,
       150,
       154,
       156,
@@ -1373,7 +1439,7 @@
       158,
       162
     ],
-    "price": 92400,
+    "price": 107800,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -1420,7 +1486,10 @@
       150,
       154,
       157,
-      160
+      158,
+      160,
+      162,
+      166
     ],
     "price": 115500,
     "image_url": "",
@@ -1442,9 +1511,13 @@
     "shape": "camber",
     "available_lengths": [
       147,
+      151,
       152,
+      155,
       157,
-      162
+      159,
+      162,
+      163
     ],
     "price": 99000,
     "image_url": "",
@@ -1489,7 +1562,10 @@
     "shape": "camber",
     "gender": "womens",
     "available_lengths": [
+      130,
+      135,
       140,
+      142,
       144,
       146,
       149,
@@ -1515,6 +1591,7 @@
     "gender": "unisex",
     "available_lengths": [
       135,
+      145,
       148,
       152,
       155,
@@ -1566,7 +1643,8 @@
       152,
       155,
       157,
-      159
+      159,
+      162
     ],
     "price": 83600,
     "image_url": "",
@@ -1642,6 +1720,7 @@
       155,
       157,
       159,
+      161,
       162
     ],
     "price": 107800,
@@ -1688,13 +1767,18 @@
     "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
+      138,
       140,
+      142,
       143,
+      144,
       146,
       148,
-      150
+      150,
+      152,
+      154
     ],
-    "price": 71500,
+    "price": 89100,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -1712,10 +1796,16 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      148,
+      150,
       151,
+      152,
       153,
+      154,
       155,
-      157
+      156,
+      157,
+      158
     ],
     "price": 77000,
     "image_url": "",
@@ -1792,9 +1882,11 @@
     "flex": 8,
     "shape": "camber",
     "available_lengths": [
+      153,
       155,
       157,
       159,
+      161,
       162
     ],
     "price": 154000,
@@ -1817,10 +1909,13 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      147,
+      150,
       153,
       155,
       157,
       159,
+      161,
       162
     ],
     "price": 102300,
@@ -1866,11 +1961,13 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      148,
       150,
       152,
       154,
       156,
-      158
+      158,
+      160
     ],
     "price": 83600,
     "image_url": "",
@@ -1891,13 +1988,15 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      139,
       141,
       143,
       145,
       147,
-      149
+      149,
+      151
     ],
-    "price": 72600,
+    "price": 83600,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -1917,10 +2016,14 @@
     "shape": "camber",
     "gender": "mens",
     "available_lengths": [
+      145,
+      147,
       148,
+      149,
       151,
       153,
       155,
+      157,
       158
     ],
     "price": 71500,
@@ -1966,11 +2069,14 @@
     "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
+      139,
       141,
+      143,
       145,
       147,
       149,
-      151
+      151,
+      153
     ],
     "price": 71500,
     "image_url": "",
@@ -2047,7 +2153,7 @@
       151,
       154
     ],
-    "price": 60500,
+    "price": 68200,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -2071,7 +2177,7 @@
       151,
       154
     ],
-    "price": 44990,
+    "price": 68200,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -2115,10 +2221,14 @@
     "available_lengths": [
       148,
       150,
+      151,
       152,
-      154
+      153,
+      154,
+      155,
+      158
     ],
-    "price": 71500,
+    "price": 108900,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -2239,8 +2349,11 @@
     "shape": "hybrid_camber",
     "available_lengths": [
       148,
+      149,
       152,
-      155
+      155,
+      158,
+      161
     ],
     "price": 126500,
     "image_url": "",
@@ -2594,8 +2707,11 @@
     "flex": 8,
     "shape": "camber",
     "available_lengths": [
+      153,
       155,
+      156,
       158,
+      159,
       161,
       164
     ],
@@ -2666,10 +2782,12 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
-      152,
-      155,
-      158,
-      161
+      139,
+      144,
+      148,
+      151,
+      154,
+      157
     ],
     "price": 94600,
     "image_url": "",
@@ -2721,7 +2839,7 @@
       155,
       158
     ],
-    "price": 93500,
+    "price": 90200,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -2739,10 +2857,13 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      139,
+      143,
+      148,
       150,
       153,
-      155,
-      157
+      156,
+      159
     ],
     "price": 95700,
     "image_url": "",
@@ -2860,11 +2981,16 @@
     "flex": 3,
     "shape": "hybrid_camber",
     "available_lengths": [
+      139,
+      143,
+      147,
       148,
       150,
-      153
+      153,
+      157,
+      160
     ],
-    "price": 71500,
+    "price": 64900,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -2885,11 +3011,17 @@
     "gender": "womens",
     "available_lengths": [
       138,
+      139,
       141,
+      143,
       144,
-      147
+      147,
+      150,
+      153,
+      157,
+      160
     ],
-    "price": 71500,
+    "price": 64900,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -2907,12 +3039,16 @@
     "flex": 3,
     "shape": "double_camber",
     "available_lengths": [
+      139,
+      143,
       147,
       150,
       153,
-      155
+      155,
+      157,
+      160
     ],
-    "price": 71500,
+    "price": 64900,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -2954,7 +3090,7 @@
     "available_lengths": [
       156
     ],
-    "price": 165000,
+    "price": 146300,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -2973,9 +3109,10 @@
     "flex": 6,
     "shape": "rocker",
     "available_lengths": [
+      144,
       154
     ],
-    "price": 159500,
+    "price": 148500,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -3036,9 +3173,10 @@
     "flex": 5,
     "shape": "rocker",
     "available_lengths": [
-      144
+      144,
+      146
     ],
-    "price": 154000,
+    "price": 136400,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -3057,9 +3195,10 @@
     "flex": 6,
     "shape": "rocker",
     "available_lengths": [
+      155,
       161
     ],
-    "price": 170500,
+    "price": 188100,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -3191,7 +3330,11 @@
     "available_lengths": [
       155,
       158,
+      159,
+      160,
       161,
+      162,
+      163,
       164
     ],
     "price": 115500,
@@ -3215,7 +3358,8 @@
       143,
       146,
       149,
-      152
+      152,
+      155
     ],
     "price": 108900,
     "image_url": "",
@@ -3260,9 +3404,13 @@
     "flex": 3,
     "shape": "rocker",
     "available_lengths": [
+      136,
       139,
+      140,
       142,
-      146
+      144,
+      146,
+      148
     ],
     "price": 82500,
     "image_url": "",
@@ -3284,13 +3432,14 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      146,
       149,
       152,
       155,
       158,
       161
     ],
-    "price": 105600,
+    "price": 99000,
     "image_url": "",
     "url": "https://www.gnu.com/snowboards/headspace",
     "style_scores": {
@@ -3453,9 +3602,15 @@
     "shape": "hybrid_camber",
     "available_lengths": [
       149,
+      151,
       152,
+      153,
       155,
-      158
+      156,
+      157,
+      158,
+      159,
+      160
     ],
     "price": 108900,
     "image_url": "",
@@ -3477,13 +3632,17 @@
     "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
+      139,
       140,
       143,
       146,
+      147,
       149,
-      152
+      150,
+      152,
+      153
     ],
-    "price": 100100,
+    "price": 96800,
     "image_url": "",
     "url": "https://www.gnu.com/snowboards/velvet",
     "style_scores": {
@@ -3761,10 +3920,14 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      144,
+      150,
       152,
       155,
+      156,
       158,
-      161
+      161,
+      162
     ],
     "price": 71500,
     "image_url": "",
@@ -3834,9 +3997,13 @@
     "flex": 8,
     "shape": "camber",
     "available_lengths": [
+      146,
+      155,
       157,
       160,
-      163
+      161,
+      163,
+      168
     ],
     "price": 88000,
     "image_url": "",
@@ -3887,7 +4054,7 @@
       156,
       160
     ],
-    "price": 55000,
+    "price": 80300,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -3910,9 +4077,11 @@
       138,
       142,
       146,
-      149
+      149,
+      153,
+      156
     ],
-    "price": 60500,
+    "price": 86900,
     "image_url": "",
     "url": "https://www.head.com/en_US/shine-lyt-snowboard",
     "style_scores": {
@@ -3930,6 +4099,9 @@
     "flex": 7,
     "shape": "camber",
     "available_lengths": [
+      138,
+      144,
+      150,
       155,
       158,
       161
@@ -3960,7 +4132,7 @@
       160,
       163
     ],
-    "price": 77000,
+    "price": 67100,
     "image_url": "",
     "url": "https://www.head.com/en_US/true-snowboard",
     "style_scores": {
@@ -3978,13 +4150,16 @@
     "flex": 7,
     "shape": "camber",
     "available_lengths": [
+      147,
+      150,
+      154,
       156,
       158,
       160,
       162,
       164
     ],
-    "price": 126500,
+    "price": 137500,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4029,13 +4204,16 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      151,
+      154,
       155,
       158,
       161,
       164,
-      167
+      167,
+      172
     ],
-    "price": 140800,
+    "price": 151800,
     "image_url": "",
     "url": "https://www.jonessnowboards.com/collections/mens-snowboards",
     "style_scores": {
@@ -4076,12 +4254,16 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      150,
       152,
+      153,
       156,
       158,
-      162
+      159,
+      162,
+      165
     ],
-    "price": 100100,
+    "price": 105600,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4100,11 +4282,15 @@
     "flex": 6,
     "shape": "rocker",
     "available_lengths": [
+      142,
+      146,
+      150,
       154,
       158,
-      162
+      162,
+      166
     ],
-    "price": 108900,
+    "price": 132000,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4147,13 +4333,20 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      149,
       151,
+      153,
       154,
+      156,
       157,
+      159,
       160,
-      163
+      162,
+      163,
+      165,
+      168
     ],
-    "price": 107800,
+    "price": 115500,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4197,13 +4390,19 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      149,
       152,
+      153,
+      154,
       155,
+      156,
       158,
+      159,
       161,
+      162,
       164
     ],
-    "price": 124300,
+    "price": 132000,
     "image_url": "",
     "url": "https://www.jonessnowboards.com/collections/mens-snowboards",
     "style_scores": {
@@ -4222,13 +4421,18 @@
     "shape": "camber",
     "gender": "mens",
     "available_lengths": [
+      140,
+      143,
+      146,
       148,
+      149,
       150,
+      151,
       152,
       154,
       156
     ],
-    "price": 100100,
+    "price": 105600,
     "image_url": "",
     "url": "https://www.jonessnowboards.com/collections/mens-snowboards",
     "style_scores": {
@@ -4246,12 +4450,14 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      140,
       143,
       146,
       149,
-      152
+      152,
+      155
     ],
-    "price": 107800,
+    "price": 115500,
     "image_url": "",
     "url": "",
     "gender": "womens",
@@ -4317,12 +4523,13 @@
     "flex": 6,
     "shape": "camber",
     "available_lengths": [
+      143,
       146,
       149,
       152,
       155
     ],
-    "price": 140800,
+    "price": 151800,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4342,13 +4549,14 @@
     "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
+      140,
       143,
       146,
       149,
       152,
       155
     ],
-    "price": 124300,
+    "price": 132000,
     "image_url": "",
     "url": "https://www.jonessnowboards.com/collections/womens-snowboards",
     "style_scores": {
@@ -4366,9 +4574,15 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      149,
+      151,
       152,
+      154,
       155,
+      156,
+      157,
       158,
+      159,
       160
     ],
     "price": 80300,
@@ -4390,11 +4604,18 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      137,
+      141,
+      145,
+      149,
       152,
+      153,
       155,
-      158
+      157,
+      158,
+      161
     ],
-    "price": 77000,
+    "price": 84700,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4413,12 +4634,16 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      146,
+      149,
       152,
+      153,
       155,
+      157,
       158,
       161
     ],
-    "price": 72600,
+    "price": 96800,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4437,10 +4662,12 @@
     "flex": 3,
     "shape": "rocker",
     "available_lengths": [
+      138,
       142,
       146,
       149,
-      152
+      152,
+      153
     ],
     "price": 55000,
     "image_url": "",
@@ -4461,10 +4688,15 @@
     "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
+      152,
       155,
+      157,
       158,
+      159,
       161,
-      164
+      162,
+      164,
+      165
     ],
     "price": 82500,
     "image_url": "",
@@ -4485,12 +4717,17 @@
     "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
+      142,
+      146,
+      150,
+      154,
       155,
       158,
       161,
+      162,
       164
     ],
-    "price": 82500,
+    "price": 91300,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4580,8 +4817,14 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      144,
+      147,
+      150,
+      153,
       154,
+      156,
       158,
+      159,
       160,
       162
     ],
@@ -4630,12 +4873,19 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      146,
+      149,
+      151,
       152,
+      154,
       155,
+      157,
       158,
-      162
+      160,
+      162,
+      163
     ],
-    "price": 88000,
+    "price": 83300,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4702,10 +4952,12 @@
     "shape": "hybrid_camber",
     "available_lengths": [
       155,
+      157,
       158,
-      161
+      161,
+      162
     ],
-    "price": 93500,
+    "price": 105600,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4724,11 +4976,14 @@
     "flex": 7,
     "shape": "camber",
     "available_lengths": [
+      144,
+      150,
       156,
+      159,
       160,
       164
     ],
-    "price": 115500,
+    "price": 84700,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4747,11 +5002,16 @@
     "flex": 7,
     "shape": "camber",
     "available_lengths": [
+      147,
+      152,
       155,
+      156,
       159,
-      163
+      160,
+      163,
+      164
     ],
-    "price": 110000,
+    "price": 84700,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4770,11 +5030,14 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      153,
       154,
+      157,
       158,
+      161,
       162
     ],
-    "price": 104500,
+    "price": 82500,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4793,11 +5056,14 @@
     "flex": 6,
     "shape": "rocker",
     "available_lengths": [
+      147,
+      153,
       157,
+      159,
       164,
       170
     ],
-    "price": 115500,
+    "price": 84700,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4816,11 +5082,12 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      129,
       146,
       150,
       154
     ],
-    "price": 79200,
+    "price": 94600,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4840,11 +5107,14 @@
     "shape": "rocker",
     "available_lengths": [
       148,
+      150,
       152,
+      154,
       156,
+      157,
       160
     ],
-    "price": 99000,
+    "price": 82500,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -4886,6 +5156,7 @@
     "flex": 8,
     "shape": "hybrid_camber",
     "available_lengths": [
+      150,
       153,
       156,
       159
@@ -4986,9 +5257,12 @@
       153,
       155,
       157,
-      160
+      158,
+      160,
+      161,
+      163
     ],
-    "price": 100100,
+    "price": 96800,
     "image_url": "",
     "url": "https://www.lib-tech.com/snowboards/cold-brew",
     "style_scores": {
@@ -5008,12 +5282,17 @@
     "gender": "womens",
     "available_lengths": [
       140,
+      142,
       143,
+      145,
       146,
+      148,
       149,
-      152
+      151,
+      152,
+      154
     ],
-    "price": 91300,
+    "price": 86900,
     "image_url": "",
     "url": "https://www.lib-tech.com/snowboards/cortado",
     "style_scores": {
@@ -5035,7 +5314,8 @@
       153,
       156,
       159,
-      162
+      162,
+      165
     ],
     "price": 105600,
     "image_url": "",
@@ -5059,9 +5339,11 @@
       148,
       151,
       154,
-      157
+      157,
+      159,
+      162
     ],
-    "price": 127600,
+    "price": 121000,
     "image_url": "",
     "url": "https://www.lib-tech.com/snowboards/ejack-knife",
     "style_scores": {
@@ -5080,13 +5362,16 @@
     "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
+      139,
       143,
       146,
+      147,
       149,
+      151,
       152,
       155
     ],
-    "price": 88000,
+    "price": 82500,
     "image_url": "",
     "url": "https://www.lib-tech.com/snowboards/glider",
     "style_scores": {
@@ -5105,10 +5390,15 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      150,
       153,
+      155,
       156,
+      157,
       159,
+      161,
       162,
+      164,
       165
     ],
     "price": 154000,
@@ -5129,12 +5419,15 @@
     "flex": 4,
     "shape": "hybrid_camber",
     "available_lengths": [
+      147,
       148,
       151,
+      153,
       154,
+      156,
       157
     ],
-    "price": 91300,
+    "price": 88000,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -5205,12 +5498,15 @@
     "gender": "mens",
     "available_lengths": [
       148,
+      150,
       152,
+      153,
       154,
       156,
-      159
+      159,
+      162
     ],
-    "price": 105600,
+    "price": 101200,
     "image_url": "",
     "url": "https://www.lib-tech.com/snowboards/skate-banana",
     "style_scores": {
@@ -5231,9 +5527,10 @@
       157,
       161,
       165,
+      169,
       170
     ],
-    "price": 132000,
+    "price": 121000,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -5253,13 +5550,16 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      138,
+      144,
+      147,
       150,
       153,
       156,
       159,
       162
     ],
-    "price": 104500,
+    "price": 123200,
     "image_url": "",
     "url": "https://www.lib-tech.com/snowboards/t-rice-orca",
     "style_scores": {
@@ -5329,9 +5629,14 @@
     "gender": "mens",
     "available_lengths": [
       150,
+      152,
       153,
+      154,
       156,
+      157,
       159,
+      160,
+      161,
       162
     ],
     "price": 108900,
@@ -5711,8 +6016,11 @@
     "available_lengths": [
       142,
       145,
+      148,
       149,
-      152
+      151,
+      152,
+      154
     ],
     "price": 99000,
     "image_url": "",
@@ -5805,9 +6113,14 @@
     "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
+      147,
+      153,
       155,
+      156,
       158,
-      161
+      160,
+      161,
+      164
     ],
     "price": 93500,
     "image_url": "",
@@ -5923,7 +6236,12 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      139,
+      143,
+      147,
+      150,
       152,
+      153,
       155,
       158,
       161
@@ -6000,7 +6318,7 @@
       149,
       152
     ],
-    "price": 63800,
+    "price": 69300,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -6092,13 +6410,14 @@
     "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
+      142,
       143,
       146,
       149,
       152,
       155
     ],
-    "price": 71500,
+    "price": 97900,
     "image_url": "",
     "url": "https://www.nitrosnowboards.com/en/drop",
     "style_scores": {
@@ -6143,7 +6462,7 @@
       149,
       154
     ],
-    "price": 77000,
+    "price": 90200,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -6213,13 +6532,15 @@
     "shape": "camber",
     "gender": "mens",
     "available_lengths": [
+      138,
+      142,
       146,
       149,
       153,
       156,
       159
     ],
-    "price": 88000,
+    "price": 97900,
     "image_url": "",
     "url": "https://www.nitrosnowboards.com/en/optisym",
     "style_scores": {
@@ -6262,7 +6583,7 @@
       157,
       163
     ],
-    "price": 88000,
+    "price": 93500,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -6285,7 +6606,7 @@
       159,
       162
     ],
-    "price": 85800,
+    "price": 129800,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -6308,7 +6629,7 @@
       156,
       162
     ],
-    "price": 82500,
+    "price": 115500,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -6356,7 +6677,7 @@
       155,
       158
     ],
-    "price": 60500,
+    "price": 97900,
     "image_url": "",
     "url": "https://www.nitrosnowboards.com/en/t1",
     "style_scores": {
@@ -6406,7 +6727,8 @@
       155,
       157,
       159,
-      162
+      162,
+      165
     ],
     "price": 115500,
     "image_url": "",
@@ -7098,8 +7420,10 @@
     "available_lengths": [
       142,
       146,
+      148,
       151,
-      154
+      154,
+      157
     ],
     "price": 112750,
     "image_url": "",
@@ -7173,12 +7497,15 @@
     "shape": "hybrid_camber",
     "available_lengths": [
       152,
+      154,
       155,
       157,
       159,
+      160,
+      161,
       162
     ],
-    "price": 82500,
+    "price": 97900,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -7201,9 +7528,11 @@
       148,
       151,
       154,
-      157
+      155,
+      157,
+      158
     ],
-    "price": 60500,
+    "price": 94600,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -7222,8 +7551,11 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      153,
       155,
+      156,
       158,
+      159,
       160,
       163
     ],
@@ -7246,6 +7578,7 @@
     "shape": "hybrid_camber",
     "available_lengths": [
       148,
+      151,
       152,
       155,
       158
@@ -7319,7 +7652,9 @@
       148,
       151,
       154,
-      157
+      157,
+      160,
+      163
     ],
     "price": 63800,
     "image_url": "",
@@ -7364,6 +7699,8 @@
     "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
+      147,
+      151,
       155,
       158,
       161,
@@ -7388,12 +7725,18 @@
     "flex": 4,
     "shape": "rocker",
     "available_lengths": [
+      138,
+      142,
+      146,
       147,
+      148,
+      150,
       151,
       154,
-      157
+      157,
+      158
     ],
-    "price": 90200,
+    "price": 86900,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -7416,9 +7759,10 @@
       138,
       142,
       146,
-      150
+      150,
+      154
     ],
-    "price": 71500,
+    "price": 83600,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -7437,13 +7781,16 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      147,
       151,
       154,
       156,
+      157,
       159,
+      161,
       162
     ],
-    "price": 77000,
+    "price": 85800,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -7462,6 +7809,7 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      142,
       148,
       151,
       154,
@@ -7485,9 +7833,12 @@
     "flex": 4,
     "shape": "flat",
     "available_lengths": [
+      136,
+      142,
       148,
       151,
       154,
+      156,
       157
     ],
     "price": 86900,
@@ -7509,12 +7860,13 @@
     "flex": 5,
     "shape": "flat",
     "available_lengths": [
+      142,
       148,
       151,
       154,
       158
     ],
-    "price": 94600,
+    "price": 91300,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -7533,9 +7885,14 @@
     "flex": 3,
     "shape": "rocker",
     "available_lengths": [
+      135,
+      142,
       147,
+      150,
       151,
-      155
+      152,
+      155,
+      159
     ],
     "price": 86900,
     "image_url": "",
@@ -7556,12 +7913,17 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      148,
+      151,
       152,
+      154,
       155,
+      157,
       158,
+      160,
       161
     ],
-    "price": 79200,
+    "price": 86900,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -7580,12 +7942,20 @@
     "flex": 4,
     "shape": "hybrid_camber",
     "available_lengths": [
+      147,
       149,
+      150,
       152,
+      153,
+      154,
       155,
-      158
+      156,
+      157,
+      158,
+      159,
+      160
     ],
-    "price": 60500,
+    "price": 82500,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -7628,10 +7998,16 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      147,
       150,
       153,
+      154,
       156,
-      159
+      157,
+      159,
+      160,
+      161,
+      163
     ],
     "price": 74800,
     "image_url": "",
@@ -7676,9 +8052,17 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      144,
+      147,
+      150,
+      152,
+      153,
       155,
       158,
-      161
+      159,
+      161,
+      162,
+      165
     ],
     "price": 104500,
     "image_url": "",
@@ -7702,9 +8086,13 @@
       148,
       151,
       154,
-      157
+      157,
+      158,
+      160,
+      161,
+      164
     ],
-    "price": 82500,
+    "price": 104500,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -7747,12 +8135,16 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      151,
+      154,
       155,
+      157,
       158,
+      160,
       161,
       164
     ],
-    "price": 85800,
+    "price": 79200,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -7843,11 +8235,16 @@
     "shape": "hybrid_camber",
     "available_lengths": [
       149,
+      150,
       152,
+      153,
       155,
-      158
+      157,
+      158,
+      159,
+      162
     ],
-    "price": 63800,
+    "price": 107800,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -7866,11 +8263,17 @@
     "flex": 9,
     "shape": "camber",
     "available_lengths": [
+      149,
+      152,
+      155,
       157,
+      158,
       160,
+      161,
+      162,
       163
     ],
-    "price": 93500,
+    "price": 113300,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -7890,9 +8293,14 @@
     "shape": "hybrid_camber",
     "available_lengths": [
       152,
+      153,
       155,
+      156,
+      157,
       158,
-      161
+      159,
+      161,
+      165
     ],
     "price": 93500,
     "image_url": "",
@@ -7913,9 +8321,13 @@
     "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
+      153,
       155,
+      156,
       158,
+      159,
       161,
+      163,
       164
     ],
     "price": 82500,
@@ -7937,12 +8349,16 @@
     "flex": 4,
     "shape": "hybrid_camber",
     "available_lengths": [
+      147,
       148,
+      150,
       151,
+      153,
       154,
+      156,
       157
     ],
-    "price": 60500,
+    "price": 96800,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -7961,12 +8377,14 @@
     "flex": 8,
     "shape": "camber",
     "available_lengths": [
+      154,
       155,
       158,
       161,
+      162,
       164
     ],
-    "price": 82500,
+    "price": 96800,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -8106,7 +8524,12 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      138,
+      143,
+      147,
+      151,
       152,
+      153,
       155,
       158,
       162
@@ -8129,11 +8552,15 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      150,
       151,
       153,
       156,
+      158,
       159,
-      162
+      162,
+      163,
+      165
     ],
     "price": 94600,
     "image_url": "",
@@ -8154,8 +8581,11 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      150,
       153,
+      155,
       156,
+      158,
       159,
       162
     ],
@@ -8179,9 +8609,14 @@
     "shape": "rocker",
     "gender": "mens",
     "available_lengths": [
+      139,
+      143,
+      147,
       148,
       152,
+      154,
       155,
+      157,
       158,
       161
     ],
@@ -8203,10 +8638,17 @@
     "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
+      149,
+      153,
       155,
+      157,
       158,
+      160,
       161,
-      164
+      163,
+      164,
+      166,
+      170
     ],
     "price": 107800,
     "image_url": "",
@@ -8227,10 +8669,17 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      146,
+      150,
       152,
+      153,
       155,
+      156,
       158,
-      161
+      159,
+      161,
+      162,
+      165
     ],
     "price": 107800,
     "image_url": "",
@@ -8252,10 +8701,15 @@
     "shape": "hybrid_camber",
     "available_lengths": [
       148,
+      149,
       150,
       152,
+      153,
       155,
-      158
+      156,
+      158,
+      159,
+      162
     ],
     "price": 89100,
     "image_url": "",
@@ -8276,9 +8730,16 @@
     "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
+      146,
+      149,
+      153,
       155,
+      157,
       158,
-      161
+      160,
+      161,
+      163,
+      166
     ],
     "price": 107800,
     "image_url": "",
@@ -8299,9 +8760,12 @@
     "flex": 3,
     "shape": "rocker",
     "available_lengths": [
+      135,
       138,
       142,
-      146
+      146,
+      151,
+      155
     ],
     "price": 44000,
     "image_url": "",
@@ -8324,8 +8788,11 @@
     "available_lengths": [
       138,
       142,
+      143,
       146,
+      147,
       149,
+      151,
       152
     ],
     "price": 66000,
@@ -8347,10 +8814,13 @@
     "flex": 3,
     "shape": "flat",
     "available_lengths": [
+      142,
+      145,
       149,
       152,
       156,
-      160
+      160,
+      163
     ],
     "price": 60500,
     "image_url": "",
@@ -8372,11 +8842,15 @@
     "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
+      140,
       142,
+      144,
       146,
       148,
       150,
-      153
+      152,
+      153,
+      155
     ],
     "price": 94600,
     "image_url": "",
@@ -8397,6 +8871,7 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      147,
       150,
       153,
       156,
@@ -8422,9 +8897,16 @@
     "shape": "flat",
     "gender": "mens",
     "available_lengths": [
+      127,
+      133,
+      138,
+      143,
+      145,
       148,
       150,
+      151,
       152,
+      153,
       155,
       158
     ],
@@ -8517,11 +8999,22 @@
     "shape": "flat",
     "gender": "unisex",
     "available_lengths": [
+      142,
+      143,
       145,
+      146,
+      147,
       149,
+      150,
+      151,
+      152,
       153,
       155,
+      156,
       157,
+      158,
+      159,
+      160,
       162
     ],
     "price": 118800,
@@ -8765,11 +9258,13 @@
     "flex": 7,
     "shape": "camber",
     "available_lengths": [
+      143,
+      153,
       155,
       158,
       162
     ],
-    "price": 116600,
+    "price": 143000,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -9048,12 +9543,16 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      149,
       150,
+      152,
       153,
+      155,
       156,
+      158,
       159
     ],
-    "price": 60500,
+    "price": 83600,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -9388,6 +9887,7 @@
     "shape": "camber",
     "gender": "unisex",
     "available_lengths": [
+      142,
       145,
       148,
       150,
@@ -10169,9 +10669,11 @@
       143,
       148,
       151,
-      154
+      154,
+      157,
+      160
     ],
-    "price": 81400,
+    "price": 92400,
     "image_url": "",
     "url": "https://www.yonex.co.jp/snowboards/boards/",
     "style_scores": {
@@ -10193,7 +10695,7 @@
       155,
       158
     ],
-    "price": 81400,
+    "price": 92400,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -10212,12 +10714,16 @@
     "flex": 3,
     "shape": "hybrid_camber",
     "available_lengths": [
+      138,
+      141,
+      144,
+      147,
       150,
       153,
       156,
       159
     ],
-    "price": 92400,
+    "price": 103400,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -10237,12 +10743,16 @@
     "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
+      135,
       136,
+      138,
       139,
+      141,
       142,
+      144,
       145
     ],
-    "price": 68200,
+    "price": 80300,
     "image_url": "",
     "url": "https://www.yonex.co.jp/snowboards/boards/",
     "style_scores": {
@@ -10264,7 +10774,7 @@
       157,
       161
     ],
-    "price": 101200,
+    "price": 115500,
     "image_url": "",
     "url": "https://www.yonex.co.jp/snowboards/boards/",
     "style_scores": {
@@ -10286,7 +10796,7 @@
       147,
       151
     ],
-    "price": 99000,
+    "price": 114400,
     "image_url": "",
     "url": "https://www.yonex.co.jp/snowboards/boards/",
     "style_scores": {
@@ -10305,12 +10815,16 @@
     "shape": "hybrid_camber",
     "gender": "unisex",
     "available_lengths": [
+      147,
       148,
+      150,
       151,
+      153,
       154,
+      156,
       157
     ],
-    "price": 68200,
+    "price": 80300,
     "image_url": "",
     "url": "https://www.yonex.co.jp/snowboards/boards/",
     "style_scores": {
@@ -10329,11 +10843,13 @@
     "shape": "flat",
     "gender": "mens",
     "available_lengths": [
+      148,
       150,
+      153,
       154,
       158
     ],
-    "price": 110000,
+    "price": 124300,
     "image_url": "",
     "url": "https://www.yonex.co.jp/snowboards/boards/",
     "style_scores": {
@@ -10351,12 +10867,20 @@
     "flex": 6,
     "shape": "camber",
     "available_lengths": [
+      142,
+      143,
+      146,
+      147,
+      150,
       152,
+      153,
+      154,
       155,
+      156,
       158,
       161
     ],
-    "price": 92400,
+    "price": 103400,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -10376,11 +10900,12 @@
     "shape": "camber",
     "available_lengths": [
       152,
+      154,
       155,
       158,
       162
     ],
-    "price": 231000,
+    "price": 247500,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -10405,7 +10930,7 @@
       156,
       159
     ],
-    "price": 112200,
+    "price": 127600,
     "image_url": "",
     "url": "https://www.yonex.co.jp/snowboards/boards/",
     "style_scores": {
@@ -10428,7 +10953,7 @@
       142,
       146
     ],
-    "price": 99000,
+    "price": 112200,
     "image_url": "",
     "url": "https://www.yonex.co.jp/snowboards/boards/",
     "style_scores": {
@@ -10446,12 +10971,23 @@
     "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
+      138,
+      139,
+      142,
+      143,
+      146,
+      147,
       148,
       150,
+      151,
       152,
-      155
+      154,
+      155,
+      157,
+      158,
+      162
     ],
-    "price": 101200,
+    "price": 116600,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -10475,9 +11011,11 @@
       143,
       148,
       151,
-      154
+      154,
+      157,
+      160
     ],
-    "price": 99000,
+    "price": 115500,
     "image_url": "",
     "url": "https://www.yonex.co.jp/snowboards/boards/",
     "style_scores": {
@@ -10526,7 +11064,7 @@
       154,
       156
     ],
-    "price": 88000,
+    "price": 96800,
     "image_url": "",
     "url": "https://sportsbomber.base.shop/items/97752161",
     "style_scores": {
@@ -10545,12 +11083,18 @@
     "shape": "double_camber",
     "gender": "unisex",
     "available_lengths": [
+      136,
+      138,
+      140,
+      142,
+      145,
       148,
       150,
       152,
-      154
+      154,
+      156
     ],
-    "price": 88000,
+    "price": 96800,
     "image_url": "",
     "url": "https://sportsbomber.base.shop/items/97752222",
     "style_scores": {
@@ -10600,7 +11144,7 @@
       154,
       156
     ],
-    "price": 88000,
+    "price": 96800,
     "image_url": "",
     "url": "https://sportsbomber.base.shop/items/97751366",
     "style_scores": {
@@ -10619,12 +11163,13 @@
     "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
+      136,
       139,
       141,
       143,
       145
     ],
-    "price": 88000,
+    "price": 96800,
     "image_url": "",
     "url": "https://sportsbomber.base.shop/items/97753127",
     "style_scores": {
@@ -10649,7 +11194,7 @@
       154,
       156
     ],
-    "price": 64900,
+    "price": 69300,
     "image_url": "",
     "url": "https://gtsnowboards.stores.jp/items/679c5f127dd1ee0240020f24",
     "style_scores": {
@@ -10671,7 +11216,8 @@
       148,
       150,
       152,
-      154
+      154,
+      156
     ],
     "price": 118800,
     "image_url": "",
@@ -10944,6 +11490,7 @@
     "gender": "unisex",
     "available_lengths": [
       141,
+      142,
       145,
       149,
       152,
@@ -11077,7 +11624,7 @@
       153,
       158
     ],
-    "price": 119900,
+    "price": 108900,
     "image_url": "",
     "url": "https://aresbmx.com/?pid=179529056",
     "style_scores": {
@@ -11119,9 +11666,10 @@
     "available_lengths": [
       146,
       153,
+      157,
       161
     ],
-    "price": 174900,
+    "price": 167200,
     "image_url": "",
     "url": "https://www.fieldearthdesign.com/x3.html",
     "style_scores": {
@@ -11144,7 +11692,7 @@
       147,
       153
     ],
-    "price": 132000,
+    "price": 143000,
     "image_url": "",
     "url": "https://tj-brand.com/3dimensions/",
     "style_scores": {
@@ -11166,7 +11714,7 @@
       155,
       159
     ],
-    "price": 137500,
+    "price": 148500,
     "image_url": "",
     "url": "https://tj-brand.com/3dimensions/",
     "style_scores": {
@@ -11188,7 +11736,7 @@
       152,
       156
     ],
-    "price": 138600,
+    "price": 148500,
     "image_url": "",
     "url": "https://tj-brand.com/3dimensions/",
     "style_scores": {
@@ -11208,11 +11756,12 @@
     "gender": "unisex",
     "available_lengths": [
       148,
+      152,
       155,
       158,
       161
     ],
-    "price": 132000,
+    "price": 140800,
     "image_url": "",
     "url": "https://tj-brand.com/product/",
     "style_scores": {
@@ -11232,11 +11781,12 @@
     "gender": "unisex",
     "available_lengths": [
       149,
+      149.5,
       156,
       157,
       160
     ],
-    "price": 115500,
+    "price": 126500,
     "image_url": "",
     "url": "https://tj-brand.com/product/",
     "style_scores": {
@@ -11833,7 +12383,7 @@
       144,
       149
     ],
-    "price": 75900,
+    "price": 79200,
     "image_url": "",
     "url": "https://simsnow.jp/products/26-vanilla",
     "style_scores": {
@@ -11854,9 +12404,12 @@
     "available_lengths": [
       149,
       151,
+      151.5,
       154,
+      154.5,
       155,
       157,
+      157.5,
       159
     ],
     "price": 68200,
@@ -12205,11 +12758,15 @@
     "shape": "camber",
     "gender": "womens",
     "available_lengths": [
+      136,
       138,
+      139,
       142,
-      145
+      143,
+      145,
+      147
     ],
-    "price": 74800,
+    "price": 84700,
     "image_url": "",
     "url": "https://store.shopping.yahoo.co.jp/breakout/13-trust-g.html",
     "style_scores": {
@@ -12251,7 +12808,7 @@
     "available_lengths": [
       144
     ],
-    "price": 137500,
+    "price": 148500,
     "image_url": "",
     "url": "https://gentemstick.com/products/24-25-flair",
     "style_scores": {
@@ -12317,6 +12874,7 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      145,
       149,
       153,
       156,
@@ -12749,7 +13307,6 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
-      157,
       158
     ],
     "price": 150700,
@@ -13150,7 +13707,6 @@
     "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
-      155,
       156
     ],
     "price": 150700,
@@ -13684,7 +14240,9 @@
     "available_lengths": [
       146,
       153,
-      156
+      156,
+      156.5,
+      160
     ],
     "price": 130900,
     "image_url": "",
@@ -14448,7 +15006,7 @@
       155,
       157
     ],
-    "price": 70400,
+    "price": 74800,
     "image_url": "",
     "url": "",
     "style_scores": {
@@ -14467,9 +15025,13 @@
     "flex": 6,
     "shape": "camber",
     "available_lengths": [
+      147,
       148,
+      150,
       151,
-      155
+      153,
+      155,
+      158
     ],
     "price": 74800,
     "image_url": "",
