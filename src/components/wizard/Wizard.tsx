@@ -210,7 +210,7 @@ export function Wizard() {
           {[
             { icon: "⏱", text: "約1分で完了" },
             { icon: "✅", text: "4つの質問に答えるだけ" },
-            { icon: "🏂", text: "600本以上から診断" },
+            { icon: "🏂", text: "700本以上から診断" },
           ].map(({ icon, text }) => (
             <div key={text} className="flex items-center gap-1.5 text-xs text-slate-500">
               <span>{icon}</span>
