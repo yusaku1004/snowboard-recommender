@@ -11513,7 +11513,7 @@
     "brand": "NOVEMBER",
     "model": "ARTISTE",
     "year": 2026,
-    "flex": 4,
+    "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
       138,
@@ -11675,7 +11675,7 @@
     "brand": "NOVEMBER",
     "model": "DESIRE RS",
     "year": 2026,
-    "flex": 7,
+    "flex": 6,
     "shape": "camber",
     "available_lengths": [
       147,
@@ -11781,7 +11781,7 @@
     "brand": "NOVEMBER",
     "model": "ICECAT",
     "year": 2026,
-    "flex": 4,
+    "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
       139,
@@ -11836,7 +11836,7 @@
     "brand": "NOVEMBER",
     "model": "KJ",
     "year": 2026,
-    "flex": 5,
+    "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
       148,
@@ -11957,7 +11957,7 @@
     "brand": "NOVEMBER",
     "model": "UNDERCARRIAGE",
     "year": 2026,
-    "flex": 8,
+    "flex": 7,
     "shape": "camber",
     "available_lengths": [
       148,
@@ -12115,7 +12115,7 @@
     "brand": "OGASAKA",
     "model": "FC",
     "year": 2026,
-    "flex": 10,
+    "flex": 9,
     "shape": "camber",
     "available_lengths": [
       145,
