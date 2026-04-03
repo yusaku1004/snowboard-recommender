@@ -6,7 +6,7 @@ export function calculateIdealSize(
   style: StyleScores,
   gender: GenderPreference = "all"
 ): number {
-  let idealSize = gender === "women" ? height - 20 : height - 15;
+  let idealSize = gender === "womens" ? height - 20 : height - 15;
 
   const standardWeight = (height - 100) * 0.9;
   const weightDiff = weight - standardWeight;
