@@ -14,7 +14,6 @@ interface BoardCardProps {
   myBoard?: Board | null;
   isFavorite?: boolean;
   onToggleFavorite?: (board: Board) => void;
-  scoreMode?: boolean;
 }
 
 const SHAPE_LABELS: Record<string, string> = {
@@ -146,7 +145,7 @@ function getFlexDiff(target: number, mine: number): string | null {
     : `${abs}段階柔らかい`;
 }
 
-export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, isFavorite = false, onToggleFavorite, scoreMode = false }: BoardCardProps) {
+export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, isFavorite = false, onToggleFavorite }: BoardCardProps) {
   const [expanded, setExpanded] = useState(false);
   const { board, matchPercentage, recommendedSize, overBudget, estimatedPrice } = result;
   const topStyleTag = getTopStyleTag(board.style_scores);
@@ -224,15 +223,9 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                   style={{ width: `${matchPercentage}%` }}
                 />
               </div>
-              {scoreMode ? (
-                <span className="text-xs font-bold text-sky-400 tabular-nums w-12 text-right">
-                  {(matchPercentage / 10).toFixed(1)}<span className="text-slate-500 font-normal">/10</span>
-                </span>
-              ) : (
-                <span className="text-xs font-bold text-sky-400 tabular-nums w-10 text-right">
-                  {matchPercentage}%
-                </span>
-              )}
+              <span className="text-xs font-bold text-sky-400 tabular-nums w-14 text-right">
+                {matchPercentage}%
+              </span>
             </div>
             <div className="mt-1.5">
               <span className="text-xs text-slate-500">

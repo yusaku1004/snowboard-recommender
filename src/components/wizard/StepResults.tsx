@@ -3,6 +3,7 @@
 import { useMemo, useState, useRef, useCallback } from "react";
 import { UserInput, Board, Shape, FlexCategory, PriceRange, StyleScores, RecommendResult } from "@/types";
 import { getRecommendations, estimateDiscountedPrice } from "@/lib/recommend";
+import { calculateIdealSize } from "@/lib/size";
 import { calculateRecommendedSize } from "@/lib/size";
 import { getShareUrl, getTwitterShareUrl, FilterState } from "@/lib/share";
 import { BoardCard } from "@/components/results/BoardCard";
@@ -265,39 +266,45 @@ export function StepResults({
     [filteredBoards, adjustedInput]
   );
 
-  // スタイル別結果（選択スタイルのスコアで降順ソート）
+  // スタイル別結果（スタイルスコア降順→同スコア時はブランド優先度）
   const styleResults = useMemo<RecommendResult[]>(() => {
     if (!resultStyle) return [];
     const priority = STYLE_BRAND_PRIORITY[resultStyle];
     const effectiveBudget = adjustedInput.budget * (1 + adjustedInput.budgetFlexibility / 100);
-    return [...filteredBoards]
+    const idealSize = calculateIdealSize(adjustedInput.height, adjustedInput.weight, adjustedInput.style, adjustedInput.gender);
+
+    const mapped: RecommendResult[] = filteredBoards.map((board) => {
+      const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
+      const recommendedSize = calculateRecommendedSize(
+        adjustedInput.height,
+        adjustedInput.weight,
+        adjustedInput.style,
+        board.available_lengths,
+        adjustedInput.gender
+      );
+      const overBudget = estimatedPrice > effectiveBudget;
+      const budgetPenalty = overBudget
+        ? Math.min(((estimatedPrice - effectiveBudget) / effectiveBudget) * 50, 30)
+        : 0;
+      const minLengthDiff = Math.min(...board.available_lengths.map((l) => Math.abs(l - idealSize)));
+      const sizePenalty = minLengthDiff <= 10 ? 0 : minLengthDiff <= 20 ? (minLengthDiff - 10) * 1.0 : 10 + (minLengthDiff - 20) * 1.5;
+      // matchPercentage はスタイルスコア(1-10)→0-90 + ブランド優先度補正(0-5) - 各種ペナルティ
+      const styleScore = board.style_scores[resultStyle] ?? 1;
+      const brandBoost = ((priority[board.brand] ?? 0) / 100) * 5;
+      const matchPercentage = Math.round(
+        Math.max(0, Math.min(100, styleScore * 9 + brandBoost - budgetPenalty - sizePenalty)) * 10
+      ) / 10;
+      return { board, matchPercentage, recommendedSize, overBudget, estimatedPrice };
+    });
+
+    return mapped
       .sort((a, b) => {
-        const aOver = estimateDiscountedPrice(a.price, a.year) > effectiveBudget ? 1 : 0;
-        const bOver = estimateDiscountedPrice(b.price, b.year) > effectiveBudget ? 1 : 0;
-        if (aOver !== bOver) return aOver - bOver;
-        const scoreDiff = b.style_scores[resultStyle] - a.style_scores[resultStyle];
-        if (scoreDiff !== 0) return scoreDiff;
-        return (priority[b.brand] ?? 0) - (priority[a.brand] ?? 0);
+        // 予算内を優先
+        if (a.overBudget !== b.overBudget) return a.overBudget ? 1 : -1;
+        // matchPercentage降順（= スタイルスコア→ブランド優先度の順）
+        return b.matchPercentage - a.matchPercentage;
       })
-      .slice(0, 30)
-      .map((board) => {
-        const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
-        const recommendedSize = calculateRecommendedSize(
-          adjustedInput.height,
-          adjustedInput.weight,
-          adjustedInput.style,
-          board.available_lengths,
-          adjustedInput.gender
-        );
-        const overBudget = estimatedPrice > adjustedInput.budget * (1 + adjustedInput.budgetFlexibility / 100);
-        return {
-          board,
-          matchPercentage: board.style_scores[resultStyle] * 10,
-          recommendedSize,
-          overBudget,
-          estimatedPrice,
-        };
-      });
+      .slice(0, 30);
   }, [filteredBoards, resultStyle, adjustedInput]);
 
   const results = resultStyle ? styleResults : overallResults;
@@ -332,7 +339,7 @@ export function StepResults({
     toggleFavorite(board);
     if (wasAdded) {
       setFavoriteToast(true);
-      setTimeout(() => setFavoriteToast(false), 2500);
+      setTimeout(() => setFavoriteToast(false), 2000);
     }
   }, [isFavorite, toggleFavorite]);
 
@@ -637,7 +644,7 @@ export function StepResults({
                 budgetFlexibility={adjustedInput.budgetFlexibility}
                 myBoard={myBoard}
                 isFavorite={true}
-                onToggleFavorite={toggleFavorite}
+                onToggleFavorite={handleToggleFavorite}
               />
             ))}
           </div>
@@ -704,8 +711,7 @@ export function StepResults({
                     budgetFlexibility={adjustedInput.budgetFlexibility}
                     myBoard={myBoard}
                     isFavorite={isFavorite(result.board)}
-                    onToggleFavorite={toggleFavorite}
-                    scoreMode={!!resultStyle}
+                    onToggleFavorite={handleToggleFavorite}
                   />
                 ))}
               </div>
@@ -762,6 +768,16 @@ export function StepResults({
       <div className="flex justify-center">
         <Button onClick={onRestart}>もう一度診断する</Button>
       </div>
+
+      {/* Favorite toast */}
+      {favoriteToast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-slate-800 border border-slate-700 text-white text-sm px-4 py-2.5 rounded-xl shadow-xl">
+          <svg className="w-4 h-4 text-rose-400 fill-rose-400" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+          お気に入りに追加しました
+        </div>
+      )}
     </div>
   );
 }

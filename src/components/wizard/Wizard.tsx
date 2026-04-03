@@ -43,6 +43,7 @@ export function Wizard() {
   const [selectedPriceRanges, setSelectedPriceRanges] = useState<Set<PriceRange> | null>(null);
   const [restored, setRestored] = useState(false);
   const [savedInput, setSavedInput] = useState<UserInput | null>(null);
+  const [restoreCount, setRestoreCount] = useState(0);
 
   // Restore from URL parameters
   useEffect(() => {
@@ -142,6 +143,7 @@ export function Wizard() {
   const handleRestoreAndContinue = useCallback(() => {
     if (!savedInput) return;
     applyInput(savedInput);
+    setRestoreCount((c) => c + 1);
   }, [savedInput, applyInput]);
 
   const handleRestart = useCallback(() => {
@@ -249,7 +251,7 @@ export function Wizard() {
       )}
 
       <div className="overflow-hidden">
-        <div key={currentStep} className={animationClass}>
+        <div key={`${currentStep}-${restoreCount}`} className={animationClass}>
           {currentStep === 0 && (
             <StepPhysique
               height={height}

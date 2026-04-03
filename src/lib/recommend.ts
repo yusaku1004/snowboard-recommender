@@ -74,7 +74,18 @@ const BRAND_POPULARITY: Record<string, number> = {
   "SECCA": 42,
 };
 import { cosineSimilarity, getWeights } from "./cosine";
-import { calculateRecommendedSize } from "./size";
+import { calculateIdealSize, calculateRecommendedSize } from "./size";
+
+function calculateSizeMismatchPenalty(
+  availableLengths: number[],
+  idealSize: number
+): number {
+  const minDiff = Math.min(...availableLengths.map((l) => Math.abs(l - idealSize)));
+  // 10cm以内: ペナルティなし、10-20cm: 最大10pt、20cm超: 最大25pt
+  if (minDiff <= 10) return 0;
+  if (minDiff <= 20) return (minDiff - 10) * 1.0;
+  return 10 + (minDiff - 20) * 1.5;
+}
 
 function filterByGender(boards: Board[], preference: GenderPreference): Board[] {
   if (preference === "all") return boards;
@@ -158,6 +169,8 @@ export function getRecommendations(
   const filtered = filterByGender(boards.filter(hasValidStyleScores), input.gender);
   const weights = getWeights(input.style);
 
+  const idealSize = calculateIdealSize(input.height, input.weight, input.style, input.gender);
+
   const results: RecommendResult[] = filtered.map((board) => {
     const similarity = cosineSimilarity(input.style, board.style_scores, weights);
     const flexBonus = calculateFlexBonus(board, input.style);
@@ -168,10 +181,11 @@ export function getRecommendations(
       input.budget,
       input.budgetFlexibility
     );
+    const sizePenalty = calculateSizeMismatchPenalty(board.available_lengths, idealSize);
 
     const matchPercentage = Math.max(
       0,
-      Math.min(100, similarity * 100 + flexBonus - budgetPenalty)
+      Math.min(100, similarity * 100 + flexBonus - budgetPenalty - sizePenalty)
     );
 
     const recommendedSize = calculateRecommendedSize(
@@ -209,5 +223,5 @@ export function getRecommendations(
     const pb = BRAND_POPULARITY[b.board.brand] ?? 0;
     return pb - pa;
   });
-  return deduped.slice(0, 10);
+  return deduped.slice(0, 30);
 }
