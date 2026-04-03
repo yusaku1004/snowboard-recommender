@@ -74,6 +74,8 @@ export function StepStyle({ style, onStyleChange, onPresetApply, onNext, onBack 
             min={1}
             max={5}
             step={1}
+            startLabel="興味なし"
+            endLabel="最重視"
             onChange={(v) => onStyleChange(item.key, v)}
           />
         ))}

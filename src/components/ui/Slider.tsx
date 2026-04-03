@@ -9,6 +9,8 @@ interface SliderProps {
   step: number;
   unit?: string;
   formatValue?: (value: number) => string;
+  startLabel?: string;
+  endLabel?: string;
   onChange: (value: number) => void;
 }
 
@@ -21,6 +23,8 @@ export function Slider({
   step,
   unit = "",
   formatValue,
+  startLabel,
+  endLabel,
   onChange,
 }: SliderProps) {
   const displayValue = formatValue ? formatValue(value) : `${value}${unit}`;
@@ -79,8 +83,8 @@ export function Slider({
         </button>
       </div>
       <div className="flex justify-between text-xs text-slate-600 mt-1.5 px-14">
-        <span>{formatValue ? formatValue(min) : `${min}${unit}`}</span>
-        <span>{formatValue ? formatValue(max) : `${max}${unit}`}</span>
+        <span>{startLabel ?? (formatValue ? formatValue(min) : `${min}${unit}`)}</span>
+        <span>{endLabel ?? (formatValue ? formatValue(max) : `${max}${unit}`)}</span>
       </div>
     </div>
   );

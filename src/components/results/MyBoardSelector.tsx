@@ -122,7 +122,8 @@ export function MyBoardSelector({ boards, selectedBoard, onSelect }: MyBoardSele
           {filteredModels.map((board) => {
             const isSelected =
               selectedBoard?.brand === board.brand &&
-              selectedBoard?.model === board.model;
+              selectedBoard?.model === board.model &&
+              selectedBoard?.year === board.year;
             return (
               <button
                 key={`${board.brand}-${board.model}-${board.year}`}

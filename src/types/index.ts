@@ -1,4 +1,4 @@
-export type Shape = "camber" | "rocker" | "flat" | "hybrid_camber" | "double_camber";
+export type Shape = "camber" | "rocker" | "flat" | "hybrid_camber" | "hybrid_rocker" | "double_camber";
 
 export type FlexCategory = "soft" | "mid" | "hard";
 
@@ -27,6 +27,7 @@ export interface Board {
   price: number;
   image_url?: string;
   url?: string;
+  riding_type?: string;
   style_scores: StyleScores;
 }
 

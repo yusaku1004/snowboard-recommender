@@ -23,6 +23,7 @@ const ALL_SHAPES: { value: Shape; label: string }[] = [
   { value: "rocker", label: "ロッカー" },
   { value: "flat", label: "フラット" },
   { value: "hybrid_camber", label: "ハイブリッドキャンバー" },
+  { value: "hybrid_rocker", label: "ハイブリッドロッカー" },
   { value: "double_camber", label: "ダブルキャンバー" },
 ];
 
@@ -93,7 +94,7 @@ export function StepBrands({
   };
 
   const toggleAllBrands = () => {
-    onBrandsChange(allBrandsSelected ? new Set() : null);
+    if (!allBrandsSelected) onBrandsChange(null);
   };
 
   const handleSkip = () => {
@@ -168,12 +169,15 @@ export function StepBrands({
       <div className="mb-2">
         <div className="flex items-center justify-between mb-2">
           <p className="text-xs text-slate-400 font-medium">メーカー</p>
-          <button
-            onClick={toggleAllBrands}
-            className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer"
-          >
-            {allBrandsSelected ? "すべて解除" : "すべて選択"}
-          </button>
+          {!allBrandsSelected && (
+            <button
+              type="button"
+              onClick={toggleAllBrands}
+              className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer"
+            >
+              すべて選択
+            </button>
+          )}
         </div>
         <div className="grid grid-cols-2 gap-2 max-h-72 overflow-y-auto pr-1">
           {brands.map((brand) => {

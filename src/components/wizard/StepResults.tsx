@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { UserInput, Board, Shape, FlexCategory, PriceRange, StyleScores } from "@/types";
+import { useMemo, useState, useRef, useCallback } from "react";
+import { UserInput, Board, Shape, FlexCategory, PriceRange, StyleScores, RecommendResult } from "@/types";
 import { getRecommendations, estimateDiscountedPrice } from "@/lib/recommend";
+import { calculateRecommendedSize } from "@/lib/size";
 import { getShareUrl, getTwitterShareUrl, FilterState } from "@/lib/share";
 import { BoardCard } from "@/components/results/BoardCard";
 import { AiExplanation } from "@/components/results/AiExplanation";
@@ -35,6 +36,7 @@ const ALL_SHAPES: { value: Shape; label: string }[] = [
   { value: "rocker", label: "ロッカー" },
   { value: "flat", label: "フラット" },
   { value: "hybrid_camber", label: "ハイブリッドキャンバー" },
+  { value: "hybrid_rocker", label: "ハイブリッドロッカー" },
   { value: "double_camber", label: "ダブルキャンバー" },
 ];
 
@@ -49,6 +51,48 @@ const ALL_PRICE_RANGES: { value: PriceRange; label: string; desc: string }[] = [
   { value: "50to80", label: "5〜8万", desc: "¥50,000〜80,000" },
   { value: "80to100", label: "8〜10万", desc: "¥80,000〜100,000" },
   { value: "over100", label: "10万〜", desc: "¥100,000以上" },
+];
+
+const STYLE_BRAND_PRIORITY: Record<keyof StyleScores, Record<string, number>> = {
+  ground_tricks: {
+    "SPREAD": 100, "RICE28": 96, "FNTC": 92, "011 Artistic": 89, "NOVEMBER": 86,
+    "YONEX": 83, "ALLIAN": 80, "GRAY": 77, "WRX SB": 74, "CROOJA": 71,
+    "MOSS": 68, "SCOOTER": 65, "FANATIC": 62, "DEATH LABEL": 59, "BC STREAM": 56,
+    "CAPITA": 53, "BURTON": 50, "GNU": 47,
+  },
+  park: {
+    "BURTON": 100, "CAPITA": 96, "SALOMON": 90, "BATALEON": 86, "GNU": 82,
+    "LIB TECH": 78, "ROME": 75, "NITRO": 72, "ALLIAN": 68, "YES.": 65,
+    "NIDECKER": 62, "RIDE": 59, "DEATH LABEL": 56, "LOBSTER": 53, "K2": 50,
+    "NOVEMBER": 47, "DINOSAURS WILL DIE": 44,
+  },
+  carving: {
+    "OGASAKA": 100, "MOSS": 95, "FANATIC": 90, "NOVEMBER": 85, "GRAY": 82,
+    "YONEX": 79, "WRX SB": 76, "BC STREAM": 73, "SALOMON": 70, "BURTON": 67,
+    "RICE28": 64, "SCOOTER": 61, "HEAD": 58, "K2": 55, "KORUA": 52,
+    "ROSSIGNOL": 49, "ELAN": 46, "ALLIAN": 43,
+  },
+  run_tricks: {
+    "WRX SB": 100, "RICE28": 97, "SPREAD": 94, "FNTC": 91, "011 Artistic": 88,
+    "FANATIC": 84, "CROOJA": 81, "SALOMON": 78, "BURTON": 75, "CAPITA": 72,
+    "OGASAKA": 69, "GRAY": 66, "NOVEMBER": 64, "DEVGRU": 62, "HOLIDAY": 60,
+    "BC STREAM": 58, "GNU": 55, "LIB TECH": 53, "YONEX": 50, "K2": 47,
+  },
+  powder: {
+    "GENTEMSTICK": 100, "MOSS SNOWSTICK": 98, "JONES": 95, "KORUA": 92, "WESTON": 88,
+    "ARBOR": 85, "NEVER SUMMER": 83, "BURTON": 80, "SALOMON": 78, "K2": 75,
+    "UNITED SHAPES": 73, "SEASON": 70, "AMPLID": 68, "ENDEAVOR": 65, "SIGNAL": 62,
+    "GNU": 60, "LIB TECH": 58, "NITRO": 55, "BATALEON": 52,
+  },
+};
+
+const STYLE_CHIPS: { key: keyof StyleScores | null; label: string; emoji: string }[] = [
+  { key: null, label: "総合", emoji: "🏆" },
+  { key: "ground_tricks", label: "グラトリ", emoji: "🛹" },
+  { key: "park", label: "パーク", emoji: "🏂" },
+  { key: "carving", label: "カービング", emoji: "⛷️" },
+  { key: "run_tricks", label: "ラントリ", emoji: "🎿" },
+  { key: "powder", label: "パウダー", emoji: "❄️" },
 ];
 
 function matchesPriceRange(estimatedPrice: number, ranges: Set<PriceRange>): boolean {
@@ -104,16 +148,20 @@ export function StepResults({
 }: StepResultsProps) {
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<"results" | "favorites">("results");
+  const [favoriteToast, setFavoriteToast] = useState(false);
+  const chipsRef = useRef<HTMLDivElement>(null);
+  const [showChipsFade, setShowChipsFade] = useState(true);
   const [showAll, setShowAll] = useState(false);
+  const [resultStyle, setResultStyle] = useState<keyof StyleScores | null>(null);
   const { isFavorite, toggleFavorite, count: favoriteCount } = useFavorites();
   const [selectedBrands, setSelectedBrands] = useState<Set<string> | null>(initialBrands);
   const [selectedShapes, setSelectedShapes] = useState<Set<Shape> | null>(initialShapes);
   const [selectedFlex, setSelectedFlex] = useState<Set<FlexCategory> | null>(initialFlex);
   const [selectedPriceRanges, setSelectedPriceRanges] = useState<Set<PriceRange> | null>(initialPriceRanges);
+  const [selectedYears, setSelectedYears] = useState<Set<number> | null>(null);
   const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
   const [myBoard, setMyBoard] = useState<Board | null>(null);
 
-  // Inline adjustment state
   const [isAdjustOpen, setIsAdjustOpen] = useState(false);
   const [localBudget, setLocalBudget] = useState(input.budget);
   const [localStyle, setLocalStyle] = useState<StyleScores>(input.style);
@@ -135,22 +183,22 @@ export function StepResults({
     return Array.from(seen).sort((a, b) => a.localeCompare(b));
   }, [allBoards]);
 
+  const availableYears = useMemo(() => {
+    return [...new Set(allBoards.map((b) => b.year))].sort();
+  }, [allBoards]);
+
   const allBrandsSelected = selectedBrands === null;
   const allShapesSelected = selectedShapes === null;
   const allFlexSelected = selectedFlex === null;
   const allPriceRangesSelected = selectedPriceRanges === null;
+  const allYearsSelected = selectedYears === null;
 
   const toggleShape = (shape: Shape) => {
     const all = ALL_SHAPES.map((s) => s.value);
     setSelectedShapes((prev) => {
       const next = new Set(prev ?? all);
-      if (next.has(shape)) {
-        next.delete(shape);
-        if (next.size === 0) return null;
-      } else {
-        next.add(shape);
-        if (next.size === ALL_SHAPES.length) return null;
-      }
+      if (next.has(shape)) { next.delete(shape); if (next.size === 0) return null; }
+      else { next.add(shape); if (next.size === ALL_SHAPES.length) return null; }
       return next;
     });
   };
@@ -159,13 +207,8 @@ export function StepResults({
     const all = ALL_FLEX.map((f) => f.value);
     setSelectedFlex((prev) => {
       const next = new Set(prev ?? all);
-      if (next.has(flex)) {
-        next.delete(flex);
-        if (next.size === 0) return null;
-      } else {
-        next.add(flex);
-        if (next.size === ALL_FLEX.length) return null;
-      }
+      if (next.has(flex)) { next.delete(flex); if (next.size === 0) return null; }
+      else { next.add(flex); if (next.size === ALL_FLEX.length) return null; }
       return next;
     });
   };
@@ -174,13 +217,17 @@ export function StepResults({
     const all = ALL_PRICE_RANGES.map((p) => p.value);
     setSelectedPriceRanges((prev) => {
       const next = new Set(prev ?? all);
-      if (next.has(range)) {
-        next.delete(range);
-        if (next.size === 0) return null;
-      } else {
-        next.add(range);
-        if (next.size === ALL_PRICE_RANGES.length) return null;
-      }
+      if (next.has(range)) { next.delete(range); if (next.size === 0) return null; }
+      else { next.add(range); if (next.size === ALL_PRICE_RANGES.length) return null; }
+      return next;
+    });
+  };
+
+  const toggleYear = (year: number) => {
+    setSelectedYears((prev) => {
+      const next = new Set(prev ?? availableYears);
+      if (next.has(year)) { next.delete(year); if (next.size === 0) return null; }
+      else { next.add(year); if (next.size === availableYears.length) return null; }
       return next;
     });
   };
@@ -189,42 +236,77 @@ export function StepResults({
     (allBrandsSelected ? 0 : 1) +
     (allShapesSelected ? 0 : 1) +
     (allFlexSelected ? 0 : 1) +
-    (allPriceRangesSelected ? 0 : 1);
+    (allPriceRangesSelected ? 0 : 1) +
+    (allYearsSelected ? 0 : 1);
 
   const favoriteResults = useMemo(() => {
     const favoriteBoards = allBoards.filter((b) => isFavorite(b));
     return getRecommendations(favoriteBoards, adjustedInput);
   }, [allBoards, adjustedInput, isFavorite]);
 
-  const results = useMemo(() => {
+  // フィルター適用後のボード一覧（共通）
+  const filteredBoards = useMemo(() => {
     let filtered = allBoards;
-    if (!allBrandsSelected) {
-      filtered = filtered.filter((b) => selectedBrands!.has(b.brand));
-    }
-    if (!allShapesSelected) {
-      filtered = filtered.filter((b) => selectedShapes!.has(b.shape));
-    }
-    if (!allFlexSelected) {
-      filtered = filtered.filter((b) => matchesFlex(b.flex, selectedFlex!));
-    }
+    if (!allBrandsSelected) filtered = filtered.filter((b) => selectedBrands!.has(b.brand));
+    if (!allShapesSelected) filtered = filtered.filter((b) => selectedShapes!.has(b.shape));
+    if (!allFlexSelected) filtered = filtered.filter((b) => matchesFlex(b.flex, selectedFlex!));
     if (!allPriceRangesSelected) {
       filtered = filtered.filter((b) =>
         matchesPriceRange(estimateDiscountedPrice(b.price, b.year), selectedPriceRanges!)
       );
     }
-    return getRecommendations(filtered, adjustedInput);
-  }, [allBoards, adjustedInput, allBrandsSelected, selectedBrands, allShapesSelected, selectedShapes, allFlexSelected, selectedFlex, allPriceRangesSelected, selectedPriceRanges]);
+    if (!allYearsSelected) filtered = filtered.filter((b) => selectedYears!.has(b.year));
+    return filtered;
+  }, [allBoards, allBrandsSelected, selectedBrands, allShapesSelected, selectedShapes, allFlexSelected, selectedFlex, allPriceRangesSelected, selectedPriceRanges, allYearsSelected, selectedYears]);
+
+  // 総合マッチ結果
+  const overallResults = useMemo(
+    () => getRecommendations(filteredBoards, adjustedInput),
+    [filteredBoards, adjustedInput]
+  );
+
+  // スタイル別結果（選択スタイルのスコアで降順ソート）
+  const styleResults = useMemo<RecommendResult[]>(() => {
+    if (!resultStyle) return [];
+    const priority = STYLE_BRAND_PRIORITY[resultStyle];
+    const effectiveBudget = adjustedInput.budget * (1 + adjustedInput.budgetFlexibility / 100);
+    return [...filteredBoards]
+      .sort((a, b) => {
+        const aOver = estimateDiscountedPrice(a.price, a.year) > effectiveBudget ? 1 : 0;
+        const bOver = estimateDiscountedPrice(b.price, b.year) > effectiveBudget ? 1 : 0;
+        if (aOver !== bOver) return aOver - bOver;
+        const scoreDiff = b.style_scores[resultStyle] - a.style_scores[resultStyle];
+        if (scoreDiff !== 0) return scoreDiff;
+        return (priority[b.brand] ?? 0) - (priority[a.brand] ?? 0);
+      })
+      .slice(0, 30)
+      .map((board) => {
+        const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
+        const recommendedSize = calculateRecommendedSize(
+          adjustedInput.height,
+          adjustedInput.weight,
+          adjustedInput.style,
+          board.available_lengths,
+          adjustedInput.gender
+        );
+        const overBudget = estimatedPrice > adjustedInput.budget * (1 + adjustedInput.budgetFlexibility / 100);
+        return {
+          board,
+          matchPercentage: board.style_scores[resultStyle] * 10,
+          recommendedSize,
+          overBudget,
+          estimatedPrice,
+        };
+      });
+  }, [filteredBoards, resultStyle, adjustedInput]);
+
+  const results = resultStyle ? styleResults : overallResults;
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prev) => {
       const next = new Set(prev ?? brands);
-      if (next.has(brand)) {
-        next.delete(brand);
-        if (next.size === 0) return null;
-      } else {
-        next.add(brand);
-        if (next.size === brands.length) return null;
-      }
+      if (next.has(brand)) { next.delete(brand); if (next.size === 0) return null; }
+      else { next.add(brand); if (next.size === brands.length) return null; }
       return next;
     });
   };
@@ -234,6 +316,7 @@ export function StepResults({
     setSelectedShapes(null);
     setSelectedFlex(null);
     setSelectedPriceRanges(null);
+    setSelectedYears(null);
     setShowAll(false);
   };
 
@@ -243,6 +326,21 @@ export function StepResults({
     flex: selectedFlex,
     priceRanges: selectedPriceRanges,
   };
+
+  const handleToggleFavorite = useCallback((board: Board) => {
+    const wasAdded = !isFavorite(board);
+    toggleFavorite(board);
+    if (wasAdded) {
+      setFavoriteToast(true);
+      setTimeout(() => setFavoriteToast(false), 2500);
+    }
+  }, [isFavorite, toggleFavorite]);
+
+  const handleChipsScroll = useCallback(() => {
+    const el = chipsRef.current;
+    if (!el) return;
+    setShowChipsFade(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }, []);
 
   const handleCopyUrl = async () => {
     const url = getShareUrl(adjustedInput, currentFilters);
@@ -260,27 +358,20 @@ export function StepResults({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
-    // Analytics: share button clicked
   };
 
   const handleTwitterShare = () => {
-    const topBoard = results[0];
+    const topBoard = overallResults[0];
     if (!topBoard) return;
-    const url = getTwitterShareUrl(
-      input,
-      `${topBoard.board.brand} ${topBoard.board.model}`
-    );
+    const url = getTwitterShareUrl(input, `${topBoard.board.brand} ${topBoard.board.model}`);
     window.open(url, "_blank", "noopener,noreferrer");
-    // Analytics: twitter share clicked
   };
-
-  // Analytics: results displayed
 
   return (
     <div>
       <h2 className="text-xl font-bold text-center mb-1 text-white">診断結果</h2>
       <p className="text-slate-500 text-center mb-3 text-sm">
-        あなたにおすすめのボード TOP10
+        あなたにおすすめのボード
       </p>
 
       {/* Input summary chips */}
@@ -291,18 +382,15 @@ export function StepResults({
           `${getTopStyleLabel(adjustedInput.style)}重視`,
           `¥${adjustedInput.budget.toLocaleString()}`,
         ].map((label) => (
-          <span
-            key={label}
-            className="text-xs text-slate-400 bg-slate-800/60 border border-slate-700/50 px-2.5 py-1 rounded-full"
-          >
+          <span key={label} className="text-xs text-slate-400 bg-slate-800/60 border border-slate-700/50 px-2.5 py-1 rounded-full">
             {label}
           </span>
         ))}
       </div>
 
-      {/* AI explanation for top result */}
-      {results.length > 0 && (
-        <AiExplanation input={adjustedInput} result={results[0]} />
+      {/* AI explanation (総合タブのみ表示) */}
+      {!resultStyle && overallResults.length > 0 && (
+        <AiExplanation input={adjustedInput} result={overallResults[0]} />
       )}
 
       {/* Inline adjustment panel */}
@@ -325,10 +413,7 @@ export function StepResults({
               <span className="px-1.5 py-0.5 bg-sky-500 text-white text-[10px] font-bold rounded-full">変更中</span>
             )}
           </span>
-          <svg
-            className={`w-4 h-4 transition-transform duration-200 ${isAdjustOpen ? "rotate-180" : ""}`}
-            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-          >
+          <svg className={`w-4 h-4 transition-transform duration-200 ${isAdjustOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
           </svg>
         </button>
@@ -336,15 +421,7 @@ export function StepResults({
         <div className={`overflow-hidden transition-all duration-300 ${isAdjustOpen ? "max-h-[500px] opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
           <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl p-5 max-h-[480px] overflow-y-auto">
             <p className="text-xs text-slate-500 font-medium mb-4">変更するとリアルタイムで結果に反映されます</p>
-            <Slider
-              label="予算上限"
-              value={localBudget}
-              min={30000}
-              max={200000}
-              step={5000}
-              formatValue={formatYen}
-              onChange={setLocalBudget}
-            />
+            <Slider label="予算上限" value={localBudget} min={30000} max={200000} step={5000} formatValue={formatYen} onChange={setLocalBudget} />
             <div className="border-t border-white/[0.06] my-4" />
             {STYLE_ITEMS.map((item) => (
               <Slider
@@ -372,11 +449,7 @@ export function StepResults({
 
       {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-5">
-        <MyBoardSelector
-          boards={allBoards}
-          selectedBoard={myBoard}
-          onSelect={setMyBoard}
-        />
+        <MyBoardSelector boards={allBoards} selectedBoard={myBoard} onSelect={setMyBoard} />
         <button
           onClick={() => setIsFilterSheetOpen(true)}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium border transition-all duration-200 cursor-pointer ${
@@ -392,35 +465,43 @@ export function StepResults({
         </button>
       </div>
 
-      <BottomSheet
-        isOpen={isFilterSheetOpen}
-        onClose={() => setIsFilterSheetOpen(false)}
-        title="絞り込み"
-      >
+      <BottomSheet isOpen={isFilterSheetOpen} onClose={() => setIsFilterSheetOpen(false)} title="絞り込み">
+        {/* Year filter */}
+        {availableYears.length > 1 && (
+          <div className="mb-5">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs text-slate-400 font-medium">年式</p>
+              {!allYearsSelected && (
+                <button onClick={() => setSelectedYears(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">すべて選択</button>
+              )}
+            </div>
+            <div className="flex gap-2">
+              {availableYears.map((year) => {
+                const isSelected = allYearsSelected || selectedYears!.has(year);
+                return (
+                  <button key={year} onClick={() => toggleYear(year)} className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
+                    {year}年
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Price filter */}
         <div className="mb-5">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs text-slate-400 font-medium">価格帯（推定）</p>
             {!allPriceRangesSelected && (
-              <button onClick={() => setSelectedPriceRanges(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">
-                すべて選択
-              </button>
+              <button onClick={() => setSelectedPriceRanges(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">すべて選択</button>
             )}
           </div>
           <div className="flex gap-2">
             {ALL_PRICE_RANGES.map((p) => {
               const isSelected = allPriceRangesSelected || selectedPriceRanges!.has(p.value);
               return (
-                <button
-                  key={p.value}
-                  onClick={() => togglePriceRange(p.value)}
-                  className={`flex-1 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border text-center ${
-                    isSelected
-                      ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
-                      : "bg-slate-800/60 text-slate-500 border-slate-700/50"
-                  }`}
-                >
-                  <div>{p.label}</div>
+                <button key={p.value} onClick={() => togglePriceRange(p.value)} className={`flex-1 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
+                  {p.label}
                 </button>
               );
             })}
@@ -432,9 +513,7 @@ export function StepResults({
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs text-slate-400 font-medium">形状</p>
             {!allShapesSelected && (
-              <button onClick={() => setSelectedShapes(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">
-                すべて選択
-              </button>
+              <button onClick={() => setSelectedShapes(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">すべて選択</button>
             )}
           </div>
           <div className="flex flex-wrap gap-2">
@@ -442,14 +521,7 @@ export function StepResults({
               const isSelected = allShapesSelected || selectedShapes!.has(s.value);
               return (
                 <Tooltip key={s.value} text={SHAPE_DESCRIPTIONS[s.value]}>
-                  <button
-                    onClick={() => toggleShape(s.value)}
-                    className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border ${
-                      isSelected
-                        ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
-                        : "bg-slate-800/60 text-slate-500 border-slate-700/50"
-                    }`}
-                  >
+                  <button onClick={() => toggleShape(s.value)} className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
                     {s.label}
                   </button>
                 </Tooltip>
@@ -463,9 +535,7 @@ export function StepResults({
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs text-slate-400 font-medium">フレックス（硬さ）</p>
             {!allFlexSelected && (
-              <button onClick={() => setSelectedFlex(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">
-                すべて選択
-              </button>
+              <button onClick={() => setSelectedFlex(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">すべて選択</button>
             )}
           </div>
           <div className="flex gap-2">
@@ -473,21 +543,12 @@ export function StepResults({
               const isSelected = allFlexSelected || selectedFlex!.has(f.value);
               return (
                 <div key={f.value} className="flex-1 relative">
-                  <button
-                    onClick={() => toggleFlex(f.value)}
-                    className={`w-full py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${
-                      isSelected
-                        ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
-                        : "bg-slate-800/60 text-slate-500 border-slate-700/50"
-                    }`}
-                  >
+                  <button onClick={() => toggleFlex(f.value)} className={`w-full py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
                     <div>{f.label}</div>
                     <div className="text-[10px] opacity-60 mt-0.5">{f.desc}</div>
                   </button>
                   <div className="absolute top-1 right-1">
-                    <Tooltip text={FLEX_DESCRIPTIONS[f.value]}>
-                      <span />
-                    </Tooltip>
+                    <Tooltip text={FLEX_DESCRIPTIONS[f.value]}><span /></Tooltip>
                   </div>
                 </div>
               );
@@ -499,29 +560,18 @@ export function StepResults({
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs text-slate-400 font-medium">メーカー</p>
-            <button
-              onClick={() => setSelectedBrands(allBrandsSelected ? new Set() : null)}
-              className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer"
-            >
-              {allBrandsSelected ? "すべて解除" : "すべて選択"}
-            </button>
+            {!allBrandsSelected && (
+              <button onClick={() => setSelectedBrands(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">
+                すべて選択
+              </button>
+            )}
           </div>
           <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
             {brands.map((brand) => {
               const isSelected = allBrandsSelected || selectedBrands!.has(brand);
               return (
-                <button
-                  key={brand}
-                  onClick={() => toggleBrand(brand)}
-                  className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm cursor-pointer transition-all duration-200 ${
-                    isSelected
-                      ? "bg-sky-500/10 text-sky-300 border border-sky-500/25"
-                      : "bg-slate-700/40 text-slate-500 border border-transparent"
-                  }`}
-                >
-                  <div className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 transition-all ${
-                    isSelected ? "bg-sky-500 text-white" : "border border-slate-600 bg-slate-800"
-                  }`}>
+                <button key={brand} onClick={() => toggleBrand(brand)} className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm cursor-pointer transition-all duration-200 ${isSelected ? "bg-sky-500/10 text-sky-300 border border-sky-500/25" : "bg-slate-700/40 text-slate-500 border border-transparent"}`}>
+                  <div className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 transition-all ${isSelected ? "bg-sky-500 text-white" : "border border-slate-600 bg-slate-800"}`}>
                     {isSelected && (
                       <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -535,10 +585,7 @@ export function StepResults({
           </div>
         </div>
 
-        <button
-          onClick={() => setIsFilterSheetOpen(false)}
-          className="w-full py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold transition-all cursor-pointer"
-        >
+        <button onClick={() => setIsFilterSheetOpen(false)} className="w-full py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold transition-all cursor-pointer">
           適用する
         </button>
       </BottomSheet>
@@ -548,36 +595,27 @@ export function StepResults({
         <button
           type="button"
           onClick={() => setActiveTab("results")}
-          className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-            activeTab === "results"
-              ? "bg-slate-700 text-white"
-              : "text-slate-500 hover:text-slate-400"
-          }`}
+          className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${activeTab === "results" ? "bg-slate-700 text-white" : "text-slate-500 hover:text-slate-400"}`}
         >
           診断結果
         </button>
         <button
           type="button"
           onClick={() => setActiveTab("favorites")}
-          className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-            activeTab === "favorites"
-              ? "bg-slate-700 text-white"
-              : "text-slate-500 hover:text-slate-400"
-          }`}
+          className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center justify-center gap-1.5 ${activeTab === "favorites" ? "bg-slate-700 text-white" : "text-slate-500 hover:text-slate-400"}`}
         >
           <svg className={`w-3.5 h-3.5 ${favoriteCount > 0 ? "text-rose-400 fill-rose-400" : "fill-none"}`} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
           お気に入り
           {favoriteCount > 0 && (
-            <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
-              {favoriteCount}
-            </span>
+            <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">{favoriteCount}</span>
           )}
         </button>
       </div>
 
-      {activeTab === "favorites" ? (
+      {/* Favorites tab */}
+      {activeTab === "favorites" && (
         favoriteCount === 0 ? (
           <div className="text-center py-12 px-4">
             <div className="w-14 h-14 rounded-2xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center mx-auto mb-4">
@@ -604,67 +642,94 @@ export function StepResults({
             ))}
           </div>
         )
-      ) : (
-        <>
-      {activeFilterCount > 0 && (
-        <p className="text-slate-500 text-center mb-4 text-xs">
-          絞り込み中 — {results.length}件表示中
-        </p>
       )}
 
-      {results.length === 0 ? (
-        <div className="text-center py-12 px-4">
-          <div className="w-14 h-14 rounded-2xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center mx-auto mb-4">
-            <svg className="w-7 h-7 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
-          <p className="text-slate-400 font-medium mb-1">条件に合うボードが見つかりませんでした</p>
-          <p className="text-slate-600 text-sm mb-5">絞り込み条件を緩めてみてください</p>
-          <button
-            onClick={resetAllFilters}
-            className="px-5 py-2.5 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30 text-sm font-medium hover:bg-sky-500/20 transition-all cursor-pointer"
-          >
-            絞り込みをすべてリセット
-          </button>
-        </div>
-      ) : (
+      {/* Results tab */}
+      {activeTab === "results" && (
         <>
-          <div className="space-y-3 mb-3">
-            {(showAll ? results : results.slice(0, 3)).map((result, i) => (
-              <BoardCard
-                key={`${result.board.brand}-${result.board.model}-${result.board.year}`}
-                result={result}
-                rank={i + 1}
-                budget={adjustedInput.budget}
-                budgetFlexibility={adjustedInput.budgetFlexibility}
-                myBoard={myBoard}
-                isFavorite={isFavorite(result.board)}
-                onToggleFavorite={toggleFavorite}
-              />
-            ))}
-          </div>
-          {results.length > 3 && (
-            <button
-              type="button"
-              onClick={() => setShowAll((v) => !v)}
-              className="w-full py-3 mb-4 rounded-xl border border-slate-700/50 bg-slate-800/40 text-slate-400 text-sm font-medium hover:bg-slate-700/40 hover:text-slate-300 transition-all cursor-pointer flex items-center justify-center gap-2"
+          {/* Style chips */}
+          <div className="relative mb-4">
+            <div
+              ref={chipsRef}
+              onScroll={handleChipsScroll}
+              className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1"
             >
-              {showAll ? (
-                <>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" /></svg>
-                  TOP3だけ表示
-                </>
-              ) : (
-                <>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                  残り{results.length - 3}件を表示
-                </>
-              )}
-            </button>
+              {STYLE_CHIPS.map((chip) => (
+                <button
+                  key={chip.label}
+                  type="button"
+                  onClick={() => { setResultStyle(chip.key); setShowAll(false); }}
+                  className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all duration-200 cursor-pointer ${
+                    resultStyle === chip.key
+                      ? "bg-sky-500/20 text-sky-400 border-sky-500/40 shadow-[0_0_10px_rgba(56,189,248,0.15)]"
+                      : "bg-slate-800/60 text-slate-500 border-slate-700/50 hover:text-slate-400"
+                  }`}
+                >
+                  <span>{chip.emoji}</span>
+                  <span>{chip.label}</span>
+                </button>
+              ))}
+            </div>
+            {showChipsFade && (
+              <div className="absolute right-0 top-0 bottom-2 w-10 bg-gradient-to-l from-[#0a1628] to-transparent pointer-events-none" />
+            )}
+          </div>
+
+          {activeFilterCount > 0 && (
+            <p className="text-slate-500 text-center mb-4 text-xs">絞り込み中 — {results.length}件表示中</p>
           )}
-        </>
-      )}
+
+          {results.length === 0 ? (
+            <div className="text-center py-12 px-4">
+              <div className="w-14 h-14 rounded-2xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <p className="text-slate-400 font-medium mb-1">条件に合うボードが見つかりませんでした</p>
+              <p className="text-slate-600 text-sm mb-5">絞り込み条件を緩めてみてください</p>
+              <button onClick={resetAllFilters} className="px-5 py-2.5 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30 text-sm font-medium hover:bg-sky-500/20 transition-all cursor-pointer">
+                絞り込みをすべてリセット
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="space-y-3 mb-3">
+                {(showAll ? results : results.slice(0, 3)).map((result, i) => (
+                  <BoardCard
+                    key={`${result.board.brand}-${result.board.model}-${result.board.year}`}
+                    result={result}
+                    rank={i + 1}
+                    budget={adjustedInput.budget}
+                    budgetFlexibility={adjustedInput.budgetFlexibility}
+                    myBoard={myBoard}
+                    isFavorite={isFavorite(result.board)}
+                    onToggleFavorite={toggleFavorite}
+                    scoreMode={!!resultStyle}
+                  />
+                ))}
+              </div>
+              {results.length > 3 && (
+                <button
+                  type="button"
+                  onClick={() => setShowAll((v) => !v)}
+                  className="w-full py-3 mb-4 rounded-xl border border-slate-700/50 bg-slate-800/40 text-slate-400 text-sm font-medium hover:bg-slate-700/40 hover:text-slate-300 transition-all cursor-pointer flex items-center justify-center gap-2"
+                >
+                  {showAll ? (
+                    <>
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" /></svg>
+                      TOP3だけ表示
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                      残り{results.length - 3}件を表示
+                    </>
+                  )}
+                </button>
+              )}
+            </>
+          )}
         </>
       )}
 
@@ -673,19 +738,13 @@ export function StepResults({
         <button
           onClick={handleCopyUrl}
           className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border ${
-            copied
-              ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/25"
-              : "bg-slate-800/60 text-slate-300 border-slate-700/50 hover:bg-slate-700/60"
+            copied ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/25" : "bg-slate-800/60 text-slate-300 border-slate-700/50 hover:bg-slate-700/60"
           }`}
         >
           {copied ? (
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
           ) : (
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-            </svg>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
           )}
           {copied ? "コピーしました" : "結果をシェア"}
         </button>

@@ -14,21 +14,38 @@ interface BoardCardProps {
   myBoard?: Board | null;
   isFavorite?: boolean;
   onToggleFavorite?: (board: Board) => void;
+  scoreMode?: boolean;
 }
 
 const SHAPE_LABELS: Record<string, string> = {
   camber: "キャンバー",
   rocker: "ロッカー",
   flat: "フラット",
-  hybrid_camber: "ハイブリッドキャンバー",
-  double_camber: "ダブルキャンバー",
+  hybrid_camber: "HBキャンバー",
+  hybrid_rocker: "HBロッカー",
+  double_camber: "Wキャンバー",
 };
+
+const STYLE_TAG_LABELS: Record<string, string> = {
+  ground_tricks: "グラトリ",
+  park: "パーク",
+  carving: "カービング",
+  run_tricks: "ラントリ",
+  powder: "パウダー",
+};
+
+function getTopStyleTag(styleScores: RecommendResult["board"]["style_scores"]): string | null {
+  const entries = Object.entries(styleScores) as [string, number][];
+  const top = entries.reduce((a, b) => (b[1] > a[1] ? b : a));
+  if (top[1] >= 8) return STYLE_TAG_LABELS[top[0]] ?? null;
+  return null;
+}
 
 // Affiliate search URL generators
 const RAKUTEN_AFF_ID = "4f6d7a0c.02dfc7fe.4f6d7a0d.fb8f2dc4";
 const AMAZON_TAG = "fsaunaswh-22";
 const YAHOO_SID = "3766210";
-const YAHOO_PID = "892585521";
+const YAHOO_PID = "892585475";
 
 function buildSearchQuery(brand: string, model: string): string {
   return `${brand} ${model} スノーボード`;
@@ -129,9 +146,10 @@ function getFlexDiff(target: number, mine: number): string | null {
     : `${abs}段階柔らかい`;
 }
 
-export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, isFavorite = false, onToggleFavorite }: BoardCardProps) {
+export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, isFavorite = false, onToggleFavorite, scoreMode = false }: BoardCardProps) {
   const [expanded, setExpanded] = useState(false);
   const { board, matchPercentage, recommendedSize, overBudget, estimatedPrice } = result;
+  const topStyleTag = getTopStyleTag(board.style_scores);
   const hasDiscount = estimatedPrice < board.price;
   const effectiveBudget = budget * (1 + budgetFlexibility / 100);
   const yearsOldLabel = getYearsOldLabel(board.year);
@@ -206,14 +224,33 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                   style={{ width: `${matchPercentage}%` }}
                 />
               </div>
-              <span className="text-xs font-bold text-sky-400 tabular-nums w-10 text-right">
-                {matchPercentage}%
-              </span>
+              {scoreMode ? (
+                <span className="text-xs font-bold text-sky-400 tabular-nums w-12 text-right">
+                  {(matchPercentage / 10).toFixed(1)}<span className="text-slate-500 font-normal">/10</span>
+                </span>
+              ) : (
+                <span className="text-xs font-bold text-sky-400 tabular-nums w-10 text-right">
+                  {matchPercentage}%
+                </span>
+              )}
             </div>
             <div className="mt-1.5">
               <span className="text-xs text-slate-500">
                 おすすめ <span className="text-slate-300 font-medium">{recommendedSize}cm</span>
               </span>
+            </div>
+            <div className="flex flex-wrap gap-1 mt-1.5">
+              <span className="text-[10px] text-slate-500 bg-slate-800/70 px-1.5 py-0.5 rounded-md">
+                {SHAPE_LABELS[board.shape] || board.shape}
+              </span>
+              <span className="text-[10px] text-slate-500 bg-slate-800/70 px-1.5 py-0.5 rounded-md">
+                {getFlexLabel(board.flex)} flex
+              </span>
+              {topStyleTag && (
+                <span className="text-[10px] text-sky-400 bg-sky-500/10 px-1.5 py-0.5 rounded-md">
+                  {topStyleTag}◎
+                </span>
+              )}
             </div>
           </div>
 

@@ -68,7 +68,7 @@ export function decodeFilters(search: string): FilterState {
   const brands = brandsStr ? new Set(brandsStr.split(",").filter(Boolean)) : null;
 
   const shapesStr = params.get("shapes");
-  const validShapes: Shape[] = ["camber", "rocker", "flat", "hybrid_camber", "double_camber"];
+  const validShapes: Shape[] = ["camber", "rocker", "flat", "hybrid_camber", "hybrid_rocker", "double_camber"];
   const shapes = shapesStr
     ? new Set(shapesStr.split(",").filter((s): s is Shape => validShapes.includes(s as Shape)))
     : null;

@@ -4,37 +4,37 @@ import { Board, UserInput, RecommendResult, GenderPreference } from "@/types";
 const BRAND_POPULARITY: Record<string, number> = {
   "BURTON": 100,
   "SALOMON": 90,
-  "K2": 88,
-  "RIDE": 85,
+  "K2": 75,
+  "RIDE": 80,
   "CAPITA": 83,
-  "JONES": 82,
-  "GNU": 80,
+  "JONES": 72,
+  "NITRO": 82,
+  "GNU": 79,
   "LIB TECH": 80,
-  "NITRO": 78,
-  "YES.": 76,
-  "YONEX": 75,
-  "HEAD": 73,
-  "ROSSIGNOL": 72,
+  "YONEX": 85,
+  "HEAD": 63,
+  "YES.": 70,
+  "ROSSIGNOL": 58,
   "ROME": 70,
-  "ARBOR": 68,
+  "ARBOR": 62,
   "BATALEON": 66,
   "NEVER SUMMER": 65,
   "NIDECKER": 63,
   "ROXY": 62,
   "GRAY": 60,
-  "OGASAKA": 60,
-  "NOVEMBER": 58,
-  "FNTC": 57,
+  "OGASAKA": 82,
+  "NOVEMBER": 74,
+  "FNTC": 70,
   "RICE28": 56,
-  "ALLIAN": 55,
+  "ALLIAN": 70,
   "GENTEMSTICK": 55,
   "SCOOTER": 54,
-  "SPREAD": 53,
-  "MOSS": 52,
+  "SPREAD": 65,
+  "MOSS": 62,
   "011 Artistic": 51,
   "GT Snowboards": 55,
   "WRX SB": 62,
-  "leverage": 58,
+  "LEVERAGE": 58,
   "FIELD EARTH": 50,
   "TJ Brand": 52,
   "DINOSAURS WILL DIE": 56,
@@ -51,11 +51,11 @@ const BRAND_POPULARITY: Record<string, number> = {
   "TORQREX": 46,
   "BC STREAM": 45,
   "ENDEAVOR": 44,
-  "SIMS": 43,
+  "SIMS": 53,
   "SLASH": 42,
   "AMPLID": 40,
   "SEASON": 40,
-  "SIGNAL": 38,
+  "SIGNAL": 50,
   "WESTON": 37,
   "ACADEMY": 35,
   "TELOS": 34,
@@ -63,6 +63,15 @@ const BRAND_POPULARITY: Record<string, number> = {
   "MARHAR": 30,
   "SANTA CRUZ": 30,
   "LOBSTER": 28,
+  "ACC": 45,
+  "DEVGRU": 42,
+  "ELAN": 50,
+  "FORUM": 52,
+  "MOSS SNOWSTICK": 48,
+  "PLUTONIUM": 40,
+  "READYMADE": 38,
+  "SABRINA": 44,
+  "SECCA": 42,
 };
 import { cosineSimilarity, getWeights } from "./cosine";
 import { calculateRecommendedSize } from "./size";
@@ -131,11 +140,22 @@ function calculateBudgetPenalty(
   return Math.min(penalty, 30);
 }
 
+const SCORE_KEYS: (keyof Board["style_scores"])[] = [
+  "ground_tricks", "park", "carving", "run_tricks", "powder",
+];
+
+function hasValidStyleScores(board: Board): boolean {
+  if (!board.style_scores) return false;
+  return SCORE_KEYS.every(
+    (k) => typeof board.style_scores[k] === "number" && board.style_scores[k] >= 1
+  );
+}
+
 export function getRecommendations(
   boards: Board[],
   input: UserInput
 ): RecommendResult[] {
-  const filtered = filterByGender(boards, input.gender);
+  const filtered = filterByGender(boards.filter(hasValidStyleScores), input.gender);
   const weights = getWeights(input.style);
 
   const results: RecommendResult[] = filtered.map((board) => {
