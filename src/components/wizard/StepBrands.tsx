@@ -59,7 +59,6 @@ export function StepBrands({
     const next = new Set(selectedBrands ?? brands);
     if (next.has(brand)) {
       next.delete(brand);
-      if (next.size === 0) { onBrandsChange(null); return; }
     } else {
       next.add(brand);
       if (next.size === brands.length) { onBrandsChange(null); return; }
@@ -95,6 +94,10 @@ export function StepBrands({
 
   const toggleAllBrands = () => {
     if (!allBrandsSelected) onBrandsChange(null);
+  };
+
+  const clearAllBrands = () => {
+    onBrandsChange(new Set());
   };
 
   const handleSkip = () => {
@@ -169,15 +172,26 @@ export function StepBrands({
       <div className="mb-2">
         <div className="flex items-center justify-between mb-2">
           <p className="text-xs text-slate-400 font-medium">メーカー</p>
-          {!allBrandsSelected && (
-            <button
-              type="button"
-              onClick={toggleAllBrands}
-              className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer"
-            >
-              すべて選択
-            </button>
-          )}
+          <div className="flex gap-3">
+            {!allBrandsSelected && (
+              <button
+                type="button"
+                onClick={toggleAllBrands}
+                className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer"
+              >
+                すべて選択
+              </button>
+            )}
+            {(allBrandsSelected || (selectedBrands !== null && selectedBrands.size > 0)) && (
+              <button
+                type="button"
+                onClick={clearAllBrands}
+                className="text-xs text-slate-400 hover:text-slate-300 transition-colors cursor-pointer"
+              >
+                全解除
+              </button>
+            )}
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-2 max-h-72 overflow-y-auto pr-1">
           {brands.map((brand) => {
@@ -210,6 +224,11 @@ export function StepBrands({
         </div>
       </div>
 
+      {!allBrandsSelected && selectedBrands!.size === 0 && (
+        <p className="text-amber-500/70 text-center mb-3 text-xs">
+          メーカーが選択されていません
+        </p>
+      )}
       {!allBrandsSelected && selectedBrands!.size > 0 && (
         <p className="text-slate-500 text-center mb-3 text-xs">
           {selectedBrands!.size}ブランド選択中

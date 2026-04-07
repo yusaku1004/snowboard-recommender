@@ -312,7 +312,7 @@ export function StepResults({
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prev) => {
       const next = new Set(prev ?? brands);
-      if (next.has(brand)) { next.delete(brand); if (next.size === 0) return null; }
+      if (next.has(brand)) { next.delete(brand); }
       else { next.add(brand); if (next.size === brands.length) return null; }
       return next;
     });
@@ -567,11 +567,18 @@ export function StepResults({
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs text-slate-400 font-medium">メーカー</p>
-            {!allBrandsSelected && (
-              <button onClick={() => setSelectedBrands(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">
-                すべて選択
-              </button>
-            )}
+            <div className="flex gap-3">
+              {!allBrandsSelected && (
+                <button onClick={() => setSelectedBrands(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">
+                  すべて選択
+                </button>
+              )}
+              {(allBrandsSelected || (selectedBrands !== null && selectedBrands.size > 0)) && (
+                <button onClick={() => setSelectedBrands(new Set())} className="text-xs text-slate-400 hover:text-slate-300 transition-colors cursor-pointer">
+                  全解除
+                </button>
+              )}
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
             {brands.map((brand) => {
@@ -590,6 +597,11 @@ export function StepResults({
               );
             })}
           </div>
+          {!allBrandsSelected && selectedBrands!.size === 0 && (
+            <p className="text-amber-500/70 text-center mt-2 text-xs">
+              メーカーが選択されていません
+            </p>
+          )}
         </div>
 
         <button onClick={() => setIsFilterSheetOpen(false)} className="w-full py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold transition-all cursor-pointer">
