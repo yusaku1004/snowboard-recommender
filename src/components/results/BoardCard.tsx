@@ -14,6 +14,10 @@ interface BoardCardProps {
   myBoard?: Board | null;
   isFavorite?: boolean;
   onToggleFavorite?: (board: Board) => void;
+  onFindSimilar?: (board: Board) => void;
+  onFilterByBrand?: (brand: string) => void;
+  isComparing?: boolean;
+  onToggleCompare?: (board: Board) => void;
 }
 
 const SHAPE_LABELS: Record<string, string> = {
@@ -145,7 +149,7 @@ function getFlexDiff(target: number, mine: number): string | null {
     : `${abs}段階柔らかい`;
 }
 
-export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, isFavorite = false, onToggleFavorite }: BoardCardProps) {
+export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, isFavorite = false, onToggleFavorite, onFindSimilar, onFilterByBrand, isComparing = false, onToggleCompare }: BoardCardProps) {
   const [expanded, setExpanded] = useState(false);
   const { board, matchPercentage, recommendedSize, overBudget, estimatedPrice } = result;
   const topStyleTag = getTopStyleTag(board.style_scores);
@@ -247,7 +251,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
             </div>
           </div>
 
-          {/* Favorite + Expand */}
+          {/* Favorite + Compare + Expand */}
           <div className="flex-shrink-0 flex flex-col items-center gap-1.5 mt-1">
             {onToggleFavorite && (
               <button
@@ -263,6 +267,27 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                   strokeWidth={2}
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </button>
+            )}
+            {onToggleCompare && (
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); onToggleCompare(board); }}
+                className="p-1 rounded-lg transition-colors cursor-pointer"
+                aria-label={isComparing ? "比較から外す" : "比較に追加"}
+              >
+                <svg
+                  className={`w-4 h-4 transition-colors ${isComparing ? "text-emerald-400" : "text-slate-600 hover:text-emerald-400"}`}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  {isComparing
+                    ? <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    : <path strokeLinecap="round" strokeLinejoin="round" d="M9 17H5a2 2 0 01-2-2V5a2 2 0 012-2h4m6 0h4a2 2 0 012 2v10a2 2 0 01-2 2h-4m-6 4v-4m0-8v4m0 0H9m6 0h-6" />
+                  }
                 </svg>
               </button>
             )}
@@ -447,6 +472,36 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
             >
               公式ページ →
             </a>
+          )}
+
+          {/* Find similar / filter by brand */}
+          {(onFindSimilar || onFilterByBrand) && (
+            <div className={`mt-4 ${onFindSimilar && onFilterByBrand ? "grid grid-cols-2 gap-2" : ""}`}>
+              {onFindSimilar && (
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); onFindSimilar(board); }}
+                  className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-slate-700/60 bg-slate-800/40 text-slate-400 hover:bg-slate-700/50 hover:text-slate-300 text-xs font-medium transition-all cursor-pointer"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  似たボードを探す
+                </button>
+              )}
+              {onFilterByBrand && (
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); onFilterByBrand(board.brand); }}
+                  className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-slate-700/60 bg-slate-800/40 text-slate-400 hover:bg-slate-700/50 hover:text-slate-300 text-xs font-medium transition-all cursor-pointer"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0l-4-4m4 4l-4 4" />
+                  </svg>
+                  {board.brand}で絞り込む
+                </button>
+              )}
+            </div>
           )}
         </div>
       )}

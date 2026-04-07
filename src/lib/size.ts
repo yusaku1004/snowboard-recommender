@@ -6,7 +6,7 @@ export function calculateIdealSize(
   style: StyleScores,
   gender: GenderPreference = "all"
 ): number {
-  let idealSize = gender === "womens" ? height - 20 : height - 15;
+  let idealSize = height - 15;
 
   const standardWeight = (height - 100) * 0.9;
   const weightDiff = weight - standardWeight;
@@ -36,6 +36,8 @@ export function calculateRecommendedSize(
   gender: GenderPreference = "all"
 ): number {
   const idealSize = calculateIdealSize(height, weight, style, gender);
+
+  if (availableLengths.length === 0) return Math.round(idealSize);
 
   // Find closest available length
   let closest = availableLengths[0];

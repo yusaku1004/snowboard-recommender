@@ -162,6 +162,61 @@ function hasValidStyleScores(board: Board): boolean {
   );
 }
 
+const STYLE_KEYS_BOARD: (keyof Board["style_scores"])[] = [
+  "ground_tricks", "park", "carving", "run_tricks", "powder",
+];
+
+function boardCosineSimilarity(a: Board["style_scores"], b: Board["style_scores"]): number {
+  let dot = 0, normA = 0, normB = 0;
+  for (const k of STYLE_KEYS_BOARD) {
+    dot += a[k] * b[k];
+    normA += a[k] * a[k];
+    normB += b[k] * b[k];
+  }
+  const denom = Math.sqrt(normA) * Math.sqrt(normB);
+  return denom === 0 ? 0 : dot / denom;
+}
+
+export function getSimilarBoards(
+  referenceBoard: Board,
+  allBoards: Board[],
+  input: UserInput
+): RecommendResult[] {
+  const filtered = allBoards
+    .filter(hasValidStyleScores)
+    .filter((b) => !(b.brand === referenceBoard.brand && b.model === referenceBoard.model));
+
+  const effectiveBudget = input.budget * (1 + input.budgetFlexibility / 100);
+
+  const results: RecommendResult[] = filtered.map((board) => {
+    const similarity = boardCosineSimilarity(referenceBoard.style_scores, board.style_scores);
+    const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
+    const recommendedSize = calculateRecommendedSize(
+      input.height, input.weight, input.style, board.available_lengths, input.gender
+    );
+    return {
+      board,
+      matchPercentage: Math.round(similarity * 1000) / 10,
+      recommendedSize,
+      overBudget: estimatedPrice > effectiveBudget,
+      estimatedPrice,
+    };
+  });
+
+  // Deduplicate by brand+model, keep highest similarity
+  const seen = new Map<string, RecommendResult>();
+  for (const r of results) {
+    const key = `${r.board.brand}|${r.board.model}`;
+    if (!seen.has(key) || r.matchPercentage > seen.get(key)!.matchPercentage) {
+      seen.set(key, r);
+    }
+  }
+
+  return Array.from(seen.values())
+    .sort((a, b) => b.matchPercentage - a.matchPercentage)
+    .slice(0, 6);
+}
+
 export function getRecommendations(
   boards: Board[],
   input: UserInput

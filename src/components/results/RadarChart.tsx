@@ -14,6 +14,7 @@ interface RadarChartProps {
   scores: StyleScores;
   compareScores?: StyleScores;
   compareLabel?: string;
+  maxValue?: number;
 }
 
 const LABELS: Record<keyof StyleScores, string> = {
@@ -24,11 +25,13 @@ const LABELS: Record<keyof StyleScores, string> = {
   powder: "パウダー",
 };
 
-export function RadarChart({ scores, compareScores, compareLabel }: RadarChartProps) {
+export function RadarChart({ scores, compareScores, compareLabel, maxValue = 10 }: RadarChartProps) {
   const keys = Object.keys(LABELS) as (keyof StyleScores)[];
+  // _anchor に maxValue を入れることで Recharts のスケールを [0, maxValue] に固定する
   const data = keys.map((key) => ({
     subject: LABELS[key],
     value: scores[key],
+    _anchor: maxValue,
     ...(compareScores ? { compare: compareScores[key] } : {}),
   }));
 
@@ -40,6 +43,8 @@ export function RadarChart({ scores, compareScores, compareLabel }: RadarChartPr
           dataKey="subject"
           tick={{ fill: "#94a3b8", fontSize: 12 }}
         />
+        {/* スケールアンカー: 不可視だがスケールを maxValue に固定する */}
+        <Radar dataKey="_anchor" stroke="none" fill="none" />
         <Radar
           name="このボード"
           dataKey="value"

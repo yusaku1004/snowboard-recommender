@@ -3,6 +3,7 @@
 import { StyleScores } from "@/types";
 import { Slider } from "@/components/ui/Slider";
 import { Button } from "@/components/ui/Button";
+import { RadarChart } from "@/components/results/RadarChart";
 
 interface StepStyleProps {
   style: StyleScores;
@@ -64,7 +65,7 @@ export function StepStyle({ style, onStyleChange, onPresetApply, onNext, onBack 
         </div>
       </div>
 
-      <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl p-6 mb-6">
+      <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl p-6 mb-4">
         {STYLE_ITEMS.map((item) => (
           <Slider
             key={item.key}
@@ -79,6 +80,19 @@ export function StepStyle({ style, onStyleChange, onPresetApply, onNext, onBack 
             onChange={(v) => onStyleChange(item.key, v)}
           />
         ))}
+      </div>
+
+      <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl px-4 pt-3 pb-1 mb-6">
+        <p className="text-xs text-slate-500 font-medium text-center mb-1">スタイルプレビュー</p>
+        <RadarChart
+          scores={{
+            ground_tricks: style.ground_tricks * 2,
+            park: style.park * 2,
+            carving: style.carving * 2,
+            run_tricks: style.run_tricks * 2,
+            powder: style.powder * 2,
+          }}
+        />
       </div>
 
       <div className="sticky bottom-0 pt-4 pb-2 safe-bottom bg-gradient-to-t from-[#0a1628] via-[#0a1628] to-transparent -mx-4 px-4">

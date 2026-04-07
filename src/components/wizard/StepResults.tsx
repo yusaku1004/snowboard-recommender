@@ -2,12 +2,13 @@
 
 import { useMemo, useState, useRef, useCallback } from "react";
 import { UserInput, Board, Shape, FlexCategory, PriceRange, StyleScores, RecommendResult } from "@/types";
-import { getRecommendations, estimateDiscountedPrice } from "@/lib/recommend";
+import { getRecommendations, getSimilarBoards, estimateDiscountedPrice } from "@/lib/recommend";
 import { calculateIdealSize } from "@/lib/size";
 import { calculateRecommendedSize } from "@/lib/size";
 import { getShareUrl, getTwitterShareUrl, FilterState } from "@/lib/share";
 import { BoardCard } from "@/components/results/BoardCard";
 import { AiExplanation } from "@/components/results/AiExplanation";
+import { RadarChart } from "@/components/results/RadarChart";
 import { MyBoardSelector } from "@/components/results/MyBoardSelector";
 import { Button } from "@/components/ui/Button";
 import { BottomSheet } from "@/components/ui/BottomSheet";
@@ -154,6 +155,7 @@ export function StepResults({
   const [showChipsFade, setShowChipsFade] = useState(true);
   const [showAll, setShowAll] = useState(false);
   const [resultStyle, setResultStyle] = useState<keyof StyleScores | null>(null);
+  const [sortOrder, setSortOrder] = useState<"match" | "price_asc" | "price_desc" | "flex_asc" | "flex_desc">("match");
   const { isFavorite, toggleFavorite, count: favoriteCount } = useFavorites();
   const [selectedBrands, setSelectedBrands] = useState<Set<string> | null>(initialBrands);
   const [selectedShapes, setSelectedShapes] = useState<Set<Shape> | null>(initialShapes);
@@ -162,6 +164,9 @@ export function StepResults({
   const [selectedYears, setSelectedYears] = useState<Set<number> | null>(null);
   const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
   const [myBoard, setMyBoard] = useState<Board | null>(null);
+  const [similarRefBoard, setSimilarRefBoard] = useState<Board | null>(null);
+  const [compareBoards, setCompareBoards] = useState<Board[]>([]);
+  const [isCompareSheetOpen, setIsCompareSheetOpen] = useState(false);
 
   const [isAdjustOpen, setIsAdjustOpen] = useState(false);
   const [localBudget, setLocalBudget] = useState(input.budget);
@@ -309,6 +314,22 @@ export function StepResults({
 
   const results = resultStyle ? styleResults : overallResults;
 
+  const sortedResults = useMemo(() => {
+    if (sortOrder === "match") return results;
+    return [...results].sort((a, b) => {
+      if (sortOrder === "price_asc") return a.estimatedPrice - b.estimatedPrice;
+      if (sortOrder === "price_desc") return b.estimatedPrice - a.estimatedPrice;
+      if (sortOrder === "flex_asc") return a.board.flex - b.board.flex;
+      if (sortOrder === "flex_desc") return b.board.flex - a.board.flex;
+      return 0;
+    });
+  }, [results, sortOrder]);
+
+  const similarResults = useMemo(() => {
+    if (!similarRefBoard) return [];
+    return getSimilarBoards(similarRefBoard, allBoards, adjustedInput);
+  }, [similarRefBoard, allBoards, adjustedInput]);
+
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prev) => {
       const next = new Set(prev ?? brands);
@@ -326,6 +347,21 @@ export function StepResults({
     setSelectedYears(null);
     setShowAll(false);
   };
+
+  const handleFilterByBrand = useCallback((brand: string) => {
+    setSelectedBrands(new Set([brand]));
+    setShowAll(false);
+    setSortOrder("match");
+  }, []);
+
+  const handleToggleCompare = useCallback((board: Board) => {
+    setCompareBoards((prev) => {
+      const exists = prev.some((b) => b.brand === board.brand && b.model === board.model && b.year === board.year);
+      if (exists) return prev.filter((b) => !(b.brand === board.brand && b.model === board.model && b.year === board.year));
+      if (prev.length >= 2) return prev; // max 2
+      return [...prev, board];
+    });
+  }, []);
 
   const currentFilters: FilterState = {
     brands: selectedBrands,
@@ -609,6 +645,127 @@ export function StepResults({
         </button>
       </BottomSheet>
 
+      {/* Similar boards BottomSheet */}
+      <BottomSheet
+        isOpen={similarRefBoard !== null}
+        onClose={() => setSimilarRefBoard(null)}
+        title={similarRefBoard ? `${similarRefBoard.brand} ${similarRefBoard.model} に似たボード` : ""}
+      >
+        {similarResults.length === 0 ? (
+          <p className="text-slate-500 text-sm text-center py-6">類似ボードが見つかりませんでした</p>
+        ) : (
+          <div className="space-y-3">
+            {similarResults.map((result, i) => (
+              <BoardCard
+                key={`similar-${result.board.brand}-${result.board.model}-${result.board.year}`}
+                result={result}
+                rank={i + 1}
+                budget={adjustedInput.budget}
+                budgetFlexibility={adjustedInput.budgetFlexibility}
+                myBoard={myBoard}
+                isFavorite={isFavorite(result.board)}
+                onToggleFavorite={handleToggleFavorite}
+                onFindSimilar={(board) => setSimilarRefBoard(board)}
+              />
+            ))}
+          </div>
+        )}
+      </BottomSheet>
+
+      {/* Compare BottomSheet */}
+      <BottomSheet
+        isOpen={isCompareSheetOpen}
+        onClose={() => setIsCompareSheetOpen(false)}
+        title="ボード比較"
+      >
+        {compareBoards.length === 2 && (() => {
+          const [a, b] = compareBoards;
+          const SHAPE_LABELS_C: Record<string, string> = {
+            camber: "キャンバー", rocker: "ロッカー", flat: "フラット",
+            hybrid_camber: "HBキャンバー", hybrid_rocker: "HBロッカー", double_camber: "Wキャンバー",
+          };
+          const recA = sortedResults.find((r) => r.board.brand === a.brand && r.board.model === a.model && r.board.year === a.year);
+          const recB = sortedResults.find((r) => r.board.brand === b.brand && r.board.model === b.model && r.board.year === b.year);
+          const rows: { label: string; valA: string; valB: string }[] = [
+            { label: "形状", valA: SHAPE_LABELS_C[a.shape] || a.shape, valB: SHAPE_LABELS_C[b.shape] || b.shape },
+            { label: "フレックス", valA: `${a.flex} (${a.flex <= 3 ? "ソフト" : a.flex <= 6 ? "ミドル" : "ハード"})`, valB: `${b.flex} (${b.flex <= 3 ? "ソフト" : b.flex <= 6 ? "ミドル" : "ハード"})` },
+            { label: "価格（推定）", valA: `¥${estimateDiscountedPrice(a.price, a.year).toLocaleString()}`, valB: `¥${estimateDiscountedPrice(b.price, b.year).toLocaleString()}` },
+            { label: "マッチ度", valA: recA ? `${recA.matchPercentage}%` : "—", valB: recB ? `${recB.matchPercentage}%` : "—" },
+            { label: "おすすめサイズ", valA: recA ? `${recA.recommendedSize}cm` : "—", valB: recB ? `${recB.recommendedSize}cm` : "—" },
+          ];
+          return (
+            <div>
+              {/* Headers */}
+              <div className="grid grid-cols-2 gap-2 mb-3">
+                {[a, b].map((board, idx) => (
+                  <div key={idx} className={`rounded-xl p-3 text-center border ${idx === 0 ? "bg-sky-500/10 border-sky-500/25" : "bg-violet-500/10 border-violet-500/25"}`}>
+                    <p className={`text-[10px] font-medium mb-0.5 ${idx === 0 ? "text-sky-400" : "text-violet-400"}`}>{board.brand}</p>
+                    <p className="text-white text-xs font-bold leading-tight">{board.model}</p>
+                    <p className="text-slate-500 text-[10px] mt-0.5">{board.year}</p>
+                  </div>
+                ))}
+              </div>
+              {/* Spec rows */}
+              <div className="space-y-1.5 mb-4">
+                {rows.map((row) => (
+                  <div key={row.label} className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+                    <div className={`text-xs text-right px-2.5 py-2 rounded-xl bg-slate-800/50 ${row.valA === row.valB ? "text-slate-400" : "text-sky-300 font-medium"}`}>{row.valA}</div>
+                    <span className="text-[10px] text-slate-600 text-center w-16 flex-shrink-0">{row.label}</span>
+                    <div className={`text-xs text-left px-2.5 py-2 rounded-xl bg-slate-800/50 ${row.valA === row.valB ? "text-slate-400" : "text-violet-300 font-medium"}`}>{row.valB}</div>
+                  </div>
+                ))}
+              </div>
+              {/* Radar chart */}
+              <p className="text-xs text-slate-500 font-medium text-center mb-1">スタイル適性比較</p>
+              <RadarChart
+                scores={a.style_scores}
+                compareScores={b.style_scores}
+                compareLabel={`${b.brand} ${b.model}`}
+              />
+            </div>
+          );
+        })()}
+      </BottomSheet>
+
+      {/* Compare floating bar */}
+      {compareBoards.length > 0 && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 px-4 w-full max-w-sm">
+          <div className="bg-slate-800/95 backdrop-blur-md border border-white/10 rounded-2xl px-4 py-3 shadow-2xl flex items-center gap-3">
+            <div className="flex gap-2 flex-1 min-w-0">
+              {compareBoards.map((b, i) => (
+                <div key={i} className={`flex-1 min-w-0 px-2 py-1 rounded-lg text-[10px] truncate border ${i === 0 ? "bg-sky-500/10 border-sky-500/20 text-sky-300" : "bg-violet-500/10 border-violet-500/20 text-violet-300"}`}>
+                  <span className="font-medium">{b.brand}</span> {b.model}
+                </div>
+              ))}
+              {compareBoards.length === 1 && (
+                <div className="flex-1 px-2 py-1 rounded-lg text-[10px] border border-dashed border-slate-600 text-slate-600 flex items-center justify-center">
+                  もう1枚選ぶ
+                </div>
+              )}
+            </div>
+            <div className="flex gap-2 flex-shrink-0">
+              <button
+                type="button"
+                onClick={() => setCompareBoards([])}
+                className="p-1.5 rounded-lg text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                disabled={compareBoards.length < 2}
+                onClick={() => setIsCompareSheetOpen(true)}
+                className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer bg-sky-500 text-white hover:bg-sky-400 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                比較する
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Tab switcher */}
       <div className="flex gap-1 bg-slate-800/60 border border-slate-700/50 rounded-xl p-1 mb-4">
         <button
@@ -657,6 +814,7 @@ export function StepResults({
                 myBoard={myBoard}
                 isFavorite={true}
                 onToggleFavorite={handleToggleFavorite}
+                onFindSimilar={(board) => { setSimilarRefBoard(board); }}
               />
             ))}
           </div>
@@ -677,7 +835,7 @@ export function StepResults({
                 <button
                   key={chip.label}
                   type="button"
-                  onClick={() => { setResultStyle(chip.key); setShowAll(false); }}
+                  onClick={() => { setResultStyle(chip.key); setShowAll(false); setSortOrder("match"); }}
                   className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all duration-200 cursor-pointer ${
                     resultStyle === chip.key
                       ? "bg-sky-500/20 text-sky-400 border-sky-500/40 shadow-[0_0_10px_rgba(56,189,248,0.15)]"
@@ -694,11 +852,38 @@ export function StepResults({
             )}
           </div>
 
+          {/* Sort controls */}
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-xs text-slate-600 flex-shrink-0">並び替え</span>
+            <div className="flex gap-1.5 flex-wrap">
+              {([
+                { value: "match", label: "マッチ度" },
+                { value: "price_asc", label: "価格が安い順" },
+                { value: "price_desc", label: "価格が高い順" },
+                { value: "flex_asc", label: "flex 柔→硬" },
+                { value: "flex_desc", label: "flex 硬→柔" },
+              ] as const).map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => { setSortOrder(opt.value); setShowAll(false); }}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium border transition-all cursor-pointer ${
+                    sortOrder === opt.value
+                      ? "bg-sky-500/20 text-sky-400 border-sky-500/40"
+                      : "bg-slate-800/60 text-slate-500 border-slate-700/50 hover:text-slate-400"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {activeFilterCount > 0 && (
-            <p className="text-slate-500 text-center mb-4 text-xs">絞り込み中 — {results.length}件表示中</p>
+            <p className="text-slate-500 text-center mb-4 text-xs">絞り込み中 — {sortedResults.length}件表示中</p>
           )}
 
-          {results.length === 0 ? (
+          {sortedResults.length === 0 ? (
             <div className="text-center py-12 px-4">
               <div className="w-14 h-14 rounded-2xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center mx-auto mb-4">
                 <svg className="w-7 h-7 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -714,7 +899,7 @@ export function StepResults({
           ) : (
             <>
               <div className="space-y-3 mb-3">
-                {(showAll ? results : results.slice(0, 3)).map((result, i) => (
+                {(showAll ? sortedResults : sortedResults.slice(0, 3)).map((result, i) => (
                   <BoardCard
                     key={`${result.board.brand}-${result.board.model}-${result.board.year}`}
                     result={result}
@@ -724,10 +909,14 @@ export function StepResults({
                     myBoard={myBoard}
                     isFavorite={isFavorite(result.board)}
                     onToggleFavorite={handleToggleFavorite}
+                    onFindSimilar={(board) => { setSimilarRefBoard(board); }}
+                    onFilterByBrand={handleFilterByBrand}
+                    isComparing={compareBoards.some((b) => b.brand === result.board.brand && b.model === result.board.model && b.year === result.board.year)}
+                    onToggleCompare={handleToggleCompare}
                   />
                 ))}
               </div>
-              {results.length > 3 && (
+              {sortedResults.length > 3 && (
                 <button
                   type="button"
                   onClick={() => setShowAll((v) => !v)}
@@ -741,7 +930,7 @@ export function StepResults({
                   ) : (
                     <>
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                      残り{results.length - 3}件を表示
+                      残り{sortedResults.length - 3}件を表示
                     </>
                   )}
                 </button>
