@@ -27,7 +27,9 @@ export function AiExplanation({ input, result }: AiExplanationProps) {
         body: JSON.stringify({
           height: input.height,
           weight: input.weight,
-          style: input.style,
+          style: Object.fromEntries(
+            Object.entries(input.style).map(([k, v]) => [k, v * 2])
+          ),
           board: {
             brand: result.board.brand,
             model: result.board.model,
