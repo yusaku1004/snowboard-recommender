@@ -61,30 +61,40 @@ const STYLE_BRAND_PRIORITY: Record<keyof StyleScores, Record<string, number>> = 
     "YONEX": 83, "ALLIAN": 80, "GRAY": 77, "WRX SB": 74, "CROOJA": 71,
     "MOSS": 68, "SCOOTER": 65, "FANATIC": 62, "DEATH LABEL": 59, "BC STREAM": 56,
     "CAPITA": 53, "BURTON": 50, "GNU": 47,
+    "AMICSS": 55, "NUMBER": 52, "ZUMA": 50, "KM4K": 48, "DOUBLEDECK": 46,
+    "CANARY CARTEL": 44, "MAKUW": 44, "NOAH SNOWBOARDING JAPAN": 42, "atirom-avs": 40,
   },
   park: {
     "BURTON": 100, "CAPITA": 96, "SALOMON": 90, "BATALEON": 86, "GNU": 82,
     "LIB TECH": 78, "ROME": 75, "NITRO": 72, "ALLIAN": 68, "YES.": 65,
     "NIDECKER": 62, "RIDE": 59, "DEATH LABEL": 56, "LOBSTER": 53, "K2": 50,
     "NOVEMBER": 47, "DINOSAURS WILL DIE": 44,
+    "SESSIONS": 48, "SG SNOWBOARDS": 44, "WHITESPACE": 50, "ThirtyTwo": 52,
+    "CARDIFF SNOWCRAFT": 42, "FORUM": 46, "SLASH": 44,
   },
   carving: {
     "OGASAKA": 100, "MOSS": 95, "FANATIC": 90, "NOVEMBER": 85, "GRAY": 82,
     "YONEX": 79, "WRX SB": 76, "BC STREAM": 73, "SALOMON": 70, "BURTON": 67,
     "RICE28": 64, "SCOOTER": 61, "HEAD": 58, "K2": 55, "KORUA": 52,
     "ROSSIGNOL": 49, "ELAN": 46, "ALLIAN": 43,
+    "KESSLER": 88, "SECCA": 55, "WEST SNOWBOARD": 50, "EnGuard": 48, "TWELVE": 46,
+    "WHITESPACE": 52, "atirom-avs": 44,
   },
   run_tricks: {
     "WRX SB": 100, "RICE28": 97, "SPREAD": 94, "FNTC": 91, "011 Artistic": 88,
     "FANATIC": 84, "CROOJA": 81, "SALOMON": 78, "BURTON": 75, "CAPITA": 72,
     "OGASAKA": 69, "GRAY": 66, "NOVEMBER": 64, "DEVGRU": 62, "HOLIDAY": 60,
     "BC STREAM": 58, "GNU": 55, "LIB TECH": 53, "YONEX": 50, "K2": 47,
+    "AMICSS": 58, "NUMBER": 55, "ZUMA": 52, "KM4K": 50, "CANARY CARTEL": 48,
+    "MAKUW": 46, "atirom-avs": 44,
   },
   powder: {
     "GENTEMSTICK": 100, "MOSS SNOWSTICK": 98, "JONES": 95, "KORUA": 92, "WESTON": 88,
     "ARBOR": 85, "NEVER SUMMER": 83, "BURTON": 80, "SALOMON": 78, "K2": 75,
     "UNITED SHAPES": 73, "SEASON": 70, "AMPLID": 68, "ENDEAVOR": 65, "SIGNAL": 62,
     "GNU": 60, "LIB TECH": 58, "NITRO": 55, "BATALEON": 52,
+    "CARDIFF SNOWCRAFT": 60, "WHITESPACE": 58, "WEST SNOWBOARD": 50,
+    "NOAH SNOWBOARDING JAPAN": 48, "EnGuard": 46, "TELOS": 48,
   },
 };
 
@@ -276,7 +286,7 @@ export function StepResults({
     if (!resultStyle) return [];
     const priority = STYLE_BRAND_PRIORITY[resultStyle];
     const effectiveBudget = adjustedInput.budget * (1 + adjustedInput.budgetFlexibility / 100);
-    const idealSize = calculateIdealSize(adjustedInput.height, adjustedInput.weight, adjustedInput.style, adjustedInput.gender);
+    const idealSize = calculateIdealSize(adjustedInput.height, adjustedInput.weight, adjustedInput.style);
 
     const mapped: RecommendResult[] = filteredBoards.map((board) => {
       const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
@@ -284,8 +294,7 @@ export function StepResults({
         adjustedInput.height,
         adjustedInput.weight,
         adjustedInput.style,
-        board.available_lengths,
-        adjustedInput.gender
+        board.available_lengths
       );
       const overBudget = estimatedPrice > effectiveBudget;
       const budgetPenalty = overBudget
@@ -515,14 +524,14 @@ export function StepResults({
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs text-slate-400 font-medium">年式</p>
               {!allYearsSelected && (
-                <button onClick={() => setSelectedYears(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">すべて選択</button>
+                <button type="button" onClick={() => setSelectedYears(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">すべて選択</button>
               )}
             </div>
             <div className="flex gap-2">
               {availableYears.map((year) => {
                 const isSelected = allYearsSelected || selectedYears!.has(year);
                 return (
-                  <button key={year} onClick={() => toggleYear(year)} className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
+                  <button type="button" key={year} onClick={() => toggleYear(year)} className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
                     {year}年
                   </button>
                 );
@@ -536,14 +545,14 @@ export function StepResults({
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs text-slate-400 font-medium">価格帯（推定）</p>
             {!allPriceRangesSelected && (
-              <button onClick={() => setSelectedPriceRanges(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">すべて選択</button>
+              <button type="button" onClick={() => setSelectedPriceRanges(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">すべて選択</button>
             )}
           </div>
           <div className="flex gap-2">
             {ALL_PRICE_RANGES.map((p) => {
               const isSelected = allPriceRangesSelected || selectedPriceRanges!.has(p.value);
               return (
-                <button key={p.value} onClick={() => togglePriceRange(p.value)} className={`flex-1 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
+                <button type="button" key={p.value} onClick={() => togglePriceRange(p.value)} className={`flex-1 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
                   {p.label}
                 </button>
               );
@@ -556,7 +565,7 @@ export function StepResults({
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs text-slate-400 font-medium">形状</p>
             {!allShapesSelected && (
-              <button onClick={() => setSelectedShapes(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">すべて選択</button>
+              <button type="button" onClick={() => setSelectedShapes(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">すべて選択</button>
             )}
           </div>
           <div className="flex flex-wrap gap-2">
@@ -564,7 +573,7 @@ export function StepResults({
               const isSelected = allShapesSelected || selectedShapes!.has(s.value);
               return (
                 <Tooltip key={s.value} text={SHAPE_DESCRIPTIONS[s.value]}>
-                  <button onClick={() => toggleShape(s.value)} className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
+                  <button type="button" onClick={() => toggleShape(s.value)} className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
                     {s.label}
                   </button>
                 </Tooltip>
@@ -578,7 +587,7 @@ export function StepResults({
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs text-slate-400 font-medium">フレックス（硬さ）</p>
             {!allFlexSelected && (
-              <button onClick={() => setSelectedFlex(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">すべて選択</button>
+              <button type="button" onClick={() => setSelectedFlex(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">すべて選択</button>
             )}
           </div>
           <div className="flex gap-2">
@@ -586,7 +595,7 @@ export function StepResults({
               const isSelected = allFlexSelected || selectedFlex!.has(f.value);
               return (
                 <div key={f.value} className="flex-1 relative">
-                  <button onClick={() => toggleFlex(f.value)} className={`w-full py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
+                  <button type="button" onClick={() => toggleFlex(f.value)} className={`w-full py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
                     <div>{f.label}</div>
                     <div className="text-[10px] opacity-60 mt-0.5">{f.desc}</div>
                   </button>
@@ -605,12 +614,12 @@ export function StepResults({
             <p className="text-xs text-slate-400 font-medium">メーカー</p>
             <div className="flex gap-3">
               {!allBrandsSelected && (
-                <button onClick={() => setSelectedBrands(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">
+                <button type="button" onClick={() => setSelectedBrands(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">
                   すべて選択
                 </button>
               )}
               {(allBrandsSelected || (selectedBrands !== null && selectedBrands.size > 0)) && (
-                <button onClick={() => setSelectedBrands(new Set())} className="text-xs text-slate-400 hover:text-slate-300 transition-colors cursor-pointer">
+                <button type="button" onClick={() => setSelectedBrands(new Set())} className="text-xs text-slate-400 hover:text-slate-300 transition-colors cursor-pointer">
                   全解除
                 </button>
               )}
@@ -620,7 +629,7 @@ export function StepResults({
             {brands.map((brand) => {
               const isSelected = allBrandsSelected || selectedBrands!.has(brand);
               return (
-                <button key={brand} onClick={() => toggleBrand(brand)} className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm cursor-pointer transition-all duration-200 ${isSelected ? "bg-sky-500/10 text-sky-300 border border-sky-500/25" : "bg-slate-700/40 text-slate-500 border border-transparent"}`}>
+                <button type="button" key={brand} onClick={() => toggleBrand(brand)} className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm cursor-pointer transition-all duration-200 ${isSelected ? "bg-sky-500/10 text-sky-300 border border-sky-500/25" : "bg-slate-700/40 text-slate-500 border border-transparent"}`}>
                   <div className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 transition-all ${isSelected ? "bg-sky-500 text-white" : "border border-slate-600 bg-slate-800"}`}>
                     {isSelected && (
                       <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
@@ -640,7 +649,7 @@ export function StepResults({
           )}
         </div>
 
-        <button onClick={() => setIsFilterSheetOpen(false)} className="w-full py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold transition-all cursor-pointer">
+        <button type="button" onClick={() => setIsFilterSheetOpen(false)} className="w-full py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold transition-all cursor-pointer">
           適用する
         </button>
       </BottomSheet>
@@ -892,7 +901,7 @@ export function StepResults({
               </div>
               <p className="text-slate-400 font-medium mb-1">条件に合うボードが見つかりませんでした</p>
               <p className="text-slate-600 text-sm mb-5">絞り込み条件を緩めてみてください</p>
-              <button onClick={resetAllFilters} className="px-5 py-2.5 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30 text-sm font-medium hover:bg-sky-500/20 transition-all cursor-pointer">
+              <button type="button" onClick={resetAllFilters} className="px-5 py-2.5 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30 text-sm font-medium hover:bg-sky-500/20 transition-all cursor-pointer">
                 絞り込みをすべてリセット
               </button>
             </div>

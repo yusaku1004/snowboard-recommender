@@ -204,7 +204,7 @@ export function Wizard() {
         スノーボード診断
       </h1>
       <p className="text-slate-500 text-center mb-4 text-xs tracking-wide">
-        あなたにぴったりの板を見つけよう
+        85ブランド・1,000本以上からあなたにぴったりの板を見つけよう
       </p>
 
       {currentStep === 0 && !savedInput && (
@@ -212,7 +212,7 @@ export function Wizard() {
           {[
             { icon: "⏱", text: "約1分で完了" },
             { icon: "✅", text: "4つの質問に答えるだけ" },
-            { icon: "🏂", text: "800本以上から診断" },
+            { icon: "🏂", text: "1,000本以上から診断" },
           ].map(({ icon, text }) => (
             <div key={text} className="flex items-center gap-1.5 text-xs text-slate-500">
               <span>{icon}</span>

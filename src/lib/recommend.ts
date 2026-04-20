@@ -72,6 +72,24 @@ const BRAND_POPULARITY: Record<string, number> = {
   "READYMADE": 38,
   "SABRINA": 44,
   "SECCA": 42,
+  "AMICSS": 42,
+  "CANARY CARTEL": 40,
+  "CARDIFF SNOWCRAFT": 38,
+  "DOUBLEDECK": 38,
+  "EnGuard": 36,
+  "KESSLER": 55,
+  "KM4K": 40,
+  "MAKUW": 36,
+  "NOAH SNOWBOARDING JAPAN": 35,
+  "NUMBER": 44,
+  "SESSIONS": 40,
+  "SG SNOWBOARDS": 38,
+  "TWELVE": 36,
+  "WEST SNOWBOARD": 38,
+  "WHITESPACE": 50,
+  "White Blossome": 35,
+  "ZUMA": 38,
+  "atirom-avs": 36,
 };
 import { cosineSimilarity, getWeights } from "./cosine";
 import { calculateIdealSize, calculateRecommendedSize } from "./size";
@@ -192,7 +210,7 @@ export function getSimilarBoards(
     const similarity = boardCosineSimilarity(referenceBoard.style_scores, board.style_scores);
     const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
     const recommendedSize = calculateRecommendedSize(
-      input.height, input.weight, input.style, board.available_lengths, input.gender
+      input.height, input.weight, input.style, board.available_lengths,
     );
     return {
       board,
@@ -224,7 +242,7 @@ export function getRecommendations(
   const filtered = filterByGender(boards.filter(hasValidStyleScores), input.gender);
   const weights = getWeights(input.style);
 
-  const idealSize = calculateIdealSize(input.height, input.weight, input.style, input.gender);
+  const idealSize = calculateIdealSize(input.height, input.weight, input.style);
 
   const results: RecommendResult[] = filtered.map((board) => {
     const similarity = cosineSimilarity(input.style, board.style_scores, weights);
@@ -248,7 +266,6 @@ export function getRecommendations(
       input.weight,
       input.style,
       board.available_lengths,
-      input.gender
     );
 
     return {

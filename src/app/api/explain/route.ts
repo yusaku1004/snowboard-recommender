@@ -6,6 +6,7 @@ const SHAPE_LABELS: Record<string, string> = {
   rocker: "ロッカー",
   flat: "フラット",
   hybrid_camber: "ハイブリッドキャンバー",
+  hybrid_rocker: "ハイブリッドロッカー",
   double_camber: "ダブルキャンバー",
 };
 

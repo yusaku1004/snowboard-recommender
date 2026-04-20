@@ -45,19 +45,23 @@ export function decodeInput(search: string): UserInput | null {
 
   const bf = params.get("bf");
 
+  const clamp = (v: number, min: number, max: number) =>
+    isNaN(v) ? min : Math.min(max, Math.max(min, v));
+  const clampStyle = (v: number) => clamp(v, 1, 5);
+
   return {
-    height: Number(h),
-    weight: Number(w),
+    height: clamp(Number(h), 140, 200),
+    weight: clamp(Number(w), 30, 120),
     gender,
     style: {
-      ground_tricks: Number(gt),
-      park: Number(pk),
-      carving: Number(cv),
-      run_tricks: Number(rt),
-      powder: Number(pw),
+      ground_tricks: clampStyle(Number(gt)),
+      park: clampStyle(Number(pk)),
+      carving: clampStyle(Number(cv)),
+      run_tricks: clampStyle(Number(rt)),
+      powder: clampStyle(Number(pw)),
     },
-    budget: Number(b),
-    budgetFlexibility: bf ? Number(bf) : 0,
+    budget: clamp(Number(b), 50000, 200000),
+    budgetFlexibility: bf ? clamp(Number(bf), 0, 100) : 0,
   };
 }
 

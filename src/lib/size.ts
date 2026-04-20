@@ -1,10 +1,9 @@
-import { StyleScores, GenderPreference } from "@/types";
+import { StyleScores } from "@/types";
 
 export function calculateIdealSize(
   height: number,
   weight: number,
   style: StyleScores,
-  gender: GenderPreference = "all"
 ): number {
   let idealSize = height - 15;
 
@@ -33,9 +32,8 @@ export function calculateRecommendedSize(
   weight: number,
   style: StyleScores,
   availableLengths: number[],
-  gender: GenderPreference = "all"
 ): number {
-  const idealSize = calculateIdealSize(height, weight, style, gender);
+  const idealSize = calculateIdealSize(height, weight, style);
 
   if (availableLengths.length === 0) return Math.round(idealSize);
 
