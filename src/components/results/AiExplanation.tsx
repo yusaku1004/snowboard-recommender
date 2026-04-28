@@ -94,6 +94,7 @@ export function AiExplanation({ input, result }: AiExplanationProps) {
           <div className="text-sm text-slate-500">
             <p className="mb-2">解説を生成できませんでした。</p>
             <button
+              type="button"
               onClick={fetchExplanation}
               className="text-xs text-violet-400 hover:text-violet-300 cursor-pointer transition-colors"
             >

@@ -53,6 +53,7 @@ export function Slider({
           type="button"
           onClick={decrement}
           disabled={value <= min}
+          aria-label={`${label}を減らす`}
           className="flex-shrink-0 w-11 h-11 rounded-xl bg-slate-800 border border-slate-700/60 text-slate-300 text-xl font-bold flex items-center justify-center transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed touch-manipulation"
         >
           −
@@ -77,6 +78,7 @@ export function Slider({
           type="button"
           onClick={increment}
           disabled={value >= max}
+          aria-label={`${label}を増やす`}
           className="flex-shrink-0 w-11 h-11 rounded-xl bg-slate-800 border border-slate-700/60 text-slate-300 text-xl font-bold flex items-center justify-center transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed touch-manipulation"
         >
           ＋

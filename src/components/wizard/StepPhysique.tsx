@@ -42,6 +42,7 @@ export function StepPhysique({
           <div className="flex gap-2">
             {GENDER_OPTIONS.map((opt) => (
               <button
+                type="button"
                 key={opt.value}
                 onClick={() => onGenderChange(opt.value)}
                 className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${

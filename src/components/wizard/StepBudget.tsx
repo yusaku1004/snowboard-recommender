@@ -37,7 +37,7 @@ export function StepBudget({
         <Slider
           label="予算上限"
           value={budget}
-          min={30000}
+          min={50000}
           max={200000}
           step={5000}
           formatValue={formatYen}

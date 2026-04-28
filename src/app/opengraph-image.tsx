@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "スノーボード診断 - あなたにぴったりの板を見つけよう";
+export const alt = "スノーボード診断 - 85ブランド1,000本以上からあなたにぴったりの板を見つけよう";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -67,7 +67,7 @@ export default function Image() {
             marginBottom: 40,
           }}
         >
-          あなたにぴったりの板を見つけよう
+          85ブランド・1,000本以上からぴったりの板を見つけよう
         </div>
         {/* Tags */}
         <div style={{ display: "flex", gap: 12 }}>

@@ -15,7 +15,7 @@ import { BottomSheet } from "@/components/ui/BottomSheet";
 import { Slider } from "@/components/ui/Slider";
 import { useFavorites } from "@/hooks/useFavorites";
 import { Tooltip } from "@/components/ui/Tooltip";
-import { SHAPE_DESCRIPTIONS, FLEX_DESCRIPTIONS } from "@/lib/glossary";
+import { SHAPE_DESCRIPTIONS, FLEX_DESCRIPTIONS, getFlexLabel } from "@/lib/glossary";
 import boardsData from "@/data/boards_data.json";
 
 const STYLE_LABELS: Record<keyof StyleScores, string> = {
@@ -360,7 +360,6 @@ export function StepResults({
   const handleFilterByBrand = useCallback((brand: string) => {
     setSelectedBrands(new Set([brand]));
     setShowAll(false);
-    setSortOrder("match");
   }, []);
 
   const handleToggleCompare = useCallback((board: Board) => {
@@ -415,7 +414,7 @@ export function StepResults({
   const handleTwitterShare = () => {
     const topBoard = overallResults[0];
     if (!topBoard) return;
-    const url = getTwitterShareUrl(input, `${topBoard.board.brand} ${topBoard.board.model}`);
+    const url = getTwitterShareUrl(adjustedInput, `${topBoard.board.brand} ${topBoard.board.model}`);
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
@@ -473,7 +472,7 @@ export function StepResults({
         <div className={`overflow-hidden transition-all duration-300 ${isAdjustOpen ? "max-h-[500px] opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
           <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl p-5 max-h-[480px] overflow-y-auto">
             <p className="text-xs text-slate-500 font-medium mb-4">変更するとリアルタイムで結果に反映されます</p>
-            <Slider label="予算上限" value={localBudget} min={30000} max={200000} step={5000} formatValue={formatYen} onChange={setLocalBudget} />
+            <Slider label="予算上限" value={localBudget} min={50000} max={200000} step={5000} formatValue={formatYen} onChange={setLocalBudget} />
             <div className="border-t border-white/[0.06] my-4" />
             {STYLE_ITEMS.map((item) => (
               <Slider
@@ -697,7 +696,7 @@ export function StepResults({
           const recB = sortedResults.find((r) => r.board.brand === b.brand && r.board.model === b.model && r.board.year === b.year);
           const rows: { label: string; valA: string; valB: string }[] = [
             { label: "形状", valA: SHAPE_LABELS_C[a.shape] || a.shape, valB: SHAPE_LABELS_C[b.shape] || b.shape },
-            { label: "フレックス", valA: `${a.flex} (${a.flex <= 3 ? "ソフト" : a.flex <= 6 ? "ミドル" : "ハード"})`, valB: `${b.flex} (${b.flex <= 3 ? "ソフト" : b.flex <= 6 ? "ミドル" : "ハード"})` },
+            { label: "フレックス", valA: `${a.flex} (${getFlexLabel(a.flex)})`, valB: `${b.flex} (${getFlexLabel(b.flex)})` },
             { label: "価格（推定）", valA: `¥${estimateDiscountedPrice(a.price, a.year).toLocaleString()}`, valB: `¥${estimateDiscountedPrice(b.price, b.year).toLocaleString()}` },
             { label: "マッチ度", valA: recA ? `${recA.matchPercentage}%` : "—", valB: recB ? `${recB.matchPercentage}%` : "—" },
             { label: "おすすめサイズ", valA: recA ? `${recA.recommendedSize}cm` : "—", valB: recB ? `${recB.recommendedSize}cm` : "—" },
@@ -844,7 +843,7 @@ export function StepResults({
                 <button
                   key={chip.label}
                   type="button"
-                  onClick={() => { setResultStyle(chip.key); setShowAll(false); setSortOrder("match"); }}
+                  onClick={() => { setResultStyle(chip.key); setShowAll(false); }}
                   className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all duration-200 cursor-pointer ${
                     resultStyle === chip.key
                       ? "bg-sky-500/20 text-sky-400 border-sky-500/40 shadow-[0_0_10px_rgba(56,189,248,0.15)]"
@@ -900,7 +899,15 @@ export function StepResults({
                 </svg>
               </div>
               <p className="text-slate-400 font-medium mb-1">条件に合うボードが見つかりませんでした</p>
-              <p className="text-slate-600 text-sm mb-5">絞り込み条件を緩めてみてください</p>
+              <p className="text-slate-600 text-sm mb-3">
+                {!allBrandsSelected && selectedBrands!.size <= 3
+                  ? "メーカーを追加するか、全ブランドに戻してみてください"
+                  : !allPriceRangesSelected
+                  ? "価格帯の条件を広げてみてください"
+                  : !allShapesSelected
+                  ? "形状フィルターを増やしてみてください"
+                  : "絞り込み条件を緩めてみてください"}
+              </p>
               <button type="button" onClick={resetAllFilters} className="px-5 py-2.5 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30 text-sm font-medium hover:bg-sky-500/20 transition-all cursor-pointer">
                 絞り込みをすべてリセット
               </button>

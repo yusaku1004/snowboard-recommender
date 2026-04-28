@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { StyleScores, UserInput, GenderPreference, Shape, FlexCategory, PriceRange } from "@/types";
 import { decodeInput, decodeFilters } from "@/lib/share";
 import { StepIndicator } from "@/components/ui/StepIndicator";
@@ -29,11 +29,11 @@ export function Wizard() {
   const [weight, setWeight] = useState(60);
   const [gender, setGender] = useState<GenderPreference>("all");
   const [style, setStyle] = useState<StyleScores>({
-    ground_tricks: 1,
-    park: 1,
-    carving: 1,
-    run_tricks: 1,
-    powder: 1,
+    ground_tricks: 3,
+    park: 3,
+    carving: 3,
+    run_tricks: 3,
+    powder: 3,
   });
   const [budget, setBudget] = useState(100000);
   const [budgetFlexibility, setBudgetFlexibility] = useState(0);
@@ -153,11 +153,11 @@ export function Wizard() {
     setWeight(60);
     setGender("all");
     setStyle({
-      ground_tricks: 1,
-      park: 1,
-      carving: 1,
-      run_tricks: 1,
-      powder: 1,
+      ground_tricks: 3,
+      park: 3,
+      carving: 3,
+      run_tricks: 3,
+      powder: 3,
     });
     setBudget(100000);
     setBudgetFlexibility(0);
@@ -183,14 +183,10 @@ export function Wizard() {
     }
   }, []);
 
-  const userInput: UserInput = {
-    height,
-    weight,
-    gender,
-    style,
-    budget,
-    budgetFlexibility,
-  };
+  const userInput = useMemo<UserInput>(
+    () => ({ height, weight, gender, style, budget, budgetFlexibility }),
+    [height, weight, gender, style, budget, budgetFlexibility]
+  );
 
   const animationClass =
     direction === "forward" ? "slide-in-right" : "slide-in-left";

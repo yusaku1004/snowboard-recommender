@@ -53,8 +53,7 @@ export function MyBoardSelector({ boards, selectedBoard, onSelect }: MyBoardSele
 
   return (
     <>
-      <button
-        onClick={() => setIsOpen(true)}
+      <button type="button" onClick={() => setIsOpen(true)}
         className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium border transition-all duration-200 cursor-pointer ${
           selectedBoard
             ? "bg-orange-500/10 text-orange-400 border-orange-500/30"
@@ -91,8 +90,7 @@ export function MyBoardSelector({ boards, selectedBoard, onSelect }: MyBoardSele
         {/* Brand chips */}
         {!search && (
           <div className="flex flex-wrap gap-1.5 mb-3">
-            <button
-              onClick={() => setBrandFilter(null)}
+            <button type="button" onClick={() => setBrandFilter(null)}
               className={`px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-all cursor-pointer border ${
                 !brandFilter
                   ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
@@ -103,6 +101,7 @@ export function MyBoardSelector({ boards, selectedBoard, onSelect }: MyBoardSele
             </button>
             {brands.map((brand) => (
               <button
+                type="button"
                 key={brand}
                 onClick={() => setBrandFilter(brand === brandFilter ? null : brand)}
                 className={`px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-all cursor-pointer border ${
@@ -126,6 +125,7 @@ export function MyBoardSelector({ boards, selectedBoard, onSelect }: MyBoardSele
               selectedBoard?.year === board.year;
             return (
               <button
+                type="button"
                 key={`${board.brand}-${board.model}-${board.year}`}
                 onClick={() => handleSelect(board)}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm cursor-pointer transition-all duration-200 ${
@@ -154,15 +154,13 @@ export function MyBoardSelector({ boards, selectedBoard, onSelect }: MyBoardSele
         {/* Actions */}
         <div className="flex gap-2">
           {selectedBoard && (
-            <button
-              onClick={handleClear}
+            <button type="button" onClick={handleClear}
               className="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 font-medium transition-all cursor-pointer text-sm border border-slate-700"
             >
               解除
             </button>
           )}
-          <button
-            onClick={() => setIsOpen(false)}
+          <button type="button" onClick={() => setIsOpen(false)}
             className="flex-1 py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold transition-all cursor-pointer"
           >
             閉じる

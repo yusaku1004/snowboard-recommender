@@ -12,3 +12,15 @@ export const FLEX_DESCRIPTIONS: Record<string, string> = {
   mid: "フレックス 4〜6。硬すぎず柔らかすぎないバランス型。オールラウンドに使いやすい。",
   hard: "フレックス 7〜10。反応が鋭くパワーをしっかり伝える。高速カービングや上級者向け。",
 };
+
+export function getFlexCategory(flex: number): "soft" | "mid" | "hard" {
+  if (flex <= 3) return "soft";
+  if (flex <= 6) return "mid";
+  return "hard";
+}
+
+export function getFlexLabel(flex: number): string {
+  if (flex <= 3) return "ソフト";
+  if (flex <= 6) return "ミドル";
+  return "ハード";
+}

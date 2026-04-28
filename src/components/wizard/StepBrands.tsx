@@ -122,8 +122,7 @@ export function StepBrands({
             const isSelected = allShapesSelected || selectedShapes!.has(s.value);
             return (
               <Tooltip key={s.value} text={SHAPE_DESCRIPTIONS[s.value]}>
-                <button
-                  onClick={() => toggleShape(s.value)}
+                <button type="button" onClick={() => toggleShape(s.value)}
                   className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border ${
                     isSelected
                       ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
@@ -146,8 +145,7 @@ export function StepBrands({
             const isSelected = allFlexSelected || selectedFlex!.has(f.value);
             return (
               <div key={f.value} className="flex-1 relative">
-                <button
-                  onClick={() => toggleFlex(f.value)}
+                <button type="button" onClick={() => toggleFlex(f.value)}
                   className={`w-full py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${
                     isSelected
                       ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
@@ -198,6 +196,7 @@ export function StepBrands({
             const isSelected = allBrandsSelected || selectedBrands!.has(brand);
             return (
               <button
+                type="button"
                 key={brand}
                 onClick={() => toggleBrand(brand)}
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm cursor-pointer transition-all duration-200 ${
@@ -241,8 +240,7 @@ export function StepBrands({
           <Button variant="secondary" onClick={onBack}>
             戻る
           </Button>
-          <button
-            onClick={handleSkip}
+          <button type="button" onClick={handleSkip}
             className="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 font-medium transition-all duration-200 cursor-pointer text-sm border border-slate-700 hover:border-slate-600"
           >
             スキップ

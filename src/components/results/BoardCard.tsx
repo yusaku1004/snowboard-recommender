@@ -4,7 +4,8 @@ import { useState } from "react";
 import { RecommendResult, Board } from "@/types";
 import { RadarChart } from "./RadarChart";
 import { Tooltip } from "@/components/ui/Tooltip";
-import { SHAPE_DESCRIPTIONS, FLEX_DESCRIPTIONS } from "@/lib/glossary";
+import { SHAPE_DESCRIPTIONS, FLEX_DESCRIPTIONS, getFlexCategory, getFlexLabel as flexLabel } from "@/lib/glossary";
+import { RAKUTEN_AFF_ID, AMAZON_TAG, YAHOO_SID, YAHOO_PID } from "@/lib/constants";
 
 interface BoardCardProps {
   result: RecommendResult;
@@ -45,10 +46,6 @@ function getTopStyleTag(styleScores: RecommendResult["board"]["style_scores"]): 
 }
 
 // Affiliate search URL generators
-const RAKUTEN_AFF_ID = "4f6d7a0c.02dfc7fe.4f6d7a0d.fb8f2dc4";
-const AMAZON_TAG = "fsaunaswh-22";
-const YAHOO_SID = "3766210";
-const YAHOO_PID = "892585475";
 
 function buildSearchQuery(brand: string, model: string): string {
   return `${brand} ${model} スノーボード`;
@@ -134,11 +131,6 @@ function getMatchColor(pct: number): string {
   return "from-slate-400 to-slate-500";
 }
 
-function getFlexLabel(flex: number): string {
-  if (flex <= 3) return "ソフト";
-  if (flex <= 6) return "ミドル";
-  return "ハード";
-}
 
 function getFlexDiff(target: number, mine: number): string | null {
   const diff = target - mine;
@@ -241,7 +233,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 {SHAPE_LABELS[board.shape] || board.shape}
               </span>
               <span className="text-[10px] text-slate-500 bg-slate-800/70 px-1.5 py-0.5 rounded-md">
-                {getFlexLabel(board.flex)} flex
+                {flexLabel(board.flex)} flex
               </span>
               {topStyleTag && (
                 <span className="text-[10px] text-sky-400 bg-sky-500/10 px-1.5 py-0.5 rounded-md">
@@ -344,7 +336,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
             </div>
             <div className="bg-slate-800/40 rounded-xl p-3">
               <span className="text-xs text-slate-500">フレックス</span>
-              <Tooltip text={FLEX_DESCRIPTIONS[getFlexLabel(board.flex) === "ソフト" ? "soft" : getFlexLabel(board.flex) === "ミドル" ? "mid" : "hard"]}>
+              <Tooltip text={FLEX_DESCRIPTIONS[getFlexCategory(board.flex)]}>
                 <div className="flex items-center gap-2 mt-0.5 flex-1">
                   <div className="flex-1 h-1 bg-slate-700 rounded-full overflow-hidden">
                     <div
@@ -401,9 +393,9 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 <div className="bg-slate-800/40 rounded-lg px-2.5 py-2">
                   <span className="text-slate-500">フレックス</span>
                   <p className="text-white font-medium mt-0.5">
-                    {getFlexLabel(board.flex)}({board.flex})
+                    {flexLabel(board.flex)}({board.flex})
                     <span className="text-orange-400 ml-1">
-                      vs {getFlexLabel(myBoard.flex)}({myBoard.flex})
+                      vs {flexLabel(myBoard.flex)}({myBoard.flex})
                     </span>
                   </p>
                   <p className="text-[10px] text-slate-400 mt-0.5">
