@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { StyleScores, UserInput, GenderPreference, Shape, FlexCategory, PriceRange } from "@/types";
-import { decodeInput, decodeFilters } from "@/lib/share";
+import { FilterState } from "@/lib/share";
+import { useLocalStorageItem, writeLocalStorage } from "@/hooks/useLocalStorage";
 import { StepIndicator } from "@/components/ui/StepIndicator";
 import { StepPhysique } from "./StepPhysique";
 import { StepStyle } from "./StepStyle";
@@ -22,78 +23,61 @@ function clampStyle(style: StyleScores): StyleScores {
   return clamped;
 }
 
-export function Wizard() {
-  const [currentStep, setCurrentStep] = useState(0);
+const DEFAULT_STYLE: StyleScores = {
+  ground_tricks: 3,
+  park: 3,
+  carving: 3,
+  run_tricks: 3,
+  powder: 3,
+};
+
+function parseSavedInput(raw: string | null): UserInput | null {
+  if (!raw) return null;
+  try {
+    const data = JSON.parse(raw) as UserInput;
+    return data.height && data.weight && data.style && data.budget !== undefined ? data : null;
+  } catch {
+    return null;
+  }
+}
+
+interface WizardProps {
+  // 共有URLから復元した入力（あれば結果画面から開始）
+  initialInput?: UserInput | null;
+  initialFilters?: FilterState | null;
+}
+
+export function Wizard({ initialInput = null, initialFilters = null }: WizardProps) {
+  const [currentStep, setCurrentStep] = useState(initialInput ? 4 : 0);
   const [direction, setDirection] = useState<"forward" | "backward">("forward");
-  const [height, setHeight] = useState(170);
-  const [weight, setWeight] = useState(60);
-  const [gender, setGender] = useState<GenderPreference>("all");
-  const [style, setStyle] = useState<StyleScores>({
-    ground_tricks: 3,
-    park: 3,
-    carving: 3,
-    run_tricks: 3,
-    powder: 3,
-  });
-  const [budget, setBudget] = useState(100000);
-  const [budgetFlexibility, setBudgetFlexibility] = useState(0);
-  const [selectedBrands, setSelectedBrands] = useState<Set<string> | null>(null);
-  const [selectedShapes, setSelectedShapes] = useState<Set<Shape> | null>(null);
-  const [selectedFlex, setSelectedFlex] = useState<Set<FlexCategory> | null>(null);
-  const [selectedPriceRanges, setSelectedPriceRanges] = useState<Set<PriceRange> | null>(null);
-  const [restored, setRestored] = useState(false);
-  const [savedInput, setSavedInput] = useState<UserInput | null>(null);
+  const [height, setHeight] = useState(initialInput?.height ?? 170);
+  const [weight, setWeight] = useState(initialInput?.weight ?? 60);
+  const [gender, setGender] = useState<GenderPreference>(initialInput?.gender ?? "all");
+  const [style, setStyle] = useState<StyleScores>(
+    initialInput ? clampStyle(initialInput.style) : DEFAULT_STYLE
+  );
+  const [budget, setBudget] = useState(initialInput?.budget ?? 100000);
+  const [budgetFlexibility, setBudgetFlexibility] = useState(initialInput?.budgetFlexibility ?? 0);
+  const [selectedBrands, setSelectedBrands] = useState<Set<string> | null>(initialFilters?.brands ?? null);
+  const [selectedShapes, setSelectedShapes] = useState<Set<Shape> | null>(initialFilters?.shapes ?? null);
+  const [selectedFlex, setSelectedFlex] = useState<Set<FlexCategory> | null>(initialFilters?.flex ?? null);
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState<Set<PriceRange> | null>(
+    initialFilters?.priceRanges ?? null
+  );
+  const [savedBannerDismissed, setSavedBannerDismissed] = useState(false);
   const [restoreCount, setRestoreCount] = useState(0);
 
-  // Restore from URL parameters
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const search = window.location.search;
-    if (!search) return;
-
-    const input = decodeInput(search);
-    if (!input) return;
-
-    setHeight(input.height);
-    setWeight(input.weight);
-    setGender(input.gender);
-    setStyle(clampStyle(input.style));
-    setBudget(input.budget);
-    setBudgetFlexibility(input.budgetFlexibility);
-
-    const filters = decodeFilters(search);
-    setSelectedBrands(filters.brands);
-    setSelectedShapes(filters.shapes);
-    setSelectedFlex(filters.flex);
-    setSelectedPriceRanges(filters.priceRanges);
-    setRestored(true);
-  }, []);
-
-  // Jump to results when restored from URL
-  useEffect(() => {
-    if (restored) {
-      setCurrentStep(4);
-      setRestored(false);
-    }
-  }, [restored]);
-
-  // Load previous session from localStorage (skip if URL params present)
-  useEffect(() => {
-    if (typeof window === "undefined" || window.location.search) return;
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const data = JSON.parse(raw) as UserInput;
-      if (data.height && data.weight && data.style && data.budget !== undefined) {
-        setSavedInput(data);
-      }
-    } catch {}
-  }, []);
+  // Previous session from localStorage (null during SSR / hydration)
+  const savedRaw = useLocalStorageItem(STORAGE_KEY);
+  const savedInput = useMemo(
+    () => (savedBannerDismissed ? null : parseSavedInput(savedRaw)),
+    [savedRaw, savedBannerDismissed]
+  );
 
   // Save to localStorage when user reaches results
   useEffect(() => {
     if (currentStep !== 4 || typeof window === "undefined") return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ height, weight, gender, style, budget, budgetFlexibility }));
+    writeLocalStorage(STORAGE_KEY, JSON.stringify({ height, weight, gender, style, budget, budgetFlexibility }));
   }, [currentStep, height, weight, gender, style, budget, budgetFlexibility]);
 
   const scrollToTop = useCallback(() => {
@@ -129,7 +113,7 @@ export function Wizard() {
     setStyle(clampStyle(input.style));
     setBudget(input.budget);
     setBudgetFlexibility(input.budgetFlexibility);
-    setSavedInput(null);
+    setSavedBannerDismissed(true);
   }, []);
 
   const handleRestoreAndShowResults = useCallback(() => {
@@ -152,31 +136,15 @@ export function Wizard() {
     setHeight(170);
     setWeight(60);
     setGender("all");
-    setStyle({
-      ground_tricks: 3,
-      park: 3,
-      carving: 3,
-      run_tricks: 3,
-      powder: 3,
-    });
+    setStyle(DEFAULT_STYLE);
     setBudget(100000);
     setBudgetFlexibility(0);
     setSelectedBrands(null);
     setSelectedShapes(null);
     setSelectedFlex(null);
     setSelectedPriceRanges(null);
-    // Reload savedInput from localStorage so the banner shows immediately
-    try {
-      const raw = typeof window !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
-      if (raw) {
-        const data = JSON.parse(raw) as UserInput;
-        setSavedInput(data.height && data.style ? data : null);
-      } else {
-        setSavedInput(null);
-      }
-    } catch {
-      setSavedInput(null);
-    }
+    // Show the previous-session banner again
+    setSavedBannerDismissed(false);
     // Clear URL params
     if (typeof window !== "undefined") {
       window.history.replaceState({}, "", window.location.pathname);

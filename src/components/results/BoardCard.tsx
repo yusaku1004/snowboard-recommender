@@ -143,7 +143,7 @@ function getFlexDiff(target: number, mine: number): string | null {
 
 export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, isFavorite = false, onToggleFavorite, onFindSimilar, onFilterByBrand, isComparing = false, onToggleCompare }: BoardCardProps) {
   const [expanded, setExpanded] = useState(false);
-  const { board, matchPercentage, recommendedSize, overBudget, estimatedPrice } = result;
+  const { board, matchPercentage, recommendedSize, estimatedPrice } = result;
   const topStyleTag = getTopStyleTag(board.style_scores);
   const hasDiscount = estimatedPrice < board.price;
   const effectiveBudget = budget * (1 + budgetFlexibility / 100);

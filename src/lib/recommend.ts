@@ -1,4 +1,4 @@
-import { Board, UserInput, RecommendResult, GenderPreference } from "@/types";
+import { Board, UserInput, RecommendResult, GenderPreference, StyleScores } from "@/types";
 
 // Brand popularity tiebreaker (higher = more popular)
 const BRAND_POPULARITY: Record<string, number> = {
@@ -93,6 +93,7 @@ const BRAND_POPULARITY: Record<string, number> = {
 };
 import { cosineSimilarity, getWeights } from "./cosine";
 import { calculateIdealSize, calculateRecommendedSize } from "./size";
+import { STYLE_BRAND_PRIORITY } from "./stylePriority";
 
 function calculateSizeMismatchPenalty(
   availableLengths: number[],
@@ -233,6 +234,47 @@ export function getSimilarBoards(
   return Array.from(seen.values())
     .sort((a, b) => b.matchPercentage - a.matchPercentage)
     .slice(0, 6);
+}
+
+// スタイル別ランキング: 指定スタイルのスコア(1-10)→0-90 + ブランド優先度補正(0-5) - 各種ペナルティ
+export function getStyleRecommendations(
+  boards: Board[],
+  input: UserInput,
+  style: keyof StyleScores
+): RecommendResult[] {
+  const filtered = filterByGender(boards.filter(hasValidStyleScores), input.gender);
+  const priority = STYLE_BRAND_PRIORITY[style];
+  const effectiveBudget = input.budget * (1 + input.budgetFlexibility / 100);
+  const idealSize = calculateIdealSize(input.height, input.weight, input.style);
+
+  const results: RecommendResult[] = filtered.map((board) => {
+    const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
+    const budgetPenalty = calculateBudgetPenalty(estimatedPrice, input.budget, input.budgetFlexibility);
+    const sizePenalty = calculateSizeMismatchPenalty(board.available_lengths, idealSize);
+    const brandBoost = ((priority[board.brand] ?? 0) / 100) * 5;
+    const matchPercentage = Math.max(
+      0,
+      Math.min(100, board.style_scores[style] * 9 + brandBoost - budgetPenalty - sizePenalty)
+    );
+
+    return {
+      board,
+      matchPercentage: Math.round(matchPercentage * 10) / 10,
+      recommendedSize: calculateRecommendedSize(
+        input.height, input.weight, input.style, board.available_lengths,
+      ),
+      overBudget: estimatedPrice > effectiveBudget,
+      estimatedPrice,
+    };
+  });
+
+  return results
+    .sort((a, b) => {
+      // 予算内を優先
+      if (a.overBudget !== b.overBudget) return a.overBudget ? 1 : -1;
+      return b.matchPercentage - a.matchPercentage;
+    })
+    .slice(0, 30);
 }
 
 export function getRecommendations(

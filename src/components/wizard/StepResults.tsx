@@ -2,9 +2,7 @@
 
 import { useMemo, useState, useRef, useCallback } from "react";
 import { UserInput, Board, Shape, FlexCategory, PriceRange, StyleScores, RecommendResult } from "@/types";
-import { getRecommendations, getSimilarBoards, estimateDiscountedPrice } from "@/lib/recommend";
-import { calculateIdealSize } from "@/lib/size";
-import { calculateRecommendedSize } from "@/lib/size";
+import { getRecommendations, getSimilarBoards, getStyleRecommendations, estimateDiscountedPrice } from "@/lib/recommend";
 import { getShareUrl, getTwitterShareUrl, FilterState } from "@/lib/share";
 import { BoardCard } from "@/components/results/BoardCard";
 import { AiExplanation } from "@/components/results/AiExplanation";
@@ -54,49 +52,6 @@ const ALL_PRICE_RANGES: { value: PriceRange; label: string; desc: string }[] = [
   { value: "80to100", label: "8〜10万", desc: "¥80,000〜100,000" },
   { value: "over100", label: "10万〜", desc: "¥100,000以上" },
 ];
-
-const STYLE_BRAND_PRIORITY: Record<keyof StyleScores, Record<string, number>> = {
-  ground_tricks: {
-    "SPREAD": 100, "RICE28": 96, "FNTC": 92, "011 Artistic": 89, "NOVEMBER": 86,
-    "YONEX": 83, "ALLIAN": 80, "GRAY": 77, "WRX SB": 74, "CROOJA": 71,
-    "MOSS": 68, "SCOOTER": 65, "FANATIC": 62, "DEATH LABEL": 59, "BC STREAM": 56,
-    "CAPITA": 53, "BURTON": 50, "GNU": 47,
-    "AMICSS": 55, "NUMBER": 52, "ZUMA": 50, "KM4K": 48, "DOUBLEDECK": 46,
-    "CANARY CARTEL": 44, "MAKUW": 44, "NOAH SNOWBOARDING JAPAN": 42, "atirom-avs": 40,
-  },
-  park: {
-    "BURTON": 100, "CAPITA": 96, "SALOMON": 90, "BATALEON": 86, "GNU": 82,
-    "LIB TECH": 78, "ROME": 75, "NITRO": 72, "ALLIAN": 68, "YES.": 65,
-    "NIDECKER": 62, "RIDE": 59, "DEATH LABEL": 56, "LOBSTER": 53, "K2": 50,
-    "NOVEMBER": 47, "DINOSAURS WILL DIE": 44,
-    "SESSIONS": 48, "SG SNOWBOARDS": 44, "WHITESPACE": 50, "ThirtyTwo": 52,
-    "CARDIFF SNOWCRAFT": 42, "FORUM": 46, "SLASH": 44,
-  },
-  carving: {
-    "OGASAKA": 100, "MOSS": 95, "FANATIC": 90, "NOVEMBER": 85, "GRAY": 82,
-    "YONEX": 79, "WRX SB": 76, "BC STREAM": 73, "SALOMON": 70, "BURTON": 67,
-    "RICE28": 64, "SCOOTER": 61, "HEAD": 58, "K2": 55, "KORUA": 52,
-    "ROSSIGNOL": 49, "ELAN": 46, "ALLIAN": 43,
-    "KESSLER": 88, "SECCA": 55, "WEST SNOWBOARD": 50, "EnGuard": 48, "TWELVE": 46,
-    "WHITESPACE": 52, "atirom-avs": 44,
-  },
-  run_tricks: {
-    "WRX SB": 100, "RICE28": 97, "SPREAD": 94, "FNTC": 91, "011 Artistic": 88,
-    "FANATIC": 84, "CROOJA": 81, "SALOMON": 78, "BURTON": 75, "CAPITA": 72,
-    "OGASAKA": 69, "GRAY": 66, "NOVEMBER": 64, "DEVGRU": 62, "HOLIDAY": 60,
-    "BC STREAM": 58, "GNU": 55, "LIB TECH": 53, "YONEX": 50, "K2": 47,
-    "AMICSS": 58, "NUMBER": 55, "ZUMA": 52, "KM4K": 50, "CANARY CARTEL": 48,
-    "MAKUW": 46, "atirom-avs": 44,
-  },
-  powder: {
-    "GENTEMSTICK": 100, "MOSS SNOWSTICK": 98, "JONES": 95, "KORUA": 92, "WESTON": 88,
-    "ARBOR": 85, "NEVER SUMMER": 83, "BURTON": 80, "SALOMON": 78, "K2": 75,
-    "UNITED SHAPES": 73, "SEASON": 70, "AMPLID": 68, "ENDEAVOR": 65, "SIGNAL": 62,
-    "GNU": 60, "LIB TECH": 58, "NITRO": 55, "BATALEON": 52,
-    "CARDIFF SNOWCRAFT": 60, "WHITESPACE": 58, "WEST SNOWBOARD": 50,
-    "NOAH SNOWBOARDING JAPAN": 48, "EnGuard": 46, "TELOS": 48,
-  },
-};
 
 const STYLE_CHIPS: { key: keyof StyleScores | null; label: string; emoji: string }[] = [
   { key: null, label: "総合", emoji: "🏆" },
@@ -281,45 +236,11 @@ export function StepResults({
     [filteredBoards, adjustedInput]
   );
 
-  // スタイル別結果（スタイルスコア降順→同スコア時はブランド優先度）
-  const styleResults = useMemo<RecommendResult[]>(() => {
-    if (!resultStyle) return [];
-    const priority = STYLE_BRAND_PRIORITY[resultStyle];
-    const effectiveBudget = adjustedInput.budget * (1 + adjustedInput.budgetFlexibility / 100);
-    const idealSize = calculateIdealSize(adjustedInput.height, adjustedInput.weight, adjustedInput.style);
-
-    const mapped: RecommendResult[] = filteredBoards.map((board) => {
-      const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
-      const recommendedSize = calculateRecommendedSize(
-        adjustedInput.height,
-        adjustedInput.weight,
-        adjustedInput.style,
-        board.available_lengths
-      );
-      const overBudget = estimatedPrice > effectiveBudget;
-      const budgetPenalty = overBudget
-        ? Math.min(((estimatedPrice - effectiveBudget) / effectiveBudget) * 50, 30)
-        : 0;
-      const minLengthDiff = Math.min(...board.available_lengths.map((l) => Math.abs(l - idealSize)));
-      const sizePenalty = minLengthDiff <= 10 ? 0 : minLengthDiff <= 20 ? (minLengthDiff - 10) * 1.0 : 10 + (minLengthDiff - 20) * 1.5;
-      // matchPercentage はスタイルスコア(1-10)→0-90 + ブランド優先度補正(0-5) - 各種ペナルティ
-      const styleScore = board.style_scores[resultStyle] ?? 1;
-      const brandBoost = ((priority[board.brand] ?? 0) / 100) * 5;
-      const matchPercentage = Math.round(
-        Math.max(0, Math.min(100, styleScore * 9 + brandBoost - budgetPenalty - sizePenalty)) * 10
-      ) / 10;
-      return { board, matchPercentage, recommendedSize, overBudget, estimatedPrice };
-    });
-
-    return mapped
-      .sort((a, b) => {
-        // 予算内を優先
-        if (a.overBudget !== b.overBudget) return a.overBudget ? 1 : -1;
-        // matchPercentage降順（= スタイルスコア→ブランド優先度の順）
-        return b.matchPercentage - a.matchPercentage;
-      })
-      .slice(0, 30);
-  }, [filteredBoards, resultStyle, adjustedInput]);
+  // スタイル別結果（予算内優先→スタイルスコア→ブランド優先度）
+  const styleResults = useMemo<RecommendResult[]>(
+    () => (resultStyle ? getStyleRecommendations(filteredBoards, adjustedInput, resultStyle) : []),
+    [filteredBoards, resultStyle, adjustedInput]
+  );
 
   const results = resultStyle ? styleResults : overallResults;
 
