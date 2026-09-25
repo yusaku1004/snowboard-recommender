@@ -1,6 +1,7 @@
 "use client";
 
 import { SkillLevel, StyleScores } from "@/types";
+import { BEGINNER_STYLE, STYLE_ICONS, STYLE_LABELS } from "@/lib/styles";
 import { LevelPicker } from "@/components/ui/LevelPicker";
 import { StepFooter } from "@/components/ui/StepFooter";
 import { RadarChart } from "@/components/results/LazyRadarChart";
@@ -15,25 +16,25 @@ interface StepStyleProps {
 }
 
 const STYLE_ITEMS: { key: keyof StyleScores; label: string; description: string; icon: string }[] = [
-  { key: "ground_tricks", label: "グラトリ", description: "地形を使わないトリック", icon: "🌀" },
-  { key: "park", label: "パーク", description: "キッカー・ジブ・パイプ", icon: "🏂" },
-  { key: "carving", label: "カービング", description: "エッジを効かせたターン", icon: "⛷️" },
-  { key: "run_tricks", label: "ラントリ", description: "滑走しながらのトリック", icon: "💨" },
-  { key: "powder", label: "パウダー", description: "新雪・深雪を滑走", icon: "❄️" },
+  { key: "ground_tricks", label: STYLE_LABELS.ground_tricks, description: "地形を使わないトリック", icon: STYLE_ICONS.ground_tricks },
+  { key: "park", label: STYLE_LABELS.park, description: "キッカー・ジブ・パイプ", icon: STYLE_ICONS.park },
+  { key: "carving", label: STYLE_LABELS.carving, description: "エッジを効かせたターン", icon: STYLE_ICONS.carving },
+  { key: "run_tricks", label: STYLE_LABELS.run_tricks, description: "滑走しながらのトリック", icon: STYLE_ICONS.run_tricks },
+  { key: "powder", label: STYLE_LABELS.powder, description: "新雪・深雪を滑走", icon: STYLE_ICONS.powder },
 ];
 
 // 始めたばかりで好みが決まっていない人向け（まずはターンの練習が中心）
 const BEGINNER_PRESET: { label: string; icon: string; scores: StyleScores } = {
   label: "まだ分からない",
   icon: "🔰",
-  scores: { ground_tricks: 2, park: 1, carving: 3, run_tricks: 2, powder: 2 },
+  scores: BEGINNER_STYLE,
 };
 
 const PRESETS: { label: string; icon: string; scores: StyleScores }[] = [
-  { label: "グラトリ", icon: "🌀", scores: { ground_tricks: 5, park: 1, carving: 2, run_tricks: 4, powder: 1 } },
-  { label: "パーク", icon: "🏂", scores: { ground_tricks: 2, park: 5, carving: 2, run_tricks: 3, powder: 1 } },
-  { label: "カービング", icon: "⛷️", scores: { ground_tricks: 1, park: 1, carving: 5, run_tricks: 3, powder: 3 } },
-  { label: "パウダー", icon: "❄️", scores: { ground_tricks: 1, park: 2, carving: 3, run_tricks: 3, powder: 5 } },
+  { label: "グラトリ", icon: STYLE_ICONS.ground_tricks, scores: { ground_tricks: 5, park: 1, carving: 2, run_tricks: 4, powder: 1 } },
+  { label: "パーク", icon: STYLE_ICONS.park, scores: { ground_tricks: 2, park: 5, carving: 2, run_tricks: 3, powder: 1 } },
+  { label: "カービング", icon: STYLE_ICONS.carving, scores: { ground_tricks: 1, park: 1, carving: 5, run_tricks: 3, powder: 3 } },
+  { label: "パウダー", icon: STYLE_ICONS.powder, scores: { ground_tricks: 1, park: 2, carving: 3, run_tricks: 3, powder: 5 } },
   { label: "オールラウンド", icon: "🏔️", scores: { ground_tricks: 3, park: 3, carving: 3, run_tricks: 3, powder: 3 } },
 ];
 

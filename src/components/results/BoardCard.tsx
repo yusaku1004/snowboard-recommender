@@ -491,9 +491,12 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
       {expanded && (
         <div className="expand-enter px-4 pb-4 border-t border-white/[0.06] pt-4">
           <div className="grid grid-cols-2 gap-4 text-sm mb-5">
+            {/* 1位カードは価格・形状・硬さを上部に表示済みなので、重複しない項目だけ出す */}
+            {!featured && (
+            <>
             <div className="bg-white/[0.04] rounded-xl p-3">
-              <div className="flex items-center justify-between mb-0.5">
-                <span className="text-xs text-slate-400">{hasDiscount ? "定価 → 想定価格" : "価格"}</span>
+              <div className="flex items-center justify-between gap-1 mb-0.5">
+                <span className="text-xs text-slate-400">価格</span>
                 <span className="text-[10px] font-semibold bg-sky-500/15 text-sky-400 px-1.5 py-0.5 rounded-full">
                   {getDiscountLabel(board.year)}
                 </span>
@@ -527,20 +530,18 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               </div>
             </div>
             <div className="bg-white/[0.04] rounded-xl p-3">
-              <span className="text-xs text-slate-400">フレックス</span>
-              <Tooltip text={FLEX_DESCRIPTIONS[getFlexCategory(board.flex)]}>
-                <div className="flex items-center gap-2 mt-0.5 flex-1">
-                  <div className="flex-1 h-1 bg-white/15 rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-sky-400 to-cyan-400"
-                      style={{ width: `${board.flex * 10}%` }}
-                    />
-                  </div>
-                  <span className="text-white font-medium text-sm tabular-nums">{board.flex}</span>
-                </div>
-              </Tooltip>
+              <span className="text-xs text-slate-400">硬さ</span>
+              <div className="mt-0.5">
+                <Tooltip text={FLEX_DESCRIPTIONS[getFlexCategory(board.flex)]}>
+                  <span className="text-white font-medium text-sm tabular-nums">
+                    {flexLabel(board.flex)} <span className="text-xs text-slate-400">{board.flex}/10</span>
+                  </span>
+                </Tooltip>
+              </div>
             </div>
-            <div className="bg-white/[0.04] rounded-xl p-3">
+            </>
+            )}
+            <div className={`bg-white/[0.04] rounded-xl p-3 ${featured ? "col-span-2" : ""}`}>
               <span className="text-xs text-slate-400">対象</span>
               <p className="text-white font-medium text-sm">
                 {GENDER_LABELS[board.gender] || board.gender}
@@ -583,7 +584,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               </p>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div className="bg-white/[0.04] rounded-lg px-2.5 py-2">
-                  <span className="text-slate-400">フレックス</span>
+                  <span className="text-slate-400">硬さ</span>
                   <p className="text-white font-medium mt-0.5">
                     {flexLabel(board.flex)}({board.flex})
                     <span className="text-orange-400 ml-1">

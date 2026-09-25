@@ -15,6 +15,7 @@ import { LevelPicker } from "@/components/ui/LevelPicker";
 import { Segmented } from "@/components/ui/Segmented";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { matchesBrand } from "@/lib/brandSearch";
+import { STYLE_ICONS, STYLE_KEYS, STYLE_LABELS, getStyleSummary } from "@/lib/styles";
 import { useFavorites } from "@/hooks/useFavorites";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { SHAPE_DESCRIPTIONS, FLEX_DESCRIPTIONS, getFlexLabel } from "@/lib/glossary";
@@ -32,20 +33,6 @@ const LEVEL_LABELS: Record<SkillLevel, string> = {
   advanced: "上級者",
 };
 
-const STYLE_LABELS: Record<keyof StyleScores, string> = {
-  ground_tricks: "グラトリ",
-  park: "パーク",
-  carving: "カービング",
-  run_tricks: "ラントリ",
-  powder: "パウダー",
-};
-
-function getTopStyleLabel(style: StyleScores): string {
-  const top = (Object.keys(style) as (keyof StyleScores)[]).reduce((a, b) =>
-    style[a] >= style[b] ? a : b
-  );
-  return STYLE_LABELS[top];
-}
 
 const ALL_SHAPES: { value: Shape; label: string }[] = [
   { value: "camber", label: "キャンバー" },
@@ -71,11 +58,7 @@ const ALL_PRICE_RANGES: { value: PriceRange; label: string; desc: string }[] = [
 
 const STYLE_CHIPS: { key: keyof StyleScores | null; label: string; emoji: string }[] = [
   { key: null, label: "総合", emoji: "🏆" },
-  { key: "ground_tricks", label: "グラトリ", emoji: "🛹" },
-  { key: "park", label: "パーク", emoji: "🏂" },
-  { key: "carving", label: "カービング", emoji: "⛷️" },
-  { key: "run_tricks", label: "ラントリ", emoji: "🎿" },
-  { key: "powder", label: "パウダー", emoji: "❄️" },
+  ...STYLE_KEYS.map((key) => ({ key, label: STYLE_LABELS[key], emoji: STYLE_ICONS[key] })),
 ];
 
 function matchesPriceRange(estimatedPrice: number, ranges: Set<PriceRange>): boolean {
@@ -452,7 +435,7 @@ function StepResultsContent({
           `${adjustedInput.height}cm`,
           `${adjustedInput.weight}kg`,
           LEVEL_LABELS[adjustedInput.level],
-          `${getTopStyleLabel(adjustedInput.style)}重視`,
+          getStyleSummary(adjustedInput.style),
           `¥${adjustedInput.budget.toLocaleString()}`,
           ...(adjustedInput.bootSize ? [`ブーツ ${BOOT_SIZE_LABELS[adjustedInput.bootSize]}`] : []),
         ].map((label) => (
@@ -675,7 +658,7 @@ function StepResultsContent({
         {/* Flex filter */}
         <div className="mb-5">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-xs text-slate-400 font-medium">フレックス（硬さ）</p>
+            <p className="text-xs text-slate-400 font-medium">硬さ（フレックス）</p>
             {!allFlexSelected && (
               <button type="button" onClick={() => setSelectedFlex(null)} className="text-xs text-sky-400 hover:text-sky-300 transition-colors cursor-pointer">すべて選択</button>
             )}
@@ -790,7 +773,7 @@ function StepResultsContent({
           const recB = sortedResults.find((r) => r.board.brand === b.brand && r.board.model === b.model && r.board.year === b.year);
           const rows: { label: string; valA: string; valB: string }[] = [
             { label: "形状", valA: SHAPE_LABELS_C[a.shape] || a.shape, valB: SHAPE_LABELS_C[b.shape] || b.shape },
-            { label: "フレックス", valA: `${a.flex} (${getFlexLabel(a.flex)})`, valB: `${b.flex} (${getFlexLabel(b.flex)})` },
+            { label: "硬さ", valA: `${a.flex} (${getFlexLabel(a.flex)})`, valB: `${b.flex} (${getFlexLabel(b.flex)})` },
             { label: "価格（推定）", valA: `¥${estimateDiscountedPrice(a.price, a.year).toLocaleString()}`, valB: `¥${estimateDiscountedPrice(b.price, b.year).toLocaleString()}` },
             { label: "マッチ度", valA: recA ? `${recA.matchPercentage}%` : "—", valB: recB ? `${recB.matchPercentage}%` : "—" },
             { label: "おすすめサイズ", valA: recA ? `${recA.recommendedSize}cm` : "—", valB: recB ? `${recB.recommendedSize}cm` : "—" },
