@@ -197,21 +197,21 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
       onClick={() => setExpanded(!expanded)}
     >
       {featured ? (
-        <div className="relative p-5">
+        <div className="relative p-4 min-[360px]:p-5">
           {/* Ambient glow behind the board */}
           <div className="absolute -top-16 -left-10 w-48 h-48 rounded-full bg-sky-500/25 blur-3xl pointer-events-none" />
 
-          <div className="relative flex items-center justify-between mb-4">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-amber-300 to-yellow-500 text-amber-950 text-xs font-black tracking-wider shadow-[0_0_16px_rgba(251,191,36,0.4)]">
+          <div className="relative flex flex-wrap items-center justify-between gap-2 mb-4">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-amber-300 to-yellow-500 text-amber-950 text-xs font-black tracking-wider whitespace-nowrap shadow-[0_0_16px_rgba(251,191,36,0.4)]">
               <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.9L22 9.6l-5.4 4.8L18.2 22 12 18.3 5.8 22l1.6-7.6L2 9.6l7.1-.7z" /></svg>
               {featuredLabel}
             </span>
             <div className="flex items-center gap-1">
               {budgetLabel === "over" && (
-                <span className="text-xs bg-red-500/15 text-red-300 px-2 py-0.5 rounded-full font-medium">予算オーバー</span>
+                <span className="text-xs bg-red-500/15 text-red-300 px-2 py-0.5 rounded-full font-medium whitespace-nowrap">予算オーバー</span>
               )}
               {budgetLabel === "sale_possible" && (
-                <span className="text-xs bg-yellow-500/15 text-yellow-300 px-2 py-0.5 rounded-full font-medium">セールで予算内</span>
+                <span className="text-xs bg-yellow-500/15 text-yellow-300 px-2 py-0.5 rounded-full font-medium whitespace-nowrap">セールで予算内</span>
               )}
               {onToggleFavorite && (
                 <button
@@ -243,7 +243,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
             </div>
           </div>
 
-          <div className="relative flex items-center gap-4">
+          <div className="relative flex items-center gap-3 min-[360px]:gap-4">
             {/* Board visual */}
             <div className="flex-shrink-0 w-14 h-36 rounded-full overflow-hidden shadow-[0_10px_30px_-6px_rgba(56,189,248,0.5)] ring-1 ring-white/20 -rotate-6">
               {board.image_url ? (
@@ -265,7 +265,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               <h3 className="text-xl font-black text-white leading-tight mt-0.5 mb-2 break-words">{board.model}</h3>
               <div className="flex flex-wrap gap-1">
                 <Tooltip text={SHAPE_DESCRIPTIONS[board.shape] ?? ""} align="start">
-                  <span className="text-xs text-slate-300 bg-white/[0.07] px-1.5 py-0.5 rounded-md">{SHAPE_LABELS[board.shape] || board.shape}</span>
+                  <span className="text-xs text-slate-300 bg-white/[0.07] px-1.5 py-0.5 rounded-md min-[360px]:whitespace-nowrap">{SHAPE_LABELS[board.shape] || board.shape}</span>
                 </Tooltip>
                 {reasons.length === 0 && topStyleTag && (
                   <span className="text-xs text-sky-300 bg-sky-400/15 px-1.5 py-0.5 rounded-md">{topStyleTag}◎</span>
@@ -301,8 +301,8 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 align: "end" as const,
               },
             ].map((stat) => (
-              <div key={stat.label} className="rounded-2xl bg-white/[0.05] border border-white/[0.08] px-3 py-2.5">
-                <div className="text-xs text-slate-400 mb-0.5">
+              <div key={stat.label} className="min-w-0 rounded-2xl bg-white/[0.05] border border-white/[0.08] px-2 min-[360px]:px-3 py-2.5">
+                <div className="text-xs text-slate-400 mb-0.5 whitespace-nowrap">
                   {stat.help ? (
                     <Tooltip text={stat.help} align={stat.align}>
                       <span>{stat.label}</span>
@@ -312,7 +312,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                   )}
                 </div>
                 <p className="text-white font-bold tabular-nums leading-tight">
-                  <span className="text-lg">{stat.value}</span>
+                  <span className="text-base min-[360px]:text-lg">{stat.value}</span>
                   <span className="text-xs text-slate-400 ml-0.5">{stat.unit}</span>
                 </p>
                 {stat.sub && <p className="text-xs text-slate-400 line-through tabular-nums mt-0.5">{stat.sub}</p>}
