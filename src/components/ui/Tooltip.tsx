@@ -49,10 +49,14 @@ export function Tooltip({ text, children, align = "center" }: TooltipProps) {
           if ((e.nativeEvent as PointerEvent).pointerType === "mouse") setVisible(true);
           else setVisible((v) => !v);
         }}
-        className="flex-shrink-0 w-4 h-4 rounded-full bg-white/15 text-slate-400 hover:bg-white/20 hover:text-slate-300 transition-colors flex items-center justify-center cursor-pointer"
+        // 見た目は16pxのまま、タップ領域は24px確保する（負のマージンでレイアウトは変えない）
+        className="group flex-shrink-0 w-6 h-6 -m-1 flex items-center justify-center cursor-pointer rounded-full"
         aria-label="説明を表示"
+        aria-expanded={visible}
       >
-        <span className="text-[9px] font-bold leading-none">?</span>
+        <span className="w-4 h-4 rounded-full bg-white/15 text-slate-400 group-hover:bg-white/20 group-hover:text-slate-300 transition-colors flex items-center justify-center">
+          <span className="text-[9px] font-bold leading-none">?</span>
+        </span>
       </button>
       {visible && (
         <div className={`absolute bottom-full ${POPUP_POSITION[align].popup} mb-2 z-50 w-52 bg-[#0f1830]/95 backdrop-blur-xl border border-white/15 rounded-xl px-3 py-2.5 shadow-xl shadow-black/40 pointer-events-none`}>

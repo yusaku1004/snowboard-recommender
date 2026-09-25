@@ -61,7 +61,7 @@ export function StepStyle({ style, level, onStyleChange, onPresetApply, onNext, 
       )}
 
       {/* Presets */}
-      <p className="text-[11px] font-semibold tracking-wider text-slate-400 mb-2">プリセット</p>
+      <p className="text-xs font-semibold tracking-wider text-slate-400 mb-2">プリセット</p>
       <div className="flex gap-2 overflow-x-auto pt-1 pb-5 -mx-4 px-4 mb-0 [scrollbar-width:none]">
         {presets.map((preset) => {
           const active = isPresetActive(style, preset.scores);
@@ -98,7 +98,7 @@ export function StepStyle({ style, level, onStyleChange, onPresetApply, onNext, 
       </div>
 
       <div className="glass rounded-3xl px-4 pt-4 pb-1 mb-6">
-        <p className="text-[11px] font-semibold tracking-wider text-slate-400 text-center">あなたのスタイル</p>
+        <p className="text-xs font-semibold tracking-wider text-slate-400 text-center">あなたのスタイル</p>
         <RadarChart
           scores={{
             ground_tricks: style.ground_tricks * 2,

@@ -122,7 +122,7 @@ export function StepBrands({
 
       {/* Shape filter */}
       <div className="glass rounded-3xl p-4 mb-3">
-        <p className="text-[11px] font-semibold tracking-wider text-slate-400 mb-2.5">形状</p>
+        <p className="text-xs font-semibold tracking-wider text-slate-400 mb-2.5">形状</p>
         <div className="flex flex-wrap gap-2">
           {ALL_SHAPES.map((s) => {
             const isSelected = allShapesSelected || selectedShapes!.has(s.value);
@@ -145,7 +145,7 @@ export function StepBrands({
 
       {/* Flex filter */}
       <div className="glass rounded-3xl p-4 mb-3">
-        <p className="text-[11px] font-semibold tracking-wider text-slate-400 mb-2.5">フレックス（硬さ）</p>
+        <p className="text-xs font-semibold tracking-wider text-slate-400 mb-2.5">フレックス（硬さ）</p>
         <div className="flex gap-2">
           {ALL_FLEX.map((f) => {
             const isSelected = allFlexSelected || selectedFlex!.has(f.value);
@@ -159,7 +159,7 @@ export function StepBrands({
                   }`}
                 >
                   <div>{f.label}</div>
-                  <div className="text-[10px] opacity-60 mt-0.5">{f.desc}</div>
+                  <div className="text-xs opacity-60 mt-0.5">{f.desc}</div>
                 </button>
                 <div className="absolute top-1 right-1">
                   <Tooltip text={FLEX_DESCRIPTIONS[f.value]}>
@@ -175,7 +175,7 @@ export function StepBrands({
       {/* Brand selector */}
       <div className="glass rounded-3xl p-4 mb-3">
         <div className="flex items-center justify-between mb-2.5">
-          <p className="text-[11px] font-semibold tracking-wider text-slate-400">メーカー</p>
+          <p className="text-xs font-semibold tracking-wider text-slate-400">メーカー</p>
           <div className="flex gap-3">
             {!allBrandsSelected && (
               <button

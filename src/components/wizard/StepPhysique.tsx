@@ -117,12 +117,12 @@ export function StepPhysique({
           </svg>
         </div>
         <div className="min-w-0">
-          <p className="text-[11px] text-sky-200/80">あなたの目安サイズ</p>
+          <p className="text-xs text-sky-200/80">あなたの目安サイズ</p>
           <p className="text-white">
             <span className="text-2xl font-black tabular-nums tracking-tight">{baseSize}</span>
             <span className="text-sm font-semibold text-slate-300 ml-0.5">cm前後</span>
           </p>
-          <p className="text-[11px] text-slate-400 mt-0.5">次のステップのスタイルで微調整します</p>
+          <p className="text-xs text-slate-400 mt-0.5">次のステップのスタイルで微調整します</p>
         </div>
       </div>
 

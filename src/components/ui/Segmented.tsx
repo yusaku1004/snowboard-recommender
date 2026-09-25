@@ -41,7 +41,7 @@ export function Segmented<T extends string>({ label, options, value, onChange }:
         >
           {opt.label}
           {opt.sub && (
-            <span className={`block text-[10px] font-normal mt-0.5 ${value === opt.value ? "text-sky-200/80" : "text-slate-400"}`}>
+            <span className={`block text-xs font-normal mt-0.5 ${value === opt.value ? "text-sky-200/80" : "text-slate-400"}`}>
               {opt.sub}
             </span>
           )}

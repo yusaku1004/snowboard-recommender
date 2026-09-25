@@ -16,7 +16,7 @@ export function StepIndicator({ currentStep, totalSteps }: StepIndicatorProps) {
   return (
     <div className="mb-7 [@media(max-height:720px)]:mb-4" aria-label={`ステップ ${currentStep + 1} / ${inputSteps}`}>
       <div className="flex items-baseline justify-between mb-2.5 px-0.5">
-        <span className="text-[11px] font-semibold tracking-[0.18em] text-sky-300/90">
+        <span className="text-xs font-semibold tracking-[0.18em] text-sky-300/90">
           STEP {currentStep + 1}
           <span className="text-slate-400"> / {inputSteps}</span>
         </span>

@@ -114,7 +114,7 @@ export function MetricSlider({
           className="w-full relative z-10"
         />
       </div>
-      <div className="flex justify-between text-[11px] text-slate-400 mt-2 tabular-nums">
+      <div className="flex justify-between text-xs text-slate-400 mt-2 tabular-nums">
         <span>{prefix}{format(min)}{unit}</span>
         <span>{prefix}{format(max)}{unit}</span>
       </div>

@@ -18,7 +18,7 @@ export function LevelPicker({ label, hint, icon, value, onChange }: LevelPickerP
         <div className="flex items-center gap-2 min-w-0">
           {icon && <span className="text-base leading-none">{icon}</span>}
           <span className="text-sm font-semibold text-white">{label}</span>
-          {hint && <span className="text-[11px] text-slate-400 truncate">{hint}</span>}
+          {hint && <span className="text-xs text-slate-400 truncate">{hint}</span>}
         </div>
         <span className={`flex-shrink-0 text-xs font-semibold ${value >= 4 ? "text-sky-300" : "text-slate-400"}`}>
           {LEVEL_LABELS[value - 1]}

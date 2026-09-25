@@ -351,7 +351,7 @@ function WizardInner({ initialStep, initialInput, initialFilters, initialLevel, 
       {currentStep === 0 ? (
         <header className="text-center pt-4 mb-8 [@media(max-height:720px)]:pt-0 [@media(max-height:720px)]:mb-4">
           {/* 背の低い画面（iPhone SE など）では見出しを詰め、最初の入力欄が見えるようにする */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 mb-5 rounded-full glass text-[11px] font-medium text-sky-200 [@media(max-height:720px)]:hidden">
+          <div className="inline-flex items-center gap-2 px-3 py-1 mb-5 rounded-full glass text-xs font-medium text-sky-200 [@media(max-height:720px)]:hidden">
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.9)] animate-pulse" />
             無料・登録不要
           </div>
@@ -366,7 +366,7 @@ function WizardInner({ initialStep, initialInput, initialFilters, initialLevel, 
           {!savedInput && (
             <div className="flex items-center justify-center gap-2 mt-5 [@media(max-height:720px)]:hidden">
               {["約1分", "4つの質問", "無料"].map((text) => (
-                <span key={text} className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] text-slate-300 whitespace-nowrap">
+                <span key={text} className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-slate-300 whitespace-nowrap">
                   {text}
                 </span>
               ))}

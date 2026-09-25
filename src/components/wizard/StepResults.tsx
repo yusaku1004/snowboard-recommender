@@ -114,7 +114,7 @@ const SORT_OPTIONS: { value: SortOrder; label: string }[] = [
 ];
 
 function toolTileClass(active: boolean): string {
-  return `flex flex-col items-center justify-center gap-1.5 min-w-0 px-1 py-3 rounded-2xl text-[11px] font-medium leading-tight text-center transition-all duration-200 cursor-pointer active:scale-95 ${
+  return `flex flex-col items-center justify-center gap-1.5 min-w-0 px-1 py-3 rounded-2xl text-xs font-medium leading-tight text-center transition-all duration-200 cursor-pointer active:scale-95 ${
     active
       ? "bg-sky-400/15 text-sky-200 border border-sky-300/40 shadow-[0_6px_20px_-8px_rgba(56,189,248,0.6)]"
       : "glass text-slate-300 hover:bg-white/10"
@@ -127,9 +127,35 @@ function formatYen(value: number): string {
 
 export function StepResults(props: StepResultsProps) {
   const { boards, failed, retry } = useBoards();
-  if (!boards) return <ResultsLoading failed={failed} onRetry={retry} />;
-  // Analytics: results displayed (input conditions, top board, sharedView)
-  return <StepResultsContent {...props} allBoards={boards} />;
+  return (
+    <>
+      {/* 共有URLの案内はボードデータに依存しないので、データ読み込みを待たずに表示する */}
+      {props.sharedView && <SharedResultBanner onRestart={props.onRestart} />}
+      {boards ? (
+        // Analytics: results displayed (input conditions, top board, sharedView)
+        <StepResultsContent {...props} allBoards={boards} />
+      ) : (
+        <ResultsLoading failed={failed} onRetry={retry} />
+      )}
+    </>
+  );
+}
+
+function SharedResultBanner({ onRestart }: { onRestart: () => void }) {
+  return (
+    <div className="mb-5 rounded-3xl p-4 bg-gradient-to-r from-violet-500/15 via-sky-500/10 to-cyan-400/15 border border-sky-300/25">
+      <p className="text-sm font-semibold text-white mb-1">シェアされた診断結果です</p>
+      <p className="text-xs text-slate-300 leading-relaxed mb-3">
+        下の条件で診断した結果です。あなたの体格やスタイルで診断すると、おすすめの板とサイズは変わります。
+      </p>
+      <Button onClick={onRestart} className="w-full py-3">
+        自分の条件で診断する（約1分）
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </Button>
+    </div>
+  );
 }
 
 function ResultsLoading({ failed, onRetry }: { failed: boolean; onRetry: () => void }) {
@@ -411,22 +437,8 @@ function StepResultsContent({
 
   return (
     <div>
-      {sharedView && (
-        <div className="mb-5 rounded-3xl p-4 bg-gradient-to-r from-violet-500/15 via-sky-500/10 to-cyan-400/15 border border-sky-300/25">
-          <p className="text-sm font-semibold text-white mb-1">シェアされた診断結果です</p>
-          <p className="text-xs text-slate-300 leading-relaxed mb-3">
-            下の条件で診断した結果です。あなたの体格やスタイルで診断すると、おすすめの板とサイズは変わります。
-          </p>
-          <Button onClick={onRestart} className="w-full py-3">
-            自分の条件で診断する（約1分）
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14M13 6l6 6-6 6" />
-            </svg>
-          </Button>
-        </div>
-      )}
 
-      <p className="text-[11px] font-semibold tracking-[0.18em] text-sky-300/90 mb-1">{sharedView ? "SHARED RESULT" : "RESULT"}</p>
+      <p className="text-xs font-semibold tracking-[0.18em] text-sky-300/90 mb-1">{sharedView ? "SHARED RESULT" : "RESULT"}</p>
       <h2 className="text-2xl font-bold text-white mb-3">{sharedView ? "この条件のおすすめ" : "あなたにぴったりの一本"}</h2>
 
       {/* Input summary chips */}
@@ -670,7 +682,7 @@ function StepResultsContent({
                 <div key={f.value} className="flex-1 relative">
                   <button type="button" onClick={() => toggleFlex(f.value)} className={`w-full py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-400/15 text-sky-200 border-sky-300/40" : "bg-white/[0.05] text-slate-400 border-white/10"}`}>
                     <div>{f.label}</div>
-                    <div className="text-[10px] opacity-60 mt-0.5">{f.desc}</div>
+                    <div className="text-xs opacity-60 mt-0.5">{f.desc}</div>
                   </button>
                   <div className="absolute top-1 right-1">
                     <Tooltip text={FLEX_DESCRIPTIONS[f.value]}><span /></Tooltip>
@@ -784,9 +796,9 @@ function StepResultsContent({
               <div className="grid grid-cols-2 gap-2 mb-3">
                 {[a, b].map((board, idx) => (
                   <div key={idx} className={`rounded-xl p-3 text-center border ${idx === 0 ? "bg-sky-500/10 border-sky-500/25" : "bg-violet-500/10 border-violet-500/25"}`}>
-                    <p className={`text-[10px] font-medium mb-0.5 ${idx === 0 ? "text-sky-400" : "text-violet-400"}`}>{board.brand}</p>
+                    <p className={`text-xs font-medium mb-0.5 ${idx === 0 ? "text-sky-400" : "text-violet-400"}`}>{board.brand}</p>
                     <p className="text-white text-xs font-bold leading-tight">{board.model}</p>
-                    <p className="text-slate-400 text-[10px] mt-0.5">{board.year}</p>
+                    <p className="text-slate-400 text-xs mt-0.5">{board.year}</p>
                   </div>
                 ))}
               </div>
@@ -795,7 +807,7 @@ function StepResultsContent({
                 {rows.map((row) => (
                   <div key={row.label} className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
                     <div className={`text-xs text-right px-2.5 py-2 rounded-xl bg-white/[0.05] ${row.valA === row.valB ? "text-slate-400" : "text-sky-300 font-medium"}`}>{row.valA}</div>
-                    <span className="text-[10px] text-slate-400 text-center w-16 flex-shrink-0">{row.label}</span>
+                    <span className="text-xs text-slate-400 text-center w-16 flex-shrink-0">{row.label}</span>
                     <div className={`text-xs text-left px-2.5 py-2 rounded-xl bg-white/[0.05] ${row.valA === row.valB ? "text-slate-400" : "text-violet-300 font-medium"}`}>{row.valB}</div>
                   </div>
                 ))}
@@ -818,12 +830,12 @@ function StepResultsContent({
           <div className="bg-[#0f1830]/85 backdrop-blur-xl border border-white/15 rounded-2xl px-4 py-3 shadow-2xl flex items-center gap-3">
             <div className="flex gap-2 flex-1 min-w-0">
               {compareBoards.map((b, i) => (
-                <div key={i} className={`flex-1 min-w-0 px-2 py-1 rounded-lg text-[10px] truncate border ${i === 0 ? "bg-sky-500/10 border-sky-500/20 text-sky-300" : "bg-violet-500/10 border-violet-500/20 text-violet-300"}`}>
+                <div key={i} className={`flex-1 min-w-0 px-2 py-1 rounded-lg text-xs truncate border ${i === 0 ? "bg-sky-500/10 border-sky-500/20 text-sky-300" : "bg-violet-500/10 border-violet-500/20 text-violet-300"}`}>
                   <span className="font-medium">{b.brand}</span> {b.model}
                 </div>
               ))}
               {compareBoards.length === 1 && (
-                <div className="flex-1 px-2 py-1 rounded-lg text-[10px] border border-dashed border-white/20 text-slate-400 flex items-center justify-center">
+                <div className="flex-1 px-2 py-1 rounded-lg text-xs border border-dashed border-white/20 text-slate-400 flex items-center justify-center">
                   もう1枚選ぶ
                 </div>
               )}
@@ -870,7 +882,7 @@ function StepResultsContent({
           </svg>
           お気に入り
           {favoriteCount > 0 && (
-            <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">{favoriteCount}</span>
+            <span className="bg-rose-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full leading-none">{favoriteCount}</span>
           )}
         </button>
       </div>
@@ -1026,7 +1038,7 @@ function StepResultsContent({
       )}
 
       {/* Share buttons */}
-      <p className="text-[11px] font-semibold tracking-wider text-slate-400 mb-2">結果をシェア</p>
+      <p className="text-xs font-semibold tracking-wider text-slate-400 mb-2">結果をシェア</p>
       <div className="grid grid-cols-2 gap-2 mb-4">
         <button
           onClick={handleCopyUrl}

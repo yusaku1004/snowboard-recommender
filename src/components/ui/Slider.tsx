@@ -42,7 +42,7 @@ export function Slider({
       <div className="flex justify-between items-baseline mb-3">
         <div className="flex items-baseline gap-1.5">
           <label className="text-sm font-semibold text-white">{label}</label>
-          {hint && <span className="text-[10px] text-slate-400">{hint}</span>}
+          {hint && <span className="text-xs text-slate-400">{hint}</span>}
         </div>
         <span className="text-xl font-black text-white tabular-nums tracking-tight">
           {displayValue}
@@ -71,6 +71,8 @@ export function Slider({
             step={step}
             value={value}
             onChange={(e) => onChange(Math.max(min, Number(e.target.value)))}
+            aria-label={label}
+            aria-valuetext={displayValue}
             className="w-full relative z-10"
           />
         </div>
@@ -84,7 +86,7 @@ export function Slider({
           ＋
         </button>
       </div>
-      <div className="flex justify-between text-[11px] text-slate-400 mt-1.5 px-[3.25rem] tabular-nums">
+      <div className="flex justify-between text-xs text-slate-400 mt-1.5 px-[3.25rem] tabular-nums">
         <span>{startLabel ?? (formatValue ? formatValue(min) : `${min}${unit}`)}</span>
         <span>{endLabel ?? (formatValue ? formatValue(max) : `${max}${unit}`)}</span>
       </div>

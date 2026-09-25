@@ -86,7 +86,7 @@ export function MyBoardSelector({ boards, selectedBoard, onSelect, triggerClassN
         {!search && (
           <div className="flex flex-wrap gap-1.5 mb-3">
             <button type="button" onClick={() => setBrandFilter(null)}
-              className={`px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-all cursor-pointer border ${
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer border ${
                 !brandFilter
                   ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
                   : "bg-white/[0.05] text-slate-400 border-white/10"
@@ -99,7 +99,7 @@ export function MyBoardSelector({ boards, selectedBoard, onSelect, triggerClassN
                 type="button"
                 key={brand}
                 onClick={() => setBrandFilter(brand === brandFilter ? null : brand)}
-                className={`px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-all cursor-pointer border ${
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer border ${
                   brand === brandFilter
                     ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
                     : "bg-white/[0.05] text-slate-400 border-white/10"
@@ -130,7 +130,7 @@ export function MyBoardSelector({ boards, selectedBoard, onSelect, triggerClassN
                 }`}
               >
                 <div className="text-left">
-                  <span className="text-[10px] text-slate-400">{board.brand}</span>
+                  <span className="text-xs text-slate-400">{board.brand}</span>
                   <p className="font-medium text-sm">{board.model}</p>
                 </div>
                 {isSelected && (

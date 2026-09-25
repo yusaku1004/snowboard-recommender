@@ -147,7 +147,7 @@ function ReasonChips({ reasons }: { reasons: string[] }) {
   return (
     <div className="flex flex-wrap gap-1">
       {reasons.map((reason) => (
-        <span key={reason} className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-200 bg-emerald-400/10 border border-emerald-300/20 px-1.5 py-0.5 rounded-md">
+        <span key={reason} className="inline-flex items-center gap-1 text-xs font-medium text-emerald-200 bg-emerald-400/10 border border-emerald-300/20 px-1.5 py-0.5 rounded-md">
           <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round">
             <path d="M5 13l4 4L19 7" />
           </svg>
@@ -187,25 +187,14 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
 
   return (
     <div
-      className={`fade-in-up overflow-hidden transition-all duration-300 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sky-300/80 ${
+      className={`fade-in-up overflow-hidden transition-all duration-300 cursor-pointer ${
         featured
           ? "glass-strong glow-border rounded-[28px]"
           : "glass rounded-3xl hover:bg-white/[0.08]"
       }`}
       style={{ animationDelay: `${(rank - 1) * 80}ms` }}
+      // カードのどこをタップしても開閉できる（キーボード・読み上げ向けには下の開閉ボタンを用意）
       onClick={() => setExpanded(!expanded)}
-      // キーボード（Tab で移動 → Enter / Space）でも詳細を開閉できるようにする
-      role="button"
-      tabIndex={0}
-      aria-expanded={expanded}
-      aria-label={`${rank}位 ${board.brand} ${board.model}、マッチ度${matchPercentage}%。${expanded ? "詳細を閉じる" : "詳細を開く"}`}
-      onKeyDown={(e) => {
-        if (e.target !== e.currentTarget) return;
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          setExpanded(!expanded);
-        }
-      }}
     >
       {featured ? (
         <div className="relative p-5">
@@ -213,16 +202,16 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
           <div className="absolute -top-16 -left-10 w-48 h-48 rounded-full bg-sky-500/25 blur-3xl pointer-events-none" />
 
           <div className="relative flex items-center justify-between mb-4">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-amber-300 to-yellow-500 text-amber-950 text-[10px] font-black tracking-wider shadow-[0_0_16px_rgba(251,191,36,0.4)]">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-amber-300 to-yellow-500 text-amber-950 text-xs font-black tracking-wider shadow-[0_0_16px_rgba(251,191,36,0.4)]">
               <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.9L22 9.6l-5.4 4.8L18.2 22 12 18.3 5.8 22l1.6-7.6L2 9.6l7.1-.7z" /></svg>
               {featuredLabel}
             </span>
             <div className="flex items-center gap-1">
               {budgetLabel === "over" && (
-                <span className="text-[10px] bg-red-500/15 text-red-300 px-2 py-0.5 rounded-full font-medium">予算オーバー</span>
+                <span className="text-xs bg-red-500/15 text-red-300 px-2 py-0.5 rounded-full font-medium">予算オーバー</span>
               )}
               {budgetLabel === "sale_possible" && (
-                <span className="text-[10px] bg-yellow-500/15 text-yellow-300 px-2 py-0.5 rounded-full font-medium">セールで予算内</span>
+                <span className="text-xs bg-yellow-500/15 text-yellow-300 px-2 py-0.5 rounded-full font-medium">セールで予算内</span>
               )}
               {onToggleFavorite && (
                 <button
@@ -262,7 +251,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               ) : (
                 <div className={`w-full h-full bg-gradient-to-b ${getBrandColor(board.brand)} flex items-center justify-center relative`}>
                   <div className="absolute inset-x-2 top-3 bottom-3 rounded-full border border-white/25" />
-                  <span className="[writing-mode:vertical-rl] text-white font-black text-[11px] tracking-[0.2em] drop-shadow">
+                  <span className="[writing-mode:vertical-rl] text-white font-black text-xs tracking-[0.2em] drop-shadow">
                     {board.brand}
                   </span>
                 </div>
@@ -276,10 +265,10 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               <h3 className="text-xl font-black text-white leading-tight mt-0.5 mb-2 break-words">{board.model}</h3>
               <div className="flex flex-wrap gap-1">
                 <Tooltip text={SHAPE_DESCRIPTIONS[board.shape] ?? ""} align="start">
-                  <span className="text-[10px] text-slate-300 bg-white/[0.07] px-1.5 py-0.5 rounded-md">{SHAPE_LABELS[board.shape] || board.shape}</span>
+                  <span className="text-xs text-slate-300 bg-white/[0.07] px-1.5 py-0.5 rounded-md">{SHAPE_LABELS[board.shape] || board.shape}</span>
                 </Tooltip>
                 {reasons.length === 0 && topStyleTag && (
-                  <span className="text-[10px] text-sky-300 bg-sky-400/15 px-1.5 py-0.5 rounded-md">{topStyleTag}◎</span>
+                  <span className="text-xs text-sky-300 bg-sky-400/15 px-1.5 py-0.5 rounded-md">{topStyleTag}◎</span>
                 )}
               </div>
             </div>
@@ -287,7 +276,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
             <div className="flex flex-col items-center gap-1">
               <MatchRing value={matchPercentage} />
               <Tooltip text={MATCH_DESCRIPTION} align="end">
-                <span className="text-[10px] text-slate-400">マッチ度とは</span>
+                <span className="text-xs text-slate-400">マッチ度とは</span>
               </Tooltip>
             </div>
           </div>
@@ -313,7 +302,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               },
             ].map((stat) => (
               <div key={stat.label} className="rounded-2xl bg-white/[0.05] border border-white/[0.08] px-3 py-2.5">
-                <div className="text-[10px] text-slate-400 mb-0.5">
+                <div className="text-xs text-slate-400 mb-0.5">
                   {stat.help ? (
                     <Tooltip text={stat.help} align={stat.align}>
                       <span>{stat.label}</span>
@@ -324,9 +313,9 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 </div>
                 <p className="text-white font-bold tabular-nums leading-tight">
                   <span className="text-lg">{stat.value}</span>
-                  <span className="text-[10px] text-slate-400 ml-0.5">{stat.unit}</span>
+                  <span className="text-xs text-slate-400 ml-0.5">{stat.unit}</span>
                 </p>
-                {stat.sub && <p className="text-[10px] text-slate-400 line-through tabular-nums mt-0.5">{stat.sub}</p>}
+                {stat.sub && <p className="text-xs text-slate-400 line-through tabular-nums mt-0.5">{stat.sub}</p>}
               </div>
             ))}
           </div>
@@ -337,12 +326,17 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
             </div>
           )}
 
-          <div className="relative flex items-center justify-center gap-1 mt-4 text-xs text-slate-400">
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setExpanded(!expanded); }}
+            aria-expanded={expanded}
+            className="relative w-full flex items-center justify-center gap-1 mt-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sky-300/80"
+          >
             {expanded ? "閉じる" : "詳細・購入リンクを見る"}
             <svg className={`w-3.5 h-3.5 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
-          </div>
+          </button>
         </div>
       ) : (
       <div className="p-4">
@@ -362,7 +356,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               />
             ) : (
               <div className={`w-full h-full bg-gradient-to-br ${getBrandColor(board.brand)} flex items-center justify-center p-1 rounded-xl`}>
-                <span className={`text-white font-black leading-tight text-center break-words drop-shadow-sm ${board.brand.length > 6 ? "text-[8px]" : "text-[10px]"}`}>
+                <span className={`text-white font-black leading-tight text-center break-words drop-shadow-sm ${board.brand.length > 6 ? "text-[8px]" : "text-xs"}`}>
                   {board.brand}
                 </span>
               </div>
@@ -373,14 +367,14 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs text-slate-400 font-medium">{board.brand}</span>
-              <span className="text-[10px] text-slate-400">{board.year}</span>
+              <span className="text-xs text-slate-400">{board.year}</span>
               {budgetLabel === "over" && (
-                <span className="text-[10px] bg-red-500/15 text-red-400 px-2 py-0.5 rounded-full font-medium">
+                <span className="text-xs bg-red-500/15 text-red-400 px-2 py-0.5 rounded-full font-medium">
                   予算オーバー
                 </span>
               )}
               {budgetLabel === "sale_possible" && (
-                <span className="text-[10px] bg-yellow-500/15 text-yellow-400 px-2 py-0.5 rounded-full font-medium">
+                <span className="text-xs bg-yellow-500/15 text-yellow-400 px-2 py-0.5 rounded-full font-medium">
                   セールで予算内
                 </span>
               )}
@@ -407,19 +401,19 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               <span>
                 <span className="text-slate-200 font-medium">¥{estimatedPrice.toLocaleString()}</span>
                 {hasDiscount && (
-                  <span className="ml-1 text-[10px] text-slate-400 line-through">¥{board.price.toLocaleString()}</span>
+                  <span className="ml-1 text-xs text-slate-400 line-through">¥{board.price.toLocaleString()}</span>
                 )}
               </span>
             </div>
             <div className="flex flex-wrap gap-1 mt-1.5">
-              <span className="text-[10px] text-slate-400 bg-white/[0.07] px-1.5 py-0.5 rounded-md">
+              <span className="text-xs text-slate-400 bg-white/[0.07] px-1.5 py-0.5 rounded-md">
                 {SHAPE_LABELS[board.shape] || board.shape}
               </span>
-              <span className="text-[10px] text-slate-400 bg-white/[0.07] px-1.5 py-0.5 rounded-md">
+              <span className="text-xs text-slate-400 bg-white/[0.07] px-1.5 py-0.5 rounded-md">
                 硬さ {flexLabel(board.flex)}
               </span>
               {reasons.length === 0 && topStyleTag && (
-                <span className="text-[10px] text-sky-400 bg-sky-500/10 px-1.5 py-0.5 rounded-md">
+                <span className="text-xs text-sky-400 bg-sky-500/10 px-1.5 py-0.5 rounded-md">
                   {topStyleTag}◎
                 </span>
               )}
@@ -433,8 +427,8 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); onToggleFavorite(board); }}
-                className={`flex flex-col items-center gap-0.5 px-1 py-1 rounded-lg transition-colors cursor-pointer text-[9px] ${isFavorite ? "text-rose-300" : "text-slate-400 hover:text-rose-300"}`}
-                aria-label={isFavorite ? "お気に入りを解除" : "お気に入りに追加"}
+                className={`flex flex-col items-center gap-0.5 px-1 py-1 rounded-lg transition-colors cursor-pointer text-[10px] ${isFavorite ? "text-rose-300" : "text-slate-400 hover:text-rose-300"}`}
+                aria-label={isFavorite ? "保存済み（お気に入りから外す）" : "保存（お気に入りに追加）"}
               >
                 <svg
                   className={`w-4 h-4 transition-colors ${isFavorite ? "text-rose-400 fill-rose-400" : "text-slate-400 fill-none hover:text-rose-400"}`}
@@ -451,8 +445,8 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); onToggleCompare(board); }}
-                className={`flex flex-col items-center gap-0.5 px-1 py-1 rounded-lg transition-colors cursor-pointer text-[9px] ${isComparing ? "text-emerald-300" : "text-slate-400 hover:text-emerald-300"}`}
-                aria-label={isComparing ? "比較から外す" : "比較に追加"}
+                className={`flex flex-col items-center gap-0.5 px-1 py-1 rounded-lg transition-colors cursor-pointer text-[10px] ${isComparing ? "text-emerald-300" : "text-slate-400 hover:text-emerald-300"}`}
+                aria-label={isComparing ? "比較中（比較から外す）" : "比較（比較に追加）"}
               >
                 <svg
                   className={`w-4 h-4 transition-colors ${isComparing ? "text-emerald-400" : "text-slate-400 hover:text-emerald-400"}`}
@@ -469,14 +463,22 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 {isComparing ? "比較中" : "比較"}
               </button>
             )}
-            <svg
-              className={`w-4 h-4 text-slate-400 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setExpanded(!expanded); }}
+              aria-expanded={expanded}
+              aria-label={`${board.brand} ${board.model}の詳細を${expanded ? "閉じる" : "開く"}`}
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-white cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sky-300/80"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+              <svg
+                className={`w-4 h-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
           </div>
         </div>
         {reasons.length > 0 && (
@@ -497,7 +499,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
             <div className="bg-white/[0.04] rounded-xl p-3">
               <div className="flex items-center justify-between gap-1 mb-0.5">
                 <span className="text-xs text-slate-400">価格</span>
-                <span className="text-[10px] font-semibold bg-sky-500/15 text-sky-400 px-1.5 py-0.5 rounded-full">
+                <span className="text-xs font-semibold bg-sky-500/15 text-sky-400 px-1.5 py-0.5 rounded-full">
                   {getDiscountLabel(board.year)}
                 </span>
               </div>
@@ -509,7 +511,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                   <p className="text-sky-400 font-semibold">
                     ¥{estimatedPrice.toLocaleString()}
                     {yearsOldLabel && (
-                      <span className="text-[10px] text-slate-400 ml-1">
+                      <span className="text-xs text-slate-400 ml-1">
                         ({yearsOldLabel})
                       </span>
                     )}
@@ -591,7 +593,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                       vs {flexLabel(myBoard.flex)}({myBoard.flex})
                     </span>
                   </p>
-                  <p className="text-[10px] text-slate-400 mt-0.5">
+                  <p className="text-xs text-slate-400 mt-0.5">
                     {getFlexDiff(board.flex, myBoard.flex)}
                   </p>
                 </div>
@@ -601,11 +603,11 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                     {SHAPE_LABELS[board.shape]}
                   </p>
                   {board.shape !== myBoard.shape ? (
-                    <p className="text-[10px] text-orange-400 mt-0.5">
+                    <p className="text-xs text-orange-400 mt-0.5">
                       {SHAPE_LABELS[myBoard.shape]} → {SHAPE_LABELS[board.shape]}
                     </p>
                   ) : (
-                    <p className="text-[10px] text-slate-400 mt-0.5">同じ形状</p>
+                    <p className="text-xs text-slate-400 mt-0.5">同じ形状</p>
                   )}
                 </div>
               </div>
