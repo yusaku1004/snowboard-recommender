@@ -145,6 +145,7 @@ function formatYen(value: number): string {
 export function StepResults(props: StepResultsProps) {
   const { boards, failed, retry } = useBoards();
   if (!boards) return <ResultsLoading failed={failed} onRetry={retry} />;
+  // Analytics: results displayed (input conditions, top board, sharedView)
   return <StepResultsContent {...props} allBoards={boards} />;
 }
 
@@ -399,6 +400,7 @@ function StepResultsContent({
   }, [isFavorite, toggleFavorite]);
 
   const handleCopyUrl = async () => {
+    // Analytics: share button pressed (method: copy_link)
     const url = getShareUrl(adjustedInput, currentFilters);
     try {
       await navigator.clipboard.writeText(url);
@@ -417,6 +419,7 @@ function StepResultsContent({
   };
 
   const handleTwitterShare = () => {
+    // Analytics: share button pressed (method: x)
     const topBoard = overallResults[0];
     if (!topBoard) return;
     const url = getTwitterShareUrl(adjustedInput, `${topBoard.board.brand} ${topBoard.board.model}`, currentFilters);
