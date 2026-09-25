@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SnowParticles } from "@/components/ui/SnowParticles";
 import { MountainSilhouette } from "@/components/ui/MountainSilhouette";
 import { SITE_URL } from "@/lib/constants";
+import { Analytics } from "@vercel/analytics/next";
+import { SiteFooter } from "@/components/SiteFooter";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -62,7 +64,7 @@ export const metadata: Metadata = {
       "身長・体重・滑走スタイルを入力するだけで、85ブランド1,000本以上の2026年モデルから最適なスノーボードとサイズを無料でレコメンド。",
     images: [
       {
-        url: "/opengraph-image",
+        url: "/og",
         width: 1200,
         height: 630,
         alt: "スノーボード診断 - 85ブランド1,000本以上からあなたにぴったりの板を見つけよう",
@@ -75,7 +77,7 @@ export const metadata: Metadata = {
     title: "スノーボード診断 | 85ブランド1,000本以上からぴったりの板を提案",
     description:
       "身長・体重・滑走スタイルを入力するだけで、85ブランド1,000本以上の2026年モデルから最適なスノーボードとサイズを無料でレコメンド。",
-    images: ["/opengraph-image"],
+    images: ["/og"],
   },
 };
 
@@ -121,6 +123,8 @@ export default function RootLayout({
         <SnowParticles />
         <MountainSilhouette />
         {children}
+        <SiteFooter />
+        <Analytics />
       </body>
     </html>
   );

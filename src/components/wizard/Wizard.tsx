@@ -5,6 +5,7 @@ import { StyleScores, UserInput, GenderPreference, SkillLevel, BootSize, Shape, 
 import { FilterState } from "@/lib/share";
 import { useLocalStorageItem, writeLocalStorage } from "@/hooks/useLocalStorage";
 import { loadBoards } from "@/hooks/useBoards";
+import { trackEvent } from "@/lib/analytics";
 import { StepIndicator } from "@/components/ui/StepIndicator";
 import { StepPhysique } from "./StepPhysique";
 import { StepStyle } from "./StepStyle";
@@ -13,6 +14,7 @@ import { StepBrands } from "./StepBrands";
 import { StepResults } from "./StepResults";
 
 const TOTAL_STEPS = 5;
+const STEP_EVENT_NAMES = ["profile", "style", "budget", "preferences", "result"];
 const STORAGE_KEY = "snowboard_last_input_v1";
 
 // ステップをブラウザ履歴に積み、端末の「戻る」操作でも前のステップに戻れるようにする。
@@ -254,7 +256,6 @@ function WizardInner({ initialStep, initialInput, initialFilters, initialLevel, 
       setDirection(step < stepRef.current ? "backward" : "forward");
       setCurrentStep(step);
       window.scrollTo({ top: 0, behavior: "smooth" });
-      // Analytics: step transition via browser history
     };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
@@ -269,7 +270,6 @@ function WizardInner({ initialStep, initialInput, initialFilters, initialLevel, 
 
   const goForward = useCallback(() => {
     goToStep(Math.min(stepRef.current + 1, TOTAL_STEPS - 1));
-    // Analytics: step transition forward
   }, [goToStep]);
 
   const goBack = useCallback(() => {
@@ -281,8 +281,12 @@ function WizardInner({ initialStep, initialInput, initialFilters, initialLevel, 
       setCurrentStep((s) => Math.max(s - 1, 0));
       scrollToTop();
     }
-    // Analytics: step transition backward
   }, [scrollToTop]);
+
+  // Analytics: ステップ表示（進む・戻る・ブラウザ履歴・復元のすべてを含む。離脱ステップの把握用）
+  useEffect(() => {
+    trackEvent("step_view", { step: STEP_EVENT_NAMES[currentStep] });
+  }, [currentStep]);
 
   const handleStyleChange = useCallback((key: keyof StyleScores, value: number) => {
     setStyle((prev) => ({ ...prev, [key]: value }));

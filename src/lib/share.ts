@@ -137,3 +137,7 @@ export function getTwitterShareUrl(input: UserInput, topBoardName: string, filte
   const text = `スノーボード診断で「${topBoardName}」がおすすめされました！あなたもぴったりの板を見つけよう`;
   return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
 }
+
+export function getLineShareUrl(input: UserInput, filters?: FilterState): string {
+  return `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(getShareUrl(input, filters))}`;
+}

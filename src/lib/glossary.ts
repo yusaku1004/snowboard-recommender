@@ -1,3 +1,12 @@
+export const SHAPE_LABELS: Record<string, string> = {
+  camber: "キャンバー",
+  rocker: "ロッカー",
+  flat: "フラット",
+  hybrid_camber: "ハイブリッドキャンバー",
+  hybrid_rocker: "ハイブリッドロッカー",
+  double_camber: "ダブルキャンバー",
+};
+
 export const SHAPE_DESCRIPTIONS: Record<string, string> = {
   camber: "板の中央が弓なりに反った形状。エッジグリップが強くカービングに最適。しっかりしたポップ感も得られる。",
   rocker: "板の中央が地面に接し、両端が浮いた形状。ルーズで取り回しが良く、グラトリやパウダーで扱いやすい。",

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { decodeFilters, decodeInput, encodeInput, getTwitterShareUrl } from "../share";
+import { decodeFilters, decodeInput, encodeInput, getLineShareUrl, getTwitterShareUrl } from "../share";
 import { makeInput, makeStyle } from "./helpers";
 
 describe("encodeInput / decodeInput", () => {
@@ -62,5 +62,15 @@ describe("getTwitterShareUrl", () => {
     expect(shared.searchParams.get("brands")).toBe("BURTON");
     expect(shared.searchParams.get("flex")).toBe("soft");
     expect(tweet.searchParams.get("text")).toContain("BURTON Custom");
+  });
+});
+
+describe("getLineShareUrl", () => {
+  it("LINE の共有URLに診断条件と絞り込みを含む共有リンクを渡す", () => {
+    const line = new URL(getLineShareUrl(makeInput({ height: 181 }), { brands: new Set(["K2"]), shapes: null, flex: null, priceRanges: null }));
+    expect(line.origin + line.pathname).toBe("https://social-plugins.line.me/lineit/share");
+    const shared = new URL(line.searchParams.get("url")!, "https://example.com");
+    expect(shared.searchParams.get("h")).toBe("181");
+    expect(shared.searchParams.get("brands")).toBe("K2");
   });
 });

@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect, useRef } from "react";
 import { UserInput, SkillLevel, BootSize, Board, Shape, FlexCategory, PriceRange, StyleScores, RecommendResult } from "@/types";
 import { getRecommendations, getSimilarBoards, getStyleRecommendations, estimateDiscountedPrice } from "@/lib/recommend";
-import { getShareUrl, getTwitterShareUrl, FilterState } from "@/lib/share";
+import { getLineShareUrl, getShareUrl, getTwitterShareUrl, FilterState } from "@/lib/share";
 import { BoardCard } from "@/components/results/BoardCard";
 import { AiExplanation } from "@/components/results/AiExplanation";
 import { RadarChart } from "@/components/results/LazyRadarChart";
@@ -15,6 +15,8 @@ import { LevelPicker } from "@/components/ui/LevelPicker";
 import { Segmented } from "@/components/ui/Segmented";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { matchesBrand } from "@/lib/brandSearch";
+import { applyFilters } from "@/lib/filters";
+import { trackEvent } from "@/lib/analytics";
 import { STYLE_ICONS, STYLE_KEYS, STYLE_LABELS, getStyleSummary } from "@/lib/styles";
 import { useFavorites } from "@/hooks/useFavorites";
 import { Tooltip } from "@/components/ui/Tooltip";
@@ -61,14 +63,6 @@ const STYLE_CHIPS: { key: keyof StyleScores | null; label: string; emoji: string
   ...STYLE_KEYS.map((key) => ({ key, label: STYLE_LABELS[key], emoji: STYLE_ICONS[key] })),
 ];
 
-function matchesPriceRange(estimatedPrice: number, ranges: Set<PriceRange>): boolean {
-  if (ranges.has("under50") && estimatedPrice < 50000) return true;
-  if (ranges.has("50to80") && estimatedPrice >= 50000 && estimatedPrice < 80000) return true;
-  if (ranges.has("80to100") && estimatedPrice >= 80000 && estimatedPrice < 100000) return true;
-  if (ranges.has("over100") && estimatedPrice >= 100000) return true;
-  return false;
-}
-
 interface StepResultsProps {
   input: UserInput;
   onRestart: () => void;
@@ -79,20 +73,6 @@ interface StepResultsProps {
   initialShapes?: Set<Shape> | null;
   initialFlex?: Set<FlexCategory> | null;
   initialPriceRanges?: Set<PriceRange> | null;
-}
-
-const FLEX_RANGES: Record<FlexCategory, [number, number]> = {
-  soft: [1, 3],
-  mid: [4, 6],
-  hard: [7, 10],
-};
-
-function matchesFlex(flex: number, categories: Set<FlexCategory>): boolean {
-  for (const cat of categories) {
-    const [min, max] = FLEX_RANGES[cat];
-    if (flex >= min && flex <= max) return true;
-  }
-  return false;
 }
 
 const STYLE_ITEMS: { key: keyof StyleScores; label: string }[] = [
@@ -113,6 +93,9 @@ const SORT_OPTIONS: { value: SortOrder; label: string }[] = [
   { value: "flex_desc", label: "硬い順" },
 ];
 
+const shareTileClass =
+  "flex flex-col items-center justify-center gap-1.5 min-w-0 px-1 py-3 rounded-2xl text-xs font-medium leading-tight text-center transition-all duration-200 cursor-pointer active:scale-95 glass text-slate-200 hover:bg-white/10";
+
 function toolTileClass(active: boolean): string {
   return `flex flex-col items-center justify-center gap-1.5 min-w-0 px-1 py-3 rounded-2xl text-xs font-medium leading-tight text-center transition-all duration-200 cursor-pointer active:scale-95 ${
     active
@@ -132,7 +115,6 @@ export function StepResults(props: StepResultsProps) {
       {/* 共有URLの案内はボードデータに依存しないので、データ読み込みを待たずに表示する */}
       {props.sharedView && <SharedResultBanner onRestart={props.onRestart} />}
       {boards ? (
-        // Analytics: results displayed (input conditions, top board, sharedView)
         <StepResultsContent {...props} allBoards={boards} />
       ) : (
         <ResultsLoading failed={failed} onRetry={retry} />
@@ -304,19 +286,17 @@ function StepResultsContent({
   }, [allBoards, adjustedInput, isFavorite]);
 
   // フィルター適用後のボード一覧（共通）
-  const filteredBoards = useMemo(() => {
-    let filtered = allBoards;
-    if (!allBrandsSelected) filtered = filtered.filter((b) => selectedBrands!.has(b.brand));
-    if (!allShapesSelected) filtered = filtered.filter((b) => selectedShapes!.has(b.shape));
-    if (!allFlexSelected) filtered = filtered.filter((b) => matchesFlex(b.flex, selectedFlex!));
-    if (!allPriceRangesSelected) {
-      filtered = filtered.filter((b) =>
-        matchesPriceRange(estimateDiscountedPrice(b.price, b.year), selectedPriceRanges!)
-      );
-    }
-    if (!allYearsSelected) filtered = filtered.filter((b) => selectedYears!.has(b.year));
-    return filtered;
-  }, [allBoards, allBrandsSelected, selectedBrands, allShapesSelected, selectedShapes, allFlexSelected, selectedFlex, allPriceRangesSelected, selectedPriceRanges, allYearsSelected, selectedYears]);
+  const filteredBoards = useMemo(
+    () =>
+      applyFilters(allBoards, {
+        brands: selectedBrands,
+        shapes: selectedShapes,
+        flex: selectedFlex,
+        priceRanges: selectedPriceRanges,
+        years: selectedYears,
+      }),
+    [allBoards, selectedBrands, selectedShapes, selectedFlex, selectedPriceRanges, selectedYears]
+  );
 
   // 総合マッチ結果
   const overallResults = useMemo(
@@ -342,6 +322,20 @@ function StepResultsContent({
       return 0;
     });
   }, [results, sortOrder]);
+
+  // Analytics: 診断結果の表示（最初の1回だけ）
+  const resultTracked = useRef(false);
+  useEffect(() => {
+    if (resultTracked.current) return;
+    resultTracked.current = true;
+    const top = overallResults[0];
+    trackEvent("result_view", {
+      level: adjustedInput.level,
+      style: getStyleSummary(adjustedInput.style),
+      shared: sharedView,
+      top_board: top ? `${top.board.brand} ${top.board.model}` : null,
+    });
+  }, [overallResults, adjustedInput, sharedView]);
 
   // 選択中のタブ（総合 / スタイル別）の1位をヒーローとして上部に表示し、同じ並びのリストからは除く
   const heroResult = (resultStyle ? styleResults[0] : overallResults[0]) ?? null;
@@ -409,7 +403,7 @@ function StepResultsContent({
   }, [isFavorite, toggleFavorite]);
 
   const handleCopyUrl = async () => {
-    // Analytics: share button pressed (method: copy_link)
+    trackEvent("share", { method: "copy_link" });
     const url = getShareUrl(adjustedInput, currentFilters);
     try {
       await navigator.clipboard.writeText(url);
@@ -427,8 +421,29 @@ function StepResultsContent({
     }
   };
 
+  // スマホでは端末の共有シート（LINE・Instagram などを含む）を使い、非対応ならリンクをコピー
+  const canNativeShare = typeof navigator !== "undefined" && typeof navigator.share === "function";
+  const handleNativeShare = async () => {
+    const topBoard = overallResults[0];
+    trackEvent("share", { method: "native" });
+    try {
+      await navigator.share({
+        title: "スノーボード診断",
+        text: topBoard ? `スノーボード診断で「${topBoard.board.brand} ${topBoard.board.model}」がおすすめされました！` : "スノーボード診断",
+        url: getShareUrl(adjustedInput, currentFilters),
+      });
+    } catch {
+      // キャンセル時などは何もしない
+    }
+  };
+
+  const handleLineShare = () => {
+    trackEvent("share", { method: "line" });
+    window.open(getLineShareUrl(adjustedInput, currentFilters), "_blank", "noopener,noreferrer");
+  };
+
   const handleTwitterShare = () => {
-    // Analytics: share button pressed (method: x)
+    trackEvent("share", { method: "x" });
     const topBoard = overallResults[0];
     if (!topBoard) return;
     const url = getTwitterShareUrl(adjustedInput, `${topBoard.board.brand} ${topBoard.board.model}`, currentFilters);
@@ -437,7 +452,6 @@ function StepResultsContent({
 
   return (
     <div>
-
       <p className="text-xs font-semibold tracking-[0.18em] text-sky-300/90 mb-1">{sharedView ? "SHARED RESULT" : "RESULT"}</p>
       <h2 className="text-2xl font-bold text-white mb-3">{sharedView ? "この条件のおすすめ" : "あなたにぴったりの一本"}</h2>
 
@@ -1039,28 +1053,43 @@ function StepResultsContent({
 
       {/* Share buttons */}
       <p className="text-xs font-semibold tracking-wider text-slate-400 mb-2">結果をシェア</p>
-      <div className="grid grid-cols-2 gap-2 mb-4">
-        <button
-          onClick={handleCopyUrl}
-          className={`flex-1 flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl text-sm font-medium transition-all duration-200 cursor-pointer ${
-            copied ? "bg-emerald-500/15 text-emerald-300 border border-emerald-400/30" : "glass text-slate-200 hover:bg-white/10"
-          }`}
-        >
-          {copied ? (
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-          ) : (
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
-          )}
-          {copied ? "コピーしました" : "リンクをコピー"}
-        </button>
-        <button
-          onClick={handleTwitterShare}
-          className="flex-1 flex items-center justify-center gap-2 glass text-slate-200 hover:bg-white/10 px-4 py-3.5 rounded-2xl transition-all duration-200 cursor-pointer text-sm font-medium"
-        >
-          <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+      <div className="grid grid-cols-3 gap-2 mb-4">
+        {canNativeShare ? (
+          <button type="button" onClick={handleNativeShare} className={shareTileClass}>
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v12m0-12l-4 4m4-4l4 4M5 13v6a2 2 0 002 2h10a2 2 0 002-2v-6" />
+            </svg>
+            共有する
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={handleCopyUrl}
+            className={copied ? `${shareTileClass} !bg-emerald-500/15 !text-emerald-300 !border-emerald-400/30` : shareTileClass}
+          >
+            {copied ? (
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+            ) : (
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
+            )}
+            {copied ? "コピー済み" : "リンクをコピー"}
+          </button>
+        )}
+        <button type="button" onClick={handleTwitterShare} className={shareTileClass}>
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
           </svg>
           Xでシェア
+        </button>
+        <button
+          type="button"
+          onClick={handleLineShare}
+          className={`${shareTileClass} !bg-[#06C755]/15 !border-[#06C755]/40 !text-[#7ee2a8] hover:!bg-[#06C755]/25`}
+        >
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 3C6.48 3 2 6.58 2 11c0 3.96 3.55 7.28 8.35 7.9.33.07.77.22.88.5.1.26.07.65.03.9l-.14.86c-.04.26-.2 1 .88.55 1.08-.46 5.83-3.43 7.95-5.88C21.43 14.22 22 12.68 22 11c0-4.42-4.48-8-10-8z" />
+          </svg>
+          LINEで送る
         </button>
       </div>
 
