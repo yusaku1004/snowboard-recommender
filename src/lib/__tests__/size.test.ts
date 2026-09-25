@@ -44,3 +44,11 @@ describe("calculateRecommendedSize", () => {
     expect(calculateRecommendedSize(170, 63, makeStyle(), [])).toBe(155);
   });
 });
+
+describe("レベルによるサイズ補正", () => {
+  it("初心者は2cm短め、上級者は補正なし", () => {
+    expect(calculateIdealSize(170, 63, makeStyle(), "beginner")).toBe(153);
+    expect(calculateIdealSize(170, 63, makeStyle(), "intermediate")).toBe(155);
+    expect(calculateIdealSize(170, 63, makeStyle(), "advanced")).toBe(155);
+  });
+});

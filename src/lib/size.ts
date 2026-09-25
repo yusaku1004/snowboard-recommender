@@ -1,9 +1,17 @@
-import { StyleScores } from "@/types";
+import { SkillLevel, StyleScores } from "@/types";
+
+// 初心者は短め（取り回しやすさ・ターンのしやすさ優先）
+const LEVEL_SIZE_ADJUSTMENT: Record<SkillLevel, number> = {
+  beginner: -2,
+  intermediate: 0,
+  advanced: 0,
+};
 
 export function calculateIdealSize(
   height: number,
   weight: number,
   style: StyleScores,
+  level: SkillLevel = "intermediate",
 ): number {
   let idealSize = height - 15;
 
@@ -24,7 +32,7 @@ export function calculateIdealSize(
     idealSize += adjustments.reduce((a, b) => a + b, 0) / adjustments.length;
   }
 
-  return idealSize;
+  return idealSize + LEVEL_SIZE_ADJUSTMENT[level];
 }
 
 export function calculateRecommendedSize(
@@ -32,8 +40,9 @@ export function calculateRecommendedSize(
   weight: number,
   style: StyleScores,
   availableLengths: number[],
+  level: SkillLevel = "intermediate",
 ): number {
-  const idealSize = calculateIdealSize(height, weight, style);
+  const idealSize = calculateIdealSize(height, weight, style, level);
 
   if (availableLengths.length === 0) return Math.round(idealSize);
 

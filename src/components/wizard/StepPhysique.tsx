@@ -1,13 +1,20 @@
 "use client";
 
-import { GenderPreference } from "@/types";
-import { Slider } from "@/components/ui/Slider";
-import { Button } from "@/components/ui/Button";
+import { useRef, useState } from "react";
+import { BootSize, GenderPreference, SkillLevel } from "@/types";
+import { Segmented } from "@/components/ui/Segmented";
+import { MetricSlider } from "@/components/ui/MetricSlider";
+import { StepFooter } from "@/components/ui/StepFooter";
+import { calculateIdealSize } from "@/lib/size";
 
 interface StepPhysiqueProps {
   height: number;
   weight: number;
   gender: GenderPreference;
+  level: SkillLevel | null;
+  onLevelChange: (v: SkillLevel) => void;
+  bootSize: BootSize | undefined;
+  onBootSizeChange: (v: BootSize | undefined) => void;
   onHeightChange: (v: number) => void;
   onWeightChange: (v: number) => void;
   onGenderChange: (v: GenderPreference) => void;
@@ -20,68 +27,106 @@ const GENDER_OPTIONS: { value: GenderPreference; label: string }[] = [
   { value: "all", label: "指定なし" },
 ];
 
+const LEVEL_OPTIONS: { value: SkillLevel; label: string; sub: string }[] = [
+  { value: "beginner", label: "初心者", sub: "ターン練習中" },
+  { value: "intermediate", label: "中級者", sub: "中斜面を連続ターン" },
+  { value: "advanced", label: "上級者", sub: "どこでも自在" },
+];
+
+const BOOT_OPTIONS: { value: BootSize | "unknown"; label: string }[] = [
+  { value: "unknown", label: "未定" },
+  { value: "small", label: "〜26.5" },
+  { value: "medium", label: "27〜27.5" },
+  { value: "large", label: "28〜" },
+];
+
+// スタイル補正前の目安（スタイルはすべて中間値）
+const NEUTRAL_STYLE = { ground_tricks: 3, park: 3, carving: 3, run_tricks: 3, powder: 3 };
+
 export function StepPhysique({
   height,
   weight,
   gender,
+  level,
+  onLevelChange,
+  bootSize,
+  onBootSizeChange,
   onHeightChange,
   onWeightChange,
   onGenderChange,
   onNext,
 }: StepPhysiqueProps) {
+  const baseSize = Math.round(calculateIdealSize(height, weight, NEUTRAL_STYLE, level ?? "intermediate"));
+  const [showLevelError, setShowLevelError] = useState(false);
+  const levelRef = useRef<HTMLDivElement>(null);
+
+  // レベルは必須。未選択なら先に進まず、選択欄へ誘導する
+  const handleNext = () => {
+    if (!level) {
+      setShowLevelError(true);
+      levelRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    onNext();
+  };
+
   return (
     <div>
-      <h2 className="text-xl font-bold text-center mb-1 text-white">体格を入力</h2>
-      <p className="text-slate-500 text-center mb-8 text-sm">
-        あなたの身長と体重を教えてください
-      </p>
+      <h2 className="text-2xl font-bold text-white mb-1">あなたについて教えてください</h2>
+      <p className="text-slate-400 mb-6 text-sm [@media(max-height:720px)]:mb-3">ボードの長さと硬さを選ぶ基準になります</p>
 
-      <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl p-6 mb-6">
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-slate-300 mb-3">タイプ</label>
-          <div className="flex gap-2">
-            {GENDER_OPTIONS.map((opt) => (
-              <button
-                type="button"
-                key={opt.value}
-                onClick={() => onGenderChange(opt.value)}
-                className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
-                  gender === opt.value
-                    ? "bg-sky-500/20 text-sky-400 border border-sky-500/40 shadow-[0_0_12px_rgba(56,189,248,0.15)]"
-                    : "bg-slate-800/60 text-slate-400 border border-slate-700/50 hover:bg-slate-700/60 hover:text-slate-300"
-                }`}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
+      <div className="space-y-2 mb-3">
+        <Segmented label="タイプ" options={GENDER_OPTIONS} value={gender} onChange={onGenderChange} />
+        <div ref={levelRef} className={`rounded-2xl transition-shadow ${showLevelError && !level ? "ring-2 ring-amber-300/70" : ""}`}>
+          <Segmented
+            label="レベル"
+            options={LEVEL_OPTIONS}
+            value={level}
+            onChange={(v) => { onLevelChange(v); setShowLevelError(false); }}
+          />
         </div>
-
-        <Slider
-          label="身長"
-          value={height}
-          min={140}
-          max={200}
-          step={1}
-          unit="cm"
-          onChange={onHeightChange}
-        />
-        <Slider
-          label="体重"
-          value={weight}
-          min={30}
-          max={120}
-          step={1}
-          unit="kg"
-          onChange={onWeightChange}
-        />
+        {showLevelError && !level && (
+          <p role="alert" className="text-xs text-amber-200 px-1">
+            レベルを選んでください（ボードの硬さとサイズ選びに使います）
+          </p>
+        )}
       </div>
 
-      <div className="sticky bottom-0 pt-4 pb-2 safe-bottom bg-gradient-to-t from-[#0a1628] via-[#0a1628] to-transparent -mx-4 px-4">
-        <div className="flex justify-end">
-          <Button onClick={onNext}>次へ</Button>
+      <div className="space-y-3 mb-3">
+        <MetricSlider label="身長" value={height} min={140} max={200} step={1} unit="cm" onChange={onHeightChange} />
+        <MetricSlider label="体重" value={weight} min={30} max={120} step={1} unit="kg" onChange={onWeightChange} />
+        <div>
+          <p className="text-xs font-medium text-slate-400 mb-1.5 px-1">
+            ブーツサイズ（cm・任意）<span className="font-normal"> — 足が大きい方はワイドモデルの要否を案内します</span>
+          </p>
+          <Segmented
+            label="ブーツサイズ"
+            options={BOOT_OPTIONS}
+            value={bootSize ?? "unknown"}
+            onChange={(v) => onBootSizeChange(v === "unknown" ? undefined : v)}
+          />
         </div>
       </div>
+
+      {/* Live insight */}
+      <div className="rounded-3xl p-4 mb-6 flex items-center gap-4 bg-gradient-to-r from-sky-500/15 via-cyan-400/10 to-violet-500/15 border border-sky-300/20">
+        <div className="flex-shrink-0 w-11 h-11 rounded-2xl bg-sky-400/15 border border-sky-300/30 flex items-center justify-center">
+          <svg className="w-5 h-5 text-sky-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <rect x="9" y="2" width="6" height="20" rx="3" />
+            <path d="M9 8h6M9 16h6" />
+          </svg>
+        </div>
+        <div className="min-w-0">
+          <p className="text-[11px] text-sky-200/80">あなたの目安サイズ</p>
+          <p className="text-white">
+            <span className="text-2xl font-black tabular-nums tracking-tight">{baseSize}</span>
+            <span className="text-sm font-semibold text-slate-300 ml-0.5">cm前後</span>
+          </p>
+          <p className="text-[11px] text-slate-400 mt-0.5">次のステップのスタイルで微調整します</p>
+        </div>
+      </div>
+
+      <StepFooter onNext={handleNext} />
     </div>
   );
 }

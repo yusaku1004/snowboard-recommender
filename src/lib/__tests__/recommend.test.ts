@@ -4,7 +4,10 @@ import {
   getRecommendations,
   getSimilarBoards,
   getStyleRecommendations,
+  similarityToScore,
 } from "../recommend";
+import boardsData from "@/data/boards_data.json";
+import { Board } from "@/types";
 import { makeBoard, makeInput, makeStyle } from "./helpers";
 
 beforeEach(() => {
@@ -90,12 +93,20 @@ describe("getRecommendations", () => {
     expect(a.matchPercentage - b.matchPercentage).toBeCloseTo(5, 1);
   });
 
-  it("理想サイズから10cm超離れた長さしかないボードは減点する", () => {
+  it("理想サイズから10cm超離れた長さしかないボードは大きく減点する", () => {
     const fits = makeBoard({ model: "FITS", available_lengths: [155] });
-    const tooLong = makeBoard({ model: "LONG", available_lengths: [170] }); // 15cm差 → -5
+    const tooLong = makeBoard({ model: "LONG", available_lengths: [170] }); // 15cm差 → -7
     const [a, b] = getRecommendations([tooLong, fits], makeInput());
     expect(a.board.model).toBe("FITS");
-    expect(a.matchPercentage - b.matchPercentage).toBeCloseTo(5, 1);
+    expect(a.matchPercentage - b.matchPercentage).toBeCloseTo(7, 1);
+  });
+
+  it("スタイルが同点なら理想サイズにより近い長さがあるボードを上位にする", () => {
+    const exact = makeBoard({ model: "EXACT", available_lengths: [155] });
+    const near = makeBoard({ model: "NEAR", available_lengths: [150] }); // 5cm差 → -1
+    const [a, b] = getRecommendations([near, exact], makeInput());
+    expect(a.board.model).toBe("EXACT");
+    expect(a.matchPercentage - b.matchPercentage).toBeCloseTo(1, 1);
   });
 
   it("同じ brand+model は1件にまとめる", () => {
@@ -156,5 +167,48 @@ describe("getSimilarBoards", () => {
     const far = makeBoard({ model: "FAR", style_scores: { ground_tricks: 2, park: 3, carving: 10, run_tricks: 4, powder: 9 } });
     const models = getSimilarBoards(ref, [ref, far, near], makeInput()).map((r) => r.board.model);
     expect(models).toEqual(["NEAR", "FAR"]);
+  });
+});
+
+describe("similarityToScore", () => {
+  it("0.6以下は0、1.0は100、その間は線形", () => {
+    expect(similarityToScore(0.5)).toBe(0);
+    expect(similarityToScore(0.6)).toBe(0);
+    expect(similarityToScore(0.8)).toBeCloseTo(50, 10);
+    expect(similarityToScore(1)).toBe(100);
+  });
+});
+
+describe("実データでのマッチ度の分布", () => {
+  const profiles = {
+    グラトリ: makeStyle({ ground_tricks: 5, park: 1, carving: 2, run_tricks: 4, powder: 1 }),
+    パーク: makeStyle({ ground_tricks: 2, park: 5, carving: 2, run_tricks: 3, powder: 1 }),
+    カービング: makeStyle({ ground_tricks: 1, park: 1, carving: 5, run_tricks: 3, powder: 3 }),
+    パウダー: makeStyle({ ground_tricks: 1, park: 2, carving: 3, run_tricks: 3, powder: 5 }),
+    オールラウンド: makeStyle(),
+  };
+  const levels = ["beginner", "intermediate", "advanced"] as const;
+
+  for (const [name, style] of Object.entries(profiles)) for (const level of levels) it(`${name}重視・${level}でも上位が100%に張り付かず差がつく`, () => {
+    const results = getRecommendations(boardsData as Board[], makeInput({ style, level }));
+    const top10 = results.slice(0, 10);
+    expect(results.filter((r) => r.matchPercentage >= 100)).toHaveLength(0);
+    expect(new Set(top10.map((r) => r.matchPercentage)).size).toBeGreaterThanOrEqual(3);
+    // 同点をブランド人気度で並べるだけの結果（特定ブランドの独占）になっていない
+    expect(new Set(top10.map((r) => r.board.brand)).size).toBeGreaterThanOrEqual(4);
+  });
+});
+
+describe("レベル別のおすすめ（実データ）", () => {
+  const carving = makeStyle({ ground_tricks: 1, park: 1, carving: 5, run_tricks: 3, powder: 3 });
+
+  it("カービング重視の初心者には、上位10件に硬い板（flex 8以上）を出さない", () => {
+    const results = getRecommendations(boardsData as Board[], makeInput({ style: carving, level: "beginner" }));
+    expect(results.slice(0, 10).every((r) => r.board.flex <= 7)).toBe(true);
+  });
+
+  it("カービング重視の上級者には硬い板が上位に来る", () => {
+    const results = getRecommendations(boardsData as Board[], makeInput({ style: carving, level: "advanced" }));
+    expect(results.slice(0, 10).filter((r) => r.board.flex >= 7).length).toBeGreaterThanOrEqual(5);
   });
 });

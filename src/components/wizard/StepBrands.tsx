@@ -1,11 +1,13 @@
 "use client";
 
-import { useMemo } from "react";
-import { Board, Shape, FlexCategory } from "@/types";
-import { Button } from "@/components/ui/Button";
+import { useMemo, useState } from "react";
+import { Shape, FlexCategory } from "@/types";
+import { StepFooter } from "@/components/ui/StepFooter";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { SHAPE_DESCRIPTIONS, FLEX_DESCRIPTIONS } from "@/lib/glossary";
-import boardsData from "@/data/boards_data.json";
+import { useBoards } from "@/hooks/useBoards";
+import { matchesBrand } from "@/lib/brandSearch";
+import { SearchInput } from "@/components/ui/SearchInput";
 
 interface StepBrandsProps {
   selectedBrands: Set<string> | null;
@@ -43,13 +45,19 @@ export function StepBrands({
   onNext,
   onBack,
 }: StepBrandsProps) {
-  const allBoards = boardsData as Board[];
+  const { boards: allBoards } = useBoards();
+  const [brandQuery, setBrandQuery] = useState("");
 
   const brands = useMemo(() => {
     const seen = new Set<string>();
-    allBoards.forEach((b) => seen.add(b.brand));
+    allBoards?.forEach((b) => seen.add(b.brand));
     return Array.from(seen).sort((a, b) => a.localeCompare(b));
   }, [allBoards]);
+
+  const visibleBrands = useMemo(
+    () => brands.filter((brand) => matchesBrand(brand, brandQuery)),
+    [brands, brandQuery]
+  );
 
   const allBrandsSelected = selectedBrands === null;
   const allShapesSelected = selectedShapes === null;
@@ -109,24 +117,22 @@ export function StepBrands({
 
   return (
     <div>
-      <h2 className="text-xl font-bold text-center mb-1 text-white">こだわり条件</h2>
-      <p className="text-slate-500 text-center mb-6 text-sm">
-        形状・硬さ・メーカーを絞り込めます（任意）
-      </p>
+      <h2 className="text-2xl font-bold text-white mb-1">こだわりはある？</h2>
+      <p className="text-slate-400 mb-6 text-sm">形状・硬さ・メーカーで絞り込めます。なければスキップでOK</p>
 
       {/* Shape filter */}
-      <div className="mb-5">
-        <p className="text-xs text-slate-400 mb-2 font-medium">形状</p>
+      <div className="glass rounded-3xl p-4 mb-3">
+        <p className="text-[11px] font-semibold tracking-wider text-slate-400 mb-2.5">形状</p>
         <div className="flex flex-wrap gap-2">
           {ALL_SHAPES.map((s) => {
             const isSelected = allShapesSelected || selectedShapes!.has(s.value);
             return (
               <Tooltip key={s.value} text={SHAPE_DESCRIPTIONS[s.value]}>
                 <button type="button" onClick={() => toggleShape(s.value)}
-                  className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border ${
+                  className={`px-3 py-2 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer border ${
                     isSelected
-                      ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
-                      : "bg-slate-800/60 text-slate-500 border-slate-700/50 hover:bg-slate-700/60"
+                      ? "bg-sky-400/15 text-sky-200 border-sky-300/40"
+                      : "bg-white/[0.05] text-slate-400 border-white/10 hover:bg-white/10"
                   }`}
                 >
                   {s.label}
@@ -138,18 +144,18 @@ export function StepBrands({
       </div>
 
       {/* Flex filter */}
-      <div className="mb-6">
-        <p className="text-xs text-slate-400 mb-2 font-medium">フレックス（硬さ）</p>
+      <div className="glass rounded-3xl p-4 mb-3">
+        <p className="text-[11px] font-semibold tracking-wider text-slate-400 mb-2.5">フレックス（硬さ）</p>
         <div className="flex gap-2">
           {ALL_FLEX.map((f) => {
             const isSelected = allFlexSelected || selectedFlex!.has(f.value);
             return (
               <div key={f.value} className="flex-1 relative">
                 <button type="button" onClick={() => toggleFlex(f.value)}
-                  className={`w-full py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${
+                  className={`w-full py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${
                     isSelected
-                      ? "bg-sky-500/15 text-sky-400 border-sky-500/30"
-                      : "bg-slate-800/60 text-slate-500 border-slate-700/50 hover:bg-slate-700/60"
+                      ? "bg-sky-400/15 text-sky-200 border-sky-300/40"
+                      : "bg-white/[0.05] text-slate-400 border-white/10 hover:bg-white/10"
                   }`}
                 >
                   <div>{f.label}</div>
@@ -167,9 +173,9 @@ export function StepBrands({
       </div>
 
       {/* Brand selector */}
-      <div className="mb-2">
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-xs text-slate-400 font-medium">メーカー</p>
+      <div className="glass rounded-3xl p-4 mb-3">
+        <div className="flex items-center justify-between mb-2.5">
+          <p className="text-[11px] font-semibold tracking-wider text-slate-400">メーカー</p>
           <div className="flex gap-3">
             {!allBrandsSelected && (
               <button
@@ -191,8 +197,21 @@ export function StepBrands({
             )}
           </div>
         </div>
+        <div className="mb-2.5">
+          <SearchInput value={brandQuery} onChange={setBrandQuery} placeholder="メーカー名で検索（例: バートン）" label="メーカーを検索" />
+        </div>
+        {!allBoards && (
+          <div className="grid grid-cols-2 gap-2" aria-busy="true">
+            {Array.from({ length: 6 }, (_, i) => (
+              <div key={i} className="h-9 rounded-xl bg-white/[0.06] animate-pulse" />
+            ))}
+          </div>
+        )}
+        {allBoards && visibleBrands.length === 0 && (
+          <p className="text-center text-sm text-slate-400 py-6">「{brandQuery}」に一致するメーカーはありません</p>
+        )}
         <div className="grid grid-cols-2 gap-2 max-h-72 overflow-y-auto pr-1">
-          {brands.map((brand) => {
+          {visibleBrands.map((brand) => {
             const isSelected = allBrandsSelected || selectedBrands!.has(brand);
             return (
               <button
@@ -201,14 +220,14 @@ export function StepBrands({
                 onClick={() => toggleBrand(brand)}
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm cursor-pointer transition-all duration-200 ${
                   isSelected
-                    ? "bg-sky-500/10 text-sky-300 border border-sky-500/25"
-                    : "bg-slate-800/40 text-slate-500 border border-transparent hover:bg-slate-700/40 hover:text-slate-400"
+                    ? "bg-sky-400/10 text-sky-100 border border-sky-300/30"
+                    : "bg-white/[0.04] text-slate-400 border border-transparent hover:bg-white/10 hover:text-slate-400"
                 }`}
               >
                 <div className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 transition-all ${
                   isSelected
                     ? "bg-sky-500 text-white"
-                    : "border border-slate-600 bg-slate-800"
+                    : "border border-white/20 bg-white/[0.06]"
                 }`}>
                   {isSelected && (
                     <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
@@ -229,25 +248,18 @@ export function StepBrands({
         </p>
       )}
       {!allBrandsSelected && selectedBrands!.size > 0 && (
-        <p className="text-slate-500 text-center mb-3 text-xs">
+        <p className="text-slate-400 text-center mb-3 text-xs">
           {selectedBrands!.size}ブランド選択中
         </p>
       )}
 
-      {/* Buttons */}
-      <div className="sticky bottom-0 pt-4 pb-2 safe-bottom bg-gradient-to-t from-[#0a1628] via-[#0a1628] to-transparent -mx-4 px-4">
-        <div className="flex gap-3">
-          <Button variant="secondary" onClick={onBack}>
-            戻る
-          </Button>
-          <button type="button" onClick={handleSkip}
-            className="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 font-medium transition-all duration-200 cursor-pointer text-sm border border-slate-700 hover:border-slate-600"
-          >
-            スキップ
-          </button>
-          <Button onClick={onNext}>診断する</Button>
-        </div>
-      </div>
+      <div className="mb-6" />
+      <StepFooter
+        onNext={onNext}
+        nextLabel="診断する"
+        onBack={onBack}
+        secondary={{ label: "スキップ", onClick: handleSkip }}
+      />
     </div>
   );
 }

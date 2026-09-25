@@ -24,6 +24,7 @@ export function makeInput(overrides: Partial<UserInput> = {}): UserInput {
     height: 170,
     weight: 63, // 標準体重 (170-100)*0.9
     gender: "all",
+    level: "intermediate",
     style: makeStyle(),
     budget: 100000,
     budgetFlexibility: 0,

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { decodeFilters, decodeInput, encodeInput } from "../share";
+import { decodeFilters, decodeInput, encodeInput, getTwitterShareUrl } from "../share";
 import { makeInput, makeStyle } from "./helpers";
 
 describe("encodeInput / decodeInput", () => {
@@ -8,11 +8,17 @@ describe("encodeInput / decodeInput", () => {
       height: 182,
       weight: 74,
       gender: "mens",
+      level: "beginner",
+      bootSize: "large",
       style: makeStyle({ ground_tricks: 5, park: 1, carving: 4 }),
       budget: 85000,
       budgetFlexibility: 20,
     });
     expect(decodeInput(encodeInput(input))).toEqual(input);
+  });
+
+  it("レベルが無い古い共有URLは中級者として扱う", () => {
+    expect(decodeInput("h=170&w=60&gt=3&pk=3&cv=3&rt=3&pw=3&b=100000")?.level).toBe("intermediate");
   });
 
   it("必須パラメータが欠けていれば null", () => {
@@ -44,5 +50,17 @@ describe("decodeFilters", () => {
     expect(f.shapes).toEqual(new Set(["camber"]));
     expect(f.flex).toBeNull();
     expect(f.priceRanges).toEqual(new Set(["under50"]));
+  });
+});
+
+describe("getTwitterShareUrl", () => {
+  it("絞り込み条件を共有URLに含める", () => {
+    const tweet = new URL(getTwitterShareUrl(makeInput(), "BURTON Custom", {
+      brands: new Set(["BURTON"]), shapes: null, flex: new Set(["soft"]), priceRanges: null,
+    }));
+    const shared = new URL(tweet.searchParams.get("url")!, "https://example.com");
+    expect(shared.searchParams.get("brands")).toBe("BURTON");
+    expect(shared.searchParams.get("flex")).toBe("soft");
+    expect(tweet.searchParams.get("text")).toContain("BURTON Custom");
   });
 });

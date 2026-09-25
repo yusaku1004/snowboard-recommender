@@ -38,10 +38,10 @@ export function RadarChart({ scores, compareScores, compareLabel, maxValue = 10 
   return (
     <ResponsiveContainer width="100%" height={compareScores ? 230 : 200}>
       <RechartsRadarChart data={data} cx="50%" cy="50%" outerRadius="70%">
-        <PolarGrid stroke="#475569" />
+        <PolarGrid stroke="rgba(255,255,255,0.12)" />
         <PolarAngleAxis
           dataKey="subject"
-          tick={{ fill: "#94a3b8", fontSize: 12 }}
+          tick={{ fill: "#cbd5e1", fontSize: 12 }}
         />
         {/* スケールアンカー: 不可視だがスケールを maxValue に固定する */}
         <Radar dataKey="_anchor" stroke="none" fill="none" />
@@ -50,7 +50,7 @@ export function RadarChart({ scores, compareScores, compareLabel, maxValue = 10 
           dataKey="value"
           stroke="#38bdf8"
           fill="#38bdf8"
-          fillOpacity={0.3}
+          fillOpacity={0.35}
         />
         {compareScores && (
           <Radar

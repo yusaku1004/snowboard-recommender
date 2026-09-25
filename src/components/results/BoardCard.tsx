@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { RecommendResult, Board } from "@/types";
-import { RadarChart } from "./RadarChart";
+import { RadarChart } from "./LazyRadarChart";
+import { MatchRing } from "./MatchRing";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { SHAPE_DESCRIPTIONS, FLEX_DESCRIPTIONS, getFlexCategory, getFlexLabel as flexLabel } from "@/lib/glossary";
 import { RAKUTEN_AFF_ID, AMAZON_TAG, YAHOO_SID, YAHOO_PID } from "@/lib/constants";
@@ -19,15 +20,18 @@ interface BoardCardProps {
   onFilterByBrand?: (brand: string) => void;
   isComparing?: boolean;
   onToggleCompare?: (board: Board) => void;
+  // 1位を大きく見せるヒーロー表示
+  featured?: boolean;
+  featuredLabel?: string;
 }
 
 const SHAPE_LABELS: Record<string, string> = {
   camber: "キャンバー",
   rocker: "ロッカー",
   flat: "フラット",
-  hybrid_camber: "HBキャンバー",
-  hybrid_rocker: "HBロッカー",
-  double_camber: "Wキャンバー",
+  hybrid_camber: "ハイブリッドキャンバー",
+  hybrid_rocker: "ハイブリッドロッカー",
+  double_camber: "ダブルキャンバー",
 };
 
 const STYLE_TAG_LABELS: Record<string, string> = {
@@ -121,7 +125,7 @@ function getRankStyle(rank: number) {
   if (rank === 1) return { bg: "bg-gradient-to-br from-amber-400 to-yellow-600", text: "text-amber-950", shadow: "shadow-amber-500/30" };
   if (rank === 2) return { bg: "bg-gradient-to-br from-slate-300 to-slate-400", text: "text-slate-800", shadow: "shadow-slate-400/20" };
   if (rank === 3) return { bg: "bg-gradient-to-br from-amber-600 to-amber-800", text: "text-amber-100", shadow: "shadow-amber-700/20" };
-  return { bg: "bg-slate-800", text: "text-slate-400", shadow: "" };
+  return { bg: "bg-white/10 border border-white/15", text: "text-slate-300", shadow: "" };
 }
 
 function getMatchColor(pct: number): string {
@@ -132,6 +136,28 @@ function getMatchColor(pct: number): string {
 }
 
 
+const MATCH_DESCRIPTION =
+  "あなたのスタイル・レベルとボードの得意分野がどれだけ近いかに、硬さ・サイズ・予算の合い具合を加えた適合度です。";
+const SIZE_DESCRIPTION =
+  "身長・体重・スタイル・レベルから計算した理想の長さに、最も近いこのボードの展開サイズです。";
+const PRICE_DESCRIPTION =
+  "型落ちやセールを見込んだ実売価格の目安です。実際の価格は購入先でご確認ください。";
+
+function ReasonChips({ reasons }: { reasons: string[] }) {
+  return (
+    <div className="flex flex-wrap gap-1">
+      {reasons.map((reason) => (
+        <span key={reason} className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-200 bg-emerald-400/10 border border-emerald-300/20 px-1.5 py-0.5 rounded-md">
+          <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 13l4 4L19 7" />
+          </svg>
+          {reason}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 function getFlexDiff(target: number, mine: number): string | null {
   const diff = target - mine;
   if (diff === 0) return "同じ硬さ";
@@ -141,10 +167,11 @@ function getFlexDiff(target: number, mine: number): string | null {
     : `${abs}段階柔らかい`;
 }
 
-export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, isFavorite = false, onToggleFavorite, onFindSimilar, onFilterByBrand, isComparing = false, onToggleCompare }: BoardCardProps) {
+export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, isFavorite = false, onToggleFavorite, onFindSimilar, onFilterByBrand, isComparing = false, onToggleCompare, featured = false, featuredLabel = "BEST MATCH" }: BoardCardProps) {
   const [expanded, setExpanded] = useState(false);
   const { board, matchPercentage, recommendedSize, estimatedPrice } = result;
   const topStyleTag = getTopStyleTag(board.style_scores);
+  const reasons = result.reasons ?? [];
   const hasDiscount = estimatedPrice < board.price;
   const effectiveBudget = budget * (1 + budgetFlexibility / 100);
   const yearsOldLabel = getYearsOldLabel(board.year);
@@ -160,23 +187,173 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
 
   return (
     <div
-      className={`fade-in-up bg-white/[0.04] backdrop-blur-md border rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer ${
-        rank <= 3
-          ? "border-white/[0.08] hover:border-white/[0.15] hover:bg-white/[0.06]"
-          : "border-white/[0.05] hover:border-white/[0.10] hover:bg-white/[0.05]"
+      className={`fade-in-up overflow-hidden transition-all duration-300 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sky-300/80 ${
+        featured
+          ? "glass-strong glow-border rounded-[28px]"
+          : "glass rounded-3xl hover:bg-white/[0.08]"
       }`}
       style={{ animationDelay: `${(rank - 1) * 80}ms` }}
       onClick={() => setExpanded(!expanded)}
+      // キーボード（Tab で移動 → Enter / Space）でも詳細を開閉できるようにする
+      role="button"
+      tabIndex={0}
+      aria-expanded={expanded}
+      aria-label={`${rank}位 ${board.brand} ${board.model}、マッチ度${matchPercentage}%。${expanded ? "詳細を閉じる" : "詳細を開く"}`}
+      onKeyDown={(e) => {
+        if (e.target !== e.currentTarget) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setExpanded(!expanded);
+        }
+      }}
     >
+      {featured ? (
+        <div className="relative p-5">
+          {/* Ambient glow behind the board */}
+          <div className="absolute -top-16 -left-10 w-48 h-48 rounded-full bg-sky-500/25 blur-3xl pointer-events-none" />
+
+          <div className="relative flex items-center justify-between mb-4">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-amber-300 to-yellow-500 text-amber-950 text-[10px] font-black tracking-wider shadow-[0_0_16px_rgba(251,191,36,0.4)]">
+              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.9L22 9.6l-5.4 4.8L18.2 22 12 18.3 5.8 22l1.6-7.6L2 9.6l7.1-.7z" /></svg>
+              {featuredLabel}
+            </span>
+            <div className="flex items-center gap-1">
+              {budgetLabel === "over" && (
+                <span className="text-[10px] bg-red-500/15 text-red-300 px-2 py-0.5 rounded-full font-medium">予算オーバー</span>
+              )}
+              {budgetLabel === "sale_possible" && (
+                <span className="text-[10px] bg-yellow-500/15 text-yellow-300 px-2 py-0.5 rounded-full font-medium">セールで予算内</span>
+              )}
+              {onToggleFavorite && (
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); onToggleFavorite(board); }}
+                  className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center cursor-pointer hover:bg-white/10 transition-colors"
+                  aria-label={isFavorite ? "お気に入りを解除" : "お気に入りに追加"}
+                >
+                  <svg className={`w-4 h-4 ${isFavorite ? "text-rose-400 fill-rose-400" : "text-slate-300 fill-none"}`} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                </button>
+              )}
+              {onToggleCompare && (
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); onToggleCompare(board); }}
+                  className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center cursor-pointer hover:bg-white/10 transition-colors"
+                  aria-label={isComparing ? "比較から外す" : "比較に追加"}
+                >
+                  <svg className={`w-4 h-4 ${isComparing ? "text-emerald-400" : "text-slate-300"}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                    {isComparing
+                      ? <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      : <path strokeLinecap="round" strokeLinejoin="round" d="M9 17H5a2 2 0 01-2-2V5a2 2 0 012-2h4m6 0h4a2 2 0 012 2v10a2 2 0 01-2 2h-4m-6 4v-4m0-8v4m0 0H9m6 0h-6" />
+                    }
+                  </svg>
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="relative flex items-center gap-4">
+            {/* Board visual */}
+            <div className="flex-shrink-0 w-14 h-36 rounded-full overflow-hidden shadow-[0_10px_30px_-6px_rgba(56,189,248,0.5)] ring-1 ring-white/20 -rotate-6">
+              {board.image_url ? (
+                <img src={board.image_url} alt={`${board.brand} ${board.model}`} className="w-full h-full object-cover" />
+              ) : (
+                <div className={`w-full h-full bg-gradient-to-b ${getBrandColor(board.brand)} flex items-center justify-center relative`}>
+                  <div className="absolute inset-x-2 top-3 bottom-3 rounded-full border border-white/25" />
+                  <span className="[writing-mode:vertical-rl] text-white font-black text-[11px] tracking-[0.2em] drop-shadow">
+                    {board.brand}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <div className="flex-1 min-w-0">
+              <p className="text-xs text-slate-400 font-medium">
+                {board.brand} <span className="text-slate-400">· {board.year}</span>
+              </p>
+              <h3 className="text-xl font-black text-white leading-tight mt-0.5 mb-2 break-words">{board.model}</h3>
+              <div className="flex flex-wrap gap-1">
+                <Tooltip text={SHAPE_DESCRIPTIONS[board.shape] ?? ""} align="start">
+                  <span className="text-[10px] text-slate-300 bg-white/[0.07] px-1.5 py-0.5 rounded-md">{SHAPE_LABELS[board.shape] || board.shape}</span>
+                </Tooltip>
+                {reasons.length === 0 && topStyleTag && (
+                  <span className="text-[10px] text-sky-300 bg-sky-400/15 px-1.5 py-0.5 rounded-md">{topStyleTag}◎</span>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center gap-1">
+              <MatchRing value={matchPercentage} />
+              <Tooltip text={MATCH_DESCRIPTION} align="end">
+                <span className="text-[10px] text-slate-400">マッチ度とは</span>
+              </Tooltip>
+            </div>
+          </div>
+
+          <div className="relative grid grid-cols-3 gap-2 mt-5">
+            {[
+              { label: "サイズ", value: `${recommendedSize}`, unit: "cm", sub: null, help: SIZE_DESCRIPTION, align: "start" as const },
+              {
+                label: hasDiscount ? "想定価格" : "定価",
+                value: `¥${estimatedPrice.toLocaleString()}`,
+                unit: "",
+                sub: hasDiscount ? `定価 ¥${board.price.toLocaleString()}` : null,
+                help: hasDiscount ? PRICE_DESCRIPTION : null,
+                align: "center" as const,
+              },
+              {
+                label: "硬さ",
+                value: flexLabel(board.flex),
+                unit: `${board.flex}/10`,
+                sub: null,
+                help: FLEX_DESCRIPTIONS[getFlexCategory(board.flex)],
+                align: "end" as const,
+              },
+            ].map((stat) => (
+              <div key={stat.label} className="rounded-2xl bg-white/[0.05] border border-white/[0.08] px-3 py-2.5">
+                <div className="text-[10px] text-slate-400 mb-0.5">
+                  {stat.help ? (
+                    <Tooltip text={stat.help} align={stat.align}>
+                      <span>{stat.label}</span>
+                    </Tooltip>
+                  ) : (
+                    stat.label
+                  )}
+                </div>
+                <p className="text-white font-bold tabular-nums leading-tight">
+                  <span className="text-lg">{stat.value}</span>
+                  <span className="text-[10px] text-slate-400 ml-0.5">{stat.unit}</span>
+                </p>
+                {stat.sub && <p className="text-[10px] text-slate-400 line-through tabular-nums mt-0.5">{stat.sub}</p>}
+              </div>
+            ))}
+          </div>
+
+          {reasons.length > 0 && (
+            <div className="relative mt-3">
+              <ReasonChips reasons={reasons} />
+            </div>
+          )}
+
+          <div className="relative flex items-center justify-center gap-1 mt-4 text-xs text-slate-400">
+            {expanded ? "閉じる" : "詳細・購入リンクを見る"}
+            <svg className={`w-3.5 h-3.5 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+      ) : (
       <div className="p-4">
         <div className="flex items-start gap-3">
           {/* Rank badge */}
-          <div className={`flex-shrink-0 w-9 h-9 rounded-xl ${rankStyle.bg} ${rankStyle.shadow} shadow-lg flex items-center justify-center`}>
+          <div className={`flex-shrink-0 w-8 h-8 rounded-full ${rankStyle.bg} ${rankStyle.shadow} shadow-lg flex items-center justify-center`}>
             <span className={`${rankStyle.text} font-bold text-sm`}>{rank}</span>
           </div>
 
           {/* Board image or placeholder */}
-          <div className="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center overflow-hidden">
+          <div className="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center overflow-hidden ring-1 ring-white/15">
             {board.image_url ? (
               <img
                 src={board.image_url}
@@ -185,7 +362,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               />
             ) : (
               <div className={`w-full h-full bg-gradient-to-br ${getBrandColor(board.brand)} flex items-center justify-center p-1 rounded-xl`}>
-                <span className="text-white font-bold text-[9px] leading-tight text-center break-all drop-shadow-sm">
+                <span className={`text-white font-black leading-tight text-center break-words drop-shadow-sm ${board.brand.length > 6 ? "text-[8px]" : "text-[10px]"}`}>
                   {board.brand}
                 </span>
               </div>
@@ -195,8 +372,8 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
           {/* Info */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs text-slate-500 font-medium">{board.brand}</span>
-              <span className="text-[10px] text-slate-600">{board.year}</span>
+              <span className="text-xs text-slate-400 font-medium">{board.brand}</span>
+              <span className="text-[10px] text-slate-400">{board.year}</span>
               {budgetLabel === "over" && (
                 <span className="text-[10px] bg-red-500/15 text-red-400 px-2 py-0.5 rounded-full font-medium">
                   予算オーバー
@@ -213,64 +390,72 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
             </h3>
             {/* Match bar */}
             <div className="flex items-center gap-2 mt-2">
-              <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+              <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
                 <div
                   className={`match-bar-fill h-full rounded-full bg-gradient-to-r ${getMatchColor(matchPercentage)}`}
                   style={{ width: `${matchPercentage}%` }}
                 />
               </div>
-              <span className="text-xs font-bold text-sky-400 tabular-nums w-14 text-right">
+              <span className="text-sm font-black text-white tabular-nums w-14 text-right">
                 {matchPercentage}%
               </span>
             </div>
-            <div className="mt-1.5">
-              <span className="text-xs text-slate-500">
-                おすすめ <span className="text-slate-300 font-medium">{recommendedSize}cm</span>
+            <div className="mt-1.5 flex flex-wrap items-baseline gap-x-2 text-xs text-slate-400 tabular-nums">
+              <span>
+                おすすめ <span className="text-slate-200 font-medium">{recommendedSize}cm</span>
+              </span>
+              <span>
+                <span className="text-slate-200 font-medium">¥{estimatedPrice.toLocaleString()}</span>
+                {hasDiscount && (
+                  <span className="ml-1 text-[10px] text-slate-400 line-through">¥{board.price.toLocaleString()}</span>
+                )}
               </span>
             </div>
             <div className="flex flex-wrap gap-1 mt-1.5">
-              <span className="text-[10px] text-slate-500 bg-slate-800/70 px-1.5 py-0.5 rounded-md">
+              <span className="text-[10px] text-slate-400 bg-white/[0.07] px-1.5 py-0.5 rounded-md">
                 {SHAPE_LABELS[board.shape] || board.shape}
               </span>
-              <span className="text-[10px] text-slate-500 bg-slate-800/70 px-1.5 py-0.5 rounded-md">
-                {flexLabel(board.flex)} flex
+              <span className="text-[10px] text-slate-400 bg-white/[0.07] px-1.5 py-0.5 rounded-md">
+                硬さ {flexLabel(board.flex)}
               </span>
-              {topStyleTag && (
+              {reasons.length === 0 && topStyleTag && (
                 <span className="text-[10px] text-sky-400 bg-sky-500/10 px-1.5 py-0.5 rounded-md">
                   {topStyleTag}◎
                 </span>
               )}
             </div>
+
           </div>
 
           {/* Favorite + Compare + Expand */}
-          <div className="flex-shrink-0 flex flex-col items-center gap-1.5 mt-1">
+          <div className="flex-shrink-0 flex flex-col items-center gap-1 -mt-0.5">
             {onToggleFavorite && (
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); onToggleFavorite(board); }}
-                className="p-1 rounded-lg transition-colors cursor-pointer"
+                className={`flex flex-col items-center gap-0.5 px-1 py-1 rounded-lg transition-colors cursor-pointer text-[9px] ${isFavorite ? "text-rose-300" : "text-slate-400 hover:text-rose-300"}`}
                 aria-label={isFavorite ? "お気に入りを解除" : "お気に入りに追加"}
               >
                 <svg
-                  className={`w-4 h-4 transition-colors ${isFavorite ? "text-rose-400 fill-rose-400" : "text-slate-600 fill-none hover:text-rose-400"}`}
+                  className={`w-4 h-4 transition-colors ${isFavorite ? "text-rose-400 fill-rose-400" : "text-slate-400 fill-none hover:text-rose-400"}`}
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                   strokeWidth={2}
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
+                保存
               </button>
             )}
             {onToggleCompare && (
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); onToggleCompare(board); }}
-                className="p-1 rounded-lg transition-colors cursor-pointer"
+                className={`flex flex-col items-center gap-0.5 px-1 py-1 rounded-lg transition-colors cursor-pointer text-[9px] ${isComparing ? "text-emerald-300" : "text-slate-400 hover:text-emerald-300"}`}
                 aria-label={isComparing ? "比較から外す" : "比較に追加"}
               >
                 <svg
-                  className={`w-4 h-4 transition-colors ${isComparing ? "text-emerald-400" : "text-slate-600 hover:text-emerald-400"}`}
+                  className={`w-4 h-4 transition-colors ${isComparing ? "text-emerald-400" : "text-slate-400 hover:text-emerald-400"}`}
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -281,10 +466,11 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                     : <path strokeLinecap="round" strokeLinejoin="round" d="M9 17H5a2 2 0 01-2-2V5a2 2 0 012-2h4m6 0h4a2 2 0 012 2v10a2 2 0 01-2 2h-4m-6 4v-4m0-8v4m0 0H9m6 0h-6" />
                   }
                 </svg>
+                {isComparing ? "比較中" : "比較"}
               </button>
             )}
             <svg
-              className={`w-4 h-4 text-slate-600 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+              className={`w-4 h-4 text-slate-400 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -293,28 +479,34 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
             </svg>
           </div>
         </div>
+        {reasons.length > 0 && (
+          <div className="mt-3">
+            <ReasonChips reasons={reasons} />
+          </div>
+        )}
       </div>
+      )}
 
       {/* Expanded details */}
       {expanded && (
         <div className="expand-enter px-4 pb-4 border-t border-white/[0.06] pt-4">
           <div className="grid grid-cols-2 gap-4 text-sm mb-5">
-            <div className="bg-slate-800/40 rounded-xl p-3">
+            <div className="bg-white/[0.04] rounded-xl p-3">
               <div className="flex items-center justify-between mb-0.5">
-                <span className="text-xs text-slate-500">価格</span>
+                <span className="text-xs text-slate-400">{hasDiscount ? "定価 → 想定価格" : "価格"}</span>
                 <span className="text-[10px] font-semibold bg-sky-500/15 text-sky-400 px-1.5 py-0.5 rounded-full">
                   {getDiscountLabel(board.year)}
                 </span>
               </div>
               {hasDiscount ? (
                 <div>
-                  <p className="text-xs text-slate-600 line-through">
+                  <p className="text-xs text-slate-400 line-through">
                     ¥{board.price.toLocaleString()}
                   </p>
                   <p className="text-sky-400 font-semibold">
                     ¥{estimatedPrice.toLocaleString()}
                     {yearsOldLabel && (
-                      <span className="text-[10px] text-slate-500 ml-1">
+                      <span className="text-[10px] text-slate-400 ml-1">
                         ({yearsOldLabel})
                       </span>
                     )}
@@ -326,19 +518,19 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 </p>
               )}
             </div>
-            <div className="bg-slate-800/40 rounded-xl p-3">
-              <span className="text-xs text-slate-500">形状</span>
+            <div className="bg-white/[0.04] rounded-xl p-3">
+              <span className="text-xs text-slate-400">形状</span>
               <div className="mt-0.5">
                 <Tooltip text={SHAPE_DESCRIPTIONS[board.shape] ?? ""}>
                   <span className="text-white font-medium text-sm">{SHAPE_LABELS[board.shape] || board.shape}</span>
                 </Tooltip>
               </div>
             </div>
-            <div className="bg-slate-800/40 rounded-xl p-3">
-              <span className="text-xs text-slate-500">フレックス</span>
+            <div className="bg-white/[0.04] rounded-xl p-3">
+              <span className="text-xs text-slate-400">フレックス</span>
               <Tooltip text={FLEX_DESCRIPTIONS[getFlexCategory(board.flex)]}>
                 <div className="flex items-center gap-2 mt-0.5 flex-1">
-                  <div className="flex-1 h-1 bg-slate-700 rounded-full overflow-hidden">
+                  <div className="flex-1 h-1 bg-white/15 rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full bg-gradient-to-r from-sky-400 to-cyan-400"
                       style={{ width: `${board.flex * 10}%` }}
@@ -348,14 +540,14 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 </div>
               </Tooltip>
             </div>
-            <div className="bg-slate-800/40 rounded-xl p-3">
-              <span className="text-xs text-slate-500">対象</span>
+            <div className="bg-white/[0.04] rounded-xl p-3">
+              <span className="text-xs text-slate-400">対象</span>
               <p className="text-white font-medium text-sm">
                 {GENDER_LABELS[board.gender] || board.gender}
               </p>
             </div>
-            <div className="col-span-2 bg-slate-800/40 rounded-xl p-3">
-              <span className="text-xs text-slate-500">サイズ展開</span>
+            <div className="col-span-2 bg-white/[0.04] rounded-xl p-3">
+              <span className="text-xs text-slate-400">サイズ展開</span>
               <div className="flex flex-wrap gap-1.5 mt-1">
                 {board.available_lengths.map((len) => (
                   <span
@@ -363,7 +555,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                     className={`px-2 py-0.5 rounded-md text-xs font-medium ${
                       len === recommendedSize
                         ? "bg-sky-500/20 text-sky-400 border border-sky-500/30"
-                        : "bg-slate-700/60 text-slate-400"
+                        : "bg-white/10 text-slate-400"
                     }`}
                   >
                     {len}cm
@@ -375,7 +567,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
 
           {/* Radar chart */}
           <div className="mb-5">
-            <p className="text-xs text-slate-500 mb-2 font-medium">スタイル適性</p>
+            <p className="text-xs text-slate-400 mb-2 font-medium">スタイル適性</p>
             <RadarChart
               scores={board.style_scores}
               compareScores={myBoard?.style_scores}
@@ -390,8 +582,8 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 {myBoard.brand} {myBoard.model} との比較
               </p>
               <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="bg-slate-800/40 rounded-lg px-2.5 py-2">
-                  <span className="text-slate-500">フレックス</span>
+                <div className="bg-white/[0.04] rounded-lg px-2.5 py-2">
+                  <span className="text-slate-400">フレックス</span>
                   <p className="text-white font-medium mt-0.5">
                     {flexLabel(board.flex)}({board.flex})
                     <span className="text-orange-400 ml-1">
@@ -402,8 +594,8 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                     {getFlexDiff(board.flex, myBoard.flex)}
                   </p>
                 </div>
-                <div className="bg-slate-800/40 rounded-lg px-2.5 py-2">
-                  <span className="text-slate-500">形状</span>
+                <div className="bg-white/[0.04] rounded-lg px-2.5 py-2">
+                  <span className="text-slate-400">形状</span>
                   <p className="text-white font-medium mt-0.5">
                     {SHAPE_LABELS[board.shape]}
                   </p>
@@ -460,7 +652,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="inline-block text-slate-500 hover:text-sky-400 text-xs mt-3 transition-colors"
+              className="inline-block text-slate-400 hover:text-sky-400 text-xs mt-3 transition-colors"
             >
               公式ページ →
             </a>
@@ -473,7 +665,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); onFindSimilar(board); }}
-                  className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-slate-700/60 bg-slate-800/40 text-slate-400 hover:bg-slate-700/50 hover:text-slate-300 text-xs font-medium transition-all cursor-pointer"
+                  className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-white/10 bg-white/[0.04] text-slate-400 hover:bg-white/10 hover:text-slate-300 text-xs font-medium transition-all cursor-pointer"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -485,7 +677,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); onFilterByBrand(board.brand); }}
-                  className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-slate-700/60 bg-slate-800/40 text-slate-400 hover:bg-slate-700/50 hover:text-slate-300 text-xs font-medium transition-all cursor-pointer"
+                  className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-white/10 bg-white/[0.04] text-slate-400 hover:bg-white/10 hover:text-slate-300 text-xs font-medium transition-all cursor-pointer"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0l-4-4m4 4l-4 4" />

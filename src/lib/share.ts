@@ -1,10 +1,16 @@
-import { UserInput, GenderPreference, Shape, FlexCategory, PriceRange } from "@/types";
+import { UserInput, GenderPreference, SkillLevel, BootSize, Shape, FlexCategory, PriceRange } from "@/types";
 
 export type FilterState = {
   brands: Set<string> | null;
   shapes: Set<Shape> | null;
   flex: Set<FlexCategory> | null;
   priceRanges: Set<PriceRange> | null;
+};
+
+const LEVEL_CODES: Record<SkillLevel, string> = {
+  beginner: "b",
+  intermediate: "i",
+  advanced: "a",
 };
 
 export function encodeInput(input: UserInput): string {
@@ -18,6 +24,8 @@ export function encodeInput(input: UserInput): string {
   params.set("pw", String(input.style.powder));
   params.set("b", String(input.budget));
   params.set("g", input.gender);
+  params.set("lv", LEVEL_CODES[input.level]);
+  if (input.bootSize) params.set("bs", input.bootSize);
   if (input.budgetFlexibility > 0) {
     params.set("bf", String(input.budgetFlexibility));
   }
@@ -43,6 +51,13 @@ export function decodeInput(search: string): UserInput | null {
     ? (g as GenderPreference)
     : "all";
 
+  const lvCode = params.get("lv");
+  const level: SkillLevel =
+    (Object.keys(LEVEL_CODES) as SkillLevel[]).find((k) => LEVEL_CODES[k] === lvCode) ?? "intermediate";
+
+  const bs = params.get("bs");
+  const bootSize = (["small", "medium", "large"] as BootSize[]).find((v) => v === bs);
+
   const bf = params.get("bf");
 
   const clamp = (v: number, min: number, max: number) =>
@@ -53,6 +68,7 @@ export function decodeInput(search: string): UserInput | null {
     height: clamp(Number(h), 140, 200),
     weight: clamp(Number(w), 30, 120),
     gender,
+    level,
     style: {
       ground_tricks: clampStyle(Number(gt)),
       park: clampStyle(Number(pk)),
@@ -62,6 +78,7 @@ export function decodeInput(search: string): UserInput | null {
     },
     budget: clamp(Number(b), 50000, 200000),
     budgetFlexibility: bf ? clamp(Number(bf), 0, 100) : 0,
+    ...(bootSize ? { bootSize } : {}),
   };
 }
 
@@ -115,8 +132,8 @@ export function getShareUrl(input: UserInput, filters?: FilterState): string {
   return `${base}/?${params.toString()}`;
 }
 
-export function getTwitterShareUrl(input: UserInput, topBoardName: string): string {
-  const url = getShareUrl(input);
+export function getTwitterShareUrl(input: UserInput, topBoardName: string, filters?: FilterState): string {
+  const url = getShareUrl(input, filters);
   const text = `スノーボード診断で「${topBoardName}」がおすすめされました！あなたもぴったりの板を見つけよう`;
   return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
 }

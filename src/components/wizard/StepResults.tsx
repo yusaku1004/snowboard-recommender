@@ -1,20 +1,36 @@
 "use client";
 
-import { useMemo, useState, useRef, useCallback } from "react";
-import { UserInput, Board, Shape, FlexCategory, PriceRange, StyleScores, RecommendResult } from "@/types";
+import { useMemo, useState, useCallback } from "react";
+import { UserInput, SkillLevel, BootSize, Board, Shape, FlexCategory, PriceRange, StyleScores, RecommendResult } from "@/types";
 import { getRecommendations, getSimilarBoards, getStyleRecommendations, estimateDiscountedPrice } from "@/lib/recommend";
 import { getShareUrl, getTwitterShareUrl, FilterState } from "@/lib/share";
 import { BoardCard } from "@/components/results/BoardCard";
 import { AiExplanation } from "@/components/results/AiExplanation";
-import { RadarChart } from "@/components/results/RadarChart";
+import { RadarChart } from "@/components/results/LazyRadarChart";
 import { MyBoardSelector } from "@/components/results/MyBoardSelector";
 import { Button } from "@/components/ui/Button";
 import { BottomSheet } from "@/components/ui/BottomSheet";
 import { Slider } from "@/components/ui/Slider";
+import { LevelPicker } from "@/components/ui/LevelPicker";
+import { Segmented } from "@/components/ui/Segmented";
+import { SearchInput } from "@/components/ui/SearchInput";
+import { matchesBrand } from "@/lib/brandSearch";
 import { useFavorites } from "@/hooks/useFavorites";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { SHAPE_DESCRIPTIONS, FLEX_DESCRIPTIONS, getFlexLabel } from "@/lib/glossary";
-import boardsData from "@/data/boards_data.json";
+import { useBoards } from "@/hooks/useBoards";
+
+const BOOT_SIZE_LABELS: Record<BootSize, string> = {
+  small: "〜26.5cm",
+  medium: "27〜27.5cm",
+  large: "28cm〜",
+};
+
+const LEVEL_LABELS: Record<SkillLevel, string> = {
+  beginner: "初心者",
+  intermediate: "中級者",
+  advanced: "上級者",
+};
 
 const STYLE_LABELS: Record<keyof StyleScores, string> = {
   ground_tricks: "グラトリ",
@@ -73,6 +89,9 @@ function matchesPriceRange(estimatedPrice: number, ranges: Set<PriceRange>): boo
 interface StepResultsProps {
   input: UserInput;
   onRestart: () => void;
+  // 共有URLから開いた（自分ではない人の条件の）結果か
+  sharedView?: boolean;
+  aiEnabled?: boolean;
   initialBrands?: Set<string> | null;
   initialShapes?: Set<Shape> | null;
   initialFlex?: Set<FlexCategory> | null;
@@ -101,26 +120,79 @@ const STYLE_ITEMS: { key: keyof StyleScores; label: string }[] = [
   { key: "powder", label: "パウダー" },
 ];
 
+type SortOrder = "match" | "price_asc" | "price_desc" | "flex_asc" | "flex_desc";
+
+const SORT_OPTIONS: { value: SortOrder; label: string }[] = [
+  { value: "match", label: "マッチ度順" },
+  { value: "price_asc", label: "価格が安い順" },
+  { value: "price_desc", label: "価格が高い順" },
+  { value: "flex_asc", label: "柔らかい順" },
+  { value: "flex_desc", label: "硬い順" },
+];
+
+function toolTileClass(active: boolean): string {
+  return `flex flex-col items-center justify-center gap-1.5 min-w-0 px-1 py-3 rounded-2xl text-[11px] font-medium leading-tight text-center transition-all duration-200 cursor-pointer active:scale-95 ${
+    active
+      ? "bg-sky-400/15 text-sky-200 border border-sky-300/40 shadow-[0_6px_20px_-8px_rgba(56,189,248,0.6)]"
+      : "glass text-slate-300 hover:bg-white/10"
+  }`;
+}
+
 function formatYen(value: number): string {
   return `¥${value.toLocaleString()}`;
 }
 
-export function StepResults({
+export function StepResults(props: StepResultsProps) {
+  const { boards, failed, retry } = useBoards();
+  if (!boards) return <ResultsLoading failed={failed} onRetry={retry} />;
+  return <StepResultsContent {...props} allBoards={boards} />;
+}
+
+function ResultsLoading({ failed, onRetry }: { failed: boolean; onRetry: () => void }) {
+  if (failed) {
+    return (
+      <div className="glass rounded-3xl p-8 text-center">
+        <p className="text-white font-semibold mb-1">ボードデータを読み込めませんでした</p>
+        <p className="text-slate-400 text-sm mb-5">通信状況を確認して、もう一度お試しください</p>
+        <button
+          type="button"
+          onClick={onRetry}
+          className="px-5 py-2.5 rounded-full bg-sky-400/15 text-sky-200 border border-sky-300/40 text-sm font-medium hover:bg-sky-400/20 transition-all cursor-pointer"
+        >
+          再読み込み
+        </button>
+      </div>
+    );
+  }
+  return (
+    <div aria-busy="true" aria-label="診断結果を計算中">
+      <div className="h-3 w-16 rounded-full bg-white/10 mb-3 animate-pulse" />
+      <div className="h-7 w-56 rounded-full bg-white/10 mb-5 animate-pulse" />
+      <div className="glass rounded-[28px] h-72 mb-3 animate-pulse" />
+      {[0, 1, 2].map((i) => (
+        <div key={i} className="glass rounded-3xl h-32 mb-3 animate-pulse" style={{ animationDelay: `${i * 120}ms` }} />
+      ))}
+    </div>
+  );
+}
+
+function StepResultsContent({
+  allBoards,
+  sharedView = false,
+  aiEnabled = false,
   input,
   onRestart,
   initialBrands = null,
   initialShapes = null,
   initialFlex = null,
   initialPriceRanges = null,
-}: StepResultsProps) {
+}: StepResultsProps & { allBoards: Board[] }) {
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<"results" | "favorites">("results");
   const [favoriteToast, setFavoriteToast] = useState(false);
-  const chipsRef = useRef<HTMLDivElement>(null);
-  const [showChipsFade, setShowChipsFade] = useState(true);
   const [showAll, setShowAll] = useState(false);
   const [resultStyle, setResultStyle] = useState<keyof StyleScores | null>(null);
-  const [sortOrder, setSortOrder] = useState<"match" | "price_asc" | "price_desc" | "flex_asc" | "flex_desc">("match");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("match");
   const { isFavorite, toggleFavorite, count: favoriteCount } = useFavorites();
   const [selectedBrands, setSelectedBrands] = useState<Set<string> | null>(initialBrands);
   const [selectedShapes, setSelectedShapes] = useState<Set<Shape> | null>(initialShapes);
@@ -135,18 +207,24 @@ export function StepResults({
 
   const [isAdjustOpen, setIsAdjustOpen] = useState(false);
   const [localBudget, setLocalBudget] = useState(input.budget);
+  const [localHeight, setLocalHeight] = useState(input.height);
+  const [localWeight, setLocalWeight] = useState(input.weight);
   const [localStyle, setLocalStyle] = useState<StyleScores>(input.style);
+  const [localLevel, setLocalLevel] = useState<SkillLevel>(input.level);
+  const [brandQuery, setBrandQuery] = useState("");
 
   const hasAdjustments =
     localBudget !== input.budget ||
+    localHeight !== input.height ||
+    localWeight !== input.weight ||
+    localLevel !== input.level ||
     (Object.keys(localStyle) as (keyof StyleScores)[]).some((k) => localStyle[k] !== input.style[k]);
 
   const adjustedInput = useMemo<UserInput>(
-    () => ({ ...input, budget: localBudget, style: localStyle }),
-    [input, localBudget, localStyle]
+    () => ({ ...input, height: localHeight, weight: localWeight, budget: localBudget, style: localStyle, level: localLevel }),
+    [input, localHeight, localWeight, localBudget, localStyle, localLevel]
   );
 
-  const allBoards = boardsData as Board[];
 
   const brands = useMemo(() => {
     const seen = new Set<string>();
@@ -255,6 +333,12 @@ export function StepResults({
     });
   }, [results, sortOrder]);
 
+  // 選択中のタブ（総合 / スタイル別）の1位をヒーローとして上部に表示し、同じ並びのリストからは除く
+  const heroResult = (resultStyle ? styleResults[0] : overallResults[0]) ?? null;
+  const heroInList = sortOrder === "match" && heroResult !== null;
+  const listResults = heroInList ? sortedResults.slice(1) : sortedResults;
+  const rankOffset = heroInList ? 1 : 0;
+
   const similarResults = useMemo(() => {
     if (!similarRefBoard) return [];
     return getSimilarBoards(similarRefBoard, allBoards, adjustedInput);
@@ -277,6 +361,12 @@ export function StepResults({
     setSelectedYears(null);
     setShowAll(false);
   };
+
+  // 条件チップのタップ → 調整パネルを開いてそこへスクロール
+  const openAdjustPanel = useCallback(() => {
+    setIsAdjustOpen(true);
+    setTimeout(() => document.getElementById("adjust-panel")?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+  }, []);
 
   const handleFilterByBrand = useCallback((brand: string) => {
     setSelectedBrands(new Set([brand]));
@@ -308,12 +398,6 @@ export function StepResults({
     }
   }, [isFavorite, toggleFavorite]);
 
-  const handleChipsScroll = useCallback(() => {
-    const el = chipsRef.current;
-    if (!el) return;
-    setShowChipsFade(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
-  }, []);
-
   const handleCopyUrl = async () => {
     const url = getShareUrl(adjustedInput, currentFilters);
     try {
@@ -335,109 +419,192 @@ export function StepResults({
   const handleTwitterShare = () => {
     const topBoard = overallResults[0];
     if (!topBoard) return;
-    const url = getTwitterShareUrl(adjustedInput, `${topBoard.board.brand} ${topBoard.board.model}`);
+    const url = getTwitterShareUrl(adjustedInput, `${topBoard.board.brand} ${topBoard.board.model}`, currentFilters);
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (
     <div>
-      <h2 className="text-xl font-bold text-center mb-1 text-white">診断結果</h2>
-      <p className="text-slate-500 text-center mb-3 text-sm">
-        あなたにおすすめのボード
-      </p>
+      {sharedView && (
+        <div className="mb-5 rounded-3xl p-4 bg-gradient-to-r from-violet-500/15 via-sky-500/10 to-cyan-400/15 border border-sky-300/25">
+          <p className="text-sm font-semibold text-white mb-1">シェアされた診断結果です</p>
+          <p className="text-xs text-slate-300 leading-relaxed mb-3">
+            下の条件で診断した結果です。あなたの体格やスタイルで診断すると、おすすめの板とサイズは変わります。
+          </p>
+          <Button onClick={onRestart} className="w-full py-3">
+            自分の条件で診断する（約1分）
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </Button>
+        </div>
+      )}
+
+      <p className="text-[11px] font-semibold tracking-[0.18em] text-sky-300/90 mb-1">{sharedView ? "SHARED RESULT" : "RESULT"}</p>
+      <h2 className="text-2xl font-bold text-white mb-3">{sharedView ? "この条件のおすすめ" : "あなたにぴったりの一本"}</h2>
 
       {/* Input summary chips */}
-      <div className="flex flex-wrap gap-1.5 justify-center mb-4">
+      <div className="flex flex-wrap gap-1.5 mb-5">
         {[
           `${adjustedInput.height}cm`,
           `${adjustedInput.weight}kg`,
+          LEVEL_LABELS[adjustedInput.level],
           `${getTopStyleLabel(adjustedInput.style)}重視`,
           `¥${adjustedInput.budget.toLocaleString()}`,
+          ...(adjustedInput.bootSize ? [`ブーツ ${BOOT_SIZE_LABELS[adjustedInput.bootSize]}`] : []),
         ].map((label) => (
-          <span key={label} className="text-xs text-slate-400 bg-slate-800/60 border border-slate-700/50 px-2.5 py-1 rounded-full">
+          <button
+            key={label}
+            type="button"
+            onClick={openAdjustPanel}
+            aria-label={`${label}（タップして条件を変更）`}
+            className="text-xs text-slate-300 bg-white/[0.06] border border-white/10 px-2.5 py-1 rounded-full hover:bg-white/10 hover:border-sky-300/40 transition-colors cursor-pointer"
+          >
             {label}
-          </span>
+          </button>
         ))}
+        <button
+          type="button"
+          onClick={openAdjustPanel}
+          className="text-xs text-sky-300 px-1.5 py-1 hover:text-sky-200 cursor-pointer"
+        >
+          変更
+        </button>
       </div>
 
+      {/* Wide board caution for large boots */}
+      {(adjustedInput.bootSize === "large" || adjustedInput.bootSize === "medium") && (
+        <div role="note" className="mb-4 rounded-2xl p-3.5 flex items-start gap-3 bg-amber-400/10 border border-amber-300/30">
+          <svg className="w-5 h-5 text-amber-300 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+          </svg>
+          <p className="text-xs text-amber-50 leading-relaxed">
+            {adjustedInput.bootSize === "large"
+              ? "ブーツ28cm以上は、通常幅の板だとつま先やかかとが雪面に当たりやすく、ワイドモデル（「W」「Wide」表記）が合うことが多いです。購入前にウエスト幅（目安 26cm以上）を確認してください。"
+              : "ブーツ27〜27.5cmは、板によってはつま先やかかとが雪面に当たることがあります。購入前にウエスト幅（目安 25.5cm以上）を確認すると安心です。"}
+          </p>
+        </div>
+      )}
+
+      {/* Hero: overall best match */}
+      {heroResult && (
+        <div id="best-match" className="mb-3 scroll-mt-4">
+          <BoardCard
+            featured
+            featuredLabel={resultStyle ? `${STYLE_LABELS[resultStyle]} 1位` : "BEST MATCH"}
+            result={heroResult}
+            rank={1}
+            budget={adjustedInput.budget}
+            budgetFlexibility={adjustedInput.budgetFlexibility}
+            myBoard={myBoard}
+            isFavorite={isFavorite(heroResult.board)}
+            onToggleFavorite={handleToggleFavorite}
+            onFindSimilar={(board) => { setSimilarRefBoard(board); }}
+            onFilterByBrand={handleFilterByBrand}
+            isComparing={compareBoards.some((b) => b.brand === heroResult.board.brand && b.model === heroResult.board.model && b.year === heroResult.board.year)}
+            onToggleCompare={handleToggleCompare}
+          />
+        </div>
+      )}
+
       {/* AI explanation (総合タブのみ表示) */}
-      {!resultStyle && overallResults.length > 0 && (
+      {aiEnabled && !resultStyle && overallResults.length > 0 && (
         <AiExplanation input={adjustedInput} result={overallResults[0]} />
       )}
 
-      {/* Inline adjustment panel */}
-      <div className="mb-5">
+      {/* Toolbar: adjust / compare with my board / filter */}
+      <div className="grid grid-cols-3 gap-2 mb-3">
         <button
           type="button"
           onClick={() => setIsAdjustOpen((v) => !v)}
-          className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-200 cursor-pointer ${
-            hasAdjustments
-              ? "bg-sky-500/10 text-sky-400 border-sky-500/30"
-              : "bg-slate-800/60 text-slate-400 border-slate-700/50 hover:bg-slate-700/60"
-          }`}
+          aria-expanded={isAdjustOpen}
+          className={toolTileClass(hasAdjustments || isAdjustOpen)}
         >
-          <span className="flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-            </svg>
-            診断条件を調整
-            {hasAdjustments && (
-              <span className="px-1.5 py-0.5 bg-sky-500 text-white text-[10px] font-bold rounded-full">変更中</span>
-            )}
-          </span>
-          <svg className={`w-4 h-4 transition-transform duration-200 ${isAdjustOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
           </svg>
+          {hasAdjustments ? "条件を変更中" : "条件を調整"}
         </button>
+        <MyBoardSelector boards={allBoards} selectedBoard={myBoard} onSelect={setMyBoard} triggerClassName={toolTileClass(myBoard !== null)} />
+        <button
+          type="button"
+          onClick={() => setIsFilterSheetOpen(true)}
+          className={toolTileClass(activeFilterCount > 0 || sortOrder !== "match")}
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+          </svg>
+          {activeFilterCount > 0 ? `絞り込み中 (${activeFilterCount})` : sortOrder !== "match" ? "並び替え中" : "並び替え・絞り込み"}
+        </button>
+      </div>
 
-        <div className={`overflow-hidden transition-all duration-300 ${isAdjustOpen ? "max-h-[500px] opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
-          <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl p-5 max-h-[480px] overflow-y-auto">
-            <p className="text-xs text-slate-500 font-medium mb-4">変更するとリアルタイムで結果に反映されます</p>
-            <Slider label="予算上限" value={localBudget} min={50000} max={200000} step={5000} formatValue={formatYen} onChange={setLocalBudget} />
-            <div className="border-t border-white/[0.06] my-4" />
+      {/* Inline adjustment panel */}
+      <div id="adjust-panel" className={`scroll-mt-4 overflow-hidden transition-all duration-300 ${isAdjustOpen ? "max-h-[900px] opacity-100 mb-5" : "max-h-0 opacity-0 mb-2"}`}>
+        <div className="glass rounded-3xl p-5 max-h-[880px] overflow-y-auto">
+          <p className="text-xs text-slate-400 mb-4">変更するとリアルタイムで結果に反映されます</p>
+          <Slider label="身長" value={localHeight} min={140} max={200} step={1} unit="cm" onChange={setLocalHeight} />
+          <Slider label="体重" value={localWeight} min={30} max={120} step={1} unit="kg" onChange={setLocalWeight} />
+          <div className="mb-5">
+            <p className="text-sm font-semibold text-white mb-2">レベル</p>
+            <Segmented
+              label="レベル"
+              options={(Object.keys(LEVEL_LABELS) as SkillLevel[]).map((value) => ({ value, label: LEVEL_LABELS[value] }))}
+              value={localLevel}
+              onChange={setLocalLevel}
+            />
+          </div>
+          <Slider label="予算上限" value={localBudget} min={50000} max={200000} step={5000} formatValue={formatYen} onChange={setLocalBudget} />
+          <div className="divide-y divide-white/[0.06] border-t border-white/[0.06]">
             {STYLE_ITEMS.map((item) => (
-              <Slider
+              <LevelPicker
                 key={item.key}
                 label={item.label}
                 value={localStyle[item.key]}
-                min={1}
-                max={5}
-                step={1}
                 onChange={(v) => setLocalStyle((prev) => ({ ...prev, [item.key]: v }))}
               />
             ))}
-            {hasAdjustments && (
-              <button
-                type="button"
-                onClick={() => { setLocalBudget(input.budget); setLocalStyle(input.style); }}
-                className="mt-2 text-xs text-slate-500 hover:text-sky-400 transition-colors cursor-pointer underline underline-offset-2"
-              >
-                元の条件に戻す
-              </button>
-            )}
           </div>
+          {hasAdjustments && (
+            <button
+              type="button"
+              onClick={() => {
+                setLocalHeight(input.height);
+                setLocalWeight(input.weight);
+                setLocalBudget(input.budget);
+                setLocalStyle(input.style);
+                setLocalLevel(input.level);
+              }}
+              className="mt-3 text-xs text-slate-400 hover:text-sky-300 transition-colors cursor-pointer underline underline-offset-2"
+            >
+              元の条件に戻す
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-2 mb-5">
-        <MyBoardSelector boards={allBoards} selectedBoard={myBoard} onSelect={setMyBoard} />
-        <button
-          onClick={() => setIsFilterSheetOpen(true)}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium border transition-all duration-200 cursor-pointer ${
-            activeFilterCount > 0
-              ? "bg-sky-500/10 text-sky-400 border-sky-500/30"
-              : "bg-slate-800/60 text-slate-400 border-slate-700/50 hover:bg-slate-700/60"
-          }`}
-        >
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-          </svg>
-          {activeFilterCount > 0 ? `絞り込み中 (${activeFilterCount})` : "絞り込む"}
-        </button>
-      </div>
+      <BottomSheet isOpen={isFilterSheetOpen} onClose={() => setIsFilterSheetOpen(false)} title="並び替え・絞り込み">
+        {/* Sort */}
+        <div className="mb-5">
+          <p className="text-xs text-slate-400 font-medium mb-2">並び替え</p>
+          <div className="flex flex-wrap gap-2">
+            {SORT_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => { setSortOrder(opt.value); setShowAll(false); }}
+                aria-pressed={sortOrder === opt.value}
+                className={`px-3 py-2 rounded-full text-xs font-medium border transition-all cursor-pointer ${
+                  sortOrder === opt.value
+                    ? "bg-sky-400/15 text-sky-200 border-sky-300/40"
+                    : "bg-white/[0.05] text-slate-300 border-white/10 hover:bg-white/10"
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-      <BottomSheet isOpen={isFilterSheetOpen} onClose={() => setIsFilterSheetOpen(false)} title="絞り込み">
         {/* Year filter */}
         {availableYears.length > 1 && (
           <div className="mb-5">
@@ -451,7 +618,7 @@ export function StepResults({
               {availableYears.map((year) => {
                 const isSelected = allYearsSelected || selectedYears!.has(year);
                 return (
-                  <button type="button" key={year} onClick={() => toggleYear(year)} className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
+                  <button type="button" key={year} onClick={() => toggleYear(year)} className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-400/15 text-sky-200 border-sky-300/40" : "bg-white/[0.05] text-slate-400 border-white/10"}`}>
                     {year}年
                   </button>
                 );
@@ -472,7 +639,7 @@ export function StepResults({
             {ALL_PRICE_RANGES.map((p) => {
               const isSelected = allPriceRangesSelected || selectedPriceRanges!.has(p.value);
               return (
-                <button type="button" key={p.value} onClick={() => togglePriceRange(p.value)} className={`flex-1 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
+                <button type="button" key={p.value} onClick={() => togglePriceRange(p.value)} className={`flex-1 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-400/15 text-sky-200 border-sky-300/40" : "bg-white/[0.05] text-slate-400 border-white/10"}`}>
                   {p.label}
                 </button>
               );
@@ -493,7 +660,7 @@ export function StepResults({
               const isSelected = allShapesSelected || selectedShapes!.has(s.value);
               return (
                 <Tooltip key={s.value} text={SHAPE_DESCRIPTIONS[s.value]}>
-                  <button type="button" onClick={() => toggleShape(s.value)} className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
+                  <button type="button" onClick={() => toggleShape(s.value)} className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer border ${isSelected ? "bg-sky-400/15 text-sky-200 border-sky-300/40" : "bg-white/[0.05] text-slate-400 border-white/10"}`}>
                     {s.label}
                   </button>
                 </Tooltip>
@@ -515,7 +682,7 @@ export function StepResults({
               const isSelected = allFlexSelected || selectedFlex!.has(f.value);
               return (
                 <div key={f.value} className="flex-1 relative">
-                  <button type="button" onClick={() => toggleFlex(f.value)} className={`w-full py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-500/15 text-sky-400 border-sky-500/30" : "bg-slate-800/60 text-slate-500 border-slate-700/50"}`}>
+                  <button type="button" onClick={() => toggleFlex(f.value)} className={`w-full py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border text-center ${isSelected ? "bg-sky-400/15 text-sky-200 border-sky-300/40" : "bg-white/[0.05] text-slate-400 border-white/10"}`}>
                     <div>{f.label}</div>
                     <div className="text-[10px] opacity-60 mt-0.5">{f.desc}</div>
                   </button>
@@ -545,12 +712,15 @@ export function StepResults({
               )}
             </div>
           </div>
+          <div className="mb-2">
+            <SearchInput value={brandQuery} onChange={setBrandQuery} placeholder="メーカー名で検索（例: バートン）" label="メーカーを検索" />
+          </div>
           <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
-            {brands.map((brand) => {
+            {brands.filter((brand) => matchesBrand(brand, brandQuery)).map((brand) => {
               const isSelected = allBrandsSelected || selectedBrands!.has(brand);
               return (
-                <button type="button" key={brand} onClick={() => toggleBrand(brand)} className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm cursor-pointer transition-all duration-200 ${isSelected ? "bg-sky-500/10 text-sky-300 border border-sky-500/25" : "bg-slate-700/40 text-slate-500 border border-transparent"}`}>
-                  <div className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 transition-all ${isSelected ? "bg-sky-500 text-white" : "border border-slate-600 bg-slate-800"}`}>
+                <button type="button" key={brand} onClick={() => toggleBrand(brand)} className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm cursor-pointer transition-all duration-200 ${isSelected ? "bg-sky-400/10 text-sky-100 border border-sky-300/30" : "bg-white/[0.07] text-slate-400 border border-transparent"}`}>
+                  <div className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 transition-all ${isSelected ? "bg-sky-500 text-white" : "border border-white/20 bg-white/[0.06]"}`}>
                     {isSelected && (
                       <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -569,7 +739,7 @@ export function StepResults({
           )}
         </div>
 
-        <button type="button" onClick={() => setIsFilterSheetOpen(false)} className="w-full py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold transition-all cursor-pointer">
+        <button type="button" onClick={() => setIsFilterSheetOpen(false)} className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-sky-500 to-cyan-400 text-white font-semibold shadow-[0_10px_30px_-8px_rgba(56,189,248,0.65)] hover:brightness-110 transition-all cursor-pointer">
           適用する
         </button>
       </BottomSheet>
@@ -581,7 +751,7 @@ export function StepResults({
         title={similarRefBoard ? `${similarRefBoard.brand} ${similarRefBoard.model} に似たボード` : ""}
       >
         {similarResults.length === 0 ? (
-          <p className="text-slate-500 text-sm text-center py-6">類似ボードが見つかりませんでした</p>
+          <p className="text-slate-400 text-sm text-center py-6">類似ボードが見つかりませんでした</p>
         ) : (
           <div className="space-y-3">
             {similarResults.map((result, i) => (
@@ -630,7 +800,7 @@ export function StepResults({
                   <div key={idx} className={`rounded-xl p-3 text-center border ${idx === 0 ? "bg-sky-500/10 border-sky-500/25" : "bg-violet-500/10 border-violet-500/25"}`}>
                     <p className={`text-[10px] font-medium mb-0.5 ${idx === 0 ? "text-sky-400" : "text-violet-400"}`}>{board.brand}</p>
                     <p className="text-white text-xs font-bold leading-tight">{board.model}</p>
-                    <p className="text-slate-500 text-[10px] mt-0.5">{board.year}</p>
+                    <p className="text-slate-400 text-[10px] mt-0.5">{board.year}</p>
                   </div>
                 ))}
               </div>
@@ -638,14 +808,14 @@ export function StepResults({
               <div className="space-y-1.5 mb-4">
                 {rows.map((row) => (
                   <div key={row.label} className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-                    <div className={`text-xs text-right px-2.5 py-2 rounded-xl bg-slate-800/50 ${row.valA === row.valB ? "text-slate-400" : "text-sky-300 font-medium"}`}>{row.valA}</div>
-                    <span className="text-[10px] text-slate-600 text-center w-16 flex-shrink-0">{row.label}</span>
-                    <div className={`text-xs text-left px-2.5 py-2 rounded-xl bg-slate-800/50 ${row.valA === row.valB ? "text-slate-400" : "text-violet-300 font-medium"}`}>{row.valB}</div>
+                    <div className={`text-xs text-right px-2.5 py-2 rounded-xl bg-white/[0.05] ${row.valA === row.valB ? "text-slate-400" : "text-sky-300 font-medium"}`}>{row.valA}</div>
+                    <span className="text-[10px] text-slate-400 text-center w-16 flex-shrink-0">{row.label}</span>
+                    <div className={`text-xs text-left px-2.5 py-2 rounded-xl bg-white/[0.05] ${row.valA === row.valB ? "text-slate-400" : "text-violet-300 font-medium"}`}>{row.valB}</div>
                   </div>
                 ))}
               </div>
               {/* Radar chart */}
-              <p className="text-xs text-slate-500 font-medium text-center mb-1">スタイル適性比較</p>
+              <p className="text-xs text-slate-400 font-medium text-center mb-1">スタイル適性比較</p>
               <RadarChart
                 scores={a.style_scores}
                 compareScores={b.style_scores}
@@ -659,7 +829,7 @@ export function StepResults({
       {/* Compare floating bar */}
       {compareBoards.length > 0 && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 px-4 w-full max-w-sm">
-          <div className="bg-slate-800/95 backdrop-blur-md border border-white/10 rounded-2xl px-4 py-3 shadow-2xl flex items-center gap-3">
+          <div className="bg-[#0f1830]/85 backdrop-blur-xl border border-white/15 rounded-2xl px-4 py-3 shadow-2xl flex items-center gap-3">
             <div className="flex gap-2 flex-1 min-w-0">
               {compareBoards.map((b, i) => (
                 <div key={i} className={`flex-1 min-w-0 px-2 py-1 rounded-lg text-[10px] truncate border ${i === 0 ? "bg-sky-500/10 border-sky-500/20 text-sky-300" : "bg-violet-500/10 border-violet-500/20 text-violet-300"}`}>
@@ -667,7 +837,7 @@ export function StepResults({
                 </div>
               ))}
               {compareBoards.length === 1 && (
-                <div className="flex-1 px-2 py-1 rounded-lg text-[10px] border border-dashed border-slate-600 text-slate-600 flex items-center justify-center">
+                <div className="flex-1 px-2 py-1 rounded-lg text-[10px] border border-dashed border-white/20 text-slate-400 flex items-center justify-center">
                   もう1枚選ぶ
                 </div>
               )}
@@ -676,7 +846,7 @@ export function StepResults({
               <button
                 type="button"
                 onClick={() => setCompareBoards([])}
-                className="p-1.5 rounded-lg text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-300 transition-colors cursor-pointer"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -696,18 +866,18 @@ export function StepResults({
       )}
 
       {/* Tab switcher */}
-      <div className="flex gap-1 bg-slate-800/60 border border-slate-700/50 rounded-xl p-1 mb-4">
+      <div className="flex gap-1 glass rounded-2xl p-1 mb-4">
         <button
           type="button"
           onClick={() => setActiveTab("results")}
-          className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${activeTab === "results" ? "bg-slate-700 text-white" : "text-slate-500 hover:text-slate-400"}`}
+          className={`flex-1 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${activeTab === "results" ? "bg-white/15 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]" : "text-slate-400 hover:text-slate-200"}`}
         >
           診断結果
         </button>
         <button
           type="button"
           onClick={() => setActiveTab("favorites")}
-          className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center justify-center gap-1.5 ${activeTab === "favorites" ? "bg-slate-700 text-white" : "text-slate-500 hover:text-slate-400"}`}
+          className={`flex-1 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${activeTab === "favorites" ? "bg-white/15 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]" : "text-slate-400 hover:text-slate-200"}`}
         >
           <svg className={`w-3.5 h-3.5 ${favoriteCount > 0 ? "text-rose-400 fill-rose-400" : "fill-none"}`} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -723,13 +893,13 @@ export function StepResults({
       {activeTab === "favorites" && (
         favoriteCount === 0 ? (
           <div className="text-center py-12 px-4">
-            <div className="w-14 h-14 rounded-2xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-7 h-7 text-slate-600 fill-none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <div className="w-14 h-14 rounded-2xl bg-white/[0.05] border border-white/10 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-7 h-7 text-slate-400 fill-none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
             </div>
             <p className="text-slate-400 font-medium mb-1">お気に入りはまだありません</p>
-            <p className="text-slate-600 text-sm">カードのハートボタンで保存できます</p>
+            <p className="text-slate-400 text-sm">カードのハートボタンで保存できます</p>
           </div>
         ) : (
           <div className="space-y-3 mb-4">
@@ -755,20 +925,16 @@ export function StepResults({
         <>
           {/* Style chips */}
           <div className="relative mb-4">
-            <div
-              ref={chipsRef}
-              onScroll={handleChipsScroll}
-              className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1"
-            >
+            <div className="flex gap-2 overflow-x-auto pt-1 pb-3 -mx-4 px-4 [scrollbar-width:none] [mask-image:linear-gradient(to_right,transparent,black_1rem,black_calc(100%-2.5rem),transparent)]">
               {STYLE_CHIPS.map((chip) => (
                 <button
                   key={chip.label}
                   type="button"
                   onClick={() => { setResultStyle(chip.key); setShowAll(false); }}
-                  className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all duration-200 cursor-pointer ${
+                  className={`flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold border transition-all duration-200 cursor-pointer ${
                     resultStyle === chip.key
-                      ? "bg-sky-500/20 text-sky-400 border-sky-500/40 shadow-[0_0_10px_rgba(56,189,248,0.15)]"
-                      : "bg-slate-800/60 text-slate-500 border-slate-700/50 hover:text-slate-400"
+                      ? "bg-gradient-to-r from-sky-400/30 to-cyan-400/20 text-white border-sky-300/50 shadow-[0_4px_16px_-6px_rgba(56,189,248,0.7)]"
+                      : "bg-white/[0.05] text-slate-300 border-white/10 hover:bg-white/10"
                   }`}
                 >
                   <span>{chip.emoji}</span>
@@ -776,51 +942,34 @@ export function StepResults({
                 </button>
               ))}
             </div>
-            {showChipsFade && (
-              <div className="absolute right-0 top-0 bottom-2 w-10 bg-gradient-to-l from-[#0a1628] to-transparent pointer-events-none" />
-            )}
           </div>
 
-          {/* Sort controls */}
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-xs text-slate-600 flex-shrink-0">並び替え</span>
-            <div className="flex gap-1.5 flex-wrap">
-              {([
-                { value: "match", label: "マッチ度" },
-                { value: "price_asc", label: "価格が安い順" },
-                { value: "price_desc", label: "価格が高い順" },
-                { value: "flex_asc", label: "flex 柔→硬" },
-                { value: "flex_desc", label: "flex 硬→柔" },
-              ] as const).map((opt) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  onClick={() => { setSortOrder(opt.value); setShowAll(false); }}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium border transition-all cursor-pointer ${
-                    sortOrder === opt.value
-                      ? "bg-sky-500/20 text-sky-400 border-sky-500/40"
-                      : "bg-slate-800/60 text-slate-500 border-slate-700/50 hover:text-slate-400"
-                  }`}
-                >
-                  {opt.label}
-                </button>
-              ))}
+          {(activeFilterCount > 0 || sortOrder !== "match") && (
+            <div className="flex items-center justify-between gap-2 mb-4 px-1 text-xs text-slate-300">
+              <span>
+                {sortOrder !== "match" && `${SORT_OPTIONS.find((o) => o.value === sortOrder)?.label}で表示`}
+                {sortOrder !== "match" && activeFilterCount > 0 && " ・ "}
+                {activeFilterCount > 0 && `絞り込み中（${sortedResults.length}件）`}
+              </span>
+              <button
+                type="button"
+                onClick={() => { setSortOrder("match"); resetAllFilters(); }}
+                className="flex-shrink-0 text-sky-300 hover:text-sky-200 cursor-pointer"
+              >
+                リセット
+              </button>
             </div>
-          </div>
-
-          {activeFilterCount > 0 && (
-            <p className="text-slate-500 text-center mb-4 text-xs">絞り込み中 — {sortedResults.length}件表示中</p>
           )}
 
           {sortedResults.length === 0 ? (
             <div className="text-center py-12 px-4">
-              <div className="w-14 h-14 rounded-2xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center mx-auto mb-4">
-                <svg className="w-7 h-7 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="w-14 h-14 rounded-2xl bg-white/[0.05] border border-white/10 flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
               <p className="text-slate-400 font-medium mb-1">条件に合うボードが見つかりませんでした</p>
-              <p className="text-slate-600 text-sm mb-3">
+              <p className="text-slate-400 text-sm mb-3">
                 {!allBrandsSelected && selectedBrands!.size <= 3
                   ? "メーカーを追加するか、全ブランドに戻してみてください"
                   : !allPriceRangesSelected
@@ -829,18 +978,31 @@ export function StepResults({
                   ? "形状フィルターを増やしてみてください"
                   : "絞り込み条件を緩めてみてください"}
               </p>
-              <button type="button" onClick={resetAllFilters} className="px-5 py-2.5 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30 text-sm font-medium hover:bg-sky-500/20 transition-all cursor-pointer">
+              <button type="button" onClick={resetAllFilters} className="px-5 py-2.5 rounded-full bg-sky-400/15 text-sky-200 border border-sky-300/40 text-sm font-medium hover:bg-sky-400/20 transition-all cursor-pointer">
                 絞り込みをすべてリセット
               </button>
             </div>
           ) : (
             <>
               <div className="space-y-3 mb-3">
-                {(showAll ? sortedResults : sortedResults.slice(0, 3)).map((result, i) => (
+                {listResults.length > 0 && heroInList && (
+                  <div className="flex items-center justify-between pt-1">
+                    <p className="text-xs font-medium text-slate-400">2位以降</p>
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById("best-match")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                      className="flex items-center gap-1 text-xs text-sky-300 hover:text-sky-200 cursor-pointer"
+                    >
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" /></svg>
+                      1位を見る
+                    </button>
+                  </div>
+                )}
+                {(showAll ? listResults : listResults.slice(0, 3)).map((result, i) => (
                   <BoardCard
                     key={`${result.board.brand}-${result.board.model}-${result.board.year}`}
                     result={result}
-                    rank={i + 1}
+                    rank={i + 1 + rankOffset}
                     budget={adjustedInput.budget}
                     budgetFlexibility={adjustedInput.budgetFlexibility}
                     myBoard={myBoard}
@@ -853,11 +1015,11 @@ export function StepResults({
                   />
                 ))}
               </div>
-              {sortedResults.length > 3 && (
+              {listResults.length > 3 && (
                 <button
                   type="button"
                   onClick={() => setShowAll((v) => !v)}
-                  className="w-full py-3 mb-4 rounded-xl border border-slate-700/50 bg-slate-800/40 text-slate-400 text-sm font-medium hover:bg-slate-700/40 hover:text-slate-300 transition-all cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full py-3.5 mb-6 rounded-2xl glass text-slate-300 text-sm font-medium hover:bg-white/10 transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   {showAll ? (
                     <>
@@ -867,7 +1029,7 @@ export function StepResults({
                   ) : (
                     <>
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                      残り{sortedResults.length - 3}件を表示
+                      残り{listResults.length - 3}件を表示
                     </>
                   )}
                 </button>
@@ -878,11 +1040,12 @@ export function StepResults({
       )}
 
       {/* Share buttons */}
-      <div className="flex flex-col sm:flex-row gap-2 mb-6">
+      <p className="text-[11px] font-semibold tracking-wider text-slate-400 mb-2">結果をシェア</p>
+      <div className="grid grid-cols-2 gap-2 mb-4">
         <button
           onClick={handleCopyUrl}
-          className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer border ${
-            copied ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/25" : "bg-slate-800/60 text-slate-300 border-slate-700/50 hover:bg-slate-700/60"
+          className={`flex-1 flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl text-sm font-medium transition-all duration-200 cursor-pointer ${
+            copied ? "bg-emerald-500/15 text-emerald-300 border border-emerald-400/30" : "glass text-slate-200 hover:bg-white/10"
           }`}
         >
           {copied ? (
@@ -890,11 +1053,11 @@ export function StepResults({
           ) : (
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
           )}
-          {copied ? "コピーしました" : "結果をシェア"}
+          {copied ? "コピーしました" : "リンクをコピー"}
         </button>
         <button
           onClick={handleTwitterShare}
-          className="flex-1 flex items-center justify-center gap-2 bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:bg-slate-700/60 px-4 py-3 rounded-xl transition-all duration-200 cursor-pointer text-sm font-medium"
+          className="flex-1 flex items-center justify-center gap-2 glass text-slate-200 hover:bg-white/10 px-4 py-3.5 rounded-2xl transition-all duration-200 cursor-pointer text-sm font-medium"
         >
           <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -903,13 +1066,17 @@ export function StepResults({
         </button>
       </div>
 
-      <div className="flex justify-center">
-        <Button onClick={onRestart}>もう一度診断する</Button>
-      </div>
+      <Button onClick={onRestart} className="w-full py-4 text-base">
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 4v6h6M20 20v-6h-6" />
+          <path d="M20 10a8 8 0 00-14.9-3M4 14a8 8 0 0014.9 3" />
+        </svg>
+        {sharedView ? "自分の条件で診断する" : "もう一度診断する"}
+      </Button>
 
       {/* Favorite toast */}
       {favoriteToast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-slate-800 border border-slate-700 text-white text-sm px-4 py-2.5 rounded-xl shadow-xl">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-[#0f1830]/90 backdrop-blur-xl border border-white/15 text-white text-sm px-4 py-2.5 rounded-2xl shadow-2xl">
           <svg className="w-4 h-4 text-rose-400 fill-rose-400" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>

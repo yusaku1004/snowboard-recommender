@@ -94,16 +94,19 @@ const BRAND_POPULARITY: Record<string, number> = {
 import { cosineSimilarity, getWeights } from "./cosine";
 import { calculateIdealSize, calculateRecommendedSize } from "./size";
 import { STYLE_BRAND_PRIORITY } from "./stylePriority";
+import { getFlexFit, getLevelFlexAdjustment } from "./flex";
+import { getMatchReasons } from "./reasons";
 
 function calculateSizeMismatchPenalty(
   availableLengths: number[],
   idealSize: number
 ): number {
   const minDiff = Math.min(...availableLengths.map((l) => Math.abs(l - idealSize)));
-  // 10cm以内: ペナルティなし、10-20cm: 最大10pt、20cm超: 最大25pt
-  if (minDiff <= 10) return 0;
-  if (minDiff <= 20) return (minDiff - 10) * 1.0;
-  return 10 + (minDiff - 20) * 1.5;
+  // 10cm以内: 1cmごとに0.2pt（同点時にぴったりのサイズがある板を上位にするため）
+  // 10-20cm: 2pt + 1cmごとに1pt、20cm超: 12pt + 1cmごとに1.5pt
+  if (minDiff <= 10) return minDiff * 0.2;
+  if (minDiff <= 20) return 2 + (minDiff - 10) * 1.0;
+  return 12 + (minDiff - 20) * 1.5;
 }
 
 function filterByGender(boards: Board[], preference: GenderPreference): Board[] {
@@ -113,34 +116,8 @@ function filterByGender(boards: Board[], preference: GenderPreference): Board[] 
   );
 }
 
-function calculateFlexBonus(board: Board, userStyle: UserInput["style"]): number {
-  const flex = board.flex;
-
-  // Gratri / Park focused: soft flex (1-4) is a bonus
-  // User style is on 1-5 scale; ≥4 means strong preference
-  if (
-    (userStyle.ground_tricks >= 4 || userStyle.park >= 4) &&
-    flex >= 1 &&
-    flex <= 4
-  ) {
-    return 5;
-  }
-
-  // Carving focused: stiff flex (7-10) is a bonus
-  if (userStyle.carving >= 4 && flex >= 7 && flex <= 10) {
-    return 5;
-  }
-
-  // Run tricks / Powder focused: medium flex (5-7) is a bonus
-  if (
-    (userStyle.run_tricks >= 4 || userStyle.powder >= 4) &&
-    flex >= 5 &&
-    flex <= 7
-  ) {
-    return 5;
-  }
-
-  return 0;
+function calculateFlexBonus(board: Board, input: UserInput): number {
+  return getFlexFit(board, input.style, input.level) ? 5 : 0;
 }
 
 export function estimateDiscountedPrice(price: number, year: number): number {
@@ -168,6 +145,17 @@ function calculateBudgetPenalty(
   const overAmount = estimatedPrice - effectiveBudget;
   const penalty = (overAmount / effectiveBudget) * 50;
   return Math.min(penalty, 30);
+}
+
+// コサイン類似度は実データでは 0.85〜0.99 付近に集中するため、そのまま%にすると差が出ない。
+// 0.6〜1.0 を 0〜100 に引き伸ばしてスタイル適合度とする。
+const SIMILARITY_FLOOR = 0.6;
+// スタイル適合度の配点（残りの5点がフレックス適合ボーナス）
+const STYLE_FIT_WEIGHT = 0.95;
+
+export function similarityToScore(similarity: number): number {
+  const normalized = (similarity - SIMILARITY_FLOOR) / (1 - SIMILARITY_FLOOR);
+  return Math.max(0, Math.min(1, normalized)) * 100;
 }
 
 const SCORE_KEYS: (keyof Board["style_scores"])[] = [
@@ -210,12 +198,10 @@ export function getSimilarBoards(
   const results: RecommendResult[] = filtered.map((board) => {
     const similarity = boardCosineSimilarity(referenceBoard.style_scores, board.style_scores);
     const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
-    const recommendedSize = calculateRecommendedSize(
-      input.height, input.weight, input.style, board.available_lengths,
-    );
+    const recommendedSize = calculateRecommendedSize(input.height, input.weight, input.style, board.available_lengths, input.level);
     return {
       board,
-      matchPercentage: Math.round(similarity * 1000) / 10,
+      matchPercentage: Math.round(similarityToScore(similarity) * 10) / 10,
       recommendedSize,
       overBudget: estimatedPrice > effectiveBudget,
       estimatedPrice,
@@ -245,7 +231,7 @@ export function getStyleRecommendations(
   const filtered = filterByGender(boards.filter(hasValidStyleScores), input.gender);
   const priority = STYLE_BRAND_PRIORITY[style];
   const effectiveBudget = input.budget * (1 + input.budgetFlexibility / 100);
-  const idealSize = calculateIdealSize(input.height, input.weight, input.style);
+  const idealSize = calculateIdealSize(input.height, input.weight, input.style, input.level);
 
   const results: RecommendResult[] = filtered.map((board) => {
     const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
@@ -254,17 +240,25 @@ export function getStyleRecommendations(
     const brandBoost = ((priority[board.brand] ?? 0) / 100) * 5;
     const matchPercentage = Math.max(
       0,
-      Math.min(100, board.style_scores[style] * 9 + brandBoost - budgetPenalty - sizePenalty)
+      Math.min(
+        100,
+        board.style_scores[style] * 9 +
+          brandBoost +
+          getLevelFlexAdjustment(board.flex, input.level) -
+          budgetPenalty -
+          sizePenalty
+      )
     );
+
+    const recommendedSize = calculateRecommendedSize(input.height, input.weight, input.style, board.available_lengths, input.level);
 
     return {
       board,
       matchPercentage: Math.round(matchPercentage * 10) / 10,
-      recommendedSize: calculateRecommendedSize(
-        input.height, input.weight, input.style, board.available_lengths,
-      ),
+      recommendedSize,
       overBudget: estimatedPrice > effectiveBudget,
       estimatedPrice,
+      reasons: getMatchReasons(board, input, recommendedSize, estimatedPrice),
     };
   });
 
@@ -284,11 +278,12 @@ export function getRecommendations(
   const filtered = filterByGender(boards.filter(hasValidStyleScores), input.gender);
   const weights = getWeights(input.style);
 
-  const idealSize = calculateIdealSize(input.height, input.weight, input.style);
+  const idealSize = calculateIdealSize(input.height, input.weight, input.style, input.level);
 
   const results: RecommendResult[] = filtered.map((board) => {
     const similarity = cosineSimilarity(input.style, board.style_scores, weights);
-    const flexBonus = calculateFlexBonus(board, input.style);
+    const flexBonus = calculateFlexBonus(board, input);
+    const levelAdjustment = getLevelFlexAdjustment(board.flex, input.level);
     const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
     const effectiveBudget = input.budget * (1 + input.budgetFlexibility / 100);
     const budgetPenalty = calculateBudgetPenalty(
@@ -300,15 +295,13 @@ export function getRecommendations(
 
     const matchPercentage = Math.max(
       0,
-      Math.min(100, similarity * 100 + flexBonus - budgetPenalty - sizePenalty)
+      Math.min(
+        100,
+        similarityToScore(similarity) * STYLE_FIT_WEIGHT + flexBonus + levelAdjustment - budgetPenalty - sizePenalty
+      )
     );
 
-    const recommendedSize = calculateRecommendedSize(
-      input.height,
-      input.weight,
-      input.style,
-      board.available_lengths,
-    );
+    const recommendedSize = calculateRecommendedSize(input.height, input.weight, input.style, board.available_lengths, input.level);
 
     return {
       board,
@@ -316,6 +309,7 @@ export function getRecommendations(
       recommendedSize,
       overBudget: estimatedPrice > effectiveBudget,
       estimatedPrice,
+      reasons: getMatchReasons(board, input, recommendedSize, estimatedPrice),
     };
   });
 

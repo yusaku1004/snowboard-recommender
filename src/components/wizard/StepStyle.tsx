@@ -1,89 +1,103 @@
 "use client";
 
-import { StyleScores } from "@/types";
-import { Slider } from "@/components/ui/Slider";
-import { Button } from "@/components/ui/Button";
-import { RadarChart } from "@/components/results/RadarChart";
+import { SkillLevel, StyleScores } from "@/types";
+import { LevelPicker } from "@/components/ui/LevelPicker";
+import { StepFooter } from "@/components/ui/StepFooter";
+import { RadarChart } from "@/components/results/LazyRadarChart";
 
 interface StepStyleProps {
   style: StyleScores;
+  level: SkillLevel;
   onStyleChange: (key: keyof StyleScores, value: number) => void;
   onPresetApply: (preset: StyleScores) => void;
   onNext: () => void;
   onBack: () => void;
 }
 
-const STYLE_ITEMS: { key: keyof StyleScores; label: string; description: string }[] = [
-  { key: "ground_tricks", label: "グラトリ", description: "地形を使わないトリック" },
-  { key: "park", label: "パーク", description: "キッカー・ジブ・ハーフパイプ" },
-  { key: "carving", label: "カービング", description: "エッジを効かせたターン" },
-  { key: "run_tricks", label: "ラントリ", description: "滑走しながらのトリック" },
-  { key: "powder", label: "パウダー", description: "新雪・深雪を滑走" },
+const STYLE_ITEMS: { key: keyof StyleScores; label: string; description: string; icon: string }[] = [
+  { key: "ground_tricks", label: "グラトリ", description: "地形を使わないトリック", icon: "🌀" },
+  { key: "park", label: "パーク", description: "キッカー・ジブ・パイプ", icon: "🏂" },
+  { key: "carving", label: "カービング", description: "エッジを効かせたターン", icon: "⛷️" },
+  { key: "run_tricks", label: "ラントリ", description: "滑走しながらのトリック", icon: "💨" },
+  { key: "powder", label: "パウダー", description: "新雪・深雪を滑走", icon: "❄️" },
 ];
 
-const PRESETS: { label: string; scores: StyleScores }[] = [
-  { label: "グラトリ", scores: { ground_tricks: 5, park: 1, carving: 2, run_tricks: 4, powder: 1 } },
-  { label: "パーク", scores: { ground_tricks: 2, park: 5, carving: 2, run_tricks: 3, powder: 1 } },
-  { label: "カービング", scores: { ground_tricks: 1, park: 1, carving: 5, run_tricks: 3, powder: 3 } },
-  { label: "パウダー", scores: { ground_tricks: 1, park: 2, carving: 3, run_tricks: 3, powder: 5 } },
-  { label: "オールラウンド", scores: { ground_tricks: 3, park: 3, carving: 3, run_tricks: 3, powder: 3 } },
+// 始めたばかりで好みが決まっていない人向け（まずはターンの練習が中心）
+const BEGINNER_PRESET: { label: string; icon: string; scores: StyleScores } = {
+  label: "まだ分からない",
+  icon: "🔰",
+  scores: { ground_tricks: 2, park: 1, carving: 3, run_tricks: 2, powder: 2 },
+};
+
+const PRESETS: { label: string; icon: string; scores: StyleScores }[] = [
+  { label: "グラトリ", icon: "🌀", scores: { ground_tricks: 5, park: 1, carving: 2, run_tricks: 4, powder: 1 } },
+  { label: "パーク", icon: "🏂", scores: { ground_tricks: 2, park: 5, carving: 2, run_tricks: 3, powder: 1 } },
+  { label: "カービング", icon: "⛷️", scores: { ground_tricks: 1, park: 1, carving: 5, run_tricks: 3, powder: 3 } },
+  { label: "パウダー", icon: "❄️", scores: { ground_tricks: 1, park: 2, carving: 3, run_tricks: 3, powder: 5 } },
+  { label: "オールラウンド", icon: "🏔️", scores: { ground_tricks: 3, park: 3, carving: 3, run_tricks: 3, powder: 3 } },
 ];
 
 function isPresetActive(style: StyleScores, preset: StyleScores): boolean {
   return (Object.keys(preset) as (keyof StyleScores)[]).every((k) => style[k] === preset[k]);
 }
 
-export function StepStyle({ style, onStyleChange, onPresetApply, onNext, onBack }: StepStyleProps) {
+export function StepStyle({ style, level, onStyleChange, onPresetApply, onNext, onBack }: StepStyleProps) {
+  const isBeginner = level === "beginner";
+  const presets = isBeginner ? [BEGINNER_PRESET, ...PRESETS] : [...PRESETS, BEGINNER_PRESET];
+
   return (
     <div>
-      <h2 className="text-xl font-bold text-center mb-1 text-white">スタイルを入力</h2>
-      <p className="text-slate-500 text-center mb-6 text-sm">
-        各スタイルの重視度を設定してください
-      </p>
+      <h2 className="text-2xl font-bold text-white mb-1">どんな滑りが好き？</h2>
+      <p className="text-slate-400 mb-5 text-sm">重視するスタイルほどゲージを多く選んでください</p>
+
+      {isBeginner && (
+        <div className="mb-4 rounded-2xl p-3.5 flex items-start gap-3 bg-gradient-to-r from-emerald-500/10 to-sky-500/10 border border-emerald-300/20">
+          <span className="text-lg leading-none">🔰</span>
+          <p className="text-xs text-slate-200 leading-relaxed">
+            好みがまだ決まっていなければ「まだ分からない」を選べばOKです。結果画面の「条件を調整」からいつでも変えられます。
+          </p>
+        </div>
+      )}
 
       {/* Presets */}
-      <div className="mb-4">
-        <p className="text-xs text-slate-500 mb-2 font-medium">プリセットから選ぶ</p>
-        <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
-          {PRESETS.map((preset) => {
-            const active = isPresetActive(style, preset.scores);
-            return (
-              <button
-                key={preset.label}
-                type="button"
-                onClick={() => onPresetApply(preset.scores)}
-                className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold border transition-all duration-200 cursor-pointer ${
-                  active
-                    ? "bg-sky-500 text-white border-sky-400 shadow-[0_0_10px_rgba(14,165,233,0.4)]"
-                    : "bg-slate-800/60 text-slate-400 border-slate-700/50 hover:border-sky-500/40 hover:text-sky-400"
-                }`}
-              >
-                {preset.label}
-              </button>
-            );
-          })}
-        </div>
+      <p className="text-[11px] font-semibold tracking-wider text-slate-400 mb-2">プリセット</p>
+      <div className="flex gap-2 overflow-x-auto pt-1 pb-5 -mx-4 px-4 mb-0 [scrollbar-width:none]">
+        {presets.map((preset) => {
+          const active = isPresetActive(style, preset.scores);
+          return (
+            <button
+              key={preset.label}
+              type="button"
+              onClick={() => onPresetApply(preset.scores)}
+              aria-pressed={active}
+              className={`flex-shrink-0 flex flex-col items-center justify-center gap-1 w-[5.5rem] h-20 rounded-2xl text-xs font-semibold transition-all duration-200 cursor-pointer active:scale-95 ${
+                active
+                  ? "bg-gradient-to-b from-sky-400/30 to-sky-500/10 text-white border border-sky-300/50 shadow-[0_8px_24px_-8px_rgba(56,189,248,0.7)]"
+                  : "glass text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <span className="text-2xl leading-none">{preset.icon}</span>
+              {preset.label}
+            </button>
+          );
+        })}
       </div>
 
-      <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl p-6 mb-4">
+      <div className="glass rounded-3xl px-5 py-1.5 mb-3 divide-y divide-white/[0.06]">
         {STYLE_ITEMS.map((item) => (
-          <Slider
+          <LevelPicker
             key={item.key}
             label={item.label}
             hint={item.description}
+            icon={item.icon}
             value={style[item.key]}
-            min={1}
-            max={5}
-            step={1}
-            startLabel="興味なし"
-            endLabel="最重視"
             onChange={(v) => onStyleChange(item.key, v)}
           />
         ))}
       </div>
 
-      <div className="bg-white/[0.04] backdrop-blur-md border border-white/[0.06] rounded-2xl px-4 pt-3 pb-1 mb-6">
-        <p className="text-xs text-slate-500 font-medium text-center mb-1">スタイルプレビュー</p>
+      <div className="glass rounded-3xl px-4 pt-4 pb-1 mb-6">
+        <p className="text-[11px] font-semibold tracking-wider text-slate-400 text-center">あなたのスタイル</p>
         <RadarChart
           scores={{
             ground_tricks: style.ground_tricks * 2,
@@ -95,14 +109,7 @@ export function StepStyle({ style, onStyleChange, onPresetApply, onNext, onBack 
         />
       </div>
 
-      <div className="sticky bottom-0 pt-4 pb-2 safe-bottom bg-gradient-to-t from-[#0a1628] via-[#0a1628] to-transparent -mx-4 px-4">
-        <div className="flex justify-between">
-          <Button variant="secondary" onClick={onBack}>
-            戻る
-          </Button>
-          <Button onClick={onNext}>次へ</Button>
-        </div>
-      </div>
+      <StepFooter onNext={onNext} onBack={onBack} />
     </div>
   );
 }

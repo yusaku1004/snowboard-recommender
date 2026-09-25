@@ -1,5 +1,11 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
+import boardsData from "@/data/boards_data.json";
+import { Board } from "@/types";
+import { createRateLimiter, ExplainInput, parseExplainRequest } from "@/lib/explainRequest";
+
+// 1つのIPから10分間に10回まで（API利用料の乱用対策）
+const isAllowed = createRateLimiter(10, 10 * 60 * 1000);
 
 const SHAPE_LABELS: Record<string, string> = {
   camber: "キャンバー",
@@ -18,22 +24,13 @@ const STYLE_LABELS: Record<string, string> = {
   powder: "パウダー",
 };
 
-interface ExplainRequest {
-  height: number;
-  weight: number;
-  style: Record<string, number>;
-  board: {
-    brand: string;
-    model: string;
-    flex: number;
-    shape: string;
-    style_scores: Record<string, number>;
-  };
-  matchPercentage: number;
-  recommendedSize: number;
-}
+const LEVEL_LABELS: Record<string, string> = {
+  beginner: "初心者",
+  intermediate: "中級者",
+  advanced: "上級者",
+};
 
-function buildPrompt(data: ExplainRequest): string {
+function buildPrompt(data: ExplainInput): string {
   const userStyleDesc = Object.entries(data.style)
     .filter(([, v]) => v >= 6)
     .sort(([, a], [, b]) => b - a)
@@ -50,7 +47,7 @@ function buildPrompt(data: ExplainRequest): string {
 以下の診断結果について、なぜこのボードがこのユーザーに合っているのかを解説してください。
 
 【ユーザー】
-- 身長: ${data.height}cm / 体重: ${data.weight}kg
+- 身長: ${data.height}cm / 体重: ${data.weight}kg / レベル: ${LEVEL_LABELS[data.level]}
 - 重視スタイル: ${userStyleDesc || "バランス型"}
 
 【おすすめボード】
@@ -72,15 +69,25 @@ function buildPrompt(data: ExplainRequest): string {
 export async function POST(request: NextRequest) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    return NextResponse.json(
-      { error: "GEMINI_API_KEY is not configured" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "AI explanation is not available" }, { status: 503 });
+  }
+
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  if (!isAllowed(ip)) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
+  let data: ExplainInput | null;
+  try {
+    data = parseExplainRequest(await request.json(), boardsData as Board[]);
+  } catch {
+    data = null;
+  }
+  if (!data) {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
   try {
-    const data: ExplainRequest = await request.json();
-
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
       model: "gemini-2.5-flash-lite",

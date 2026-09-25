@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "スノーボード診断 | 85ブランド1,000本以上からあなたにぴったりの板を提案",
   description:
-    "身長・体重・滑走スタイル（グラトリ・パーク・カービング・ラントリ・パウダー）を入力するだけで、85ブランド1,000本以上の2026年モデルからあなたに最適なスノーボードとサイズをAIがレコメンド。初心者から上級者まで無料で利用できます。",
+    "身長・体重・滑走スタイル（グラトリ・パーク・カービング・ラントリ・パウダー）を入力するだけで、85ブランド1,000本以上の2026年モデルからあなたに最適なスノーボードとサイズを診断。初心者から上級者まで無料で利用できます。",
   keywords: [
     "スノーボード",
     "おすすめ",
@@ -112,8 +112,12 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-dvh flex flex-col bg-[#0a1628] text-slate-200 overflow-x-hidden">
-        <div className="aurora-bg" />
+      <body className="min-h-dvh flex flex-col bg-[#060b18] text-slate-200 overflow-x-hidden">
+        <div className="ambient-bg" aria-hidden="true">
+          <div className="orb orb-a" />
+          <div className="orb orb-b" />
+          <div className="orb orb-c" />
+        </div>
         <SnowParticles />
         <MountainSilhouette />
         {children}
