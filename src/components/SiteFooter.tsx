@@ -2,6 +2,7 @@ import Link from "next/link";
 
 const LINKS = [
   { href: "/", label: "スノーボード診断" },
+  { href: "/types", label: "スノーボーダータイプ" },
   { href: "/ranking", label: "おすすめランキング" },
   { href: "/size", label: "身長別サイズの目安" },
   { href: "/boards", label: "ボード一覧" },

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { decodeFilters, decodeInput, encodeInput, getLineShareUrl, getTwitterShareUrl } from "../share";
+import { buildShareText, decodeFilters, decodeInput, encodeInput, getLineShareUrl, getStoryImageUrl, getTwitterShareUrl } from "../share";
 import { makeInput, makeStyle } from "./helpers";
 
 describe("encodeInput / decodeInput", () => {
@@ -55,13 +55,14 @@ describe("decodeFilters", () => {
 
 describe("getTwitterShareUrl", () => {
   it("絞り込み条件を共有URLに含める", () => {
-    const tweet = new URL(getTwitterShareUrl(makeInput(), "BURTON Custom", {
+    const tweet = new URL(getTwitterShareUrl(makeInput(), buildShareText("グラトリ職人", "BURTON Custom"), {
       brands: new Set(["BURTON"]), shapes: null, flex: new Set(["soft"]), priceRanges: null,
     }));
     const shared = new URL(tweet.searchParams.get("url")!, "https://example.com");
     expect(shared.searchParams.get("brands")).toBe("BURTON");
     expect(shared.searchParams.get("flex")).toBe("soft");
     expect(tweet.searchParams.get("text")).toContain("BURTON Custom");
+    expect(tweet.searchParams.get("text")).toContain("グラトリ職人");
   });
 });
 
@@ -72,5 +73,14 @@ describe("getLineShareUrl", () => {
     const shared = new URL(line.searchParams.get("url")!, "https://example.com");
     expect(shared.searchParams.get("h")).toBe("181");
     expect(shared.searchParams.get("brands")).toBe("K2");
+  });
+});
+
+describe("getStoryImageUrl", () => {
+  it("共有URLと同じ条件に format=story を付けた OGP 画像URL", () => {
+    const url = new URL(getStoryImageUrl(makeInput({ height: 177 })), "https://example.com");
+    expect(url.pathname).toBe("/og");
+    expect(url.searchParams.get("format")).toBe("story");
+    expect(url.searchParams.get("h")).toBe("177");
   });
 });

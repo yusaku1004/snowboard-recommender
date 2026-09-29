@@ -4,12 +4,15 @@ import { decodeFilters, decodeInput } from "@/lib/share";
 import { getTopResult } from "@/lib/shareResult";
 import { getBoardBySlug } from "@/lib/seo";
 import { getStyleSummary, STYLE_KEYS, STYLE_LABELS } from "@/lib/styles";
+import { RiderType, getRiderType, getRiderTypeById } from "@/lib/riderTypes";
 import { SHAPE_LABELS, getFlexLabel } from "@/lib/glossary";
 
 // OGP画像（1200×630）
 //   /og                      サイト全体
 //   /og?h=..&w=..（共有URLと同じクエリ）  診断結果（1位のボードとマッチ度）
+//   /og?...&format=story     診断結果の Instagram ストーリー用（1080×1920）
 //   /og?board=<slug>         ボード個別ページ
+//   /og?type=<id>            タイプ紹介ページ
 const SIZE = { width: 1200, height: 630 };
 const LEVEL_LABELS: Record<string, string> = { beginner: "初心者", intermediate: "中級者", advanced: "上級者" };
 
@@ -28,7 +31,7 @@ async function loadFont(text: string): Promise<ArrayBuffer | null> {
   }
 }
 
-function Frame({ children }: { children: React.ReactNode }) {
+function Frame({ children, padding = "56px 64px" }: { children: React.ReactNode; padding?: string }) {
   return (
     <div
       style={{
@@ -36,7 +39,7 @@ function Frame({ children }: { children: React.ReactNode }) {
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        padding: "56px 64px",
+        padding,
         background: "linear-gradient(135deg, #060b18 0%, #0c1a33 55%, #1a1240 100%)",
         color: "white",
         position: "relative",
@@ -98,35 +101,106 @@ function DefaultImage() {
   );
 }
 
-function ResultImage({ brand, model, match, size, conditions }: { brand: string; model: string; match: number; size: number; conditions: string }) {
+interface TypeResult {
+  type: RiderType;
+  brand: string;
+  model: string;
+  match: number;
+  size: number;
+  conditions: string;
+}
+
+function TypeBadge({ type, size }: { type: RiderType; size: number }) {
+  return (
+    <div
+      style={{
+        width: size,
+        height: size,
+        borderRadius: size * 0.28,
+        background: `linear-gradient(135deg, ${type.colors[0]}, ${type.colors[1]})`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: size * 0.55,
+        boxShadow: `0 0 ${size * 0.4}px ${type.colors[0]}88`,
+      }}
+    >
+      {type.emoji}
+    </div>
+  );
+}
+
+// 共有URL（横長）: タイプ名を主役に、相性のいい板を添える
+function ResultImage({ type, brand, model, match }: TypeResult) {
   return (
     <Frame>
-      <div style={{ display: "flex", flex: 1, alignItems: "center", gap: 48, marginTop: 8 }}>
+      <div style={{ display: "flex", flex: 1, alignItems: "center", gap: 56 }}>
         <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-          <div style={{ fontSize: 30, color: "#fbbf24" }}>★ 診断結果のベストマッチ</div>
-          <div style={{ fontSize: 36, color: "#cbd5e1", marginTop: 18 }}>{brand}</div>
-          <div style={{ fontSize: model.length > 18 ? 60 : 80, lineHeight: 1.1, letterSpacing: "-0.02em" }}>{model}</div>
-          <div style={{ fontSize: 30, color: "#e2e8f0", marginTop: 20 }}>{`おすすめサイズ ${size}cm`}</div>
-          <div style={{ fontSize: 24, color: "#94a3b8", marginTop: 14 }}>{conditions}</div>
+          <div style={{ fontSize: 30, color: "#cbd5e1" }}>私のスノーボーダータイプは</div>
+          <div style={{ fontSize: fitFontSize(type.name, 740, 80), lineHeight: 1.15, letterSpacing: "-0.02em", marginTop: 6 }}>{type.name}</div>
+          <div style={{ fontSize: 30, color: type.colors[0], marginTop: 10 }}>{type.tagline}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 34, fontSize: 26, color: "#e2e8f0" }}>
+            <div style={{ color: "#94a3b8" }}>相性のいい板</div>
+            <div>{`${brand} ${model}`}</div>
+            <div style={{ padding: "4px 14px", borderRadius: 999, background: "rgba(56,189,248,0.2)", color: "#7dd3fc", fontSize: 22 }}>
+              {`${match.toFixed(1)}% MATCH`}
+            </div>
+          </div>
         </div>
+        <TypeBadge type={type} size={260} />
+      </div>
+      <div style={{ fontSize: 26, color: "#7dd3fc" }}>あなたのタイプも約1分で診断 →</div>
+    </Frame>
+  );
+}
+
+// Instagram ストーリー用（縦長 1080×1920）
+function StoryImage({ type, brand, model, match, size, conditions }: TypeResult) {
+  return (
+    <Frame padding="120px 80px">
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1, justifyContent: "center", textAlign: "center" }}>
+        <TypeBadge type={type} size={300} />
+        <div style={{ fontSize: 44, color: "#cbd5e1", marginTop: 70 }}>私のスノーボーダータイプは</div>
+        <div style={{ fontSize: fitFontSize(type.name, 900, 110), lineHeight: 1.15, letterSpacing: "-0.02em", marginTop: 16 }}>{type.name}</div>
+        <div style={{ fontSize: 44, color: type.colors[0], marginTop: 20 }}>{type.tagline}</div>
         <div
           style={{
-            width: 280,
-            height: 280,
-            borderRadius: "50%",
-            border: "18px solid #38bdf8",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0 0 60px rgba(56,189,248,0.55)",
+            marginTop: 90,
+            padding: "40px 56px",
+            borderRadius: 48,
+            background: "rgba(255,255,255,0.07)",
+            border: "2px solid rgba(255,255,255,0.15)",
+            width: "100%",
           }}
         >
-          <div style={{ fontSize: 80, lineHeight: 1 }}>{match.toFixed(1)}</div>
-          <div style={{ fontSize: 26, color: "#cbd5e1", marginTop: 6 }}>% MATCH</div>
+          <div style={{ fontSize: 34, color: "#94a3b8" }}>相性のいい板</div>
+          <div style={{ fontSize: 40, color: "#cbd5e1", marginTop: 16 }}>{brand}</div>
+          <div style={{ fontSize: model.length > 16 ? 60 : 76, lineHeight: 1.1 }}>{model}</div>
+          <div style={{ fontSize: 38, color: "#7dd3fc", marginTop: 20 }}>{`${match.toFixed(1)}% MATCH ・ ${size}cm`}</div>
+          <div style={{ fontSize: 30, color: "#94a3b8", marginTop: 16 }}>{conditions}</div>
         </div>
       </div>
-      <div style={{ fontSize: 26, color: "#7dd3fc" }}>あなたに合う板も約1分で診断 →</div>
+      <div style={{ display: "flex", justifyContent: "center", fontSize: 38, color: "#7dd3fc" }}>あなたのタイプは？「スノーボード診断」で検索</div>
+    </Frame>
+  );
+}
+
+// タイプ紹介ページ
+function TypeImage({ type }: { type: RiderType }) {
+  return (
+    <Frame>
+      <div style={{ display: "flex", flex: 1, alignItems: "center", gap: 56 }}>
+        <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+          <div style={{ fontSize: 30, color: "#cbd5e1" }}>スノーボーダータイプ</div>
+          <div style={{ fontSize: fitFontSize(type.name, 740, 84), lineHeight: 1.15, letterSpacing: "-0.02em", marginTop: 6 }}>{type.name}</div>
+          <div style={{ fontSize: 32, color: type.colors[0], marginTop: 12 }}>{type.tagline}</div>
+        </div>
+        <TypeBadge type={type} size={260} />
+      </div>
+      <div style={{ fontSize: 26, color: "#94a3b8" }}>特徴と相性のいいボードをチェック</div>
     </Frame>
   );
 }
@@ -145,13 +219,22 @@ function BoardImage({ brand, model, specs, strengths }: { brand: string; model: 
   );
 }
 
+const STORY_SIZE = { width: 1080, height: 1920 };
+
+// 全角文字が1行に収まるフォントサイズ（上限 max）
+function fitFontSize(text: string, width: number, max: number): number {
+  return Math.min(max, Math.floor(width / Math.max(text.length, 1)));
+}
+
 export async function GET(request: NextRequest) {
   const search = request.nextUrl.searchParams;
   let element: React.ReactElement = <DefaultImage />;
+  let size = SIZE;
   let text = "スノーボード診断あなたにぴったりの一本を見つけよう85ブランド・1,000本以上から、合う板とサイズを約1分で診断／";
 
   const boardSlug = search.get("board");
-  const input = boardSlug ? null : decodeInput(search.toString());
+  const typeId = search.get("type");
+  const input = boardSlug || typeId ? null : decodeInput(search.toString());
 
   if (boardSlug) {
     const board = getBoardBySlug(boardSlug);
@@ -162,26 +245,35 @@ export async function GET(request: NextRequest) {
       element = <BoardImage brand={board.brand} model={board.model} specs={specs} strengths={strengths} />;
       text = `スノーボード診断／${board.brand}${board.model}${specs}${strengths}サイズ・特徴・価格をチェック`;
     }
+  } else if (typeId) {
+    const type = getRiderTypeById(typeId);
+    if (type) {
+      element = <TypeImage type={type} />;
+      text = `スノーボード診断／スノーボーダータイプ${type.name}${type.tagline}特徴と相性のいいボードをチェック`;
+    }
   } else if (input) {
     const top = getTopResult(input, decodeFilters(search.toString()));
     if (top) {
-      const conditions = `${input.height}cm・${input.weight}kg・${LEVEL_LABELS[input.level]}・${getStyleSummary(input.style)}`;
-      element = (
-        <ResultImage
-          brand={top.board.brand}
-          model={top.board.model}
-          match={top.matchPercentage}
-          size={top.recommendedSize}
-          conditions={conditions}
-        />
-      );
-      text = `スノーボード診断／★診断結果のベストマッチ${top.board.brand}${top.board.model}おすすめサイズcm${conditions}%MATCH0123456789.あなたに合う板も約1分で診断→`;
+      const type = getRiderType(input.style, input.level);
+      const props: TypeResult = {
+        type,
+        brand: top.board.brand,
+        model: top.board.model,
+        match: top.matchPercentage,
+        size: top.recommendedSize,
+        conditions: `${input.height}cm・${input.weight}kg・${LEVEL_LABELS[input.level]}・${getStyleSummary(input.style)}`,
+      };
+      const story = search.get("format") === "story";
+      element = story ? <StoryImage {...props} /> : <ResultImage {...props} />;
+      if (story) size = STORY_SIZE;
+      text = `スノーボード診断／私のスノーボーダータイプは${type.name}${type.tagline}相性のいい板${props.brand}${props.model}${props.conditions}%MATCH・cm0123456789.あなたのタイプも約1分で診断→は？「」で検索`;
     }
   }
 
   const font = await loadFont(text);
   return new ImageResponse(element, {
-    ...SIZE,
+    ...size,
+    emoji: "twemoji",
     ...(font ? { fonts: [{ name: "Noto Sans JP", data: font, weight: 800 as const, style: "normal" as const }] } : {}),
     headers: { "Cache-Control": "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400" },
   });

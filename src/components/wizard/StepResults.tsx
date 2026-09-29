@@ -3,7 +3,9 @@
 import { useMemo, useState, useCallback, useEffect, useRef } from "react";
 import { UserInput, SkillLevel, BootSize, Board, Shape, FlexCategory, PriceRange, StyleScores, RecommendResult } from "@/types";
 import { getRecommendations, getSimilarBoards, getStyleRecommendations, estimateDiscountedPrice } from "@/lib/recommend";
-import { getLineShareUrl, getShareUrl, getTwitterShareUrl, FilterState } from "@/lib/share";
+import { buildShareText, getLineShareUrl, getShareUrl, getStoryImageUrl, getTwitterShareUrl, FilterState } from "@/lib/share";
+import { getRiderType } from "@/lib/riderTypes";
+import { RiderTypeCard } from "@/components/results/RiderTypeCard";
 import { BoardCard } from "@/components/results/BoardCard";
 import { AiExplanation } from "@/components/results/AiExplanation";
 import { RadarChart } from "@/components/results/LazyRadarChart";
@@ -323,6 +325,11 @@ function StepResultsContent({
     });
   }, [results, sortOrder]);
 
+  const riderType = useMemo(
+    () => getRiderType(adjustedInput.style, adjustedInput.level),
+    [adjustedInput.style, adjustedInput.level]
+  );
+
   // Analytics: 診断結果の表示（最初の1回だけ）
   const resultTracked = useRef(false);
   useEffect(() => {
@@ -330,12 +337,13 @@ function StepResultsContent({
     resultTracked.current = true;
     const top = overallResults[0];
     trackEvent("result_view", {
+      type: riderType.id,
       level: adjustedInput.level,
       style: getStyleSummary(adjustedInput.style),
       shared: sharedView,
       top_board: top ? `${top.board.brand} ${top.board.model}` : null,
     });
-  }, [overallResults, adjustedInput, sharedView]);
+  }, [overallResults, adjustedInput, sharedView, riderType]);
 
   // 選択中のタブ（総合 / スタイル別）の1位をヒーローとして上部に表示し、同じ並びのリストからは除く
   const heroResult = (resultStyle ? styleResults[0] : overallResults[0]) ?? null;
@@ -393,6 +401,49 @@ function StepResultsContent({
     priceRanges: selectedPriceRanges,
   };
 
+  // ---- Instagram ストーリー用の縦長画像 ----
+  // Safari は「タップ直後」でないと共有シートや新しいタブを開けないため、タップ後に画像を待つことはできない。
+  // ファイル共有に対応した端末では、シェア欄が見えた時点で画像を先読みしておき、タップ時にすぐ共有シートを開く。
+  // 非対応の端末では、画像を新しいタブで開いて保存してもらう。
+  const storyUrl = getStoryImageUrl(adjustedInput, currentFilters);
+  const [storyFile, setStoryFile] = useState<{ url: string; file: File } | null>(null);
+  const storyButtonRef = useRef<HTMLButtonElement>(null);
+  const canShareFiles =
+    typeof navigator !== "undefined" &&
+    typeof navigator.canShare === "function" &&
+    navigator.canShare({ files: [new File([""], "check.png", { type: "image/png" })] });
+
+  useEffect(() => {
+    const el = storyButtonRef.current;
+    if (!canShareFiles || !el || storyFile?.url === storyUrl) return;
+    let cancelled = false;
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      observer.disconnect();
+      fetch(storyUrl)
+        .then((res) => res.blob())
+        .then((blob) => {
+          if (!cancelled) setStoryFile({ url: storyUrl, file: new File([blob], "snowboard-type.png", { type: "image/png" }) });
+        })
+        .catch(() => {});
+    });
+    observer.observe(el);
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+    };
+  }, [canShareFiles, storyUrl, storyFile]);
+
+  const storyReady = !canShareFiles || storyFile?.url === storyUrl;
+  const handleStoryShare = () => {
+    trackEvent("share", { method: "story" });
+    if (canShareFiles && storyFile?.url === storyUrl) {
+      navigator.share({ files: [storyFile.file], title: `私は「${riderType.name}」タイプ` }).catch(() => {});
+      return;
+    }
+    window.open(storyUrl, "_blank", "noopener,noreferrer");
+  };
+
   const handleToggleFavorite = useCallback((board: Board) => {
     const wasAdded = !isFavorite(board);
     toggleFavorite(board);
@@ -429,7 +480,7 @@ function StepResultsContent({
     try {
       await navigator.share({
         title: "スノーボード診断",
-        text: topBoard ? `スノーボード診断で「${topBoard.board.brand} ${topBoard.board.model}」がおすすめされました！` : "スノーボード診断",
+        text: buildShareText(riderType.name, topBoard ? `${topBoard.board.brand} ${topBoard.board.model}` : null),
         url: getShareUrl(adjustedInput, currentFilters),
       });
     } catch {
@@ -446,7 +497,11 @@ function StepResultsContent({
     trackEvent("share", { method: "x" });
     const topBoard = overallResults[0];
     if (!topBoard) return;
-    const url = getTwitterShareUrl(adjustedInput, `${topBoard.board.brand} ${topBoard.board.model}`, currentFilters);
+    const url = getTwitterShareUrl(
+      adjustedInput,
+      buildShareText(riderType.name, `${topBoard.board.brand} ${topBoard.board.model}`),
+      currentFilters
+    );
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
@@ -483,6 +538,8 @@ function StepResultsContent({
           変更
         </button>
       </div>
+
+      <RiderTypeCard type={riderType} shared={sharedView} />
 
       {/* Wide board caution for large boots */}
       {(adjustedInput.bootSize === "large" || adjustedInput.bootSize === "medium") && (
@@ -1092,6 +1149,20 @@ function StepResultsContent({
           LINEで送る
         </button>
       </div>
+      <button
+        type="button"
+        ref={storyButtonRef}
+        onClick={handleStoryShare}
+        disabled={!storyReady}
+        className="w-full flex items-center justify-center gap-2 mb-4 py-3 rounded-2xl text-sm font-medium text-white border border-pink-300/30 bg-gradient-to-r from-amber-400/15 via-pink-500/15 to-violet-500/20 hover:brightness-125 transition cursor-pointer disabled:opacity-60 disabled:cursor-wait"
+      >
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+        </svg>
+        {storyReady ? "Instagramストーリー用の画像を作る" : "画像を準備中…"}
+      </button>
 
       <Button onClick={onRestart} className="w-full py-4 text-base">
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">

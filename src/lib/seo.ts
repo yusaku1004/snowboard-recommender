@@ -3,6 +3,7 @@ import { Board, RecommendResult, SkillLevel, StyleScores, UserInput } from "@/ty
 import { estimateDiscountedPrice, getRecommendations, getStyleRecommendations } from "./recommend";
 import { calculateIdealSize, calculateRecommendedSize } from "./size";
 import { BEGINNER_STYLE, STYLE_KEYS, STYLE_LABELS } from "./styles";
+import { RiderType } from "./riderTypes";
 
 // 検索流入用の静的ページ（ボード個別・ランキング・サイズ目安）で使うデータ。
 // サーバー側（ビルド時）でのみ使う。クライアントコンポーネントから import しないこと。
@@ -172,4 +173,9 @@ export function getSizeTable(height: number) {
     })),
     beginnerAdjustment: Math.round(calculateIdealSize(height, std, NEUTRAL_STYLE, "beginner") - calculateIdealSize(height, std, NEUTRAL_STYLE)),
   };
+}
+
+// ---- タイプ紹介ページ ----
+export function getBoardsForType(type: RiderType, count = 5): RecommendResult[] {
+  return getRecommendations(ALL_BOARDS, baseInput({ style: type.sample.style, level: type.sample.level })).slice(0, count);
 }

@@ -132,10 +132,22 @@ export function getShareUrl(input: UserInput, filters?: FilterState): string {
   return `${base}/?${params.toString()}`;
 }
 
-export function getTwitterShareUrl(input: UserInput, topBoardName: string, filters?: FilterState): string {
+// シェア文面。タイプ名（自分を表す名前）を主役にする
+export function buildShareText(typeName: string, topBoardName: string | null): string {
+  const board = topBoardName ? `相性のいい板は「${topBoardName}」でした🏂` : "";
+  return `私のスノーボーダータイプは「${typeName}」！${board}\nあなたも約1分で診断してみて #スノーボード診断`;
+}
+
+export function getTwitterShareUrl(input: UserInput, shareText: string, filters?: FilterState): string {
   const url = getShareUrl(input, filters);
-  const text = `スノーボード診断で「${topBoardName}」がおすすめされました！あなたもぴったりの板を見つけよう`;
-  return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+  return `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`;
+}
+
+// Instagram ストーリー用の縦長画像（1080×1920）のURL
+export function getStoryImageUrl(input: UserInput, filters?: FilterState): string {
+  const params = new URLSearchParams(new URL(getShareUrl(input, filters), "https://x").search);
+  params.set("format", "story");
+  return `/og?${params.toString()}`;
 }
 
 export function getLineShareUrl(input: UserInput, filters?: FilterState): string {

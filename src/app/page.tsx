@@ -3,6 +3,7 @@ import { preload } from "react-dom";
 import { Wizard } from "@/components/wizard/Wizard";
 import { decodeInput, decodeFilters } from "@/lib/share";
 import { getTopResult } from "@/lib/shareResult";
+import { getRiderType } from "@/lib/riderTypes";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
@@ -22,8 +23,9 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const top = getTopResult(input, decodeFilters(search));
   if (!top) return {};
 
-  const title = `診断結果：${top.board.brand} ${top.board.model}がベストマッチ | スノーボード診断`;
-  const description = `マッチ度${top.matchPercentage}%・おすすめサイズ${top.recommendedSize}cm。あなたも身長・体重・スタイルを答えて、ぴったりの板を約1分で診断しよう。`;
+  const type = getRiderType(input.style, input.level);
+  const title = `私は「${type.name}」タイプ｜相性のいい板は${top.board.brand} ${top.board.model} | スノーボード診断`;
+  const description = `${type.tagline}。相性のいい板は${top.board.brand} ${top.board.model}（マッチ度${top.matchPercentage}%・${top.recommendedSize}cm）。あなたのスノーボーダータイプも約1分で診断しよう。`;
   const image = { url: `/og?${search}`, width: 1200, height: 630, alt: title };
   return {
     title,
