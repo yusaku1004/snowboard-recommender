@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "update:rakuten": "node scripts/update_rakuten.ts",
+    "import:csv": "node scripts/import_csv.ts",
+    "export:csv": "node scripts/export_csv.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

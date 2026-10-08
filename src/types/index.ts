@@ -21,6 +21,17 @@ export interface StyleScores {
   powder: number;
 }
 
+// 楽天市場の実売情報（scripts/update_rakuten.ts が定期取得）
+export interface RakutenOffer {
+  // 一致した出品の最安値（税込）
+  price: number;
+  // 商品ページ（アフィリエイトURL）
+  url: string;
+  imageUrl?: string;
+  // 取得日（YYYY-MM-DD）
+  fetchedAt: string;
+}
+
 export interface Board {
   brand: string;
   model: string;
@@ -34,6 +45,9 @@ export interface Board {
   url?: string;
   riding_type?: string;
   style_scores: StyleScores;
+  offer?: RakutenOffer;
+  // 前年モデルの仕様を引き継いで自動作成したエントリ（例: 2026年の仕様で作った2027年モデル）
+  specs_from_year?: number;
 }
 
 export interface UserInput {

@@ -1,21 +1,17 @@
-import boardsData from "@/data/boards_data.json";
 import { Board, RecommendResult, SkillLevel, StyleScores, UserInput } from "@/types";
-import { estimateDiscountedPrice, getRecommendations, getStyleRecommendations } from "./recommend";
+import { getBoardPrice, getRecommendations, getStyleRecommendations } from "./recommend";
 import { calculateIdealSize, calculateRecommendedSize } from "./size";
 import { BEGINNER_STYLE, STYLE_KEYS, STYLE_LABELS } from "./styles";
 import { RiderType } from "./riderTypes";
+import { boardSlug } from "./slug";
+import { ALL_BOARDS, LATEST_MODEL_YEAR } from "./boardsData";
 
 // 検索流入用の静的ページ（ボード個別・ランキング・サイズ目安）で使うデータ。
 // サーバー側（ビルド時）でのみ使う。クライアントコンポーネントから import しないこと。
 
-export const ALL_BOARDS = boardsData as Board[];
+export { ALL_BOARDS, LATEST_MODEL_YEAR };
 
-export function boardSlug(board: Pick<Board, "brand" | "model">): string {
-  return `${board.brand} ${board.model}`
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
+export { boardSlug };
 
 // 同じ brand+model が複数年ある場合は新しい年式を採用
 const BOARDS_BY_SLUG = new Map<string, Board>();
@@ -99,7 +95,7 @@ export function describeBoard(board: Board): string {
   return `${board.brand} ${board.model}（${board.year}年モデル）は、${styleText}フレックス${board.flex}/10（${flexText}）のボードです。`;
 }
 
-export { estimateDiscountedPrice };
+export { getBoardPrice };
 
 // ---- ランキングページ ----
 export interface RankingDef {
@@ -139,7 +135,7 @@ export const RANKINGS: RankingDef[] = [
     description: "型落ち・セールを見込んだ想定価格が5万円以下のスノーボードから、オールラウンドに使えるボードをランキング。",
     compute: () =>
       getRecommendations(
-        ALL_BOARDS.filter((b) => estimateDiscountedPrice(b.price, b.year) <= 50000),
+        ALL_BOARDS.filter((b) => getBoardPrice(b) <= 50000),
         baseInput()
       ).slice(0, RANKING_SIZE),
   },

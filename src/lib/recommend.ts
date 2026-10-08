@@ -120,6 +120,28 @@ function calculateFlexBonus(board: Board, input: UserInput): number {
   return getFlexFit(board, input.style, input.level) ? 5 : 0;
 }
 
+// 同じ brand+model の複数年式のうち、どれを残すか（マッチ度が高い方、同点なら新しい年式）
+function isBetterResult(candidate: RecommendResult, current: RecommendResult): boolean {
+  if (candidate.matchPercentage !== current.matchPercentage) return candidate.matchPercentage > current.matchPercentage;
+  return candidate.board.year > current.board.year;
+}
+
+// 同じ brand+model の年式違いを1件にまとめる
+function dedupeByModel(results: RecommendResult[]): RecommendResult[] {
+  const seen = new Map<string, RecommendResult>();
+  for (const r of results) {
+    const key = `${r.board.brand}|${r.board.model}`;
+    const current = seen.get(key);
+    if (!current || isBetterResult(r, current)) seen.set(key, r);
+  }
+  return Array.from(seen.values());
+}
+
+// 表示・予算判定に使う価格。楽天の実売価格があればそれを、なければ型落ち割引を見込んだ推定価格を使う
+export function getBoardPrice(board: Pick<Board, "price" | "year" | "offer">): number {
+  return board.offer?.price ?? estimateDiscountedPrice(board.price, board.year);
+}
+
 export function estimateDiscountedPrice(price: number, year: number): number {
   const now = new Date();
   const currentSeasonYear =
@@ -197,7 +219,7 @@ export function getSimilarBoards(
 
   const results: RecommendResult[] = filtered.map((board) => {
     const similarity = boardCosineSimilarity(referenceBoard.style_scores, board.style_scores);
-    const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
+    const estimatedPrice = getBoardPrice(board);
     const recommendedSize = calculateRecommendedSize(input.height, input.weight, input.style, board.available_lengths, input.level);
     return {
       board,
@@ -212,7 +234,7 @@ export function getSimilarBoards(
   const seen = new Map<string, RecommendResult>();
   for (const r of results) {
     const key = `${r.board.brand}|${r.board.model}`;
-    if (!seen.has(key) || r.matchPercentage > seen.get(key)!.matchPercentage) {
+    if (!seen.has(key) || isBetterResult(r, seen.get(key)!)) {
       seen.set(key, r);
     }
   }
@@ -234,7 +256,7 @@ export function getStyleRecommendations(
   const idealSize = calculateIdealSize(input.height, input.weight, input.style, input.level);
 
   const results: RecommendResult[] = filtered.map((board) => {
-    const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
+    const estimatedPrice = getBoardPrice(board);
     const budgetPenalty = calculateBudgetPenalty(estimatedPrice, input.budget, input.budgetFlexibility);
     const sizePenalty = calculateSizeMismatchPenalty(board.available_lengths, idealSize);
     const brandBoost = ((priority[board.brand] ?? 0) / 100) * 5;
@@ -262,7 +284,7 @@ export function getStyleRecommendations(
     };
   });
 
-  return results
+  return dedupeByModel(results)
     .sort((a, b) => {
       // 予算内を優先
       if (a.overBudget !== b.overBudget) return a.overBudget ? 1 : -1;
@@ -284,7 +306,7 @@ export function getRecommendations(
     const similarity = cosineSimilarity(input.style, board.style_scores, weights);
     const flexBonus = calculateFlexBonus(board, input);
     const levelAdjustment = getLevelFlexAdjustment(board.flex, input.level);
-    const estimatedPrice = estimateDiscountedPrice(board.price, board.year);
+    const estimatedPrice = getBoardPrice(board);
     const effectiveBudget = input.budget * (1 + input.budgetFlexibility / 100);
     const budgetPenalty = calculateBudgetPenalty(
       estimatedPrice,
@@ -317,7 +339,7 @@ export function getRecommendations(
   const seen = new Map<string, RecommendResult>();
   for (const r of results) {
     const key = `${r.board.brand}|${r.board.model}`;
-    if (!seen.has(key) || r.matchPercentage > seen.get(key)!.matchPercentage) {
+    if (!seen.has(key) || isBetterResult(r, seen.get(key)!)) {
       seen.set(key, r);
     }
   }

@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useCallback, useEffect, useRef } from "react";
 import { UserInput, SkillLevel, BootSize, Board, Shape, FlexCategory, PriceRange, StyleScores, RecommendResult } from "@/types";
-import { getRecommendations, getSimilarBoards, getStyleRecommendations, estimateDiscountedPrice } from "@/lib/recommend";
+import { getRecommendations, getSimilarBoards, getStyleRecommendations, getBoardPrice } from "@/lib/recommend";
 import { buildShareText, getLineShareUrl, getShareUrl, getStoryImageUrl, getTwitterShareUrl, FilterState } from "@/lib/share";
 import { getRiderType } from "@/lib/riderTypes";
 import { RiderTypeCard } from "@/components/results/RiderTypeCard";
@@ -857,7 +857,7 @@ function StepResultsContent({
           const rows: { label: string; valA: string; valB: string }[] = [
             { label: "形状", valA: SHAPE_LABELS_C[a.shape] || a.shape, valB: SHAPE_LABELS_C[b.shape] || b.shape },
             { label: "硬さ", valA: `${a.flex} (${getFlexLabel(a.flex)})`, valB: `${b.flex} (${getFlexLabel(b.flex)})` },
-            { label: "価格（推定）", valA: `¥${estimateDiscountedPrice(a.price, a.year).toLocaleString()}`, valB: `¥${estimateDiscountedPrice(b.price, b.year).toLocaleString()}` },
+            { label: "価格", valA: `¥${getBoardPrice(a).toLocaleString()}`, valB: `¥${getBoardPrice(b).toLocaleString()}` },
             { label: "マッチ度", valA: recA ? `${recA.matchPercentage}%` : "—", valB: recB ? `${recB.matchPercentage}%` : "—" },
             { label: "おすすめサイズ", valA: recA ? `${recA.recommendedSize}cm` : "—", valB: recB ? `${recB.recommendedSize}cm` : "—" },
           ];

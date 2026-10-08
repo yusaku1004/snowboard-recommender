@@ -23,6 +23,13 @@ export function SiteFooter() {
           ))}
         </ul>
       </nav>
+      {/* 楽天ウェブサービスのクレジット表記（規約により提供されたHTMLをそのまま使う） */}
+      <div
+        className="mt-4 text-center text-xs text-slate-400 [&_a]:underline-offset-2 [&_a:hover]:underline"
+        dangerouslySetInnerHTML={{
+          __html: '<a href="https://developers.rakuten.com/" target="_blank">Supported by Rakuten Developers</a>',
+        }}
+      />
     </footer>
   );
 }

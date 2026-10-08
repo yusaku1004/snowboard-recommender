@@ -8,6 +8,7 @@ import { Tooltip } from "@/components/ui/Tooltip";
 import { SHAPE_DESCRIPTIONS, FLEX_DESCRIPTIONS, getFlexCategory, getFlexLabel as flexLabel } from "@/lib/glossary";
 import { getAmazonSearchUrl, getRakutenSearchUrl, getYahooSearchUrl } from "@/lib/affiliate";
 import { SHAPE_LABELS } from "@/lib/glossary";
+import { formatShortDate } from "@/lib/format";
 
 interface BoardCardProps {
   result: RecommendResult;
@@ -113,6 +114,16 @@ const SIZE_DESCRIPTION =
 const PRICE_DESCRIPTION =
   "型落ちやセールを見込んだ実売価格の目安です。実際の価格は購入先でご確認ください。";
 
+function SpecsFromYearChip({ year, specsYear }: { year: number; specsYear: number }) {
+  return (
+    <Tooltip text={`${year}年モデルの詳しい仕様が未登録のため、${specsYear}年モデルの仕様（硬さ・形状・スタイル適性）で診断しています。`} align="start">
+      <span className="text-xs text-amber-200 bg-amber-400/10 border border-amber-300/20 px-1.5 py-0.5 rounded-md">
+        仕様は{specsYear}年モデル参考
+      </span>
+    </Tooltip>
+  );
+}
+
 function ReasonChips({ reasons }: { reasons: string[] }) {
   return (
     <div className="flex flex-wrap gap-1">
@@ -143,6 +154,11 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
   const topStyleTag = getTopStyleTag(board.style_scores);
   const reasons = result.reasons ?? [];
   const hasDiscount = estimatedPrice < board.price;
+  const offer = board.offer;
+  const imageUrl = board.image_url || offer?.imageUrl;
+  // 前年仕様を引き継いだエントリの定価は前年のものなので、取り消し線の定価は出さない
+  const showListPrice = hasDiscount && !board.specs_from_year;
+  const offerDate = offer ? formatShortDate(offer.fetchedAt) : null;
   const effectiveBudget = budget * (1 + budgetFlexibility / 100);
   const yearsOldLabel = getYearsOldLabel(board.year);
   const rankStyle = getRankStyle(rank);
@@ -214,11 +230,14 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
           </div>
 
           <div className="relative flex items-center gap-3 min-[360px]:gap-4">
-            {/* Board visual */}
+            {/* Board visual（商品画像は正方形の写真なので白いタイルに収める） */}
+            {imageUrl ? (
+              <div className="flex-shrink-0 w-[4.5rem] h-[4.5rem] min-[360px]:w-28 min-[360px]:h-28 rounded-2xl overflow-hidden bg-white p-1 shadow-[0_10px_30px_-6px_rgba(56,189,248,0.5)] ring-1 ring-white/20">
+                <img src={imageUrl} alt={`${board.brand} ${board.model}`} className="w-full h-full object-contain" loading="lazy" />
+              </div>
+            ) : (
             <div className="flex-shrink-0 w-14 h-36 rounded-full overflow-hidden shadow-[0_10px_30px_-6px_rgba(56,189,248,0.5)] ring-1 ring-white/20 -rotate-6">
-              {board.image_url ? (
-                <img src={board.image_url} alt={`${board.brand} ${board.model}`} className="w-full h-full object-cover" />
-              ) : (
+              {(
                 <div className={`w-full h-full bg-gradient-to-b ${getBrandColor(board.brand)} flex items-center justify-center relative`}>
                   <div className="absolute inset-x-2 top-3 bottom-3 rounded-full border border-white/25" />
                   <span className="[writing-mode:vertical-rl] text-white font-black text-xs tracking-[0.2em] drop-shadow">
@@ -227,20 +246,13 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 </div>
               )}
             </div>
+            )}
 
             <div className="flex-1 min-w-0">
               <p className="text-xs text-slate-400 font-medium">
                 {board.brand} <span className="text-slate-400">· {board.year}</span>
               </p>
-              <h3 className="text-xl font-black text-white leading-tight mt-0.5 mb-2 break-words">{board.model}</h3>
-              <div className="flex flex-wrap gap-1">
-                <Tooltip text={SHAPE_DESCRIPTIONS[board.shape] ?? ""} align="start">
-                  <span className="text-xs text-slate-300 bg-white/[0.07] px-1.5 py-0.5 rounded-md min-[360px]:whitespace-nowrap">{SHAPE_LABELS[board.shape] || board.shape}</span>
-                </Tooltip>
-                {reasons.length === 0 && topStyleTag && (
-                  <span className="text-xs text-sky-300 bg-sky-400/15 px-1.5 py-0.5 rounded-md">{topStyleTag}◎</span>
-                )}
-              </div>
+              <h3 className="text-lg min-[360px]:text-xl font-black text-white leading-tight mt-0.5 [overflow-wrap:normal] [word-break:keep-all]">{board.model}</h3>
             </div>
 
             <div className="flex flex-col items-center gap-1">
@@ -251,15 +263,31 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
             </div>
           </div>
 
-          <div className="relative grid grid-cols-3 gap-2 mt-5">
+          {/* 形状・仕様の注記は、画像とマッチ度リングの間が狭いので1行下に置く */}
+          <div className="relative flex flex-wrap items-center gap-1.5 mt-4">
+            <Tooltip text={SHAPE_DESCRIPTIONS[board.shape] ?? ""} align="start">
+              <span className="text-xs text-slate-300 bg-white/[0.07] px-1.5 py-0.5 rounded-md whitespace-nowrap">{SHAPE_LABELS[board.shape] || board.shape}</span>
+            </Tooltip>
+            {reasons.length === 0 && topStyleTag && (
+              <span className="text-xs text-sky-300 bg-sky-400/15 px-1.5 py-0.5 rounded-md">{topStyleTag}◎</span>
+            )}
+            {board.specs_from_year && <SpecsFromYearChip year={board.year} specsYear={board.specs_from_year} />}
+          </div>
+
+          <div className="relative grid grid-cols-3 gap-2 mt-3">
             {[
-              { label: "サイズ", value: `${recommendedSize}`, unit: "cm", sub: null, help: SIZE_DESCRIPTION, align: "start" as const },
+              { label: "サイズ", value: `${recommendedSize}`, unit: "cm", sub: null, note: null, help: SIZE_DESCRIPTION, align: "start" as const },
               {
-                label: hasDiscount ? "想定価格" : "定価",
+                label: offer ? "最安値" : hasDiscount ? "想定価格" : "定価",
                 value: `¥${estimatedPrice.toLocaleString()}`,
                 unit: "",
-                sub: hasDiscount ? `定価 ¥${board.price.toLocaleString()}` : null,
-                help: hasDiscount ? PRICE_DESCRIPTION : null,
+                sub: showListPrice ? `定価 ¥${board.price.toLocaleString()}` : null,
+                note: offerDate ? `楽天 ${offerDate}時点` : null,
+                help: offer
+                  ? `楽天市場で販売中の${board.year}年モデルの最安値です（${offerDate}時点）。価格は日々変わります。`
+                  : hasDiscount
+                    ? PRICE_DESCRIPTION
+                    : null,
                 align: "center" as const,
               },
               {
@@ -267,6 +295,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 value: flexLabel(board.flex),
                 unit: `${board.flex}/10`,
                 sub: null,
+                note: null,
                 help: FLEX_DESCRIPTIONS[getFlexCategory(board.flex)],
                 align: "end" as const,
               },
@@ -286,6 +315,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                   <span className="text-xs text-slate-400 ml-0.5">{stat.unit}</span>
                 </p>
                 {stat.sub && <p className="text-xs text-slate-400 line-through tabular-nums mt-0.5">{stat.sub}</p>}
+                {stat.note && <p className="text-xs text-slate-400 tabular-nums mt-0.5">{stat.note}</p>}
               </div>
             ))}
           </div>
@@ -318,11 +348,12 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
 
           {/* Board image or placeholder */}
           <div className="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center overflow-hidden ring-1 ring-white/15">
-            {board.image_url ? (
+            {imageUrl ? (
               <img
-                src={board.image_url}
+                src={imageUrl}
                 alt={`${board.brand} ${board.model}`}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain bg-white p-0.5"
+                loading="lazy"
               />
             ) : (
               <div className={`w-full h-full bg-gradient-to-br ${getBrandColor(board.brand)} flex items-center justify-center p-1 rounded-xl`}>
@@ -370,7 +401,8 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               </span>
               <span>
                 <span className="text-slate-200 font-medium">¥{estimatedPrice.toLocaleString()}</span>
-                {hasDiscount && (
+                {offer && <span className="ml-1 text-xs text-[#ff8080]">楽天</span>}
+                {showListPrice && (
                   <span className="ml-1 text-xs text-slate-400 line-through">¥{board.price.toLocaleString()}</span>
                 )}
               </span>
@@ -387,6 +419,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                   {topStyleTag}◎
                 </span>
               )}
+              {board.specs_from_year && <SpecsFromYearChip year={board.year} specsYear={board.specs_from_year} />}
             </div>
 
           </div>
@@ -468,12 +501,20 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
             <>
             <div className="bg-white/[0.04] rounded-xl p-3">
               <div className="flex items-center justify-between gap-1 mb-0.5">
-                <span className="text-xs text-slate-400">価格</span>
-                <span className="text-xs font-semibold bg-sky-500/15 text-sky-400 px-1.5 py-0.5 rounded-full">
-                  {getDiscountLabel(board.year)}
-                </span>
+                <span className="text-xs text-slate-400">{offer ? "楽天の最安値" : "価格"}</span>
+                {!offer && (
+                  <span className="text-xs font-semibold bg-sky-500/15 text-sky-400 px-1.5 py-0.5 rounded-full">
+                    {getDiscountLabel(board.year)}
+                  </span>
+                )}
               </div>
-              {hasDiscount ? (
+              {offer ? (
+                <div>
+                  {showListPrice && <p className="text-xs text-slate-400 line-through">¥{board.price.toLocaleString()}</p>}
+                  <p className="text-sky-300 font-semibold">¥{offer.price.toLocaleString()}</p>
+                  <p className="text-xs text-slate-400">{offerDate}時点</p>
+                </div>
+              ) : hasDiscount ? (
                 <div>
                   <p className="text-xs text-slate-400 line-through">
                     ¥{board.price.toLocaleString()}
@@ -584,7 +625,19 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
             </div>
           )}
 
-          {/* EC search links */}
+          {/* 購入先。楽天の価格・画像を表示しているボードは、規約により楽天のリンクのみ */}
+          {offer ? (
+            <a
+              href={offer.url}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center justify-center gap-2 w-full bg-[#BF0000]/15 text-[#ff8080] border border-[#BF0000]/30 px-4 py-3 rounded-xl text-sm font-semibold hover:bg-[#BF0000]/25 transition-all"
+            >
+              楽天市場で見る（¥{offer.price.toLocaleString()}〜）
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+            </a>
+          ) : (
           <div className="flex flex-wrap gap-2">
             <a
               href={getRakutenSearchUrl(board.brand, board.model)}
@@ -617,6 +670,8 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
             </a>
           </div>
+
+          )}
 
           {/* Official page link */}
           {board.url && (

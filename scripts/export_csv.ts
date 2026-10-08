@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
+import type { Board } from "../src/types/index.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -8,12 +9,13 @@ const __dirname = path.dirname(__filename);
 const dataPath = path.join(__dirname, "../src/data/boards_data.json");
 const outputPath = path.join(__dirname, "../boards_data.csv");
 
-const boards = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
+const boards: Partial<Board>[] = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
 
 const headers = [
   "brand",
   "model",
   "year",
+  "gender",
   "flex",
   "shape",
   "price",
@@ -27,10 +29,11 @@ const headers = [
   "url",
 ];
 
-const rows = boards.map((b: any) => [
+const rows = boards.map((b) => [
   b.brand ?? "",
   b.model ?? "",
   b.year ?? "",
+  b.gender ?? "",
   b.flex ?? "",
   b.shape ?? "",
   b.price ?? "",
@@ -44,7 +47,7 @@ const rows = boards.map((b: any) => [
   b.url ?? "",
 ]);
 
-const escape = (v: any) => {
+const escape = (v: unknown) => {
   const s = String(v);
   return s.includes(",") || s.includes('"') || s.includes("\n")
     ? `"${s.replace(/"/g, '""')}"`

@@ -1,5 +1,5 @@
 import { Board, FlexCategory, PriceRange } from "@/types";
-import { estimateDiscountedPrice } from "./recommend";
+import { getBoardPrice } from "./recommend";
 import { FilterState } from "./share";
 
 const FLEX_RANGES: Record<FlexCategory, [number, number]> = {
@@ -31,7 +31,7 @@ export function applyFilters(boards: Board[], filters: FilterState & { years?: S
   if (filters.shapes) filtered = filtered.filter((b) => filters.shapes!.has(b.shape));
   if (filters.flex) filtered = filtered.filter((b) => matchesFlex(b.flex, filters.flex!));
   if (filters.priceRanges) {
-    filtered = filtered.filter((b) => matchesPriceRange(estimateDiscountedPrice(b.price, b.year), filters.priceRanges!));
+    filtered = filtered.filter((b) => matchesPriceRange(getBoardPrice(b), filters.priceRanges!));
   }
   if (filters.years) filtered = filtered.filter((b) => filters.years!.has(b.year));
   return filtered;

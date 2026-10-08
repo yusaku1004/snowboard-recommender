@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SnowParticles } from "@/components/ui/SnowParticles";
 import { MountainSilhouette } from "@/components/ui/MountainSilhouette";
 import { SITE_URL } from "@/lib/constants";
+import { LATEST_MODEL_YEAR, MODEL_YEAR_LABEL } from "@/lib/boardsData";
 import { Analytics } from "@vercel/analytics/next";
 import { SiteFooter } from "@/components/SiteFooter";
 import "./globals.css";
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "スノーボード診断 | 85ブランド1,000本以上からあなたにぴったりの板を提案",
   description:
-    "身長・体重・滑走スタイル（グラトリ・パーク・カービング・ラントリ・パウダー）を入力するだけで、85ブランド1,000本以上の2026年モデルからあなたに最適なスノーボードとサイズを診断。初心者から上級者まで無料で利用できます。",
+    `身長・体重・滑走スタイル（グラトリ・パーク・カービング・ラントリ・パウダー）を入力するだけで、85ブランド1,000本以上の${MODEL_YEAR_LABEL}からあなたに最適なスノーボードとサイズを診断。初心者から上級者まで無料で利用できます。`,
   keywords: [
     "スノーボード",
     "おすすめ",
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
     "ラントリ",
     "初心者",
     "スノボ",
-    "2026",
+    String(LATEST_MODEL_YEAR),
     "板 選び方",
     "スノーボード サイズ",
   ],
@@ -61,7 +62,7 @@ export const metadata: Metadata = {
     siteName: "スノーボード診断",
     title: "スノーボード診断 | 85ブランド1,000本以上からぴったりの板を提案",
     description:
-      "身長・体重・滑走スタイルを入力するだけで、85ブランド1,000本以上の2026年モデルから最適なスノーボードとサイズを無料でレコメンド。",
+      `身長・体重・滑走スタイルを入力するだけで、85ブランド1,000本以上の${MODEL_YEAR_LABEL}から最適なスノーボードとサイズを無料でレコメンド。`,
     images: [
       {
         url: "/og",
@@ -76,7 +77,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "スノーボード診断 | 85ブランド1,000本以上からぴったりの板を提案",
     description:
-      "身長・体重・滑走スタイルを入力するだけで、85ブランド1,000本以上の2026年モデルから最適なスノーボードとサイズを無料でレコメンド。",
+      `身長・体重・滑走スタイルを入力するだけで、85ブランド1,000本以上の${MODEL_YEAR_LABEL}から最適なスノーボードとサイズを無料でレコメンド。`,
     images: ["/og"],
   },
 };
@@ -87,7 +88,7 @@ const jsonLd = {
   name: "スノーボード診断",
   url: SITE_URL,
   description:
-    "身長・体重・滑走スタイルを入力するだけで、85ブランド1,000本以上の2026年モデルから最適なスノーボードとサイズを無料でレコメンド。",
+    `身長・体重・滑走スタイルを入力するだけで、85ブランド1,000本以上の${MODEL_YEAR_LABEL}から最適なスノーボードとサイズを無料でレコメンド。`,
   applicationCategory: "SportsApplication",
   operatingSystem: "All",
   offers: {

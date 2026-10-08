@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Board } from "@/types";
-import { boardSlug, estimateDiscountedPrice } from "@/lib/seo";
+import { boardSlug, getBoardPrice } from "@/lib/seo";
 import { SHAPE_LABELS, getFlexLabel } from "@/lib/glossary";
 
 interface BoardRowProps {
@@ -12,7 +12,7 @@ interface BoardRowProps {
 
 // 検索用ページの一覧行（ボード個別ページへのリンク）
 export function BoardRow({ board, rank, note }: BoardRowProps) {
-  const estimated = estimateDiscountedPrice(board.price, board.year);
+  const estimated = getBoardPrice(board);
   return (
     <li>
       <Link
@@ -24,11 +24,20 @@ export function BoardRow({ board, rank, note }: BoardRowProps) {
             {rank}
           </span>
         )}
+        {(board.image_url || board.offer?.imageUrl) && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={board.image_url || board.offer?.imageUrl}
+            alt=""
+            loading="lazy"
+            className="flex-shrink-0 w-12 h-12 rounded-xl bg-white object-contain p-0.5"
+          />
+        )}
         <div className="min-w-0 flex-1">
           <p className="text-xs text-slate-400">{board.brand} · {board.year}</p>
           <p className="text-base font-bold text-white truncate">{board.model}</p>
           <p className="text-xs text-slate-400 mt-0.5">
-            {SHAPE_LABELS[board.shape] ?? board.shape} ・ 硬さ {getFlexLabel(board.flex)}（{board.flex}/10）・ 想定 ¥{estimated.toLocaleString()}
+            {SHAPE_LABELS[board.shape] ?? board.shape} ・ 硬さ {getFlexLabel(board.flex)}（{board.flex}/10）・ {board.offer ? "楽天" : "想定"} ¥{estimated.toLocaleString()}
           </p>
         </div>
         {note && <span className="flex-shrink-0 text-sm font-bold text-sky-200 tabular-nums">{note}</span>}

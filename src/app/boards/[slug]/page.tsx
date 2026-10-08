@@ -7,7 +7,7 @@ import { DiagnoseCta } from "@/components/seo/DiagnoseCta";
 import {
   boardSlug,
   describeBoard,
-  estimateDiscountedPrice,
+  getBoardPrice,
   getAllBoardSlugs,
   getBoardBySlug,
   getBoardSizeChart,
@@ -17,6 +17,7 @@ import { FLEX_DESCRIPTIONS, SHAPE_DESCRIPTIONS, SHAPE_LABELS, getFlexCategory, g
 import { STYLE_ICONS, STYLE_KEYS, STYLE_LABELS } from "@/lib/styles";
 import { getAmazonSearchUrl, getRakutenSearchUrl, getYahooSearchUrl } from "@/lib/affiliate";
 import { SITE_URL } from "@/lib/constants";
+import { formatShortDate } from "@/lib/format";
 
 type Params = { slug: string };
 
@@ -42,7 +43,8 @@ export default async function BoardPage({ params }: { params: Promise<Params> })
   const board = getBoardBySlug(slug);
   if (!board) notFound();
 
-  const estimated = estimateDiscountedPrice(board.price, board.year);
+  const estimated = getBoardPrice(board);
+  const imageUrl = board.image_url || board.offer?.imageUrl;
   const sizeChart = getBoardSizeChart(board);
   const similar = getSimilarBoardsForPage(board);
   const flexCategory = getFlexCategory(board.flex);
@@ -56,7 +58,10 @@ export default async function BoardPage({ params }: { params: Promise<Params> })
     description: describeBoard(board),
     url: `${SITE_URL}/boards/${slug}`,
     ...(board.image_url ? { image: `${SITE_URL}${board.image_url}` } : {}),
-    offers: { "@type": "Offer", price: board.price, priceCurrency: "JPY" },
+    ...(board.offer?.imageUrl && !board.image_url ? { image: board.offer.imageUrl } : {}),
+    offers: board.offer
+      ? { "@type": "Offer", price: board.offer.price, priceCurrency: "JPY", url: board.offer.url, availability: "https://schema.org/InStock" }
+      : { "@type": "Offer", price: board.price, priceCurrency: "JPY" },
   };
 
   return (
@@ -69,6 +74,17 @@ export default async function BoardPage({ params }: { params: Promise<Params> })
     >
       <p className="text-xs font-semibold tracking-[0.18em] text-sky-300/90 mb-1">{board.brand} · {board.year}年モデル</p>
       <h1 className="text-3xl font-black text-white leading-tight mb-3">{board.brand} {board.model}</h1>
+      {imageUrl && (
+        <div className="w-40 h-40 rounded-3xl bg-white p-2 mb-4 overflow-hidden ring-1 ring-white/20">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={imageUrl} alt={`${board.brand} ${board.model}`} className="w-full h-full object-contain" />
+        </div>
+      )}
+      {board.specs_from_year && (
+        <p className="text-xs text-amber-100 bg-amber-400/10 border border-amber-300/20 rounded-xl px-3 py-2 mb-4">
+          {board.year}年モデルの詳しい仕様が未登録のため、{board.specs_from_year}年モデルの仕様（硬さ・形状・スタイル適性・サイズ展開）を表示しています。
+        </p>
+      )}
       <p className="text-sm text-slate-300 leading-relaxed mb-5">{describeBoard(board)}</p>
 
       <section className="grid grid-cols-2 gap-2 mb-6" aria-label="基本スペック">
@@ -76,9 +92,15 @@ export default async function BoardPage({ params }: { params: Promise<Params> })
           { label: "形状", value: SHAPE_LABELS[board.shape] ?? board.shape, sub: SHAPE_DESCRIPTIONS[board.shape] },
           { label: "硬さ（フレックス）", value: `${getFlexLabel(board.flex)} ${board.flex}/10`, sub: FLEX_DESCRIPTIONS[flexCategory] },
           {
-            label: "価格",
+            label: board.offer ? `楽天の最安値（${formatShortDate(board.offer.fetchedAt)}時点）` : "価格",
             value: `¥${estimated.toLocaleString()}`,
-            sub: estimated < board.price ? `定価 ¥${board.price.toLocaleString()}（型落ち・セールを見込んだ想定価格）` : "定価",
+            sub: board.offer
+              ? board.specs_from_year
+                ? "価格は日々変わります"
+                : `定価 ¥${board.price.toLocaleString()}`
+              : estimated < board.price
+                ? `定価 ¥${board.price.toLocaleString()}（型落ち・セールを見込んだ想定価格）`
+                : "定価",
           },
           { label: "対象", value: GENDER_LABELS[board.gender] ?? board.gender, sub: `展開サイズ ${board.available_lengths.length}種類` },
         ].map((spec) => (
@@ -148,21 +170,31 @@ export default async function BoardPage({ params }: { params: Promise<Params> })
 
       <section className="mb-6">
         <h2 className="text-lg font-bold text-white mb-3">購入先を探す</h2>
+        {/* 楽天の価格・画像を表示しているボードは、規約により楽天のリンクのみ */}
         <div className="flex flex-wrap gap-2">
+          {board.offer && (
+            <a href={board.offer.url} target="_blank" rel="noopener noreferrer sponsored" className="px-4 py-2.5 rounded-xl bg-red-500/15 border border-red-400/40 text-sm font-semibold text-red-100 hover:bg-red-500/25">
+              楽天市場で見る（¥{board.offer.price.toLocaleString()}〜）
+            </a>
+          )}
           {board.url && (
             <a href={board.url} target="_blank" rel="noopener noreferrer" className="px-4 py-2.5 rounded-xl glass text-sm text-slate-200 hover:bg-white/10">
               公式・販売ページ
             </a>
           )}
-          <a href={getRakutenSearchUrl(board.brand, board.model)} target="_blank" rel="noopener noreferrer sponsored" className="px-4 py-2.5 rounded-xl bg-red-500/10 border border-red-400/30 text-sm text-red-200 hover:bg-red-500/15">
-            楽天で探す
-          </a>
-          <a href={getAmazonSearchUrl(board.brand, board.model)} target="_blank" rel="noopener noreferrer sponsored" className="px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-400/30 text-sm text-amber-200 hover:bg-amber-500/15">
-            Amazonで探す
-          </a>
-          <a href={getYahooSearchUrl(board.brand, board.model)} target="_blank" rel="noopener noreferrer sponsored" className="px-4 py-2.5 rounded-xl bg-rose-500/10 border border-rose-400/30 text-sm text-rose-200 hover:bg-rose-500/15">
-            Yahoo!で探す
-          </a>
+          {!board.offer && (
+            <>
+              <a href={getRakutenSearchUrl(board.brand, board.model)} target="_blank" rel="noopener noreferrer sponsored" className="px-4 py-2.5 rounded-xl bg-red-500/10 border border-red-400/30 text-sm text-red-200 hover:bg-red-500/15">
+                楽天で探す
+              </a>
+              <a href={getAmazonSearchUrl(board.brand, board.model)} target="_blank" rel="noopener noreferrer sponsored" className="px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-400/30 text-sm text-amber-200 hover:bg-amber-500/15">
+                Amazonで探す
+              </a>
+              <a href={getYahooSearchUrl(board.brand, board.model)} target="_blank" rel="noopener noreferrer sponsored" className="px-4 py-2.5 rounded-xl bg-rose-500/10 border border-rose-400/30 text-sm text-rose-200 hover:bg-rose-500/15">
+                Yahoo!で探す
+              </a>
+            </>
+          )}
         </div>
       </section>
 

@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   estimateDiscountedPrice,
+  getBoardPrice,
   getRecommendations,
   getSimilarBoards,
   getStyleRecommendations,
@@ -210,5 +211,41 @@ describe("レベル別のおすすめ（実データ）", () => {
   it("カービング重視の上級者には硬い板が上位に来る", () => {
     const results = getRecommendations(boardsData as Board[], makeInput({ style: carving, level: "advanced" }));
     expect(results.slice(0, 10).filter((r) => r.board.flex >= 7).length).toBeGreaterThanOrEqual(5);
+  });
+});
+
+describe("楽天の実売価格", () => {
+  it("offer があれば推定価格ではなく実売価格を使う", () => {
+    expect(getBoardPrice(makeBoard({ price: 100000, year: 2026 }))).toBe(90000);
+    expect(
+      getBoardPrice(makeBoard({ price: 100000, year: 2026, offer: { price: 72000, url: "https://r", fetchedAt: "2026-10-05" } }))
+    ).toBe(72000);
+  });
+
+  it("実売価格で予算判定する", () => {
+    const pricey = makeBoard({ price: 150000, offer: { price: 95000, url: "https://r", fetchedAt: "2026-10-05" } });
+    const [r] = getRecommendations([pricey], makeInput({ budget: 100000 }));
+    expect(r.overBudget).toBe(false);
+    expect(r.estimatedPrice).toBe(95000);
+  });
+
+  it("同じモデルの年式違いが同点なら、新しい年式を残す", () => {
+    const old = makeBoard({ year: 2026 });
+    const carried = makeBoard({ year: 2027, specs_from_year: 2026 });
+    const results = getRecommendations([old, carried], makeInput());
+    expect(results).toHaveLength(1);
+    expect(results[0].board.year).toBe(2027);
+  });
+});
+
+describe("スタイル別ランキングの年式違い", () => {
+  it("同じモデルの年式違いは1件にまとめ、同点なら新しい年式を残す", () => {
+    const results = getStyleRecommendations(
+      [makeBoard({ year: 2026 }), makeBoard({ year: 2027, specs_from_year: 2026 })],
+      makeInput(),
+      "park"
+    );
+    expect(results).toHaveLength(1);
+    expect(results[0].board.year).toBe(2027);
   });
 });

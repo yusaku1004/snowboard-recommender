@@ -36,7 +36,7 @@ export function Tooltip({ text, children, align = "center" }: TooltipProps) {
   }, [visible]);
 
   return (
-    <div ref={ref} className="relative inline-flex items-center gap-1">
+    <div ref={ref} className="relative inline-flex items-center gap-1 min-w-0 max-w-full">
       {children}
       <button
         type="button"

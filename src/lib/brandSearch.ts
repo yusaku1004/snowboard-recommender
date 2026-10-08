@@ -1,5 +1,5 @@
 // メーカー名の検索。英字表記に加えて、主要ブランドはカタカナ読みでも検索できるようにする。
-const BRAND_READINGS: Record<string, string> = {
+export const BRAND_READINGS: Record<string, string> = {
   "011 Artistic": "ゼロワンワンアーティスティック",
   ALLIAN: "アライアン",
   ARBOR: "アーバー",

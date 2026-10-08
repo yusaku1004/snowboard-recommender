@@ -7,6 +7,7 @@ import { BoardRow } from "@/components/seo/BoardRow";
 import { DiagnoseCta } from "@/components/seo/DiagnoseCta";
 import { RANKINGS, boardSlug, getRanking } from "@/lib/seo";
 import { SITE_URL } from "@/lib/constants";
+import { MODEL_YEAR_LABEL } from "@/lib/boardsData";
 
 type Params = { slug: string };
 
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { slug } = await params;
   const ranking = getRanking(slug);
   if (!ranking) return {};
-  const title = `${ranking.title}【2026年モデル】 | スノーボード診断`;
+  const title = `${ranking.title}【${MODEL_YEAR_LABEL}】 | スノーボード診断`;
   return pageMetadata({ title, description: ranking.description, path: `/ranking/${slug}` });
 }
 

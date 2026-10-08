@@ -1,7 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
-import boardsData from "@/data/boards_data.json";
-import { Board } from "@/types";
+import { ALL_BOARDS } from "@/lib/boardsData";
 import { createRateLimiter, ExplainInput, parseExplainRequest } from "@/lib/explainRequest";
 
 // 1つのIPから10分間に10回まで（API利用料の乱用対策）
@@ -79,7 +78,7 @@ export async function POST(request: NextRequest) {
 
   let data: ExplainInput | null;
   try {
-    data = parseExplainRequest(await request.json(), boardsData as Board[]);
+    data = parseExplainRequest(await request.json(), ALL_BOARDS);
   } catch {
     data = null;
   }
