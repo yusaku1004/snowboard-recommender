@@ -128,6 +128,20 @@ export const MODEL_ALIASES: Record<string, string[]> = {
   "ThirtyTwo|Volcom Creedler": ["Volcom Creeder"],
 };
 
+// 未登録モデル候補のレポートに出さない出品（サイトで扱わない種類・追加しないと決めたブランド）。
+// brand を省略すると全ブランドが対象。該当した件数は理由ごとにレポートに出す。
+export const DISCOVER_IGNORE: { brand?: string; pattern: RegExp; reason: string }[] = [
+  { pattern: /スプリット|split/i, reason: "スプリットボード" },
+  { pattern: /アルペン|alpine|alpen/i, reason: "アルペンボード" },
+  { brand: "FIELD EARTH", pattern: /./, reason: "FIELD EARTH（バックカントリー向け。サイズごとにモデル名が分かれ、仕様が取れない）" },
+];
+
+// 未登録モデル候補から除く理由（除かない場合は null）
+export function discoverIgnoreReason(itemName: string, brand: string): string | null {
+  const rule = DISCOVER_IGNORE.find((r) => (!r.brand || r.brand === brand) && r.pattern.test(itemName.normalize("NFKC")));
+  return rule ? rule.reason : null;
+}
+
 export function modelAliases(brand: string, model: string): string[] {
   return MODEL_ALIASES[`${brand}|${model}`] ?? [];
 }

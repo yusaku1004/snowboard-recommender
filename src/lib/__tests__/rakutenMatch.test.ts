@@ -6,6 +6,7 @@ import {
   MatchTarget,
   RakutenItem,
   detectModelYear,
+  discoverIgnoreReason,
   isBoardListing,
   matchesModel,
   MODEL_ALIASES,
@@ -273,5 +274,15 @@ describe("isListingOfBrand", () => {
     expect(isListingOfBrand("26-27 MOSS SNOWSTICK/モススノースティック PQ60 スノーボード", "MOSS SNOWSTICK", undefined, brands)).toBe(true);
     expect(isListingOfBrand("26-27 RICE28 SNOWBOARD ライス 28 RT6 オガサカ製 スノーボード", "OGASAKA", "オガサカ", brands)).toBe(false);
     expect(isListingOfBrand("26-27 NITRO/ナイトロ SLASH スラッシュ QUIVER スノーボード", "SLASH", undefined, brands)).toBe(false);
+  });
+});
+
+describe("discoverIgnoreReason", () => {
+  it("スプリットボード・アルペンボード・対象外ブランドの出品は理由を返し、それ以外は null", () => {
+    expect(discoverIgnoreReason("26-27 UNIT UN SPLIT ユニット スプリットボード 151", "UNIT")).toBe("スプリットボード");
+    expect(discoverIgnoreReason("26-27 K2 MARAUDER SPLIT PACKAGE スノーボード", "K2")).toBe("スプリットボード");
+    expect(discoverIgnoreReason("26-27 AMICSS ARZ アルペン ALLFLEX対応 スノーボード", "AMICSS")).toBe("アルペンボード");
+    expect(discoverIgnoreReason("26-27 FIELD EARTH Q158 フィールド アース スノーボード", "FIELD EARTH")).toMatch(/^FIELD EARTH/);
+    expect(discoverIgnoreReason("26-27 GNU S CORP スノーボード", "GNU")).toBeNull();
   });
 });

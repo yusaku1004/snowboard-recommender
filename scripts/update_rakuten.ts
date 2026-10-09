@@ -23,6 +23,7 @@ import {
   type RakutenItem,
   buildSearchKeyword,
   detectModelYear,
+  discoverIgnoreReason,
   isListingOfBrand,
   isBoardListing,
   matchesModel,
@@ -263,7 +264,8 @@ async function main() {
   }
 
   // 未登録モデルの候補（ブランドごとに新年式の出品を検索し、既知モデルに一致しないものを集める）
-  const candidates: string[] = [];
+  const candidates = new Set<string>();
+  const ignored = new Map<string, Set<string>>(); // 理由 → 出品名
   if (DISCOVER) {
     const brands = [...modelsByBrand.keys()].filter((b) => !BRAND_FILTER || b === BRAND_FILTER);
     for (const brand of brands) {
@@ -288,7 +290,10 @@ async function main() {
             aliases: modelAliases(brand, model),
           })
         );
-        if (!known) candidates.push(`| ${brand} | ${item.itemName.replace(/\|/g, "／").slice(0, 90)} | ¥${item.itemPrice.toLocaleString()} |`);
+        if (known) continue;
+        const reason = discoverIgnoreReason(item.itemName, brand);
+        if (reason) ignored.set(reason, (ignored.get(reason) ?? new Set()).add(item.itemName));
+        else candidates.add(`| ${brand} | ${item.itemName.replace(/\|/g, "／").slice(0, 90)} | ¥${item.itemPrice.toLocaleString()} |`);
       }
     }
   }
@@ -304,14 +309,22 @@ async function main() {
     ...(newCarryover.length ? ["## 今回自動追加したモデル", "", ...newCarryover.map((n) => `- ${n}`), ""] : []),
     ...(DISCOVER
       ? [
-          `## 未登録の${NEW_MODEL_YEAR}年モデル候補（${candidates.length}件）`,
+          `## 未登録の${NEW_MODEL_YEAR}年モデル候補（${candidates.size}件）`,
           "",
           "既存データに一致しなかった出品です。新作であれば CSV に追記して `node scripts/import_csv.ts` で取り込んでください。",
           "",
           "| ブランド | 出品名 | 価格 |",
           "|---|---|---|",
-          ...[...new Set(candidates)],
+          ...candidates,
           "",
+          ...(ignored.size
+            ? [
+                "対象外として候補から除いた出品（`src/lib/rakutenMatch.ts` の `DISCOVER_IGNORE`）:",
+                "",
+                ...[...ignored].map(([reason, names]) => `- ${reason}: ${names.size}件`),
+                "",
+              ]
+            : []),
         ]
       : []),
   ].join("\n");
