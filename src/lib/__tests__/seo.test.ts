@@ -24,6 +24,16 @@ describe("boardSlug", () => {
     expect(slugs.length).toBeGreaterThan(1000);
   });
 
+  it("別のモデルが同じスラッグにならない（例: \"Disaster\" と \"Disaster+\"）", () => {
+    const modelsBySlug = new Map<string, Set<string>>();
+    for (const b of ALL_BOARDS) {
+      const slug = boardSlug(b);
+      modelsBySlug.set(slug, (modelsBySlug.get(slug) ?? new Set()).add(`${b.brand}|${b.model}`));
+    }
+    const collisions = [...modelsBySlug].filter(([, models]) => models.size > 1).map(([slug, models]) => `${slug}: ${[...models].join(", ")}`);
+    expect(collisions).toEqual([]);
+  });
+
   it("スラッグからボードを引ける", () => {
     const board = ALL_BOARDS[0];
     expect(getBoardBySlug(boardSlug(board))?.model).toBe(board.model);

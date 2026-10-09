@@ -27487,5 +27487,854 @@
     },
     "gender": "unisex",
     "riding_type": "allround"
+  },
+  {
+    "brand": "011 Artistic",
+    "model": "DOUBLE FLY LTD",
+    "year": 2027,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      150
+    ],
+    "price": 118690,
+    "style_scores": {
+      "ground_tricks": 9,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 7,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "BATALEON",
+    "model": "Disaster Plus",
+    "year": 2027,
+    "flex": 3,
+    "shape": "camber",
+    "gender": "mens",
+    "available_lengths": [
+      148,
+      151,
+      153,
+      154,
+      156,
+      157
+    ],
+    "price": 115500,
+    "style_scores": {
+      "ground_tricks": 8,
+      "park": 9,
+      "carving": 4,
+      "run_tricks": 6,
+      "powder": 2
+    }
+  },
+  {
+    "brand": "BATALEON",
+    "model": "Evil Twin Plus",
+    "year": 2027,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      151,
+      154,
+      156,
+      157,
+      159
+    ],
+    "price": 132000,
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 9,
+      "carving": 6,
+      "run_tricks": 6,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "BATALEON",
+    "model": "Goliath Plus",
+    "year": 2027,
+    "flex": 7,
+    "shape": "camber",
+    "gender": "mens",
+    "available_lengths": [
+      153,
+      156,
+      158,
+      159,
+      161
+    ],
+    "price": 132000,
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 6,
+      "carving": 8,
+      "run_tricks": 7,
+      "powder": 7
+    }
+  },
+  {
+    "brand": "BATALEON",
+    "model": "Stereo",
+    "year": 2027,
+    "flex": 4,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      150,
+      152,
+      153,
+      154,
+      156,
+      158,
+      159
+    ],
+    "price": 104500,
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 8,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "BC STREAM",
+    "model": "R-4 CUSTOM",
+    "year": 2027,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      144,
+      148,
+      153,
+      156,
+      159,
+      162
+    ],
+    "price": 136400,
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 2,
+      "carving": 9,
+      "run_tricks": 5,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "CAPITA",
+    "model": "Artemis",
+    "year": 2027,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [
+      144,
+      147,
+      150,
+      153,
+      156
+    ],
+    "price": 94600,
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 4,
+      "carving": 8,
+      "run_tricks": 6,
+      "powder": 8
+    }
+  },
+  {
+    "brand": "DEATH LABEL",
+    "model": "PJ GUSTAFSSON",
+    "year": 2027,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "mens",
+    "available_lengths": [
+      151,
+      153,
+      156
+    ],
+    "price": 104500,
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 6,
+      "carving": 6,
+      "run_tricks": 6,
+      "powder": 8
+    }
+  },
+  {
+    "brand": "DEATH LABEL",
+    "model": "STRAY",
+    "year": 2027,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "mens",
+    "available_lengths": [
+      166
+    ],
+    "price": 126500,
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 2,
+      "carving": 7,
+      "run_tricks": 4,
+      "powder": 10
+    }
+  },
+  {
+    "brand": "DEVGRU",
+    "model": "METEOR",
+    "year": 2027,
+    "flex": 4,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      149,
+      152,
+      154,
+      156
+    ],
+    "price": 74800,
+    "style_scores": {
+      "ground_tricks": 8,
+      "park": 7,
+      "carving": 6,
+      "run_tricks": 7,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "DRAKE",
+    "model": "Tao of Drake",
+    "year": 2027,
+    "flex": 3,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      145,
+      148,
+      150,
+      154
+    ],
+    "price": 77000,
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 9,
+      "carving": 4,
+      "run_tricks": 5,
+      "powder": 2
+    }
+  },
+  {
+    "brand": "DRAKE",
+    "model": "Ural",
+    "year": 2027,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "mens",
+    "available_lengths": [
+      153,
+      156
+    ],
+    "price": 90200,
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 4,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 8
+    }
+  },
+  {
+    "brand": "DRAKE",
+    "model": "G-One",
+    "year": 2027,
+    "flex": 7,
+    "shape": "camber",
+    "gender": "mens",
+    "available_lengths": [
+      153,
+      156,
+      159,
+      162
+    ],
+    "price": 99000,
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 3,
+      "carving": 8,
+      "run_tricks": 6,
+      "powder": 9
+    }
+  },
+  {
+    "brand": "DRAKE",
+    "model": "G-Two",
+    "year": 2027,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "mens",
+    "available_lengths": [
+      153,
+      156,
+      159,
+      160
+    ],
+    "price": 101200,
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 5,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 7
+    }
+  },
+  {
+    "brand": "DRAKE",
+    "model": "G-Three",
+    "year": 2027,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "mens",
+    "available_lengths": [
+      151,
+      155,
+      159,
+      163
+    ],
+    "price": 99000,
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 6,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 6
+    }
+  },
+  {
+    "brand": "DRAKE",
+    "model": "Billboard",
+    "year": 2027,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "mens",
+    "available_lengths": [
+      157,
+      162
+    ],
+    "price": 90200,
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 3,
+      "carving": 7,
+      "run_tricks": 5,
+      "powder": 9
+    }
+  },
+  {
+    "brand": "HEAD",
+    "model": "Pearl",
+    "year": 2027,
+    "flex": 3,
+    "shape": "flat",
+    "gender": "womens",
+    "available_lengths": [
+      139,
+      143
+    ],
+    "price": 43900,
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 5,
+      "carving": 4,
+      "run_tricks": 5,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "HEAD",
+    "model": "Spade LYT",
+    "year": 2027,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "gender": "mens",
+    "available_lengths": [
+      146,
+      149,
+      153,
+      156
+    ],
+    "price": 86900,
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "JONES",
+    "model": "Hovercraft 2.0",
+    "year": 2027,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      144,
+      148,
+      152,
+      156,
+      160,
+      164
+    ],
+    "price": 127600,
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 10
+    }
+  },
+  {
+    "brand": "K2",
+    "model": "Copycat",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [
+      139,
+      142,
+      145,
+      147,
+      149,
+      152
+    ],
+    "price": 80300,
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 8,
+      "carving": 6,
+      "run_tricks": 6,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "K2",
+    "model": "Alchemist",
+    "year": 2027,
+    "flex": 9,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      148,
+      151,
+      154,
+      157,
+      160,
+      163,
+      166
+    ],
+    "price": 107800,
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 3,
+      "carving": 9,
+      "run_tricks": 5,
+      "powder": 9
+    }
+  },
+  {
+    "brand": "KORUA",
+    "model": "Otto Plus",
+    "year": 2027,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "mens",
+    "available_lengths": [
+      157,
+      161
+    ],
+    "price": 143000,
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 5,
+      "carving": 9,
+      "run_tricks": 7,
+      "powder": 7
+    }
+  },
+  {
+    "brand": "NIDECKER",
+    "model": "Alpha",
+    "year": 2027,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      143,
+      148,
+      153,
+      158,
+      162
+    ],
+    "price": 91300,
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 8
+    }
+  },
+  {
+    "brand": "NIDECKER",
+    "model": "Odyssey",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "mens",
+    "available_lengths": [
+      152,
+      155,
+      157,
+      159,
+      162
+    ],
+    "price": 99000,
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 4,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 8
+    }
+  },
+  {
+    "brand": "NIDECKER",
+    "model": "Odyssey Women",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [
+      142,
+      147,
+      152,
+      155
+    ],
+    "price": 99000,
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 4,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 8
+    }
+  },
+  {
+    "brand": "NIDECKER",
+    "model": "Tape Deck",
+    "year": 2027,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      147,
+      150,
+      153,
+      156,
+      159
+    ],
+    "price": 95700,
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 9,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "NITRO",
+    "model": "Zaza",
+    "year": 2027,
+    "flex": 5,
+    "shape": "camber",
+    "gender": "womens",
+    "available_lengths": [
+      143,
+      146,
+      149,
+      152
+    ],
+    "price": 101200,
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 8,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "NITRO",
+    "model": "Altura",
+    "year": 2027,
+    "flex": 7,
+    "shape": "camber",
+    "gender": "womens",
+    "available_lengths": [
+      146,
+      149,
+      153
+    ],
+    "price": 140800,
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 4,
+      "carving": 9,
+      "run_tricks": 6,
+      "powder": 6
+    }
+  },
+  {
+    "brand": "RIDE",
+    "model": "Vantum",
+    "year": 2027,
+    "flex": 6,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      145,
+      148,
+      151,
+      153,
+      155,
+      157,
+      159,
+      162,
+      165
+    ],
+    "price": 88000,
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 8,
+      "run_tricks": 6,
+      "powder": 6
+    }
+  },
+  {
+    "brand": "RIDE",
+    "model": "Current",
+    "year": 2027,
+    "flex": 6,
+    "shape": "double_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      145,
+      148,
+      151,
+      154,
+      157,
+      160,
+      163,
+      166
+    ],
+    "price": 101200,
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 4,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 8
+    }
+  },
+  {
+    "brand": "SABRINA",
+    "model": "MOUNTAIN ROVER",
+    "year": 2027,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [
+      143,
+      146,
+      149
+    ],
+    "price": 73700,
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 7,
+      "run_tricks": 5,
+      "powder": 7
+    }
+  },
+  {
+    "brand": "SABRINA",
+    "model": "MY MELODY",
+    "year": 2027,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [
+      140,
+      144,
+      148
+    ],
+    "price": 71500,
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 5,
+      "carving": 4,
+      "run_tricks": 5,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "SABRINA",
+    "model": "KUROMI",
+    "year": 2027,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [
+      140,
+      144,
+      148
+    ],
+    "price": 71500,
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 5,
+      "carving": 4,
+      "run_tricks": 5,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "SALOMON",
+    "model": "HPS Kodo",
+    "year": 2027,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      153,
+      160,
+      167
+    ],
+    "price": 132000,
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 2,
+      "carving": 7,
+      "run_tricks": 5,
+      "powder": 10
+    }
+  },
+  {
+    "brand": "SALOMON",
+    "model": "Indicator",
+    "year": 2027,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      148,
+      152,
+      155,
+      158,
+      161,
+      165
+    ],
+    "price": 107800,
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 4,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 9
+    }
+  },
+  {
+    "brand": "SIMS",
+    "model": "Keyline",
+    "year": 2027,
+    "flex": 3,
+    "shape": "double_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      148,
+      151,
+      154,
+      156,
+      159,
+      162
+    ],
+    "price": 69300,
+    "style_scores": {
+      "ground_tricks": 8,
+      "park": 8,
+      "carving": 4,
+      "run_tricks": 6,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "SIMS",
+    "model": "Prototype",
+    "year": 2027,
+    "flex": 7,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      146,
+      152,
+      157,
+      160
+    ],
+    "price": 99000,
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 4,
+      "carving": 8,
+      "run_tricks": 6,
+      "powder": 8
+    }
+  },
+  {
+    "brand": "AMICSS",
+    "model": "DNA",
+    "year": 2027,
+    "flex": 8,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      152,
+      157,
+      161,
+      165
+    ],
+    "price": 151800,
+    "style_scores": {
+      "ground_tricks": 1,
+      "park": 1,
+      "carving": 10,
+      "run_tricks": 3,
+      "powder": 4
+    }
   }
 ]
