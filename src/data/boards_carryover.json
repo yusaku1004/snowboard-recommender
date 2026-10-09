@@ -5638,6 +5638,33 @@
   },
   {
     "brand": "JONES",
+    "model": "Rally Cat",
+    "year": 2027,
+    "flex": 4,
+    "shape": "camber",
+    "available_lengths": [
+      151,
+      154,
+      156,
+      158,
+      161
+    ],
+    "price": 96800,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 4
+    },
+    "gender": "mens",
+    "riding_type": "allround",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "JONES",
     "model": "Storm Chaser",
     "year": 2027,
     "flex": 7,
