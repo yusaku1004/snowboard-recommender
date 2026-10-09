@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import boards from "@/data/boards_data.json";
 import {
   buildSearchKeyword,
   isListingOfBrand,
@@ -7,6 +8,8 @@ import {
   detectModelYear,
   isBoardListing,
   matchesModel,
+  MODEL_ALIASES,
+  modelAliases,
   normalizeName,
   selectOffer,
   upscaleImageUrl,
@@ -51,6 +54,8 @@ describe("isBoardListing", () => {
     expect(isBoardListing("BURTON Custom スノーボード 3点セット")).toBe(false);
     expect(isBoardListing("中古 BURTON Custom スノーボード")).toBe(false);
     expect(isBoardListing("BURTON Custom ソールガード")).toBe(false);
+    expect(isBoardListing("26-27 バックパック JONES DEEPER 19L リュックサック スノーボード")).toBe(false);
+    expect(isBoardListing("日本正規品 スノーボード バッグ BURTON FLIGHT ATTENDANT")).toBe(false);
   });
 });
 
@@ -126,6 +131,66 @@ describe("matchesModel", () => {
   it("全角・記号の違いを吸収する", () => {
     expect(normalizeName("Ｔ．Ｒｉｃｅ　Ｐｒｏ")).toBe(normalizeName("T.Rice Pro"));
   });
+
+  it("＋ と Plus、LIMITED と LTD、アクセント記号の違いをそろえる", () => {
+    expect(normalizeName("DISASTER+")).toBe(normalizeName("Disaster Plus"));
+    expect(normalizeName("EVILTWIN＋")).toBe(normalizeName("Evil Twin Plus"));
+    expect(normalizeName("BALANCE LIMITED")).toBe(normalizeName("BALANCE LTD"));
+    expect(normalizeName("CAFÉ RACER")).toBe(normalizeName("Cafe Racer"));
+    const plus: MatchTarget = { brand: "BATALEON", model: "Disaster Plus", siblingModels: ["Disaster", "Disaster Plus"], referencePrice: 115500 };
+    const base: MatchTarget = { ...plus, model: "Disaster", referencePrice: 88000 };
+    expect(matchesModel("26-27 BATALEON/バタレオン DISASTER+ ディザスター スノーボード 板", plus)).toBe(true);
+    expect(matchesModel("26-27 BATALEON/バタレオン DISASTER+ ディザスター スノーボード 板", base)).toBe(false);
+  });
+
+  it("1〜2文字の別モデル名（S・RD）は単語の一部（STREAM・SNOWBOARD）には一致させない", () => {
+    const dr: MatchTarget = { brand: "BC STREAM", model: "DR", siblingModels: ["DR", "S", "H", "RIDER'S SPEC"], referencePrice: 129800 };
+    expect(matchesModel("26-27 BC STREAM DR ビーシーストリーム スノーボード 板 SNOWBOARDS", dr)).toBe(true);
+    // RIDER'S の "S" も別モデル名とみなさない
+    const rs: MatchTarget = { ...dr, model: "RIDER'S SPEC" };
+    expect(matchesModel("26-27 BC STREAM RIDER'S SPEC スノーボード", rs)).toBe(true);
+    // アポストロフィの位置が違う表記（RIDERS' SPEC）も別モデル名として見つける
+    const on: MatchTarget = { ...dr, model: "ON", siblingModels: ["ON", "S", "RIDER'S SPEC"] };
+    expect(matchesModel("26-27 BC STREAM ビーシーストリーム Riders' Spec ON レディース", on)).toBe(false);
+    expect(matchesModel("26-27 BC STREAM ビーシーストリーム ON オン レディース", on)).toBe(true);
+    // 単語として書かれた別モデル名は、まとめ売りとして除外する
+    expect(matchesModel("26-27 BC STREAM DR / S スノーボード", dr)).toBe(false);
+    const lty: MatchTarget = { brand: "SPREAD", model: "LTY", siblingModels: ["LTY", "RD", "LTA"], referencePrice: 96800 };
+    expect(matchesModel("26-27 スプレッド スノーボード SPREAD LTY SNOWBOARD", lty)).toBe(true);
+  });
+
+  it("ブランド名の詰め書き（NEVERSUMMER）・数字入りの単語（KM4K）・M'S の直後のモデル名は一致させる", () => {
+    const valhalla: MatchTarget = { brand: "NEVER SUMMER", model: "Valhalla", siblingModels: ["Valhalla"], referencePrice: 123750 };
+    expect(matchesModel("日本正規品 スノーボード 板 ネバーサマー NEVERSUMMER VALHALLA メンズ 26-27", valhalla)).toBe(true);
+    const shift: MatchTarget = { brand: "KM4K", model: "PARADICE SHIFT", siblingModels: ["PARADICE SHIFT", "HIKALU"], referencePrice: 69300 };
+    expect(matchesModel("日本正規品 スノーボード 板 カモシカ KM4K PARADICE SHIFT 26-27", shift)).toBe(true);
+    const flagship: MatchTarget = { brand: "JONES", model: "Flagship", siblingModels: ["Flagship", "Stratos"], referencePrice: 136620 };
+    expect(matchesModel("予約 26-27 スノーボード 板 ジョーンズ JONES M'S FLAGSHIP フリーライド", flagship)).toBe(true);
+    // モデル名の一部に別の英字が付いたもの（MOSS の Q60 に対する SNOWSTICK の PQ60）は従来どおり除外
+    const q60: MatchTarget = { brand: "MOSS", model: "Q60", siblingModels: ["Q60"], referencePrice: 130000 };
+    expect(matchesModel("26-27 MOSS SNOWSTICK PQ60 スノーボード", q60)).toBe(false);
+  });
+
+  it("登録した別表記（略称・誤字・コラボ名）でも一致し、より長い別表記を持つモデルとは取り違えない", () => {
+    const siblings = ["Mega Merc", "Mercury", "Mega Mercury"];
+    const megaMerc: MatchTarget = { brand: "CAPITA", model: "Mega Merc", siblingModels: siblings, referencePrice: 154000, aliases: ["Mega Mercury"] };
+    const mercury: MatchTarget = { brand: "CAPITA", model: "Mercury", siblingModels: siblings, referencePrice: 99000 };
+    expect(matchesModel("26-27 CAPITA/キャピタ MEGA MERCURY メガマーキュリー スノーボード 板", megaMerc)).toBe(true);
+    expect(matchesModel("26-27 CAPITA/キャピタ MEGA MERCURY メガマーキュリー スノーボード 板", mercury)).toBe(false);
+    expect(matchesModel("26-27 CAPITA/キャピタ MERCURY マーキュリー スノーボード 板", mercury)).toBe(true);
+    // コラボ名付きの正式名は、限定版（×）の判定より別表記を優先する
+    const stray: MatchTarget = { brand: "DEATH LABEL", model: "STRAY", siblingModels: ["STRAY"], referencePrice: 126500, aliases: ["STRAY×Degarashi"] };
+    expect(matchesModel("26-27 DEATH LABEL/デスレーベル STRAY×Degarashi ストレイ スノーボード 板", stray)).toBe(true);
+  });
+});
+
+describe("MODEL_ALIASES", () => {
+  it("すべてのキーが実データのブランド・モデルを指す", () => {
+    const keys = new Set((boards as { brand: string; model: string }[]).map((b) => `${b.brand}|${b.model}`));
+    expect(Object.keys(MODEL_ALIASES).filter((key) => !keys.has(key))).toEqual([]);
+    expect(modelAliases("CAPITA", "Mega Merc")).toEqual(["Mega Mercury"]);
+    expect(modelAliases("BURTON", "Custom")).toEqual([]);
+  });
 });
 
 describe("selectOffer", () => {
@@ -198,5 +263,15 @@ describe("isListingOfBrand", () => {
     expect(isListingOfBrand("26-27 ヨネックス YONEX SYMARC ハンマーヘッド", "HEAD")).toBe(false);
     expect(isListingOfBrand("26-27 バートン キッズ スノーボード", "BURTON", "バートン")).toBe(false);
     expect(isListingOfBrand("26-27 バートン スノーボード", "BURTON", "バートン")).toBe(true);
+  });
+
+  it("別ブランドの出品（先に別ブランド名がある・より長いブランド名を含む）は除く", () => {
+    const brands = ["HEAD", "YONEX", "MOSS", "MOSS SNOWSTICK", "OGASAKA", "RICE28", "NITRO", "SLASH"];
+    expect(isListingOfBrand("26-27 ヨネックス YONEX SYMARC ハンマーヘッド スノーボード", "HEAD", "ヘッド", brands)).toBe(false);
+    expect(isListingOfBrand("【予約販売中】HEAD ヘッド スノーボード 板 【2026-2027】 ANYTHING LYT", "HEAD", "ヘッド", brands)).toBe(true);
+    expect(isListingOfBrand("26-27 MOSS SNOWSTICK/モススノースティック PQ60 スノーボード", "MOSS", "モス", brands)).toBe(false);
+    expect(isListingOfBrand("26-27 MOSS SNOWSTICK/モススノースティック PQ60 スノーボード", "MOSS SNOWSTICK", undefined, brands)).toBe(true);
+    expect(isListingOfBrand("26-27 RICE28 SNOWBOARD ライス 28 RT6 オガサカ製 スノーボード", "OGASAKA", "オガサカ", brands)).toBe(false);
+    expect(isListingOfBrand("26-27 NITRO/ナイトロ SLASH スラッシュ QUIVER スノーボード", "SLASH", undefined, brands)).toBe(false);
   });
 });

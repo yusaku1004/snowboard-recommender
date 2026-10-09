@@ -21,18 +21,34 @@ export interface MatchedOffer {
   matchedCount: number;
 }
 
+// 全角→半角、小文字化し、アクセント記号（CAFÉ → cafe）を外す
+function toPlainLower(text: string): string {
+  return text.normalize("NFKC").normalize("NFD").replace(/[̀-ͯ]/g, "").normalize("NFC").toLowerCase();
+}
+
 // 全角→半角、小文字化、空白・記号を除去して比較しやすくする
 export function normalizeName(text: string): string {
-  return text
-    .normalize("NFKC")
-    .toLowerCase()
+  return toPlainLower(text)
     // レディース表記の揺れ（Women's / Womens / W's / WMNS）をそろえる
     .replace(/\b(?:women'?s|wmns|w's)(?=[\s.\-_]|$)/g, "w")
-    .replace(/[\s\-_.・'’"“”/\\()（）［］\[\]【】「」『』:：,，、。!！?？+＋&＆#＃*＊~〜]/g, "");
+    // "DISASTER+" と "Disaster Plus"、"LIMITED" と "LTD" を同じ表記にする
+    .replace(/\+/g, "plus")
+    .replace(/limited/g, "ltd")
+    .replace(/[\s\-_.・'’"“”/\\()（）［］\[\]【】「」『』:：,，、。!！?？&＆#＃*＊~〜]/g, "");
+}
+
+// 出品名の中に、モデル名が単語として（前後が英数字でない位置に）含まれるか。
+// "S" が "STREAM" に、"RD" が "SNOWBOARD" に一致するような取り違えを防ぐ。
+// アポストロフィの位置の違い（RIDER'S / RIDERS'）は無視する。
+function containsAsWords(itemName: string, model: string): boolean {
+  const plain = (text: string) => toPlainLower(text).replace(/['’]/g, "");
+  const words = plain(model).split(/[\s.\-_・/]+/).filter(Boolean);
+  if (words.length === 0) return false;
+  return new RegExp(`(?<![a-z0-9])${words.map(escapeRegExp).join(SEPARATOR)}(?![a-z0-9])`).test(plain(itemName));
 }
 
 // ボード本体以外（ビンディング・ブーツ・小物・中古・セット販売）の出品を除外する
-const EXCLUDE = /ビンディング|バインディング|binding|ブーツ|boots?\b|ケース|カバー|ワックス|wax|中古|used|アウトレット品|ソールガード|デッキパッド|ステッカー|リーシュ|セット|3点|２点|2点|三点|ジュニア用ビン|ウェア|ジャケット|パンツ|グローブ|ゴーグル|ヘルメット/i;
+const EXCLUDE = /ビンディング|バインディング|binding|ブーツ|boots?\b|ケース|カバー|ワックス|wax|中古|used|アウトレット品|ソールガード|デッキパッド|ステッカー|リーシュ|セット|3点|２点|2点|三点|ジュニア用ビン|ウェア|ジャケット|パンツ|グローブ|ゴーグル|ヘルメット|バッグ|バックパック|リュック|ザック|ヘアバンド|ヘッドバンド|ニット帽|ビーニー/i;
 const BOARD_WORD = /スノーボード|スノボ|snowboard|ボード|板/i;
 
 export function isBoardListing(itemName: string): boolean {
@@ -72,13 +88,57 @@ export interface MatchTarget {
   referencePrice: number;
   // ブランド名の読み（カタカナ表記の出品にも一致させる）
   brandReading?: string;
+  // 楽天の出品で使われる別の表記（MODEL_ALIASES から渡す）
+  aliases?: string[];
+}
+
+// 出品名でのモデルの別表記（略称・ショップ側の誤字・コラボ名付きの正式名）。キーは "ブランド|モデル"。
+// 正規化（大文字小文字・空白・記号・LIMITED/LTD・+/Plus の違い）で吸収できない表記だけを登録する。
+// 別表記で一致したときは、限定版（LTD・×）や前置きの英単語の判定を行わない。
+export const MODEL_ALIASES: Record<string, string[]> = {
+  "CAPITA|Mega Merc": ["Mega Mercury"],
+  "CAPITA|Spring Break Powder Twin": ["SB Powder Twin"],
+  "CAPITA|Spring Break Stairmaster": ["SB Stairmaster"],
+  "CROOJA|HORNET": ["HONET"],
+  "DEATH LABEL|THE COFFIN": ["THE COFFFN"],
+  "DEATH LABEL|THE DRIFTER": ["THE DRIFTER×KENGO KIMURA"],
+  "DEATH LABEL|KINTONE": ["KINTONE×328"],
+  "DEATH LABEL|PJ GUSTAFSSON": ["PJ GUSTAFSSON×Kris Markovich"],
+  "DEATH LABEL|STRAY": ["STRAY×Degarashi"],
+  "FANATIC|TRICKMASTAR": ["TRICKMASTER"],
+  // "+" 表記の出品は "Plus" で検索しても見つからないため、検索用に登録する
+  "BATALEON|Disaster Plus": ["Disaster+"],
+  "BATALEON|Evil Twin Plus": ["EvilTwin+"],
+  "BATALEON|Goliath Plus": ["Goliath+"],
+  "BATALEON|Tornado Beyond Medals": ["Tornado"],
+  "KM4K|PARADICE STICK 6": ["PARADICE STICK"],
+  "MOSS SNOWSTICK|LITTLE FLUFFY": ["LITTELE FLUFFY"],
+  "MOSS SNOWSTICK|LL66": ["LL 166"],
+  "NEVER SUMMER|Instigator": ["INSTAGATOR"],
+  "NIDECKER|SOREL Surfer": ["SOREL"],
+  "NITRO|Basher Quiver": ["Basher"],
+  "NITRO|Cannon Quiver": ["Cannon"],
+  "NITRO|Dinghy Quiver": ["Dinghy"],
+  "PUBLIC|General Public": ["GENERAL"],
+  "PUBLIC|General Public Select": ["GENERAL SELECT"],
+  "PUBLIC|Guest Pro Ben Kadow": ["GENERAL BEN KADOW"],
+  "RIDE|Moderator": ["MODERATER"],
+  "SABRINA|KUROMI": ["KUROMI LIMITED"],
+  "SIMS|BOWL SQUAD": ["BAWL SQUAD"],
+  "ThirtyTwo|Volcom Creedler": ["Volcom Creeder"],
+};
+
+export function modelAliases(brand: string, model: string): string[] {
+  return MODEL_ALIASES[`${brand}|${model}`] ?? [];
 }
 
 const KIDS = /キッズ|kids|ユース|youth|ジュニア|junior|smalls|チルドレン|子供/i;
 // モデル名の直前に来てもよい英単語（性別・対象・一般語）。ブランド名と同ブランドの他モデル名の単語も許可する
 const COMMON_PREFIX_WORDS = new Set([
   "mens", "men", "womens", "women", "wmns", "ladies", "unisex", "kids", "youth", "junior", "girls", "boys",
-  "the", "new", "snowboard", "snowboards", "board", "model",
+  "the", "new", "snowboard", "snowboards", "board", "model", "shapes",
+  // "M'S FLAGSHIP" "MS STRATOS" のような性別の略記と、コラボ表記の "x"
+  "m", "ms", "w", "ws", "x",
 ]);
 const SEPARATOR = "[\\s\\-_.・/]*";
 
@@ -92,6 +152,8 @@ function hasForeignPrefixWord(itemName: string, target: MatchTarget): boolean {
   const allowed = new Set([
     ...COMMON_PREFIX_WORDS,
     ...`${target.brand} ${target.siblingModels.join(" ")}`.normalize("NFKC").toLowerCase().split(/[^a-z0-9]+/).filter(Boolean),
+    // "NEVERSUMMER" "LIBTECH" のようにブランド名を詰めて書いた表記
+    normalizeName(target.brand),
   ]);
   const pattern = new RegExp(words.map(escapeRegExp).join(SEPARATOR), "g");
   let match: RegExpExecArray | null;
@@ -99,7 +161,8 @@ function hasForeignPrefixWord(itemName: string, target: MatchTarget): boolean {
   while ((match = pattern.exec(text))) {
     occurrences++;
     const before = text.slice(0, match.index).replace(/[\s\-_.・/]+$/, "");
-    const prev = before.match(/([a-z][a-z']*)$/)?.[1]?.replace(/'s$/, "");
+    // 数字を含む単語（"KM4K" "WRXsb"）も1語として見る。数字だけ（"26-27" など）は単語とみなさない
+    const prev = before.match(/([a-z0-9']*[a-z][a-z0-9']*)$/)?.[1]?.replace(/'s$/, "");
     // 直前が英単語でない（日本語・数字・記号・文頭）か、許可された単語なら、このモデルの表記とみなす
     if (!prev || allowed.has(prev)) return false;
   }
@@ -126,10 +189,28 @@ function hasVariantSuffix(itemName: string, target: MatchTarget): boolean {
 }
 
 // 出品名にブランド名（英字またはカタカナ読み）が含まれ、子ども用でないか（未登録モデル候補の抽出用）
-export function isListingOfBrand(itemName: string, brand: string, brandReading?: string): boolean {
+// otherBrands を渡すと、別ブランドの出品（"MOSS SNOWSTICK" を MOSS で、"ヨネックス ... ハンマーヘッド" を HEAD で
+// 拾ったもの、"オガサカ製" の別ブランドなど）を除く。別ブランド名が先に出てくるか、このブランド名を含む
+// より長いブランド名が出てくれば、別ブランドの出品とみなす。
+export function isListingOfBrand(itemName: string, brand: string, brandReading?: string, otherBrands: string[] = []): boolean {
   const name = normalizeName(itemName);
   const hasBrand = name.includes(normalizeName(brand)) || (brandReading ? name.includes(normalizeName(brandReading)) : false);
-  return hasBrand && !KIDS.test(itemName);
+  if (!hasBrand || KIDS.test(itemName)) return false;
+  const text = toPlainLower(itemName);
+  const position = (b: string) => {
+    const words = toPlainLower(b).split(/[\s.\-_・/]+/).filter(Boolean);
+    const m = new RegExp(`(?<![a-z0-9'])${words.map(escapeRegExp).join(SEPARATOR)}(?![a-z0-9])`).exec(text);
+    return m ? m.index : -1;
+  };
+  const own = Math.min(
+    ...[position(brand), brandReading ? text.indexOf(toPlainLower(brandReading)) : -1].map((i) => (i < 0 ? Infinity : i))
+  );
+  return !otherBrands.some((other) => {
+    if (normalizeName(other) === normalizeName(brand)) return false;
+    const at = position(other);
+    if (at < 0) return false;
+    return normalizeName(other).includes(normalizeName(brand)) || at < own;
+  });
 }
 
 // この出品が対象モデルのものか
@@ -139,6 +220,17 @@ export function matchesModel(itemName: string, target: MatchTarget): boolean {
     name.includes(normalizeName(target.brand)) ||
     (target.brandReading ? name.includes(normalizeName(target.brandReading)) : false);
   if (!brandOk) return false;
+  if (matchesModelName(itemName, name, target)) return true;
+  // 登録済みの別表記で一致するか（より長い別モデル名を含む出品と子ども用は除く）
+  return (target.aliases ?? []).some((alias) => {
+    const a = normalizeName(alias);
+    if (!a || !name.includes(a)) return false;
+    if (KIDS.test(itemName) && !KIDS.test(target.model)) return false;
+    return !target.siblingModels.map(normalizeName).some((m) => m.length > a.length && m.includes(a) && name.includes(m));
+  });
+}
+
+function matchesModelName(itemName: string, name: string, target: MatchTarget): boolean {
   const model = normalizeName(target.model);
   if (!model || !name.includes(model)) return false;
   // より長い別モデル名が含まれていれば、そちらの出品とみなす
@@ -158,10 +250,12 @@ export function matchesModel(itemName: string, target: MatchTarget): boolean {
   // 子ども用（モデル名自体が子ども用でなければ除外）
   if (KIDS.test(itemName) && !KIDS.test(target.model)) return false;
   // 複数モデルをまとめた出品（同ブランドの無関係な別モデル名も含む）は価格がどのモデルか分からないため除外
-  const unrelated = target.siblingModels
-    .map(normalizeName)
-    .filter((m) => m && m !== model && !m.includes(model) && !model.includes(m));
-  if (unrelated.some((m) => name.includes(m))) return false;
+  // （"S" や "RD" のような短いモデル名が単語の一部に一致しないよう、単語単位で探す）
+  const unrelated = target.siblingModels.filter((sibling) => {
+    const m = normalizeName(sibling);
+    return m && m !== model && !m.includes(model) && !model.includes(m);
+  });
+  if (unrelated.some((m) => containsAsWords(itemName, m))) return false;
   // "PRETTY Good Company" のように、別の英単語が前に付いた別モデル
   if (hasForeignPrefixWord(itemName, target)) return false;
   // "DEATH SERIES LTD" "Push Up＋" のような限定版・別バリエーション

@@ -26,6 +26,7 @@ import {
   isListingOfBrand,
   isBoardListing,
   matchesModel,
+  modelAliases,
   selectOffer,
 } from "../src/lib/rakutenMatch.ts";
 
@@ -182,6 +183,12 @@ const modelsByBrand = new Map<string, string[]>();
 for (const board of latestBySlug.values()) {
   modelsByBrand.set(board.brand, [...(modelsByBrand.get(board.brand) ?? []), board.model]);
 }
+// 別モデルとの取り違えの判定には、別表記（"Mega Mercury" など）も同ブランドのモデル名として含める
+const siblingsOf = (brand: string) => {
+  const models = modelsByBrand.get(brand) ?? [];
+  return [...models, ...models.flatMap((model) => modelAliases(brand, model))];
+};
+const ALL_BRANDS = [...modelsByBrand.keys()];
 
 const toOffer = (m: MatchedOffer): RakutenOffer => ({
   price: m.price,
@@ -204,16 +211,23 @@ async function main() {
 
   console.log(`対象 ${targets.length} モデル / 新年式 ${NEW_MODEL_YEAR}`);
   for (const [i, [slug, board]] of targets.entries()) {
+    const aliases = modelAliases(board.brand, board.model);
     const target = {
       brand: board.brand,
       model: board.model,
-      siblingModels: modelsByBrand.get(board.brand) ?? [],
+      siblingModels: siblingsOf(board.brand),
       referencePrice: board.price,
       brandReading: BRAND_READINGS[board.brand],
+      aliases,
     };
     let items: RakutenItem[] = [];
     try {
       items = await searchItems(buildSearchKeyword(board.brand, board.model));
+      // 別表記の出品はモデル名の検索では見つからないことがあるため、別表記でも検索して合わせる
+      for (const alias of aliases) {
+        const seen = new Set(items.map((item) => item.itemUrl));
+        items.push(...(await searchItems(buildSearchKeyword(board.brand, alias))).filter((item) => !seen.has(item.itemUrl)));
+      }
     } catch (e) {
       console.warn(`  ! ${board.brand} ${board.model}: ${(e as Error).message}`);
       continue;
@@ -260,11 +274,19 @@ async function main() {
         continue;
       }
       const models = modelsByBrand.get(brand) ?? [];
+      const siblings = siblingsOf(brand);
       for (const item of items) {
         if (!isBoardListing(item.itemName) || detectModelYear(item.itemName) !== NEW_MODEL_YEAR) continue;
-        if (!isListingOfBrand(item.itemName, brand, BRAND_READINGS[brand])) continue;
+        if (!isListingOfBrand(item.itemName, brand, BRAND_READINGS[brand], ALL_BRANDS)) continue;
         const known = models.some((model) =>
-          matchesModel(item.itemName, { brand, model, siblingModels: models, referencePrice: 0, brandReading: BRAND_READINGS[brand] })
+          matchesModel(item.itemName, {
+            brand,
+            model,
+            siblingModels: siblings,
+            referencePrice: 0,
+            brandReading: BRAND_READINGS[brand],
+            aliases: modelAliases(brand, model),
+          })
         );
         if (!known) candidates.push(`| ${brand} | ${item.itemName.replace(/\|/g, "／").slice(0, 90)} | ¥${item.itemPrice.toLocaleString()} |`);
       }
