@@ -993,6 +993,33 @@
   },
   {
     "brand": "atirom-avs",
+    "model": "FORCE",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      143,
+      146,
+      150,
+      152,
+      154
+    ],
+    "price": 108680,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 4,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 5
+    },
+    "gender": "unisex",
+    "riding_type": "allround",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "atirom-avs",
     "model": "ROTATION",
     "year": 2027,
     "flex": 4,
@@ -1256,6 +1283,32 @@
   },
   {
     "brand": "BATALEON",
+    "model": "Tornado Beyond Medals",
+    "year": 2027,
+    "price": 99000,
+    "available_lengths": [
+      151,
+      154,
+      156,
+      159
+    ],
+    "flex": 6,
+    "shape": "camber",
+    "riding_type": "allround",
+    "gender": "mens",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 6,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 6
+    },
+    "image_url": "",
+    "url": "",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "BATALEON",
     "model": "Turbo",
     "year": 2027,
     "flex": 9,
@@ -1312,6 +1365,161 @@
   },
   {
     "brand": "BC STREAM",
+    "model": "BRAH",
+    "year": 2027,
+    "flex": 5,
+    "shape": "camber",
+    "available_lengths": [
+      145,
+      148,
+      151,
+      154
+    ],
+    "price": 123200,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 4,
+      "carving": 6,
+      "run_tricks": 8,
+      "powder": 3
+    },
+    "gender": "mens",
+    "riding_type": "allround",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "BC STREAM",
+    "model": "CURVE",
+    "year": 2027,
+    "flex": 7,
+    "shape": "camber",
+    "available_lengths": [
+      155,
+      158,
+      161
+    ],
+    "price": 110000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 2,
+      "carving": 9,
+      "run_tricks": 5,
+      "powder": 4
+    },
+    "gender": "mens",
+    "riding_type": "carving",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "BC STREAM",
+    "model": "DP",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      156,
+      160
+    ],
+    "price": 129800,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 6,
+      "run_tricks": 5,
+      "powder": 8
+    },
+    "gender": "mens",
+    "riding_type": "powder",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "BC STREAM",
+    "model": "DR",
+    "year": 2027,
+    "flex": 8,
+    "shape": "camber",
+    "available_lengths": [
+      154,
+      157,
+      160,
+      163
+    ],
+    "price": 129800,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 2,
+      "carving": 8,
+      "run_tricks": 7,
+      "powder": 7
+    },
+    "gender": "mens",
+    "riding_type": "freeride",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "BC STREAM",
+    "model": "NW",
+    "year": 2027,
+    "flex": 7,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      150,
+      153,
+      156,
+      159,
+      162,
+      168
+    ],
+    "price": 147400,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 8,
+      "run_tricks": 7,
+      "powder": 7
+    },
+    "gender": "mens",
+    "riding_type": "freeride",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "BC STREAM",
+    "model": "ON",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      148,
+      151,
+      154,
+      157
+    ],
+    "price": 99000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 5,
+      "carving": 6,
+      "run_tricks": 7,
+      "powder": 6
+    },
+    "gender": "unisex",
+    "riding_type": "allround",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "BC STREAM",
     "model": "PRIME CUSTOM",
     "year": 2027,
     "flex": 7,
@@ -1335,6 +1543,34 @@
     },
     "gender": "unisex",
     "riding_type": "carving",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "BC STREAM",
+    "model": "R-4",
+    "year": 2027,
+    "flex": 6,
+    "shape": "camber",
+    "available_lengths": [
+      144,
+      148,
+      153,
+      156,
+      159,
+      162
+    ],
+    "price": 129800,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 3,
+      "carving": 7,
+      "run_tricks": 5,
+      "powder": 3
+    },
+    "gender": "mens",
+    "riding_type": "allround",
     "specs_from_year": 2026
   },
   {
@@ -1412,6 +1648,59 @@
       "carving": 9,
       "run_tricks": 7,
       "powder": 5
+    },
+    "gender": "mens",
+    "riding_type": "carving",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "BC STREAM",
+    "model": "RX",
+    "year": 2027,
+    "flex": 7,
+    "shape": "camber",
+    "available_lengths": [
+      154,
+      159,
+      164,
+      169,
+      174
+    ],
+    "price": 147400,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 1,
+      "park": 1,
+      "carving": 10,
+      "run_tricks": 3,
+      "powder": 3
+    },
+    "gender": "mens",
+    "riding_type": "carving",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "BC STREAM",
+    "model": "RX Ti",
+    "year": 2027,
+    "flex": 8,
+    "shape": "camber",
+    "available_lengths": [
+      159,
+      164,
+      169,
+      174
+    ],
+    "price": 160600,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 1,
+      "park": 1,
+      "carving": 10,
+      "run_tricks": 1,
+      "powder": 2
     },
     "gender": "mens",
     "riding_type": "carving",
@@ -2213,6 +2502,32 @@
   },
   {
     "brand": "CAPITA",
+    "model": "Mega Merc",
+    "year": 2027,
+    "flex": 7,
+    "shape": "camber",
+    "available_lengths": [
+      155,
+      157,
+      159,
+      161
+    ],
+    "price": 154000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 6,
+      "carving": 7,
+      "run_tricks": 8,
+      "powder": 5
+    },
+    "gender": "mens",
+    "riding_type": "freeride",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "CAPITA",
     "model": "Mercury",
     "year": 2027,
     "flex": 7,
@@ -2435,6 +2750,32 @@
       "powder": 4
     },
     "riding_type": "park_jib",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "CAPITA",
+    "model": "Spring Break Powder Twin",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      153,
+      156,
+      159,
+      162
+    ],
+    "price": 93500,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 5,
+      "carving": 6,
+      "run_tricks": 6,
+      "powder": 8
+    },
+    "gender": "unisex",
+    "riding_type": "powder",
     "specs_from_year": 2026
   },
   {
@@ -3891,6 +4232,36 @@
     },
     "gender": "mens",
     "riding_type": "allround",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "FANATIC",
+    "model": "TRICKMASTAR",
+    "year": 2027,
+    "flex": 3,
+    "shape": "double_camber",
+    "available_lengths": [
+      138,
+      142,
+      143,
+      147,
+      148,
+      150,
+      153,
+      156
+    ],
+    "price": 85800,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 10,
+      "park": 7,
+      "carving": 3,
+      "run_tricks": 5,
+      "powder": 2
+    },
+    "gender": "unisex",
+    "riding_type": "gratri",
     "specs_from_year": 2026
   },
   {
@@ -5448,6 +5819,33 @@
   },
   {
     "brand": "JONES",
+    "model": "Aviator 2.0",
+    "year": 2027,
+    "flex": 8,
+    "shape": "camber",
+    "available_lengths": [
+      154,
+      156,
+      158,
+      160,
+      162
+    ],
+    "price": 137500,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 9,
+      "run_tricks": 8,
+      "powder": 6
+    },
+    "gender": "mens",
+    "riding_type": "freeride",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "JONES",
     "model": "Flagship",
     "year": 2027,
     "flex": 8,
@@ -5638,6 +6036,32 @@
   },
   {
     "brand": "JONES",
+    "model": "Mountain Twin Pro",
+    "year": 2027,
+    "flex": 8,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      154,
+      157,
+      160,
+      163
+    ],
+    "price": 149600,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 6,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 7
+    },
+    "gender": "mens",
+    "riding_type": "allround",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "JONES",
     "model": "Rally Cat",
     "year": 2027,
     "flex": 4,
@@ -5749,6 +6173,37 @@
       "powder": 4
     },
     "riding_type": "park_jib",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "JONES",
+    "model": "Twin Sister",
+    "year": 2027,
+    "flex": 7,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      125,
+      130,
+      135,
+      140,
+      143,
+      146,
+      149,
+      152,
+      155
+    ],
+    "price": 115500,
+    "image_url": "",
+    "url": "",
+    "gender": "womens",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 6,
+      "carving": 8,
+      "run_tricks": 7,
+      "powder": 8
+    },
+    "riding_type": "allround",
     "specs_from_year": 2026
   },
   {
@@ -6506,6 +6961,33 @@
     },
     "gender": "unisex",
     "riding_type": "allround",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "KM4K",
+    "model": "PARADICE STICK 6",
+    "year": 2027,
+    "flex": 6,
+    "shape": "camber",
+    "available_lengths": [
+      144,
+      148,
+      152,
+      155,
+      158
+    ],
+    "price": 88000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 6,
+      "carving": 7,
+      "run_tricks": 6,
+      "powder": 7
+    },
+    "gender": "unisex",
+    "riding_type": "freeride",
     "specs_from_year": 2026
   },
   {
@@ -8137,6 +8619,29 @@
   },
   {
     "brand": "MOSS SNOWSTICK",
+    "model": "LL66",
+    "year": 2027,
+    "flex": 6,
+    "shape": "rocker",
+    "available_lengths": [
+      166
+    ],
+    "price": 154000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 1,
+      "park": 1,
+      "carving": 6,
+      "run_tricks": 4,
+      "powder": 10
+    },
+    "gender": "unisex",
+    "riding_type": "powder",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "MOSS SNOWSTICK",
     "model": "MAHI",
     "year": 2027,
     "flex": 5,
@@ -8968,6 +9473,32 @@
   },
   {
     "brand": "NEVER SUMMER",
+    "model": "Instigator",
+    "year": 2027,
+    "flex": 5,
+    "shape": "double_camber",
+    "available_lengths": [
+      148,
+      151,
+      156,
+      159
+    ],
+    "price": 132500,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 5,
+      "carving": 6,
+      "run_tricks": 5,
+      "powder": 6
+    },
+    "gender": "unisex",
+    "riding_type": "allround",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "NEVER SUMMER",
     "model": "Llama",
     "year": 2027,
     "flex": 4,
@@ -9116,6 +9647,31 @@
       "powder": 5
     },
     "gender": "mens",
+    "riding_type": "allround",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "NEVER SUMMER",
+    "model": "Shaper Twin",
+    "year": 2027,
+    "flex": 6,
+    "shape": "double_camber",
+    "available_lengths": [
+      156,
+      159,
+      161
+    ],
+    "price": 132500,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 6,
+      "carving": 6,
+      "run_tricks": 6,
+      "powder": 4
+    },
+    "gender": "unisex",
     "riding_type": "allround",
     "specs_from_year": 2026
   },
@@ -9655,6 +10211,54 @@
   },
   {
     "brand": "NITRO",
+    "model": "Basher Quiver",
+    "year": 2027,
+    "price": 115500,
+    "available_lengths": [
+      155,
+      158
+    ],
+    "flex": 7,
+    "shape": "camber",
+    "riding_type": "allround",
+    "gender": "mens",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 7,
+      "powder": 7
+    },
+    "image_url": "",
+    "url": "",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "NITRO",
+    "model": "Cannon Quiver",
+    "year": 2027,
+    "price": 129800,
+    "available_lengths": [
+      173,
+      203
+    ],
+    "flex": 6,
+    "shape": "rocker",
+    "riding_type": "powder",
+    "gender": "mens",
+    "style_scores": {
+      "ground_tricks": 1,
+      "park": 1,
+      "carving": 6,
+      "run_tricks": 4,
+      "powder": 10
+    },
+    "image_url": "",
+    "url": "",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "NITRO",
     "model": "Cheap Thrills",
     "year": 2027,
     "flex": 5,
@@ -9677,6 +10281,31 @@
       "powder": 2
     },
     "riding_type": "freestyle",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "NITRO",
+    "model": "Dinghy Quiver",
+    "year": 2027,
+    "price": 115500,
+    "available_lengths": [
+      150,
+      155,
+      160
+    ],
+    "flex": 7,
+    "shape": "hybrid_camber",
+    "riding_type": "powder",
+    "gender": "mens",
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 3,
+      "carving": 5,
+      "run_tricks": 5,
+      "powder": 10
+    },
+    "image_url": "",
+    "url": "",
     "specs_from_year": 2026
   },
   {
@@ -10934,6 +11563,31 @@
   },
   {
     "brand": "OGASAKA",
+    "model": "RX",
+    "year": 2027,
+    "price": 168300,
+    "available_lengths": [
+      152,
+      162,
+      172
+    ],
+    "flex": 8,
+    "shape": "camber",
+    "riding_type": "carving",
+    "gender": "mens",
+    "style_scores": {
+      "ground_tricks": 1,
+      "park": 1,
+      "carving": 10,
+      "run_tricks": 3,
+      "powder": 3
+    },
+    "image_url": "",
+    "url": "",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "OGASAKA",
     "model": "SHIN",
     "year": 2027,
     "flex": 5,
@@ -11371,6 +12025,30 @@
       "carving": 5,
       "run_tricks": 6,
       "powder": 4
+    },
+    "gender": "mens",
+    "riding_type": "freestyle",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "PUBLIC",
+    "model": "Guest Pro Ben Kadow",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      153,
+      157
+    ],
+    "price": 86900,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 8,
+      "carving": 4,
+      "run_tricks": 6,
+      "powder": 3
     },
     "gender": "mens",
     "riding_type": "freestyle",
