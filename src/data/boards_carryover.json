@@ -1076,9 +1076,9 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
-      152,
-      155,
-      158,
+      149,
+      153,
+      157,
       161
     ],
     "price": 88000,
@@ -1204,8 +1204,10 @@
     "model": "Party Wave",
     "year": 2027,
     "flex": 5,
-    "shape": "rocker",
+    "shape": "camber",
     "available_lengths": [
+      145,
+      148,
       151,
       154,
       157
@@ -1340,7 +1342,7 @@
     "model": "Whatever",
     "year": 2027,
     "flex": 3,
-    "shape": "flat",
+    "shape": "camber",
     "available_lengths": [
       138,
       144,
@@ -3284,7 +3286,7 @@
     "model": "DEATH MACHINE",
     "year": 2027,
     "flex": 4,
-    "shape": "flat",
+    "shape": "hybrid_camber",
     "available_lengths": [
       148,
       151,
@@ -3308,8 +3310,8 @@
     "brand": "DEATH LABEL",
     "model": "DEATH SERIES",
     "year": 2027,
-    "flex": 3,
-    "shape": "flat",
+    "flex": 7,
+    "shape": "camber",
     "available_lengths": [
       148,
       150,
@@ -3396,7 +3398,7 @@
     "model": "THE DRIFTER",
     "year": 2027,
     "flex": 4,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "available_lengths": [
       155,
       158
@@ -3423,13 +3425,9 @@
     "shape": "camber",
     "gender": "womens",
     "available_lengths": [
-      136,
       138,
-      139,
       142,
-      143,
-      145,
-      147
+      145
     ],
     "price": 84700,
     "image_url": "",
@@ -3656,7 +3654,6 @@
     "flex": 4,
     "shape": "hybrid_camber",
     "available_lengths": [
-      138,
       141,
       143,
       145
@@ -3800,7 +3797,7 @@
       "run_tricks": 5,
       "powder": 4
     },
-    "gender": "mens",
+    "gender": "womens",
     "riding_type": "allround",
     "specs_from_year": 2026
   },
@@ -4187,12 +4184,8 @@
       144,
       148,
       151,
-      152,
       154,
-      155,
-      157,
-      158,
-      161
+      157
     ],
     "price": 94600,
     "image_url": "",
@@ -4517,11 +4510,8 @@
     "shape": "double_camber",
     "gender": "womens",
     "available_lengths": [
-      138,
       139,
-      141,
       143,
-      144,
       147,
       150,
       153,
@@ -4816,14 +4806,11 @@
     "model": "Gloss",
     "year": 2027,
     "flex": 3,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "available_lengths": [
       136,
-      139,
       140,
-      142,
       144,
-      146,
       148
     ],
     "price": 82500,
@@ -4880,8 +4867,7 @@
       149,
       152,
       155,
-      158,
-      161
+      158
     ],
     "price": 105600,
     "image_url": "",
@@ -5905,6 +5891,7 @@
     "flex": 8,
     "shape": "camber",
     "available_lengths": [
+      152,
       156,
       160,
       164
@@ -8530,7 +8517,7 @@
     "model": "C3",
     "year": 2027,
     "flex": 4,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "available_lengths": [
       140
     ],
@@ -10219,7 +10206,7 @@
       158
     ],
     "flex": 7,
-    "shape": "camber",
+    "shape": "flat",
     "riding_type": "allround",
     "gender": "mens",
     "style_scores": {
@@ -10243,7 +10230,7 @@
       203
     ],
     "flex": 6,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "riding_type": "powder",
     "gender": "mens",
     "style_scores": {
@@ -12854,7 +12841,7 @@
     "model": "Zero",
     "year": 2027,
     "flex": 5,
-    "shape": "rocker",
+    "shape": "camber",
     "available_lengths": [
       142,
       147,
@@ -13802,10 +13789,7 @@
     "shape": "hybrid_camber",
     "gender": "unisex",
     "available_lengths": [
-      150,
-      153,
       156,
-      159,
       160,
       164
     ],
@@ -14218,7 +14202,7 @@
     "model": "Sleepwalker",
     "year": 2027,
     "flex": 3,
-    "shape": "flat",
+    "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
       148,
@@ -15033,7 +15017,7 @@
     "model": "MACRODOSE",
     "year": 2027,
     "flex": 7,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
       146,
@@ -16031,10 +16015,7 @@
     "flex": 5,
     "shape": "rocker",
     "available_lengths": [
-      148,
-      152,
       153,
-      156,
       158,
       163
     ],
