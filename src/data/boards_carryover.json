@@ -945,7 +945,8 @@
     "available_lengths": [
       150,
       153,
-      156
+      156,
+      159
     ],
     "flex": 5,
     "shape": "camber",
@@ -1074,7 +1075,7 @@
     "model": "Cameleon",
     "year": 2027,
     "flex": 5,
-    "shape": "hybrid_camber",
+    "shape": "camber",
     "available_lengths": [
       149,
       153,
@@ -1100,8 +1101,9 @@
     "model": "Disaster",
     "year": 2027,
     "flex": 3,
-    "shape": "double_camber",
+    "shape": "camber",
     "available_lengths": [
+      144,
       148,
       151,
       154,
@@ -1126,7 +1128,7 @@
     "model": "Evil Twin",
     "year": 2027,
     "flex": 5,
-    "shape": "hybrid_camber",
+    "shape": "camber",
     "available_lengths": [
       151,
       154,
@@ -1152,7 +1154,7 @@
     "model": "Feelbetter",
     "year": 2027,
     "flex": 3,
-    "shape": "hybrid_camber",
+    "shape": "camber",
     "available_lengths": [
       138,
       140,
@@ -1231,7 +1233,7 @@
     "model": "Push Up",
     "year": 2027,
     "flex": 4,
-    "shape": "hybrid_camber",
+    "shape": "camber",
     "available_lengths": [
       146,
       149,
@@ -1256,7 +1258,7 @@
     "model": "Stereo Team",
     "year": 2027,
     "flex": 6,
-    "shape": "hybrid_camber",
+    "shape": "camber",
     "available_lengths": [
       141,
       144,
@@ -1294,7 +1296,7 @@
       156,
       159
     ],
-    "flex": 6,
+    "flex": 7,
     "shape": "camber",
     "riding_type": "allround",
     "gender": "mens",
@@ -1314,7 +1316,7 @@
     "model": "Turbo",
     "year": 2027,
     "flex": 9,
-    "shape": "hybrid_camber",
+    "shape": "camber",
     "available_lengths": [
       156,
       158,
@@ -5318,8 +5320,13 @@
     "flex": 5,
     "shape": "camber",
     "available_lengths": [
+      146,
+      151,
+      152,
+      154,
       155,
-      158,
+      156,
+      160,
       161
     ],
     "price": 143000,
@@ -5343,10 +5350,9 @@
     "flex": 6,
     "shape": "camber",
     "available_lengths": [
-      152,
-      155,
-      158,
-      162
+      157,
+      162,
+      167
     ],
     "price": 132000,
     "image_url": "",
@@ -5669,7 +5675,7 @@
     "brand": "HEAD",
     "model": "Solace",
     "year": 2027,
-    "flex": 7,
+    "flex": 5,
     "shape": "camber",
     "available_lengths": [
       138,
@@ -6448,7 +6454,9 @@
       148,
       151,
       154,
-      157
+      157,
+      159,
+      162
     ],
     "flex": 8,
     "shape": "hybrid_camber",
@@ -7577,7 +7585,7 @@
     "brand": "LIB TECH",
     "model": "Ejack Knife",
     "year": 2027,
-    "flex": 5,
+    "flex": 7,
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
@@ -10181,7 +10189,7 @@
       156,
       159
     ],
-    "flex": 6,
+    "flex": 8,
     "shape": "hybrid_camber",
     "riding_type": "powder",
     "gender": "mens",
@@ -12492,6 +12500,7 @@
     "year": 2027,
     "price": 79310,
     "available_lengths": [
+      144,
       148,
       151,
       155,
@@ -12653,7 +12662,7 @@
     "model": "Psychocandy",
     "year": 2027,
     "flex": 4,
-    "shape": "rocker",
+    "shape": "flat",
     "available_lengths": [
       138,
       142,
@@ -12736,9 +12745,12 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      153,
       155,
       157,
-      158
+      158,
+      162,
+      165
     ],
     "price": 81000,
     "image_url": "",
@@ -14448,7 +14460,7 @@
     "brand": "SCOOTER",
     "model": "SCT",
     "year": 2027,
-    "flex": 4,
+    "flex": 6,
     "shape": "hybrid_camber",
     "gender": "unisex",
     "available_lengths": [
@@ -14479,12 +14491,8 @@
     "shape": "double_camber",
     "available_lengths": [
       140,
-      148,
       149,
-      151,
-      152,
-      155,
-      158
+      151
     ],
     "price": 115500,
     "image_url": "",
@@ -15242,7 +15250,7 @@
     "brand": "SPREAD",
     "model": "LTB",
     "year": 2027,
-    "flex": 4,
+    "flex": 6,
     "shape": "hybrid_camber",
     "gender": "unisex",
     "available_lengths": [
@@ -15417,7 +15425,7 @@
     "brand": "SPREAD",
     "model": "ZERO",
     "year": 2027,
-    "flex": 6,
+    "flex": 4,
     "shape": "camber",
     "available_lengths": [
       145,
