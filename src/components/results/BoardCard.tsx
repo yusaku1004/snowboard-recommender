@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { RecommendResult, Board } from "@/types";
+import { RecommendResult, Board, BootSize } from "@/types";
 import { RadarChart } from "./LazyRadarChart";
 import { MatchRing } from "./MatchRing";
 import { Tooltip } from "@/components/ui/Tooltip";
@@ -9,6 +9,7 @@ import { SHAPE_DESCRIPTIONS, FLEX_DESCRIPTIONS, getFlexCategory, getFlexLabel as
 import { getAmazonSearchUrl, getRakutenSearchUrl, getYahooSearchUrl } from "@/lib/affiliate";
 import { SHAPE_LABELS } from "@/lib/glossary";
 import { formatShortDate } from "@/lib/format";
+import { WAIST_GUIDE, waistAt, waistFit, waistsForLengths } from "@/lib/waist";
 
 interface BoardCardProps {
   result: RecommendResult;
@@ -25,6 +26,8 @@ interface BoardCardProps {
   // 1位を大きく見せるヒーロー表示
   featured?: boolean;
   featuredLabel?: string;
+  // ブーツが大きい人に、おすすめサイズのウエスト幅が目安を満たすかを表示する
+  bootSize?: BootSize;
 }
 
 
@@ -124,6 +127,25 @@ function SpecsFromYearChip({ year, specsYear }: { year: number; specsYear: numbe
   );
 }
 
+const toCm = (mm: number) => (mm / 10).toFixed(1);
+
+// おすすめサイズのウエスト幅が、ブーツサイズの目安を満たすか（データがある板・ブーツ27cm以上の人だけ）
+function WaistFitChip({ waistMm, bootSize }: { waistMm: number; bootSize: Exclude<BootSize, "small"> }) {
+  const guide = WAIST_GUIDE[bootSize];
+  const ok = waistFit(waistMm, bootSize) === "ok";
+  return (
+    <Tooltip text={`ブーツ${guide.bootLabel}はウエスト幅${toCm(guide.minMm)}cm以上が目安です（狭いとつま先やかかとが雪面に当たりやすくなります）。ウエスト幅は楽天の商品説明から取得した値です。`} align="start">
+      <span
+        className={`inline-flex text-xs px-1.5 py-0.5 rounded-md tabular-nums ${
+          ok ? "text-emerald-300 bg-emerald-500/10" : "text-amber-200 bg-amber-400/10"
+        }`}
+      >
+        ウエスト{toCm(waistMm)}cm{ok ? "・足の大きさに合う幅" : "・ブーツにはやや細め"}
+      </span>
+    </Tooltip>
+  );
+}
+
 function ReasonChips({ reasons }: { reasons: string[] }) {
   return (
     <div className="flex flex-wrap gap-1">
@@ -148,7 +170,7 @@ function getFlexDiff(target: number, mine: number): string | null {
     : `${abs}段階柔らかい`;
 }
 
-export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, isFavorite = false, onToggleFavorite, onFindSimilar, onFilterByBrand, isComparing = false, onToggleCompare, featured = false, featuredLabel = "BEST MATCH" }: BoardCardProps) {
+export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, isFavorite = false, onToggleFavorite, onFindSimilar, onFilterByBrand, isComparing = false, onToggleCompare, featured = false, featuredLabel = "BEST MATCH", bootSize }: BoardCardProps) {
   const [expanded, setExpanded] = useState(false);
   const { board, matchPercentage, recommendedSize, estimatedPrice } = result;
   const topStyleTag = getTopStyleTag(board.style_scores);
@@ -162,6 +184,9 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
   const effectiveBudget = budget * (1 + budgetFlexibility / 100);
   const yearsOldLabel = getYearsOldLabel(board.year);
   const rankStyle = getRankStyle(rank);
+  const recommendedWaist = waistAt(board.waist_widths, recommendedSize);
+  const waistBySize = waistsForLengths(board.waist_widths, board.available_lengths);
+  const waistBoot = bootSize && bootSize !== "small" && recommendedWaist !== null ? bootSize : null;
 
   type BudgetLabel = "within" | "sale_possible" | "over";
   let budgetLabel: BudgetLabel = "within";
@@ -325,6 +350,11 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
               <ReasonChips reasons={reasons} />
             </div>
           )}
+          {waistBoot && (
+            <div className="relative mt-2">
+              <WaistFitChip waistMm={recommendedWaist!} bootSize={waistBoot} />
+            </div>
+          )}
 
           <button
             type="button"
@@ -420,6 +450,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 </span>
               )}
               {board.specs_from_year && <SpecsFromYearChip year={board.year} specsYear={board.specs_from_year} />}
+              {waistBoot && <WaistFitChip waistMm={recommendedWaist!} bootSize={waistBoot} />}
             </div>
 
           </div>
@@ -577,6 +608,27 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
                 ))}
               </div>
             </div>
+            {waistBySize.length > 0 && (
+              <div className="col-span-2 bg-white/[0.04] rounded-xl p-3">
+                <Tooltip text="板の中央部分の幅です。ブーツが大きい人は、狭いとつま先やかかとが雪面に当たりやすくなります（目安: ブーツ27〜27.5cmは25.5cm以上、28cm以上は26cm以上）。楽天の商品説明から取得した値です。" align="start">
+                  <span className="text-xs text-slate-400">ウエスト幅</span>
+                </Tooltip>
+                <div className="flex flex-wrap gap-1.5 mt-1">
+                  {waistBySize.map(([len, mm]) => (
+                    <span
+                      key={len}
+                      className={`px-2 py-0.5 rounded-md text-xs font-medium tabular-nums ${
+                        len === recommendedSize
+                          ? "bg-sky-500/20 text-sky-400 border border-sky-500/30"
+                          : "bg-white/10 text-slate-400"
+                      }`}
+                    >
+                      {len}cm: {toCm(mm)}cm
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Radar chart */}

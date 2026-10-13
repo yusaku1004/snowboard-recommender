@@ -19,6 +19,7 @@ export function GET() {
     ...(b.url ? { url: b.url } : {}),
     ...(b.offer ? { offer: b.offer } : {}),
     ...(b.specs_from_year ? { specs_from_year: b.specs_from_year } : {}),
+    ...(b.waist_widths ? { waist_widths: b.waist_widths } : {}),
   }));
   return Response.json(boards);
 }

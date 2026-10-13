@@ -7,8 +7,10 @@
 //   node scripts/update_rakuten.ts --dry-run       ファイルを書き換えない
 //   node scripts/update_rakuten.ts --verbose       一致した出品名・価格を表示（判定の確認用）
 //
+// 一致した出品の商品説明から、長さごとのウエスト幅も読み取って board_waists.json に追記する。
+//
 // 必要な環境変数（.env.local でも可）: RAKUTEN_APP_ID, RAKUTEN_ACCESS_KEY
-// 出力: src/data/rakuten_offers.json, src/data/boards_carryover.json, reports/rakuten-update.md
+// 出力: src/data/rakuten_offers.json, src/data/boards_carryover.json, src/data/board_waists.json, reports/rakuten-update.md
 
 import * as fs from "node:fs";
 import * as https from "node:https";
@@ -30,6 +32,7 @@ import {
   modelAliases,
   selectOffer,
 } from "../src/lib/rakutenMatch.ts";
+import { cleanWaistWidths, extractWaistPairs, type WaistWidths } from "../src/lib/waist.ts";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = path.join(ROOT, "src/data");
@@ -176,10 +179,14 @@ for (const board of baseBoards) {
   if (!prev || board.year > prev.year) latestBySlug.set(slug, board);
 }
 const yearsBySlug = new Map<string, Set<number>>();
+// 年式をまたいだサイズ展開（ウエスト幅を対応づける長さ）
+const lengthsBySlug = new Map<string, Set<number>>();
 for (const board of [...baseBoards, ...existingCarryover]) {
   const slug = boardSlug(board);
   yearsBySlug.set(slug, (yearsBySlug.get(slug) ?? new Set()).add(board.year));
+  lengthsBySlug.set(slug, new Set([...(lengthsBySlug.get(slug) ?? []), ...board.available_lengths.map(Math.round)]));
 }
+const existingWaists = readJson<{ waists: Record<string, WaistWidths> }>("board_waists.json").waists;
 const modelsByBrand = new Map<string, string[]>();
 for (const board of latestBySlug.values()) {
   modelsByBrand.set(board.brand, [...(modelsByBrand.get(board.brand) ?? []), board.model]);
@@ -206,6 +213,8 @@ async function main() {
 
   const offers: Record<string, RakutenOffer> = {};
   const carryover = new Map(existingCarryover.map((b) => [`${boardSlug(b)}|${b.year}`, b]));
+  const waists: Record<string, WaistWidths> = { ...existingWaists };
+  let waistsFound = 0;
   let matchedCurrent = 0;
   let matchedNew = 0;
   const newCarryover: string[] = [];
@@ -235,6 +244,17 @@ async function main() {
     }
 
     if (VERBOSE) console.log(`\n■ ${board.brand} ${board.model}（定価 ¥${board.price.toLocaleString()}）検索結果 ${items.length}件`);
+
+    // このモデルの出品の商品説明から、長さごとのウエスト幅を読み取る（前回までの値に上書きで追記）
+    const waistPairs = items
+      .filter((item) => isBoardListing(item.itemName) && matchesModel(item.itemName, target))
+      .flatMap((item) => extractWaistPairs(item.itemCaption ?? ""));
+    const lengths = [...(lengthsBySlug.get(slug) ?? [])].sort((a, b) => a - b);
+    const found = cleanWaistWidths(waistPairs, lengths);
+    if (Object.keys(found).length) {
+      waists[slug] = { ...waists[slug], ...found };
+      waistsFound++;
+    }
     for (const year of yearsBySlug.get(slug) ?? [board.year]) {
       const offer = selectOffer(items, target, year);
       if (VERBOSE) console.log(`  ${year}: ${offer ? `¥${offer.price.toLocaleString()}（一致${offer.matchedCount}件）${offer.itemName.slice(0, 70)}` : "なし"}`);
@@ -305,6 +325,7 @@ async function main() {
     `- 現行年式の実売価格を取得: ${matchedCurrent}（${Math.round((matchedCurrent / Math.max(targets.length, 1)) * 100)}%）`,
     `- ${NEW_MODEL_YEAR}年モデルの出品を検出: ${matchedNew}`,
     `- ${NEW_MODEL_YEAR}年モデルを新たに自動追加（前年仕様を引き継ぎ）: ${newCarryover.length}`,
+    `- ウエスト幅を取得: 今回 ${waistsFound}モデル / 累計 ${Object.keys(waists).length}モデル`,
     "",
     ...(newCarryover.length ? ["## 今回自動追加したモデル", "", ...newCarryover.map((n) => `- ${n}`), ""] : []),
     ...(DISCOVER
@@ -345,6 +366,8 @@ async function main() {
   );
   const sortedCarryover = [...carryover.values()].sort((a, b) => boardSlug(a).localeCompare(boardSlug(b)));
   fs.writeFileSync(path.join(DATA, "boards_carryover.json"), JSON.stringify(sortedCarryover, null, 2) + "\n");
+  const sortedWaists = Object.fromEntries(Object.entries(waists).sort(([a], [b]) => a.localeCompare(b)));
+  fs.writeFileSync(path.join(DATA, "board_waists.json"), JSON.stringify({ updatedAt: TODAY, waists: sortedWaists }, null, 2) + "\n");
   fs.mkdirSync(path.join(ROOT, "reports"), { recursive: true });
   fs.writeFileSync(path.join(ROOT, "reports/rakuten-update.md"), summary + "\n");
   console.log("\n更新しました: src/data/rakuten_offers.json, src/data/boards_carryover.json, reports/rakuten-update.md");

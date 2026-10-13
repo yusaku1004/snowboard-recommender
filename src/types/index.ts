@@ -48,6 +48,8 @@ export interface Board {
   offer?: RakutenOffer;
   // 前年モデルの仕様を引き継いで自動作成したエントリ（例: 2026年の仕様で作った2027年モデル）
   specs_from_year?: number;
+  // 長さ(cm) → ウエスト幅(mm)。楽天の商品説明から自動取得できたモデルだけ（board_waists.json）
+  waist_widths?: Record<string, number>;
 }
 
 export interface UserInput {

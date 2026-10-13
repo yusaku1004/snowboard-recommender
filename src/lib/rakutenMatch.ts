@@ -3,6 +3,7 @@
 
 export interface RakutenItem {
   itemName: string;
+  itemCaption?: string;
   itemPrice: number;
   itemUrl: string;
   affiliateUrl?: string;

@@ -551,6 +551,7 @@ function StepResultsContent({
             {adjustedInput.bootSize === "large"
               ? "ブーツ28cm以上は、通常幅の板だとつま先やかかとが雪面に当たりやすく、ワイドモデル（「W」「Wide」表記）が合うことが多いです。購入前にウエスト幅（目安 26cm以上）を確認してください。"
               : "ブーツ27〜27.5cmは、板によってはつま先やかかとが雪面に当たることがあります。購入前にウエスト幅（目安 25.5cm以上）を確認すると安心です。"}
+            {" "}ウエスト幅がわかる板には、おすすめサイズでの幅を表示しています。
           </p>
         </div>
       )}
@@ -559,7 +560,8 @@ function StepResultsContent({
       {heroResult && (
         <div id="best-match" className="mb-3 scroll-mt-4">
           <BoardCard
-            featured
+            bootSize={adjustedInput.bootSize}
+featured
             featuredLabel={resultStyle ? `${STYLE_LABELS[resultStyle]} 1位` : "BEST MATCH"}
             result={heroResult}
             rank={1}
@@ -825,7 +827,8 @@ function StepResultsContent({
           <div className="space-y-3">
             {similarResults.map((result, i) => (
               <BoardCard
-                key={`similar-${result.board.brand}-${result.board.model}-${result.board.year}`}
+                bootSize={adjustedInput.bootSize}
+key={`similar-${result.board.brand}-${result.board.model}-${result.board.year}`}
                 result={result}
                 rank={i + 1}
                 budget={adjustedInput.budget}
@@ -974,7 +977,8 @@ function StepResultsContent({
           <div className="space-y-3 mb-4">
             {favoriteResults.map((result, i) => (
               <BoardCard
-                key={`fav-${result.board.brand}-${result.board.model}-${result.board.year}`}
+                bootSize={adjustedInput.bootSize}
+key={`fav-${result.board.brand}-${result.board.model}-${result.board.year}`}
                 result={result}
                 rank={i + 1}
                 budget={adjustedInput.budget}
@@ -1069,7 +1073,8 @@ function StepResultsContent({
                 )}
                 {(showAll ? listResults : listResults.slice(0, 3)).map((result, i) => (
                   <BoardCard
-                    key={`${result.board.brand}-${result.board.model}-${result.board.year}`}
+                    bootSize={adjustedInput.bootSize}
+key={`${result.board.brand}-${result.board.model}-${result.board.year}`}
                     result={result}
                     rank={i + 1 + rankOffset}
                     budget={adjustedInput.budget}

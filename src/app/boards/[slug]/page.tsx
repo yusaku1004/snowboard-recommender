@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { waistsForLengths } from "@/lib/waist";
 import { pageMetadata } from "@/lib/pageMetadata";
 import { notFound } from "next/navigation";
 import { SeoPage } from "@/components/seo/SeoPage";
@@ -161,6 +162,23 @@ export default async function BoardPage({ params }: { params: Promise<Params> })
           </table>
         </div>
       </section>
+
+      {waistsForLengths(board.waist_widths, board.available_lengths).length > 0 && (
+        <section className="mb-6">
+          <h2 className="text-lg font-bold text-white mb-1">サイズ別のウエスト幅</h2>
+          <p className="text-xs text-slate-400 mb-3">
+            板の中央部分の幅です。ブーツ27〜27.5cmは25.5cm以上、28cm以上は26cm以上が目安です（狭いとつま先やかかとが雪面に当たりやすくなります）。楽天の商品説明から取得した値です。
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {waistsForLengths(board.waist_widths, board.available_lengths).map(([len, mm]) => (
+              <span key={len} className="glass rounded-xl px-3 py-2 text-sm tabular-nums">
+                <span className="text-slate-400">{len}cm</span>
+                <span className="ml-2 font-bold text-white">{(mm / 10).toFixed(1)}cm</span>
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
 
       <DiagnoseCta
         from="board_page"

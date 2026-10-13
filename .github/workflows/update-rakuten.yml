@@ -39,7 +39,7 @@ jobs:
 
       - name: 変更があればコミット
         run: |
-          git add src/data/rakuten_offers.json src/data/boards_carryover.json reports/rakuten-update.md
+          git add src/data/rakuten_offers.json src/data/boards_carryover.json src/data/board_waists.json reports/rakuten-update.md
           if git diff --cached --quiet; then
             echo "変更なし"
             exit 0
