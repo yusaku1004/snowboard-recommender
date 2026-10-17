@@ -3,6 +3,7 @@ import { NextRequest } from "next/server";
 import { decodeFilters, decodeInput } from "@/lib/share";
 import { getTopResult } from "@/lib/shareResult";
 import { getBoardBySlug } from "@/lib/seo";
+import { CATALOG_LABEL } from "@/lib/boardsData";
 import { getStyleSummary, STYLE_KEYS, STYLE_LABELS } from "@/lib/styles";
 import { RiderType, getRiderType, getRiderTypeById } from "@/lib/riderTypes";
 import { SHAPE_LABELS, getFlexLabel } from "@/lib/glossary";
@@ -95,7 +96,7 @@ function DefaultImage() {
       <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flex: 1 }}>
         <div style={{ fontSize: 76, lineHeight: 1.15, letterSpacing: "-0.02em" }}>あなたにぴったりの</div>
         <div style={{ fontSize: 76, lineHeight: 1.15, letterSpacing: "-0.02em", color: "#7dd3fc" }}>一本を見つけよう</div>
-        <div style={{ fontSize: 30, color: "#cbd5e1", marginTop: 24 }}>85ブランド・1,000本以上から、合う板とサイズを約1分で診断</div>
+        <div style={{ fontSize: 30, color: "#cbd5e1", marginTop: 24 }}>{`${CATALOG_LABEL}から、合う板とサイズを約1分で診断`}</div>
       </div>
     </Frame>
   );
@@ -230,7 +231,7 @@ export async function GET(request: NextRequest) {
   const search = request.nextUrl.searchParams;
   let element: React.ReactElement = <DefaultImage />;
   let size = SIZE;
-  let text = "スノーボード診断あなたにぴったりの一本を見つけよう85ブランド・1,000本以上から、合う板とサイズを約1分で診断／";
+  let text = `スノーボード診断あなたにぴったりの一本を見つけよう${CATALOG_LABEL}から、合う板とサイズを約1分で診断／`;
 
   const boardSlug = search.get("board");
   const typeId = search.get("type");

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SeoPage } from "@/components/seo/SeoPage";
 import { DiagnoseCta } from "@/components/seo/DiagnoseCta";
 import { RANKINGS } from "@/lib/seo";
+import { CATALOG_LABEL } from "@/lib/boardsData";
 
 const title = "スノーボードおすすめランキング（スタイル別・初心者・予算別） | スノーボード診断";
 const description =
@@ -15,7 +16,7 @@ export default function RankingIndexPage() {
   return (
     <SeoPage breadcrumbs={[{ name: "おすすめランキング", href: "/ranking" }]}>
       <h1 className="text-3xl font-black text-white leading-tight mb-3">スノーボードおすすめランキング</h1>
-      <p className="text-sm text-slate-300 mb-5">目的に合わせて、85ブランド・1,000本以上から選んだランキングを見られます。</p>
+      <p className="text-sm text-slate-300 mb-5">目的に合わせて、{CATALOG_LABEL}から選んだランキングを見られます。</p>
       <ul className="space-y-2">
         {RANKINGS.map((r) => (
           <li key={r.slug}>

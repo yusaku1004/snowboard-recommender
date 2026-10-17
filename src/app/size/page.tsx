@@ -7,7 +7,7 @@ import { SIZE_PAGE_HEIGHTS, getSizeTable } from "@/lib/seo";
 
 const title = "スノーボードのサイズの目安｜身長・体重・スタイル別の早見表 | スノーボード診断";
 const description =
-  "スノーボードの長さの選び方と、身長145〜195cmのサイズ早見表。体重やスタイル（グラトリ・カービングなど）による調整の仕方も解説します。";
+  "身長145〜195cmのスノーボードのサイズ早見表。身長を選ぶと体重・スタイル（グラトリ・カービングなど）別のおすすめの長さを確認できます。ブーツが大きい人のウエスト幅（ワイドモデル）の目安も紹介します。";
 
 export const metadata: Metadata = pageMetadata({ title, description, path: "/size" });
 
@@ -40,6 +40,12 @@ export default function SizeIndexPage() {
           </tbody>
         </table>
       </div>
+      <section className="mt-6 mb-6">
+        <h2 className="text-lg font-bold text-white mb-2">ブーツが大きい人は板の幅（ウエスト幅）も確認</h2>
+        <p className="text-sm text-slate-300 leading-relaxed">
+          板の中央部分の幅が足に対して狭いと、ターンのときにつま先やかかとが雪面に当たりやすくなります。ブーツ27〜27.5cmはウエスト幅25.5cm以上、28cm以上は26cm以上が目安です。28cm以上の人は「W」「Wide」表記のワイドモデルが合うことが多く、各ボードのページでサイズ別のウエスト幅を確認できます（データがあるモデルのみ）。
+        </p>
+      </section>
       <DiagnoseCta from="size_index" />
     </SeoPage>
   );

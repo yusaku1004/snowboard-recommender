@@ -145,9 +145,11 @@ interface WizardProps {
   initialFilters?: FilterState | null;
   // AI解説APIが使えるか（APIキーが設定されているか）
   aiEnabled?: boolean;
+  // 掲載数の表記（例: "85ブランド・1,100本以上"）。ボードデータはクライアントで import しないため、ページから渡す
+  catalogLabel: string;
 }
 
-export function Wizard({ initialInput = null, initialFilters = null, aiEnabled = false }: WizardProps) {
+export function Wizard({ initialInput = null, initialFilters = null, aiEnabled = false, catalogLabel }: WizardProps) {
   // SSR / ハイドレーション時は null。クライアントで下書きがあれば key を変えて再マウントし、その値から始める
   const draft = useSyncExternalStore(subscribeNoop, getInitialDraft, () => null);
   const useDraft = initialInput === null && draft !== null;
@@ -172,6 +174,7 @@ export function Wizard({ initialInput = null, initialFilters = null, aiEnabled =
       initialLevel={useDraft ? draft.level : initialInput?.level ?? null}
       fromShare={!useDraft && initialInput !== null}
       aiEnabled={aiEnabled}
+      catalogLabel={catalogLabel}
     />
   );
 }
@@ -183,9 +186,10 @@ interface WizardInnerProps {
   initialLevel: SkillLevel | null;
   fromShare: boolean;
   aiEnabled: boolean;
+  catalogLabel: string;
 }
 
-function WizardInner({ initialStep, initialInput, initialFilters, initialLevel, fromShare, aiEnabled }: WizardInnerProps) {
+function WizardInner({ initialStep, initialInput, initialFilters, initialLevel, fromShare, aiEnabled, catalogLabel }: WizardInnerProps) {
   // 共有URLから開いた「他人の結果」を見ている状態。自分で診断を始めたら解除する
   const [isSharedView, setIsSharedView] = useState(fromShare);
   const [currentStep, setCurrentStep] = useState(initialStep);
@@ -365,7 +369,7 @@ function WizardInner({ initialStep, initialInput, initialFilters, initialLevel, 
             一本を見つけよう
           </h1>
           <p className="text-slate-400 text-sm">
-            85ブランド・1,000本以上から、あなたに合う板とサイズを診断
+            {catalogLabel}から、あなたに合う板とサイズを診断
           </p>
           {!savedInput && (
             <div className="flex items-center justify-center gap-2 mt-5 [@media(max-height:720px)]:hidden">

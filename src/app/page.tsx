@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { preload } from "react-dom";
 import { Wizard } from "@/components/wizard/Wizard";
+import { CATALOG_LABEL } from "@/lib/boardsData";
 import { decodeInput, decodeFilters } from "@/lib/share";
 import { getTopResult } from "@/lib/shareResult";
 import { getRiderType } from "@/lib/riderTypes";
@@ -49,6 +50,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         initialInput={initialInput}
         initialFilters={initialFilters}
         aiEnabled={Boolean(process.env.GEMINI_API_KEY)}
+        catalogLabel={CATALOG_LABEL}
       />
     </main>
   );

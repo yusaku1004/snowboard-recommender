@@ -4,7 +4,8 @@ import { calculateIdealSize, calculateRecommendedSize } from "./size";
 import { BEGINNER_STYLE, STYLE_KEYS, STYLE_LABELS } from "./styles";
 import { RiderType } from "./riderTypes";
 import { boardSlug } from "./slug";
-import { ALL_BOARDS, LATEST_MODEL_YEAR } from "./boardsData";
+import { SHAPE_LABELS } from "./glossary";
+import { ALL_BOARDS, CATALOG_LABEL, LATEST_MODEL_YEAR } from "./boardsData";
 
 // 検索流入用の静的ページ（ボード個別・ランキング・サイズ目安）で使うデータ。
 // サーバー側（ビルド時）でのみ使う。クライアントコンポーネントから import しないこと。
@@ -92,7 +93,9 @@ export function describeBoard(board: Board): string {
     .map((k) => STYLE_LABELS[k]);
   const flexText = board.flex <= 3 ? "柔らかめ" : board.flex <= 6 ? "ミドル" : "硬め";
   const styleText = strong.length > 0 ? `${strong.join("・")}が得意な` : "オールラウンドに使える";
-  return `${board.brand} ${board.model}（${board.year}年モデル）は、${styleText}フレックス${board.flex}/10（${flexText}）のボードです。`;
+  const lengths = [...board.available_lengths].sort((a, b) => a - b);
+  const sizeText = lengths.length > 1 ? `サイズ展開は${lengths[0]}〜${lengths[lengths.length - 1]}cm` : `サイズは${lengths[0]}cm`;
+  return `${board.brand} ${board.model}（${board.year}年モデル）は、${styleText}${SHAPE_LABELS[board.shape] ?? board.shape}のボードです。フレックス${board.flex}/10（${flexText}）、${sizeText}。`;
 }
 
 export { getBoardPrice };
@@ -113,7 +116,7 @@ export const RANKINGS: RankingDef[] = [
     slug: style.replace("_", "-"),
     title: `${STYLE_LABELS[style]}向けスノーボードおすすめランキング`,
     heading: `${STYLE_LABELS[style]}向けのおすすめボード`,
-    description: `${STYLE_LABELS[style]}に向いているスノーボードを、85ブランド・1,000本以上のデータからランキング。フレックスや形状、おすすめサイズもまとめて比較できます。`,
+    description: `${STYLE_LABELS[style]}に向いているスノーボードを、${CATALOG_LABEL}のデータからランキング。フレックスや形状、おすすめサイズもまとめて比較できます。`,
     compute: () => getStyleRecommendations(ALL_BOARDS, baseInput(), style).slice(0, RANKING_SIZE),
   })),
   {

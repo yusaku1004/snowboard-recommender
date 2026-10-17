@@ -4,9 +4,9 @@ import Link from "next/link";
 import { SeoPage } from "@/components/seo/SeoPage";
 import { DiagnoseCta } from "@/components/seo/DiagnoseCta";
 import { boardSlug, getBoardsByBrand } from "@/lib/seo";
-import { MODEL_YEAR_LABEL } from "@/lib/boardsData";
+import { CATALOG_LABEL, MODEL_YEAR_LABEL } from "@/lib/boardsData";
 
-const title = "スノーボード一覧（85ブランド・1,000本以上） | スノーボード診断";
+const title = `スノーボード一覧（${CATALOG_LABEL}） | スノーボード診断`;
 const description =
   `${MODEL_YEAR_LABEL}のスノーボードをブランド別に一覧で掲載。各ボードのフレックス・形状・スタイル別の適性・身長別のおすすめサイズを確認できます。`;
 

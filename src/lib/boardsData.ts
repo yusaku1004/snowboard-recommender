@@ -34,3 +34,8 @@ const OLDEST_MODEL_YEAR = Math.min(...ALL_BOARDS.map((b) => b.year));
 // 例: "2026年モデル" / "2026〜2027年モデル"
 export const MODEL_YEAR_LABEL =
   OLDEST_MODEL_YEAR === LATEST_MODEL_YEAR ? `${LATEST_MODEL_YEAR}年モデル` : `${OLDEST_MODEL_YEAR}〜${LATEST_MODEL_YEAR}年モデル`;
+
+// 掲載数（タイトルや説明文で使う）。モデル数は年式違いをまとめて数え、100本単位で切り捨てる（例: "85ブランド・1,100本以上"）
+export const BRAND_COUNT = new Set(ALL_BOARDS.map((b) => b.brand)).size;
+export const MODEL_COUNT = new Set(ALL_BOARDS.map((b) => `${b.brand}|${b.model}`)).size;
+export const CATALOG_LABEL = `${BRAND_COUNT}ブランド・${(Math.floor(MODEL_COUNT / 100) * 100).toLocaleString("ja-JP")}本以上`;

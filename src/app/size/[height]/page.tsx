@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CATALOG_LABEL } from "@/lib/boardsData";
 import { pageMetadata } from "@/lib/pageMetadata";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -90,7 +91,7 @@ export default async function SizePage({ params }: { params: Promise<Params> }) 
       <DiagnoseCta
         from={`size_${height}`}
         title="あなたにぴったりのサイズとボードを診断する"
-        description="体重・レベル・スタイルを入力すると、1,000本以上のボードから展開サイズまで考慮しておすすめを提案します。"
+        description={`体重・レベル・スタイルを入力すると、${CATALOG_LABEL}のボードから展開サイズまで考慮しておすすめを提案します。`}
       />
 
       <section>

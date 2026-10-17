@@ -35,7 +35,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const board = getBoardBySlug(slug);
   if (!board) return {};
   const title = `${board.brand} ${board.model}（${board.year}）のサイズ・特徴・価格 | スノーボード診断`;
-  const description = `${describeBoard(board)}身長別のおすすめサイズ、スタイル別の適性、似ているボードをまとめています。`;
+  const hasWaist = waistsForLengths(board.waist_widths, board.available_lengths).length > 0;
+  const description = `${describeBoard(board)}身長別のおすすめサイズ、${hasWaist ? "サイズ別のウエスト幅、" : ""}スタイル別の適性、似ているボードをまとめています。`;
   return pageMetadata({ title, description, path: `/boards/${slug}`, image: `/og?board=${slug}` });
 }
 
