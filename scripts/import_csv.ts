@@ -76,8 +76,9 @@ const imported: Board[] = lines.map((cells, idx) => {
   if (!SHAPES.includes(shape)) errors.push(`${line}行目: shape は ${SHAPES.join(" / ")}（"${shape}"）`);
   if (!GENDERS.includes(gender)) errors.push(`${line}行目: gender は ${GENDERS.join(" / ")}（"${gender}"）`);
   const lengths = v("available_lengths").split(/[\/\s,]+/).filter(Boolean).map(Number);
-  if (lengths.length === 0 || lengths.some((n) => !Number.isInteger(n) || n < 90 || n > 200)) {
-    errors.push(`${line}行目: available_lengths は "150 / 154 / 158" の形式（"${v("available_lengths")}"）`);
+  // 148.5 のような小数のサイズや、200cm を超えるパウダーボード（NITRO Cannon 203 など）もある
+  if (lengths.length === 0 || lengths.some((n) => !Number.isInteger(Math.round(n * 10 * 1e6) / 1e6) || n < 90 || n > 220)) {
+    errors.push(`${line}行目: available_lengths は "150 / 154 / 158.5"（90〜220cm、小数は1桁まで）の形式（"${v("available_lengths")}"）`);
   }
   const board: Board = {
     brand: v("brand"),

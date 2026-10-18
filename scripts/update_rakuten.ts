@@ -332,7 +332,7 @@ async function main() {
       ? [
           `## 未登録の${NEW_MODEL_YEAR}年モデル候補（${candidates.size}件）`,
           "",
-          "既存データに一致しなかった出品です。新作であれば CSV に追記して `node scripts/import_csv.ts` で取り込んでください。",
+          "既存データに一致しなかった出品です。新作であれば CSV に追記して `npm run import:csv <ファイル>` で取り込んでください。",
           "",
           "| ブランド | 出品名 | 価格 |",
           "|---|---|---|",
