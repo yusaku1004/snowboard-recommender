@@ -5776,6 +5776,59 @@
   },
   {
     "brand": "HEAD",
+    "model": "Pride",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "womens",
+    "available_lengths": [
+      139,
+      143,
+      147,
+      150,
+      153
+    ],
+    "price": 71500,
+    "image_url": "",
+    "url": "https://www.head.com/en_US/pride-snowboard",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 5,
+      "carving": 8,
+      "run_tricks": 7,
+      "powder": 5
+    },
+    "riding_type": "allround",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "HEAD",
+    "model": "Rush",
+    "year": 2027,
+    "flex": 4,
+    "shape": "flat",
+    "available_lengths": [
+      148,
+      152,
+      156,
+      160
+    ],
+    "price": 80300,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 6,
+      "carving": 4,
+      "run_tricks": 5,
+      "powder": 4
+    },
+    "gender": "mens",
+    "riding_type": "allround",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "HEAD",
     "model": "Shine LYT",
     "year": 2027,
     "flex": 4,
@@ -5828,6 +5881,33 @@
     },
     "gender": "mens",
     "riding_type": "freeride",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "HEAD",
+    "model": "True",
+    "year": 2027,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "mens",
+    "available_lengths": [
+      152,
+      155,
+      158,
+      160,
+      163
+    ],
+    "price": 67100,
+    "image_url": "",
+    "url": "https://www.head.com/en_US/true-snowboard",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 6,
+      "carving": 7,
+      "run_tricks": 8,
+      "powder": 7
+    },
+    "riding_type": "allround",
     "specs_from_year": 2026
   },
   {
@@ -7457,6 +7537,34 @@
     },
     "gender": "unisex",
     "riding_type": "powder",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "LEVERAGE",
+    "model": "GT1",
+    "year": 2027,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      137,
+      140,
+      143,
+      148,
+      151,
+      154
+    ],
+    "price": 91300,
+    "image_url": "",
+    "url": "https://www.misty-snow.com/leverage_gt1.html",
+    "style_scores": {
+      "ground_tricks": 10,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 7,
+      "powder": 2
+    },
+    "riding_type": "gratri",
     "specs_from_year": 2026
   },
   {
@@ -15464,6 +15572,32 @@
       "powder": 3
     },
     "gender": "mens",
+    "riding_type": "gratri",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "SPREAD",
+    "model": "LTA-F",
+    "year": 2027,
+    "flex": 3,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      148,
+      151,
+      153,
+      156
+    ],
+    "price": 109780,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 10,
+      "park": 7,
+      "carving": 3,
+      "run_tricks": 5,
+      "powder": 3
+    },
     "riding_type": "gratri",
     "specs_from_year": 2026
   },
