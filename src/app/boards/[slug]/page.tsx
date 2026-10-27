@@ -51,6 +51,9 @@ export default async function BoardPage({ params }: { params: Promise<Params> })
   const similar = getSimilarBoardsForPage(board);
   const flexCategory = getFlexCategory(board.flex);
 
+  // 前年仕様を引き継いだモデルで楽天の価格も無いものは、正しい価格がわからない（定価は前年のもの）。
+  // Product は価格・レビュー・評価のいずれかが必須のため、その場合は出力しない
+  const knownPrice = Boolean(board.offer) || !board.specs_from_year;
   const productLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -72,7 +75,7 @@ export default async function BoardPage({ params }: { params: Promise<Params> })
         { name: "ボード一覧", href: "/boards" },
         { name: `${board.brand} ${board.model}`, href: `/boards/${slug}` },
       ]}
-      jsonLd={[productLd]}
+      jsonLd={knownPrice ? [productLd] : []}
     >
       <p className="text-xs font-semibold tracking-[0.18em] text-sky-300/90 mb-1">{board.brand} · {board.year}年モデル</p>
       <h1 className="text-3xl font-black text-white leading-tight mb-3">{board.brand} {board.model}</h1>
