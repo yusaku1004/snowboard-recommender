@@ -27706,7 +27706,7 @@
     "brand": "DRAKE",
     "model": "Tao of Drake",
     "year": 2027,
-    "flex": 3,
+    "flex": 4,
     "shape": "camber",
     "gender": "unisex",
     "available_lengths": [
@@ -27949,7 +27949,7 @@
     "brand": "KORUA",
     "model": "Otto Plus",
     "year": 2027,
-    "flex": 6,
+    "flex": 7,
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
@@ -27969,7 +27969,7 @@
     "brand": "NIDECKER",
     "model": "Alpha",
     "year": 2027,
-    "flex": 6,
+    "flex": 4,
     "shape": "hybrid_camber",
     "gender": "unisex",
     "available_lengths": [
@@ -27992,7 +27992,7 @@
     "brand": "NIDECKER",
     "model": "Odyssey",
     "year": 2027,
-    "flex": 5,
+    "flex": 8,
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
@@ -28015,7 +28015,7 @@
     "brand": "NIDECKER",
     "model": "Odyssey Women",
     "year": 2027,
-    "flex": 5,
+    "flex": 8,
     "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
@@ -28060,7 +28060,7 @@
     "brand": "NITRO",
     "model": "Zaza",
     "year": 2027,
-    "flex": 5,
+    "flex": 7,
     "shape": "camber",
     "gender": "womens",
     "available_lengths": [
@@ -28103,7 +28103,7 @@
     "brand": "RIDE",
     "model": "Vantum",
     "year": 2027,
-    "flex": 6,
+    "flex": 5,
     "shape": "camber",
     "gender": "unisex",
     "available_lengths": [
@@ -28130,7 +28130,7 @@
     "brand": "RIDE",
     "model": "Current",
     "year": 2027,
-    "flex": 6,
+    "flex": 8,
     "shape": "double_camber",
     "gender": "unisex",
     "available_lengths": [
