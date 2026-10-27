@@ -7,7 +7,7 @@
 //   node scripts/update_rakuten.ts --dry-run       ファイルを書き換えない
 //   node scripts/update_rakuten.ts --verbose       一致した出品名・価格を表示（判定の確認用）
 //
-// 一致した出品の商品説明から、長さごとのウエスト幅も読み取って board_waists.json に追記する。
+// 一致した出品の商品説明から、長さごとのウエスト幅も読み取って board_waists.json に追記する（既にある値は上書きしない）。
 //
 // 必要な環境変数（.env.local でも可）: RAKUTEN_APP_ID, RAKUTEN_ACCESS_KEY
 // 出力: src/data/rakuten_offers.json, src/data/boards_carryover.json, src/data/board_waists.json, reports/rakuten-update.md
@@ -245,14 +245,15 @@ async function main() {
 
     if (VERBOSE) console.log(`\n■ ${board.brand} ${board.model}（定価 ¥${board.price.toLocaleString()}）検索結果 ${items.length}件`);
 
-    // このモデルの出品の商品説明から、長さごとのウエスト幅を読み取る（前回までの値に上書きで追記）
+    // このモデルの出品の商品説明から、長さごとのウエスト幅を読み取る。
+    // 既にある値（メーカー公式のサイズ表から入れた値を含む）は上書きせず、無い長さだけ追加する
     const waistPairs = items
       .filter((item) => isBoardListing(item.itemName) && matchesModel(item.itemName, target))
       .flatMap((item) => extractWaistPairs(item.itemCaption ?? ""));
     const lengths = [...(lengthsBySlug.get(slug) ?? [])].sort((a, b) => a - b);
     const found = cleanWaistWidths(waistPairs, lengths);
     if (Object.keys(found).length) {
-      waists[slug] = { ...waists[slug], ...found };
+      waists[slug] = { ...found, ...waists[slug] };
       waistsFound++;
     }
     for (const year of yearsBySlug.get(slug) ?? [board.year]) {
