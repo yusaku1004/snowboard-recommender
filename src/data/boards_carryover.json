@@ -782,7 +782,8 @@
     "available_lengths": [
       150,
       153,
-      156
+      156,
+      159
     ],
     "price": 110000,
     "image_url": "",
@@ -1184,6 +1185,7 @@
     "flex": 7,
     "shape": "camber",
     "available_lengths": [
+      153,
       156,
       159
     ],
@@ -1294,7 +1296,8 @@
       151,
       154,
       156,
-      159
+      159,
+      162
     ],
     "flex": 7,
     "shape": "camber",
@@ -2346,11 +2349,15 @@
     "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
+      138,
+      140,
       142,
       144,
       146,
       148,
-      150
+      150,
+      152,
+      154
     ],
     "price": 89100,
     "image_url": "",
@@ -2407,7 +2414,8 @@
       156,
       158,
       160,
-      162
+      162,
+      164
     ],
     "price": 89100,
     "image_url": "",
@@ -2431,10 +2439,12 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      150,
       152,
       154,
       156,
-      158
+      158,
+      160
     ],
     "price": 86900,
     "image_url": "",
@@ -3166,7 +3176,8 @@
       148,
       150,
       152,
-      154
+      154,
+      156
     ],
     "price": 99000,
     "image_url": "",
@@ -3219,6 +3230,7 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      148,
       151,
       154,
       157
@@ -3450,7 +3462,7 @@
     "brand": "DEATH LABEL",
     "model": "DWS",
     "year": 2027,
-    "flex": 4,
+    "flex": 2,
     "shape": "double_camber",
     "available_lengths": [
       137,
@@ -3816,6 +3828,7 @@
     "flex": 7,
     "shape": "camber",
     "available_lengths": [
+      151,
       155,
       159,
       163
@@ -3895,6 +3908,7 @@
       138,
       142,
       146,
+      148,
       150
     ],
     "price": 60500,
@@ -4075,6 +4089,7 @@
     "flex": 4,
     "shape": "hybrid_camber",
     "available_lengths": [
+      143,
       148,
       150,
       152,
@@ -4129,7 +4144,7 @@
     "model": "BT",
     "year": 2027,
     "flex": 3,
-    "shape": "flat",
+    "shape": "hybrid_camber",
     "available_lengths": [
       148,
       150,
@@ -4263,6 +4278,7 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      143,
       148,
       150,
       152,
@@ -4318,6 +4334,7 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      147,
       150,
       152,
       154,
@@ -4534,14 +4551,15 @@
     "model": "SOT",
     "year": 2027,
     "flex": 1,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "available_lengths": [
       139,
       143,
       147,
       151,
       153,
-      155
+      155,
+      159
     ],
     "price": 93500,
     "image_url": "",
@@ -5056,10 +5074,12 @@
     "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
+      144,
       147,
       150,
       153,
-      156
+      156,
+      159
     ],
     "price": 82500,
     "image_url": "",
@@ -6186,7 +6206,7 @@
     "model": "Mind Expander",
     "year": 2027,
     "flex": 6,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "available_lengths": [
       142,
       146,
@@ -6635,6 +6655,7 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      137,
       141,
       145,
       149,
@@ -6694,7 +6715,8 @@
       138,
       142,
       146,
-      150
+      150,
+      154
     ],
     "price": 70500,
     "image_url": "",
@@ -6722,7 +6744,8 @@
       151,
       154,
       157,
-      160
+      160,
+      163
     ],
     "price": 96800,
     "image_url": "",
@@ -6743,9 +6766,10 @@
     "model": "Courier",
     "year": 2027,
     "flex": 4,
-    "shape": "rocker",
+    "shape": "flat",
     "available_lengths": [
       147,
+      149,
       152,
       155,
       158
@@ -6826,6 +6850,7 @@
     "flex": 7,
     "shape": "hybrid_camber",
     "available_lengths": [
+      146,
       150,
       154,
       158,
@@ -6857,7 +6882,8 @@
       142,
       145,
       147,
-      149
+      149,
+      152
     ],
     "price": 80300,
     "image_url": "",
@@ -6909,7 +6935,8 @@
       148,
       151,
       154,
-      157
+      157,
+      161
     ],
     "price": 63800,
     "image_url": "",
@@ -6991,12 +7018,13 @@
     "available_lengths": [
       138,
       142,
+      144,
       146,
       149,
       153
     ],
     "flex": 4,
-    "shape": "hybrid_rocker",
+    "shape": "hybrid_camber",
     "riding_type": "freestyle",
     "gender": "womens",
     "style_scores": {
@@ -7152,6 +7180,7 @@
     "available_lengths": [
       140,
       143,
+      147,
       151,
       154
     ],
@@ -7338,12 +7367,14 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      148,
       153,
       154,
       157,
       158,
       161,
-      162
+      162,
+      164
     ],
     "price": 82500,
     "image_url": "",
@@ -7395,7 +7426,9 @@
     "shape": "hybrid_camber",
     "available_lengths": [
       157,
-      161
+      159,
+      161,
+      164
     ],
     "price": 132000,
     "image_url": "",
@@ -7470,12 +7503,14 @@
     "flex": 6,
     "shape": "hybrid_camber",
     "available_lengths": [
+      148,
       150,
       152,
       154,
       156,
       157,
-      160
+      160,
+      162
     ],
     "price": 82500,
     "image_url": "",
@@ -7500,7 +7535,8 @@
     "available_lengths": [
       148,
       152,
-      155
+      155,
+      157
     ],
     "price": 108900,
     "image_url": "",
@@ -8670,6 +8706,7 @@
     "shape": "camber",
     "gender": "mens",
     "available_lengths": [
+      151,
       155,
       158,
       161
@@ -8787,7 +8824,7 @@
     "model": "FLUFFY54",
     "year": 2027,
     "flex": 5,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "available_lengths": [
       154
     ],
@@ -8810,7 +8847,7 @@
     "model": "JELLY FISH",
     "year": 2027,
     "flex": 5,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "available_lengths": [
       156
     ],
@@ -8879,7 +8916,7 @@
     "model": "MAHI",
     "year": 2027,
     "flex": 5,
-    "shape": "flat",
+    "shape": "hybrid_camber",
     "available_lengths": [
       153
     ],
@@ -10042,6 +10079,7 @@
     "flex": 5,
     "shape": "hybrid_camber",
     "available_lengths": [
+      151,
       157,
       162,
       165
@@ -10398,6 +10436,7 @@
     "year": 2027,
     "price": 107800,
     "available_lengths": [
+      152,
       154,
       157,
       160,
@@ -10424,6 +10463,8 @@
     "year": 2027,
     "price": 115500,
     "available_lengths": [
+      148,
+      152,
       154,
       156,
       159
@@ -10729,6 +10770,7 @@
     "year": 2027,
     "price": 97900,
     "available_lengths": [
+      142,
       146,
       149,
       152,
@@ -10922,6 +10964,8 @@
     "flex": 5,
     "shape": "camber",
     "available_lengths": [
+      152,
+      154,
       156,
       159,
       162
@@ -11315,7 +11359,8 @@
       150,
       152,
       154,
-      159
+      159,
+      162
     ],
     "price": 123200,
     "image_url": "",
@@ -11985,7 +12030,8 @@
     "available_lengths": [
       152,
       158,
-      162
+      162,
+      165
     ],
     "price": 126500,
     "image_url": "",
@@ -12636,7 +12682,7 @@
     "model": "Benchwarmer",
     "year": 2027,
     "flex": 7,
-    "shape": "flat",
+    "shape": "camber",
     "gender": "mens",
     "available_lengths": [
       147,
@@ -12718,7 +12764,8 @@
       138,
       142,
       146,
-      150
+      150,
+      154
     ],
     "price": 74800,
     "image_url": "",
@@ -12767,11 +12814,12 @@
     "model": "Heartbreaker",
     "year": 2027,
     "flex": 3,
-    "shape": "flat",
+    "shape": "camber",
     "available_lengths": [
       139,
       143,
-      147
+      147,
+      150
     ],
     "price": 44000,
     "image_url": "",
@@ -12800,7 +12848,7 @@
       158
     ],
     "flex": 4,
-    "shape": "hybrid_rocker",
+    "shape": "camber",
     "riding_type": "park_jib",
     "gender": "mens",
     "style_scores": {
@@ -12907,7 +12955,8 @@
       142,
       146,
       150,
-      154
+      154,
+      158
     ],
     "price": 90200,
     "image_url": "",
@@ -13037,7 +13086,7 @@
     "model": "Twinpig",
     "year": 2027,
     "flex": 4,
-    "shape": "flat",
+    "shape": "camber",
     "available_lengths": [
       136,
       142,
@@ -13757,6 +13806,7 @@
     "year": 2027,
     "price": 84700,
     "available_lengths": [
+      140,
       144,
       148,
       165
@@ -14036,7 +14086,7 @@
     "brand": "SALOMON",
     "model": "HPS Louif Paradis",
     "year": 2027,
-    "flex": 5,
+    "flex": 6,
     "shape": "hybrid_camber",
     "gender": "unisex",
     "available_lengths": [
@@ -16831,7 +16881,7 @@
     "model": "GLIDE",
     "year": 2027,
     "flex": 6,
-    "shape": "flat",
+    "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
       157,
@@ -16855,7 +16905,7 @@
     "model": "GRACE",
     "year": 2027,
     "flex": 5,
-    "shape": "flat",
+    "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
       147,
@@ -16938,7 +16988,8 @@
       147,
       150,
       153,
-      156
+      156,
+      158
     ],
     "price": 103400,
     "image_url": "",

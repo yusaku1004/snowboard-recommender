@@ -4383,7 +4383,7 @@
     "brand": "DEATH LABEL",
     "model": "DWS",
     "year": 2026,
-    "flex": 4,
+    "flex": 2,
     "shape": "double_camber",
     "available_lengths": [
       137,
@@ -5952,7 +5952,7 @@
     "model": "BT",
     "year": 2026,
     "flex": 3,
-    "shape": "flat",
+    "shape": "hybrid_camber",
     "available_lengths": [
       148,
       150,
@@ -6319,7 +6319,7 @@
     "model": "SOT",
     "year": 2026,
     "flex": 1,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "available_lengths": [
       139,
       143,
@@ -9525,7 +9525,7 @@
     "model": "Mind Expander",
     "year": 2026,
     "flex": 6,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "available_lengths": [
       142,
       146,
@@ -10186,7 +10186,7 @@
     "model": "Courier",
     "year": 2026,
     "flex": 4,
-    "shape": "rocker",
+    "shape": "flat",
     "available_lengths": [
       147,
       152,
@@ -10479,7 +10479,7 @@
       153
     ],
     "flex": 4,
-    "shape": "hybrid_rocker",
+    "shape": "hybrid_camber",
     "riding_type": "freestyle",
     "gender": "womens",
     "style_scores": {
@@ -12419,7 +12419,7 @@
     "model": "FLUFFY54",
     "year": 2026,
     "flex": 5,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "available_lengths": [
       154
     ],
@@ -12441,7 +12441,7 @@
     "model": "JELLY FISH",
     "year": 2026,
     "flex": 5,
-    "shape": "rocker",
+    "shape": "hybrid_camber",
     "available_lengths": [
       156
     ],
@@ -12507,7 +12507,7 @@
     "model": "MAHI",
     "year": 2026,
     "flex": 5,
-    "shape": "flat",
+    "shape": "hybrid_camber",
     "available_lengths": [
       153
     ],
@@ -16649,7 +16649,7 @@
     "model": "Benchwarmer",
     "year": 2026,
     "flex": 7,
-    "shape": "flat",
+    "shape": "camber",
     "gender": "mens",
     "available_lengths": [
       147,
@@ -16775,7 +16775,7 @@
     "model": "Heartbreaker",
     "year": 2026,
     "flex": 3,
-    "shape": "flat",
+    "shape": "camber",
     "available_lengths": [
       139,
       143,
@@ -16807,7 +16807,7 @@
       158
     ],
     "flex": 4,
-    "shape": "hybrid_rocker",
+    "shape": "camber",
     "riding_type": "park_jib",
     "gender": "mens",
     "style_scores": {
@@ -17083,7 +17083,7 @@
     "model": "Twinpig",
     "year": 2026,
     "flex": 4,
-    "shape": "flat",
+    "shape": "camber",
     "available_lengths": [
       136,
       142,
@@ -18870,7 +18870,7 @@
     "brand": "SALOMON",
     "model": "HPS Louif Paradis",
     "year": 2026,
-    "flex": 5,
+    "flex": 6,
     "shape": "hybrid_camber",
     "gender": "unisex",
     "available_lengths": [
@@ -22733,7 +22733,7 @@
     "model": "GLIDE",
     "year": 2026,
     "flex": 6,
-    "shape": "flat",
+    "shape": "hybrid_camber",
     "gender": "mens",
     "available_lengths": [
       157,
@@ -22756,7 +22756,7 @@
     "model": "GRACE",
     "year": 2026,
     "flex": 5,
-    "shape": "flat",
+    "shape": "hybrid_camber",
     "gender": "womens",
     "available_lengths": [
       147,
