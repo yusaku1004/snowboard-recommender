@@ -801,6 +801,62 @@
   },
   {
     "brand": "ARBOR",
+    "model": "Bryan Iguchi Pro",
+    "year": 2027,
+    "flex": 7,
+    "shape": "camber",
+    "available_lengths": [
+      156,
+      158,
+      159,
+      161,
+      162,
+      164
+    ],
+    "price": 132000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 3,
+      "carving": 8,
+      "run_tricks": 7,
+      "powder": 8
+    },
+    "gender": "mens",
+    "riding_type": "freeride",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "ARBOR",
+    "model": "Coda",
+    "year": 2027,
+    "flex": 6,
+    "shape": "camber",
+    "available_lengths": [
+      153,
+      155,
+      156,
+      158,
+      159,
+      162
+    ],
+    "price": 99990,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 5,
+      "carving": 8,
+      "run_tricks": 7,
+      "powder": 6
+    },
+    "gender": "mens",
+    "riding_type": "freeride",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "ARBOR",
     "model": "Danny Kass Park Pro",
     "year": 2027,
     "flex": 5,
@@ -966,6 +1022,35 @@
   },
   {
     "brand": "ARBOR",
+    "model": "Rain",
+    "year": 2027,
+    "flex": 7,
+    "shape": "camber",
+    "available_lengths": [
+      149,
+      153,
+      155,
+      157,
+      158,
+      159,
+      161
+    ],
+    "price": 90000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 8,
+      "powder": 6
+    },
+    "gender": "mens",
+    "riding_type": "freestyle",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "ARBOR",
     "model": "Swoon",
     "year": 2027,
     "flex": 5,
@@ -991,6 +1076,32 @@
     },
     "gender": "womens",
     "riding_type": "freestyle",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "ARBOR",
+    "model": "Veda",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      142,
+      145,
+      148,
+      151
+    ],
+    "price": 71500,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 4,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 8
+    },
+    "gender": "womens",
+    "riding_type": "freeride",
     "specs_from_year": 2026
   },
   {
@@ -5688,6 +5799,36 @@
   },
   {
     "brand": "HEAD",
+    "model": "Beam",
+    "year": 2027,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      144,
+      150,
+      152,
+      155,
+      156,
+      158,
+      161,
+      162
+    ],
+    "price": 71500,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 5,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 6
+    },
+    "gender": "mens",
+    "riding_type": "freeride",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "HEAD",
     "model": "Day LYT",
     "year": 2027,
     "price": 93500,
@@ -6098,6 +6239,32 @@
   },
   {
     "brand": "JONES",
+    "model": "Flagship Pro",
+    "year": 2027,
+    "flex": 9,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      158,
+      159,
+      162,
+      165
+    ],
+    "price": 135000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 2,
+      "carving": 8,
+      "run_tricks": 5,
+      "powder": 9
+    },
+    "gender": "mens",
+    "riding_type": "freeride",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "JONES",
     "model": "Freecarver 6000s",
     "year": 2027,
     "flex": 7,
@@ -6401,6 +6568,32 @@
   },
   {
     "brand": "JONES",
+    "model": "Tweaker Pro",
+    "year": 2027,
+    "flex": 7,
+    "shape": "camber",
+    "available_lengths": [
+      151,
+      154,
+      156,
+      159
+    ],
+    "price": 94500,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 6,
+      "park": 9,
+      "carving": 5,
+      "run_tricks": 7,
+      "powder": 3
+    },
+    "gender": "mens",
+    "riding_type": "freestyle",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "JONES",
     "model": "Twin Sister",
     "year": 2027,
     "flex": 7,
@@ -6455,6 +6648,33 @@
     },
     "gender": "unisex",
     "riding_type": "powder",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "JONES",
+    "model": "Women's Airheart 2.0",
+    "year": 2027,
+    "flex": 8,
+    "shape": "camber",
+    "available_lengths": [
+      143,
+      146,
+      149,
+      152,
+      155
+    ],
+    "price": 94500,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 5,
+      "carving": 8,
+      "run_tricks": 7,
+      "powder": 5
+    },
+    "gender": "womens",
+    "riding_type": "allround",
     "specs_from_year": 2026
   },
   {
