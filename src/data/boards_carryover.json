@@ -2879,6 +2879,31 @@
   },
   {
     "brand": "CAPITA",
+    "model": "Spring Break Powder Glider",
+    "year": 2027,
+    "flex": 4,
+    "shape": "hybrid_rocker",
+    "available_lengths": [
+      154,
+      158,
+      162
+    ],
+    "price": 99000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 2,
+      "park": 2,
+      "carving": 5,
+      "run_tricks": 4,
+      "powder": 10
+    },
+    "gender": "mens",
+    "riding_type": "powder",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "CAPITA",
     "model": "Spring Break Powder Twin",
     "year": 2027,
     "flex": 5,
@@ -5852,6 +5877,32 @@
     },
     "image_url": "",
     "url": "",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "HEAD",
+    "model": "Daymaker",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "mens",
+    "available_lengths": [
+      149,
+      152,
+      155,
+      158
+    ],
+    "price": 66000,
+    "image_url": "",
+    "url": "https://www.head.com/en_US/daymaker-snowboard",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 7,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 5
+    },
+    "riding_type": "freestyle",
     "specs_from_year": 2026
   },
   {
@@ -9133,6 +9184,29 @@
   },
   {
     "brand": "MOSS SNOWSTICK",
+    "model": "LONG",
+    "year": 2027,
+    "flex": 6,
+    "shape": "rocker",
+    "available_lengths": [
+      184
+    ],
+    "price": 143000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 1,
+      "park": 1,
+      "carving": 7,
+      "run_tricks": 3,
+      "powder": 10
+    },
+    "gender": "unisex",
+    "riding_type": "powder",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "MOSS SNOWSTICK",
     "model": "MAHI",
     "year": 2027,
     "flex": 5,
@@ -9959,6 +10033,35 @@
       "powder": 5
     },
     "gender": "mens",
+    "riding_type": "allround",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "NEVER SUMMER",
+    "model": "Infinity",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      142,
+      145,
+      148,
+      149,
+      151,
+      152,
+      154
+    ],
+    "price": 99000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 7,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 5
+    },
+    "gender": "womens",
     "riding_type": "allround",
     "specs_from_year": 2026
   },
@@ -13789,6 +13892,32 @@
   },
   {
     "brand": "ROME",
+    "model": "Warden",
+    "year": 2027,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      151,
+      154,
+      157,
+      160
+    ],
+    "price": 79200,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 4,
+      "park": 6,
+      "carving": 8,
+      "run_tricks": 7,
+      "powder": 4
+    },
+    "gender": "mens",
+    "riding_type": "freeride",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "ROME",
     "model": "Women's Ravine",
     "year": 2027,
     "flex": 6,
@@ -16848,6 +16977,33 @@
       "powder": 3
     },
     "riding_type": "freestyle",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "White Blossome",
+    "model": "Turning Blue",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_rocker",
+    "available_lengths": [
+      146,
+      149,
+      152,
+      156,
+      159
+    ],
+    "price": 107800,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 3,
+      "park": 3,
+      "carving": 7,
+      "run_tricks": 5,
+      "powder": 8
+    },
+    "gender": "unisex",
+    "riding_type": "freeride",
     "specs_from_year": 2026
   },
   {
