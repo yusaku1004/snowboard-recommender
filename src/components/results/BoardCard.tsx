@@ -134,13 +134,15 @@ function WaistFitChip({ waistMm, bootSize }: { waistMm: number; bootSize: Exclud
   const guide = WAIST_GUIDE[bootSize];
   const ok = waistFit(waistMm, bootSize) === "ok";
   return (
-    <Tooltip text={`ブーツ${guide.bootLabel}はウエスト幅${toCm(guide.minMm)}cm以上が目安です（狭いとつま先やかかとが雪面に当たりやすくなります）。ウエスト幅は楽天の商品説明から取得した値です。`} align="start">
+    <Tooltip text={`ブーツ${guide.bootLabel}はウエスト幅${toCm(guide.minMm)}cm以上が目安です（狭いとつま先やかかとが雪面に当たりやすくなります）。ウエスト幅はメーカーやショップのサイズ表から取得した値です。`} align="start">
       <span
-        className={`inline-flex text-xs px-1.5 py-0.5 rounded-md tabular-nums ${
+        className={`inline-flex flex-wrap text-xs px-1.5 py-0.5 rounded-md tabular-nums ${
           ok ? "text-emerald-300 bg-emerald-500/10" : "text-amber-200 bg-amber-400/10"
         }`}
       >
-        ウエスト{toCm(waistMm)}cm{ok ? "・足の大きさに合う幅" : "・ブーツにはやや細め"}
+        {/* 狭い画面で折り返すときは「・」の位置で改行する */}
+        <span className="whitespace-nowrap">ウエスト{toCm(waistMm)}cm・</span>
+        <span className="whitespace-nowrap">{ok ? "足に合う幅" : "やや細め"}</span>
       </span>
     </Tooltip>
   );
@@ -610,7 +612,7 @@ export function BoardCard({ result, rank, budget, budgetFlexibility, myBoard, is
             </div>
             {waistBySize.length > 0 && (
               <div className="col-span-2 bg-white/[0.04] rounded-xl p-3">
-                <Tooltip text="板の中央部分の幅です。ブーツが大きい人は、狭いとつま先やかかとが雪面に当たりやすくなります（目安: ブーツ27〜27.5cmは25.5cm以上、28cm以上は26cm以上）。楽天の商品説明から取得した値です。" align="start">
+                <Tooltip text="板の中央部分の幅です。ブーツが大きい人は、狭いとつま先やかかとが雪面に当たりやすくなります（目安: ブーツ27〜27.5cmは25.5cm以上、28cm以上は26cm以上）。メーカーやショップのサイズ表から取得した値です。" align="start">
                   <span className="text-xs text-slate-400">ウエスト幅</span>
                 </Tooltip>
                 <div className="flex flex-wrap gap-1.5 mt-1">

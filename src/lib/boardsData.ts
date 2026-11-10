@@ -9,7 +9,7 @@ import { boardSlug } from "./slug";
 //   boards_data.json       手作業で管理する仕様データ
 //   boards_carryover.json  前年仕様を引き継いで自動作成した新年式（scripts/update_rakuten.ts が生成）
 //   rakuten_offers.json    楽天の実売価格・画像（同上。キーは "スラッグ|年式"）
-//   board_waists.json      長さごとのウエスト幅（同上。楽天の商品説明から取得。キーはスラッグ）
+//   board_waists.json      長さごとのウエスト幅（楽天の商品説明・メーカーやショップのサイズ表から取得。キーはスラッグ）
 export function offerKey(board: Pick<Board, "brand" | "model" | "year">): string {
   return `${boardSlug(board)}|${board.year}`;
 }
