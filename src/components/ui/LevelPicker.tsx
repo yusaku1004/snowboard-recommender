@@ -27,7 +27,8 @@ export function LevelPicker({ label, hint, icon, value, onChange }: LevelPickerP
       <div className="flex gap-1.5" role="radiogroup" aria-label={label}>
         {LEVEL_LABELS.map((levelLabel, i) => {
           const level = i + 1;
-          // 「興味なし」(1) はゲージを光らせず、選択中であることだけ枠線で示す
+          // 「興味なし」(1) はゲージを光らせず、グレーで塗って選択中であることを示す
+          // （枠線だけだと何も選んでいないように見え、1 が選べないと誤解されるため）
           const filled = value > 1 && level <= value;
           const noneSelected = value === 1 && level === 1;
           return (
@@ -45,7 +46,7 @@ export function LevelPicker({ label, hint, icon, value, onChange }: LevelPickerP
                   filled
                     ? "bg-gradient-to-r from-sky-400 to-cyan-300 shadow-[0_0_10px_rgba(56,189,248,0.55)]"
                     : noneSelected
-                      ? "bg-transparent ring-1 ring-slate-300/60"
+                      ? "bg-slate-400/70 ring-1 ring-slate-200/80"
                       : "bg-white/10 group-hover:bg-white/20"
                 }`}
                 style={filled ? { opacity: 0.55 + (level / 5) * 0.45 } : undefined}
