@@ -24,7 +24,7 @@ export interface MatchedOffer {
 
 // 全角→半角、小文字化し、アクセント記号（CAFÉ → cafe）を外す
 function toPlainLower(text: string): string {
-  return text.normalize("NFKC").normalize("NFD").replace(/[̀-ͯ]/g, "").normalize("NFC").toLowerCase();
+  return text.normalize("NFKC").normalize("NFD").replace(/[̀-ͯ]/g, "").normalize("NFC").replace(/[’‘]/g, "'").toLowerCase();
 }
 
 // 全角→半角、小文字化、空白・記号を除去して比較しやすくする
@@ -49,7 +49,7 @@ function containsAsWords(itemName: string, model: string): boolean {
 }
 
 // ボード本体以外（ビンディング・ブーツ・小物・中古・セット販売）の出品を除外する
-const EXCLUDE = /ビンディング|バインディング|binding|ブーツ|boots?\b|ケース|カバー|ワックス|wax|中古|used|アウトレット品|ソールガード|デッキパッド|ステッカー|リーシュ|セット|3点|２点|2点|三点|ジュニア用ビン|ウェア|ジャケット|パンツ|グローブ|ゴーグル|ヘルメット|バッグ|バックパック|リュック|ザック|ヘアバンド|ヘッドバンド|ニット帽|ビーニー/i;
+const EXCLUDE = /ビンディング|バインディング|binding|ブーツ|boots?\b|ケース|カバー|ワックス|wax|中古|used|アウトレット品|ソールガード|デッキパッド|ステッカー|リーシュ|セット|3点|２点|2点|三点|ジュニア用ビン|ウェア|ジャケット|パンツ|グローブ|ゴーグル|ヘルメット|バッグ|バックパック|リュック|ザック|ヘアバンド|ヘッドバンド|ニット帽|ビーニー|靴下|ソックス|socks?\b|リストガード|プロテクター|ケーブルロック|リフト券|パス券|シーズン券|ふるさと納税|\(\d{2}\.\d\s*-\s*\d{2}\.\d\s*cm\)/i;
 const BOARD_WORD = /スノーボード|スノボ|snowboard|ボード|板/i;
 
 export function isBoardListing(itemName: string): boolean {
@@ -112,18 +112,23 @@ export const MODEL_ALIASES: Record<string, string[]> = {
   "BATALEON|Evil Twin Plus": ["EvilTwin+"],
   "BATALEON|Goliath Plus": ["Goliath+"],
   "BATALEON|Tornado Beyond Medals": ["Tornado"],
-  "KM4K|PARADICE STICK 6": ["PARADICE STICK"],
+  "KM4K|PARADICE STICK 6": ["PARADICE STICK", "PARADISE STICK"],
   "MOSS SNOWSTICK|LITTLE FLUFFY": ["LITTELE FLUFFY"],
   "MOSS SNOWSTICK|LL66": ["LL 166"],
   "NEVER SUMMER|Instigator": ["INSTAGATOR"],
   "NIDECKER|SOREL Surfer": ["SOREL"],
   "NITRO|Basher Quiver": ["Basher"],
+  "NITRO|Prime Chroma": ["PROME CHROMA"],
+  "LIB TECH|Mayhem Rad Ripper": ["MAYHEM RIPPER"],
+  "NEVER SUMMER|Maverix": ["SMALL BATCH MAVERIX"],
+  "NEVER SUMMER|Shaper Twin": ["SMALL BATCH SHAPER"],
   "NITRO|Cannon Quiver": ["Cannon"],
   "NITRO|Dinghy Quiver": ["Dinghy"],
   "PUBLIC|General Public": ["GENERAL"],
   "PUBLIC|General Public Select": ["GENERAL SELECT"],
   "PUBLIC|Guest Pro Ben Kadow": ["GENERAL BEN KADOW"],
   "RIDE|Moderator": ["MODERATER"],
+  "RIDE|Algorythm": ["ALGORHYTHM"],
   "SABRINA|KUROMI": ["KUROMI LIMITED"],
   "SIMS|BOWL SQUAD": ["BAWL SQUAD"],
   "ThirtyTwo|Volcom Creedler": ["Volcom Creeder"],
@@ -161,7 +166,7 @@ const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&
 
 // モデル名のすべての出現箇所で、直前に無関係な英単語が付いているか（例: "PRETTY Good Company"）
 function hasForeignPrefixWord(itemName: string, target: MatchTarget): boolean {
-  const text = itemName.normalize("NFKC").toLowerCase();
+  const text = itemName.normalize("NFKC").replace(/[’‘]/g, "'").toLowerCase();
   const words = target.model.normalize("NFKC").toLowerCase().split(/[\s.\-_・/]+/).filter(Boolean);
   if (words.length === 0) return false;
   const allowed = new Set([
@@ -187,7 +192,7 @@ function hasForeignPrefixWord(itemName: string, target: MatchTarget): boolean {
 // モデル名の直後に限定版・別バリエーションを表す語が続くか（例: "DEATH SERIES LTD", "Push Up＋"）
 const VARIANT_SUFFIX = "(?:ltd|limited|plus|\\+|×)";
 function hasVariantSuffix(itemName: string, target: MatchTarget): boolean {
-  const text = itemName.normalize("NFKC").toLowerCase();
+  const text = itemName.normalize("NFKC").replace(/[’‘]/g, "'").toLowerCase();
   const words = target.model.normalize("NFKC").toLowerCase().split(/[\s.\-_・/]+/).filter(Boolean);
   if (words.length === 0) return false;
   const modelPattern = words.map(escapeRegExp).join(SEPARATOR);

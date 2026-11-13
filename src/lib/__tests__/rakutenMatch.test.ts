@@ -57,6 +57,9 @@ describe("isBoardListing", () => {
     expect(isBoardListing("BURTON Custom ソールガード")).toBe(false);
     expect(isBoardListing("26-27 バックパック JONES DEEPER 19L リュックサック スノーボード")).toBe(false);
     expect(isBoardListing("日本正規品 スノーボード バッグ BURTON FLIGHT ATTENDANT")).toBe(false);
+    expect(isBoardListing("バートン 靴下 26-27 Burton パフォーマンス ソックス スノーボード")).toBe(false);
+    expect(isBoardListing("【ふるさと納税】スキー場 シーズン券〈2026-2027season〉 スキー スノーボード")).toBe(false);
+    expect(isBoardListing("THIRTYTWO 2027 【BASIN FASE】 BLACK M(26.5 - 28.5cm) 正規品 スノーボード")).toBe(false);
   });
 });
 
@@ -165,6 +168,9 @@ describe("matchesModel", () => {
     expect(matchesModel("日本正規品 スノーボード 板 ネバーサマー NEVERSUMMER VALHALLA メンズ 26-27", valhalla)).toBe(true);
     const shift: MatchTarget = { brand: "KM4K", model: "PARADICE SHIFT", siblingModels: ["PARADICE SHIFT", "HIKALU"], referencePrice: 69300 };
     expect(matchesModel("日本正規品 スノーボード 板 カモシカ KM4K PARADICE SHIFT 26-27", shift)).toBe(true);
+    const thunder: MatchTarget = { brand: "BATALEON", model: "ThunderStorm", siblingModels: ["ThunderStorm"], referencePrice: 104500 };
+    // 全角アポストロフィ（Men’s）も半角と同じに扱う
+    expect(matchesModel("予約 26-27 スノーボード 板 バタレオン BATALEON Men’s Thunderstorm メンズ", thunder)).toBe(true);
     const flagship: MatchTarget = { brand: "JONES", model: "Flagship", siblingModels: ["Flagship", "Stratos"], referencePrice: 136620 };
     expect(matchesModel("予約 26-27 スノーボード 板 ジョーンズ JONES M'S FLAGSHIP フリーライド", flagship)).toBe(true);
     // モデル名の一部に別の英字が付いたもの（MOSS の Q60 に対する SNOWSTICK の PQ60）は従来どおり除外

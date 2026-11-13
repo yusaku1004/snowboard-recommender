@@ -23362,7 +23362,7 @@
     "model": "PARADICE STICK 6",
     "year": 2026,
     "flex": 6,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "available_lengths": [
       144,
       148,
@@ -28325,6 +28325,76 @@
       "park": 1,
       "carving": 10,
       "run_tricks": 3,
+      "powder": 4
+    }
+  },
+  {
+    "brand": "GNU",
+    "model": "S Corp",
+    "year": 2027,
+    "flex": 5,
+    "shape": "camber",
+    "gender": "unisex",
+    "available_lengths": [
+      140,
+      144,
+      148,
+      152,
+      154,
+      156,
+      159
+    ],
+    "price": 88000,
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 9,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 3
+    }
+  },
+  {
+    "brand": "HEAD",
+    "model": "Anything LYT",
+    "year": 2027,
+    "flex": 6,
+    "shape": "hybrid_camber",
+    "gender": "mens",
+    "available_lengths": [
+      148,
+      152,
+      156
+    ],
+    "price": 59800,
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 5,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 6
+    }
+  },
+  {
+    "brand": "MOSS",
+    "model": "BLACK",
+    "year": 2027,
+    "flex": 5,
+    "shape": "hybrid_camber",
+    "gender": "unisex",
+    "available_lengths": [
+      138,
+      143,
+      147,
+      151,
+      153.5,
+      155
+    ],
+    "price": 135300,
+    "style_scores": {
+      "ground_tricks": 8,
+      "park": 6,
+      "carving": 7,
+      "run_tricks": 8,
       "powder": 4
     }
   }

@@ -7474,7 +7474,7 @@
     "model": "PARADICE STICK 6",
     "year": 2027,
     "flex": 6,
-    "shape": "camber",
+    "shape": "hybrid_camber",
     "available_lengths": [
       144,
       148,
