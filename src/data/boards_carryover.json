@@ -379,6 +379,33 @@
   },
   {
     "brand": "ACC",
+    "model": "NUDE",
+    "year": 2027,
+    "flex": 3,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      139,
+      143,
+      147,
+      151,
+      155
+    ],
+    "price": 70400,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 5,
+      "carving": 4,
+      "run_tricks": 5,
+      "powder": 4
+    },
+    "gender": "unisex",
+    "riding_type": "gratri",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "ACC",
     "model": "POISON",
     "year": 2027,
     "flex": 4,
@@ -1291,6 +1318,32 @@
   },
   {
     "brand": "BATALEON",
+    "model": "Funkink",
+    "year": 2027,
+    "price": 83600,
+    "available_lengths": [
+      149,
+      151,
+      154,
+      157
+    ],
+    "flex": 5,
+    "shape": "camber",
+    "riding_type": "freestyle",
+    "gender": "mens",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 8,
+      "carving": 4,
+      "run_tricks": 6,
+      "powder": 4
+    },
+    "image_url": "",
+    "url": "",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "BATALEON",
     "model": "Goliath",
     "year": 2027,
     "flex": 7,
@@ -1396,6 +1449,35 @@
     },
     "gender": "mens",
     "riding_type": "freestyle",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "BATALEON",
+    "model": "ThunderStorm",
+    "year": 2027,
+    "flex": 6,
+    "shape": "camber",
+    "available_lengths": [
+      144,
+      148,
+      152,
+      154,
+      156,
+      158,
+      161
+    ],
+    "price": 88500,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 5,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 8
+    },
+    "gender": "unisex",
+    "riding_type": "freeride",
     "specs_from_year": 2026
   },
   {
@@ -5523,6 +5605,29 @@
     },
     "gender": "unisex",
     "riding_type": "powder",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "GRAY",
+    "model": "LOVEBUZZ 52",
+    "year": 2027,
+    "flex": 6,
+    "shape": "flat",
+    "available_lengths": [
+      152
+    ],
+    "price": 93500,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 5,
+      "park": 3,
+      "carving": 7,
+      "run_tricks": 7,
+      "powder": 6
+    },
+    "gender": "mens",
+    "riding_type": "freeride",
     "specs_from_year": 2026
   },
   {
@@ -10728,6 +10833,33 @@
   },
   {
     "brand": "NIDECKER",
+    "model": "Venus",
+    "year": 2027,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      139,
+      143,
+      147,
+      151,
+      155
+    ],
+    "price": 82500,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 7,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 5
+    },
+    "gender": "womens",
+    "riding_type": "freestyle",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "NIDECKER",
     "model": "Venus Plus",
     "year": 2027,
     "flex": 6,
@@ -12420,6 +12552,33 @@
     },
     "gender": "mens",
     "riding_type": "allround",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "PLUTONIUM",
+    "model": "IMAGINATION",
+    "year": 2027,
+    "flex": 4,
+    "shape": "hybrid_camber",
+    "available_lengths": [
+      139,
+      143,
+      147,
+      151,
+      155
+    ],
+    "price": 79200,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 8,
+      "park": 6,
+      "carving": 5,
+      "run_tricks": 6,
+      "powder": 4
+    },
+    "gender": "unisex",
+    "riding_type": "gratri",
     "specs_from_year": 2026
   },
   {
@@ -15889,6 +16048,34 @@
   },
   {
     "brand": "SPREAD",
+    "model": "AX-F",
+    "year": 2027,
+    "flex": 4,
+    "shape": "camber",
+    "available_lengths": [
+      145,
+      148,
+      150,
+      152,
+      154,
+      156
+    ],
+    "price": 99000,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 7,
+      "park": 6,
+      "carving": 6,
+      "run_tricks": 6,
+      "powder": 4
+    },
+    "gender": "mens",
+    "riding_type": "gratri",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "SPREAD",
     "model": "BX",
     "year": 2027,
     "flex": 5,
@@ -16717,6 +16904,30 @@
     },
     "gender": "womens",
     "riding_type": "freestyle",
+    "specs_from_year": 2026
+  },
+  {
+    "brand": "TWELVE",
+    "model": "STREET JACK",
+    "year": 2027,
+    "flex": 5,
+    "shape": "camber",
+    "available_lengths": [
+      149,
+      152
+    ],
+    "price": 96800,
+    "image_url": "",
+    "url": "",
+    "style_scores": {
+      "ground_tricks": 8,
+      "park": 8,
+      "carving": 3,
+      "run_tricks": 6,
+      "powder": 2
+    },
+    "gender": "unisex",
+    "riding_type": "park_jib",
     "specs_from_year": 2026
   },
   {
